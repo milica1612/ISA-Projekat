@@ -4,113 +4,80 @@ import java.util.*;
 
 public class Supscription {
    private Long supscriptionId;
-   private Boolean cancelled;
+   private Boolean cancelled;   
+   public Collection<Pharmacy> pharmacy;
+   public Patient patient;
    
-   public java.util.Collection<SaleAndPromotion> saleAndPromotion;
-   public java.util.Collection<Patient> patient;
-   
-   public Supscription(Long supscriptionId, Boolean cancelled, Collection<SaleAndPromotion> saleAndPromotion,
-		Collection<Patient> patient) {
+   public Supscription(Long supscriptionId, Boolean cancelled, Patient patient) {
 	super();
 	this.supscriptionId = supscriptionId;
 	this.cancelled = cancelled;
-	this.saleAndPromotion = saleAndPromotion;
+	this.pharmacy = new ArrayList<Pharmacy>();
 	this.patient = patient;
 }
 
-public Long getSupscriptionId() {
-	return supscriptionId;
-}
+	public Long getSupscriptionId() {
+		return supscriptionId;
+	}
+	
+	public void setSupscriptionId(Long supscriptionId) {
+		this.supscriptionId = supscriptionId;
+	}
+	
+	public Boolean getCancelled() {
+		return cancelled;
+	}
+	
+	public void setCancelled(Boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 
-public void setSupscriptionId(Long supscriptionId) {
-	this.supscriptionId = supscriptionId;
-}
-
-public Boolean getCancelled() {
-	return cancelled;
-}
-
-public void setCancelled(Boolean cancelled) {
-	this.cancelled = cancelled;
-}
-
-public java.util.Collection<SaleAndPromotion> getSaleAndPromotion() {
-      if (saleAndPromotion == null)
-         saleAndPromotion = new java.util.HashSet<SaleAndPromotion>();
-      return saleAndPromotion;
+	public Collection<Pharmacy> getPharmacy() {
+		if (pharmacy == null)
+			pharmacy = new HashSet<Pharmacy>();
+		return pharmacy;
+	}
+   
+   public Iterator getIteratorPharmacy() {
+      if (pharmacy == null)
+         pharmacy = new HashSet<Pharmacy>();
+      return pharmacy.iterator();
    }
    
-   public java.util.Iterator getIteratorSaleAndPromotion() {
-      if (saleAndPromotion == null)
-         saleAndPromotion = new java.util.HashSet<SaleAndPromotion>();
-      return saleAndPromotion.iterator();
+   public void setPharmacy(Collection<Pharmacy> newPharmacy) {
+      removeAllPharmacy();
+      for (Iterator iter = newPharmacy.iterator(); iter.hasNext();)
+         addPharmacy((Pharmacy)iter.next());
    }
    
-   public void setSaleAndPromotion(java.util.Collection<SaleAndPromotion> newSaleAndPromotion) {
-      removeAllSaleAndPromotion();
-      for (java.util.Iterator iter = newSaleAndPromotion.iterator(); iter.hasNext();)
-         addSaleAndPromotion((SaleAndPromotion)iter.next());
-   }
-   
-   public void addSaleAndPromotion(SaleAndPromotion newSaleAndPromotion) {
-      if (newSaleAndPromotion == null)
+   public void addPharmacy(Pharmacy newPharmacy) {
+      if (newPharmacy == null)
          return;
-      if (this.saleAndPromotion == null)
-         this.saleAndPromotion = new java.util.HashSet<SaleAndPromotion>();
-      if (!this.saleAndPromotion.contains(newSaleAndPromotion))
-         this.saleAndPromotion.add(newSaleAndPromotion);
+      if (this.pharmacy == null)
+         this.pharmacy = new HashSet<Pharmacy>();
+      if (!this.pharmacy.contains(newPharmacy))
+         this.pharmacy.add(newPharmacy);
    }
    
-   public void removeSaleAndPromotion(SaleAndPromotion oldSaleAndPromotion) {
-      if (oldSaleAndPromotion == null)
+   public void removePharmacy(Pharmacy oldPharmacy) {
+      if (oldPharmacy == null)
          return;
-      if (this.saleAndPromotion != null)
-         if (this.saleAndPromotion.contains(oldSaleAndPromotion))
-            this.saleAndPromotion.remove(oldSaleAndPromotion);
+      if (this.pharmacy != null)
+         if (this.pharmacy.contains(oldPharmacy))
+            this.pharmacy.remove(oldPharmacy);
    }
    
-   public void removeAllSaleAndPromotion() {
-      if (saleAndPromotion != null)
-         saleAndPromotion.clear();
-   }
-   public java.util.Collection<Patient> getPatient() {
-      if (patient == null)
-         patient = new java.util.HashSet<Patient>();
-      return patient;
-   }
-   
-   public java.util.Iterator getIteratorPatient() {
-      if (patient == null)
-         patient = new java.util.HashSet<Patient>();
-      return patient.iterator();
-   }
-   
-   public void setPatient(java.util.Collection<Patient> newPatient) {
-      removeAllPatient();
-      for (java.util.Iterator iter = newPatient.iterator(); iter.hasNext();)
-         addPatient((Patient)iter.next());
-   }
-   
-   public void addPatient(Patient newPatient) {
-      if (newPatient == null)
-         return;
-      if (this.patient == null)
-         this.patient = new java.util.HashSet<Patient>();
-      if (!this.patient.contains(newPatient))
-         this.patient.add(newPatient);
-   }
-   
-   public void removePatient(Patient oldPatient) {
-      if (oldPatient == null)
-         return;
-      if (this.patient != null)
-         if (this.patient.contains(oldPatient))
-            this.patient.remove(oldPatient);
-   }
-   
-   public void removeAllPatient() {
-      if (patient != null)
-         patient.clear();
+   public void removeAllPharmacy() {
+      if (pharmacy != null)
+         pharmacy.clear();
    }
 
+	public Patient getPatient() {
+		return patient;
+	}
+	
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	   
 }

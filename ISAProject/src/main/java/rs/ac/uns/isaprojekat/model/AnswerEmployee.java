@@ -15,6 +15,7 @@ public class AnswerEmployee {
    public AnswerEmployee(String textEmp, Long answEmpId, ComplaintEmployee complaintEmployee) {
 		super();
 		this.textEmp = textEmp;
+		
 		this.answEmpId = answEmpId;
 		this.systemAdministrator = new ArrayList<SystemAdministrator>();
 		this.complaintEmployee = complaintEmployee;

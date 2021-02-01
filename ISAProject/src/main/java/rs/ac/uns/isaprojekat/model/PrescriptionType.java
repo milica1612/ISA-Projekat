@@ -5,5 +5,4 @@ import java.util.*;
 public enum PrescriptionType {
    PRESCRIPTION,
    NO_PRESCIPTION
-
 }

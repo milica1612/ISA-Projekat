@@ -3,31 +3,30 @@ package rs.ac.uns.isaprojekat.model;
 import java.util.*;
 
 public class Supplier extends User {
-   public Supplier(Double rating, String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, Collection<UserType> userType, Collection<Address> address) {
-		super(rating, firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
-		// TODO Auto-generated constructor stub
+   
+	public Collection<MedicineItem> medicineItem;
+	   
+	public Supplier(String firstName, String lastName, String userName, String password, String email,
+			String phoneNumber, Long userId, UserType userType, Address address) {
+		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+			// TODO Auto-generated constructor stub
 	}
 	
-	public java.util.Collection<MedicineItem> medicineItem;
-	   
-	  
-	
-	public java.util.Collection<MedicineItem> getMedicineItem() {
+	public Collection<MedicineItem> getMedicineItem() {
 	      if (medicineItem == null)
-	         medicineItem = new java.util.HashSet<MedicineItem>();
+	         medicineItem = new HashSet<MedicineItem>();
 	      return medicineItem;
 	   }
 	   
-	   public java.util.Iterator getIteratorMedicineItem() {
+	   public Iterator getIteratorMedicineItem() {
 	      if (medicineItem == null)
-	         medicineItem = new java.util.HashSet<MedicineItem>();
+	         medicineItem = new HashSet<MedicineItem>();
 	      return medicineItem.iterator();
 	   }
 	   
-	   public void setMedicineItem(java.util.Collection<MedicineItem> newMedicineItem) {
+	   public void setMedicineItem(Collection<MedicineItem> newMedicineItem) {
 	      removeAllMedicineItem();
-	      for (java.util.Iterator iter = newMedicineItem.iterator(); iter.hasNext();)
+	      for (Iterator iter = newMedicineItem.iterator(); iter.hasNext();)
 	         addMedicineItem((MedicineItem)iter.next());
 	   }
 	   
@@ -35,7 +34,7 @@ public class Supplier extends User {
 	      if (newMedicineItem == null)
 	         return;
 	      if (this.medicineItem == null)
-	         this.medicineItem = new java.util.HashSet<MedicineItem>();
+	         this.medicineItem = new HashSet<MedicineItem>();
 	      if (!this.medicineItem.contains(newMedicineItem))
 	         this.medicineItem.add(newMedicineItem);
 	   }
