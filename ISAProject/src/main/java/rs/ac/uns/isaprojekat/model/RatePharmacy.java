@@ -2,19 +2,31 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class RatePharmacy {
-   private Long ratePhId;
-   private int rating;
-   public Pharmacy pharmacy;
-   public Patient patient;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long ratePhId;
+	
+	@Column(name = "rating", nullable = false)
+	private int rating;
+	public Pharmacy pharmacy;
+	public Patient patient;
    
-   public RatePharmacy(Long ratePhId, int rating, Pharmacy pharmacy, Patient patient) {
-	super();
-	this.ratePhId = ratePhId;
-	this.rating = rating;
-	this.pharmacy = pharmacy;
-	this.patient = patient;
-   }
+	public RatePharmacy(Long ratePhId, int rating, Pharmacy pharmacy, Patient patient) {
+		super();
+		this.ratePhId = ratePhId;
+		this.rating = rating;
+		this.pharmacy = pharmacy;
+		this.patient = patient;
+    }
 
 	public Long getRatePhId() {
 		return ratePhId;

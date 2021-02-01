@@ -2,19 +2,31 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Supscription {
-   private Long supscriptionId;
-   private Boolean cancelled;   
-   public Collection<Pharmacy> pharmacy;
-   public Patient patient;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long supscriptionId;
+	
+	@Column(name = "cancelled", nullable = false)
+    private Boolean cancelled;   
+    public Collection<Pharmacy> pharmacy;
+    public Patient patient;
    
-   public Supscription(Long supscriptionId, Boolean cancelled, Patient patient) {
-	super();
-	this.supscriptionId = supscriptionId;
-	this.cancelled = cancelled;
-	this.pharmacy = new ArrayList<Pharmacy>();
-	this.patient = patient;
-}
+    public Supscription(Long supscriptionId, Boolean cancelled, Patient patient) {
+		super();
+		this.supscriptionId = supscriptionId;
+		this.cancelled = cancelled;
+		this.pharmacy = new ArrayList<Pharmacy>();
+		this.patient = patient;
+	}
 
 	public Long getSupscriptionId() {
 		return supscriptionId;

@@ -2,9 +2,24 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class PriceTag {
-   private Double price;
-   public TimeInterval timeInterval;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long priceTagId;
+
+	@Column(name = "price", nullable = false)
+	private Double price;
+	
+	public TimeInterval timeInterval;
    
    public PriceTag(Double price, TimeInterval timeInterval) {
 		super();

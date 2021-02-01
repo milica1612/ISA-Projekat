@@ -2,28 +2,42 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-public class Reservation {
-   private Date deadline;
-   private Long reservationId;
-   private Boolean recieved;
-   public Patient patient;
-   public Collection<MedicineItem> medicineItem;
-   
-   
-   public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient) {
-	super();
-	this.deadline = deadline;
-	this.reservationId = reservationId;
-	this.recieved = recieved;
-	this.patient = patient;
-	this.medicineItem = new ArrayList<MedicineItem>();
-}
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Override
-   public String toString() {
-	   return "Reservation [deadline=" + deadline + ", reservationId=" + reservationId + ", recieved=" + recieved
-			+ ", patient=" + patient + ", medicineItem=" + medicineItem + "]";
-   }
+
+@Entity
+public class Reservation {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reservationId;
+	
+	@Column(name = "recieved", nullable = false)
+    private Boolean recieved;
+	
+    public Patient patient;
+    public Collection<MedicineItem> medicineItem;
+    
+	@Column(name = "deadline", nullable = false)
+    private Date deadline;
+   
+    public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient) {
+		super();
+		this.deadline = deadline;
+		this.reservationId = reservationId;
+		this.recieved = recieved;
+		this.patient = patient;
+		this.medicineItem = new ArrayList<MedicineItem>();
+	}
+
+	@Override
+	public String toString() {
+		   return "Reservation [deadline=" + deadline + ", reservationId=" + reservationId + ", recieved=" + recieved
+				+ ", patient=" + patient + ", medicineItem=" + medicineItem + "]";
+	   }
 
 	public Date getDeadline() {
 		return deadline;

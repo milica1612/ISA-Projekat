@@ -1,18 +1,26 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
 public class Recommendation {
-   private Long recommendationId;
-   public Collection<Medicine> medicine;
-   public Consultation consultation;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long recommendationId;
+    public Collection<Medicine> medicine;
+    public Consultation consultation;
    
-   public Recommendation(Long recommendationId, Consultation consultation) {
-	super();
-	this.recommendationId = recommendationId;
-	this.medicine = new ArrayList<Medicine>();
-	this.consultation = consultation;
-   }
+    public Recommendation(Long recommendationId, Consultation consultation) {
+		super();
+		this.recommendationId = recommendationId;
+		this.medicine = new ArrayList<Medicine>();
+		this.consultation = consultation;
+	}
 
 	public Long getRecommendationId() {
 		return recommendationId;

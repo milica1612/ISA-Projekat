@@ -1,9 +1,15 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
 public class PharmacyAdministrator extends User {
-  
+
 	public Pharmacy pharmacy;
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,

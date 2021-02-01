@@ -2,11 +2,23 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class RateMedicine {
-   private Long rateMedicineId;
-   private int rating;
-   public Patient patient;
-   public Medicine medicine;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long rateMedicineId;
+	
+	@Column(name = "rating", nullable = false)
+	private int rating;
+	public Patient patient;
+	public Medicine medicine;
    
    public RateMedicine(Long rateMedicineId, int rating, Patient patient, Medicine medicine) {
 		super();

@@ -2,19 +2,34 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class WorkSchedule {
-   private Date startTime;
-   private Date endTime;
-   private Long workScheduleId;
-   public PharmacyEmployee pharmacyEmployee;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long workScheduleId;
+	
+	@Column(name = "startTime", nullable = false)
+    private Date startTime;
+	
+	@Column(name = "endTime", nullable = false)
+    private Date endTime;
+    
+	public PharmacyEmployee pharmacyEmployee;
    
    
-   public WorkSchedule(Date startTime, Date endTime, Long workScheduleId, PharmacyEmployee pharmacyEmployee) {
-	super();
-	this.startTime = startTime;
-	this.endTime = endTime;
-	this.workScheduleId = workScheduleId;
-	this.pharmacyEmployee = pharmacyEmployee;
+    public WorkSchedule(Date startTime, Date endTime, Long workScheduleId, PharmacyEmployee pharmacyEmployee) {
+		super();
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.workScheduleId = workScheduleId;
+		this.pharmacyEmployee = pharmacyEmployee;
    }
 
 

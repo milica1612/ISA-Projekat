@@ -2,15 +2,30 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Pharmacy {
-   private Long pharmacyId;
-   protected String name;
-   protected Double rating;
-   public Pharmacist pharmacist;
-   public MedicineItem medicineItem;
-   public Dermatologist dermatologist;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pharmacyId;
    
-   public Pharmacy(Long pharmacyId, String name, Double rating, Pharmacist pharmacist, MedicineItem medicineItem,
+	@Column(name = "name", nullable = false)
+	protected String name;
+	
+	@Column(name = "rating", nullable = false)
+    protected Double rating;
+	
+    public Pharmacist pharmacist;
+    public MedicineItem medicineItem;
+    public Dermatologist dermatologist;
+   
+    public Pharmacy(Long pharmacyId, String name, Double rating, Pharmacist pharmacist, MedicineItem medicineItem,
 		Dermatologist dermatologist) {
 		super();
 		this.pharmacyId = pharmacyId;

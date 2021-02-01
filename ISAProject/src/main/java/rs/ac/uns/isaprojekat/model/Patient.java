@@ -2,16 +2,26 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-	public class Patient extends User {
-		
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
+public class Patient extends User {
+
+	@Column(name = "penalty", nullable = false)
+	private int penalty;
+	public Allergy allergy;
+	   
+	
 	public Patient(String firstName, String lastName, String userName, String password, String email,
 				String phoneNumber, Long userId, UserType userType, Address address) {
 			super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
 			// TODO Auto-generated constructor stub
-		}
-	private int penalty;
-	   public Allergy allergy;
-	   
+	}
 	
 	public int getPenalty() {
 		return penalty;

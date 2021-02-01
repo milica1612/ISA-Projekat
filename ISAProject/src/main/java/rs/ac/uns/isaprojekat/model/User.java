@@ -2,20 +2,43 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected Long userId;
    
-   protected String firstName;
-   protected String lastName;
-   protected String userName;
-   protected String password;
-   protected String email;
-   protected String phoneNumber;
-   protected Long userId;
+	@Column(name = "firstName", nullable = false)
+    protected String firstName;
+	
+	@Column(name = "lastName", nullable = false)
+    protected String lastName;
+	
+	@Column(name = "username", nullable = false)
+    protected String userName;
+	
+	@Column(name = "password", nullable = false)
+    protected String password;
+	
+	@Column(name = "email", nullable = false)
+    protected String email;
+	
+	@Column(name = "phoneNumber", nullable = false)
+    protected String phoneNumber;
    
-   public UserType userType;
-   public Address address;
+	@Column(name = "userType", nullable = false)
+    public UserType userType;
+	
+    public Address address;
    
-   public User(String firstName, String lastName, String userName, String password, String email,
+    public User(String firstName, String lastName, String userName, String password, String email,
 		String phoneNumber, Long userId, UserType userType, Address address) {
 		super();
 		this.firstName = firstName;

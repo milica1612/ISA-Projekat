@@ -1,12 +1,24 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class PharmacyReport {
 	
-	public class PharmacyReport {
-	   private Double income;
-	   private Long pharmacyRepId;
-	   
-	public PharmacyReport(Double income, Long pharmacyRepId) {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long pharmacyRepId;
+	
+	@Column(name = "income", nullable = false)
+    private Double income;
+
+    public PharmacyReport(Double income, Long pharmacyRepId) {
 		super();
 		this.income = income;
 		this.pharmacyRepId = pharmacyRepId;

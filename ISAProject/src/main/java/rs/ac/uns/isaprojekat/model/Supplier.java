@@ -1,9 +1,18 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
 public class Supplier extends User {
-   
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long supplierId;
+	
 	public Collection<MedicineItem> medicineItem;
 	   
 	public Supplier(String firstName, String lastName, String userName, String password, String email,
@@ -18,7 +27,7 @@ public class Supplier extends User {
 	      return medicineItem;
 	   }
 	   
-	   public Iterator getIteratorMedicineItem() {
+	public Iterator getIteratorMedicineItem() {
 	      if (medicineItem == null)
 	         medicineItem = new HashSet<MedicineItem>();
 	      return medicineItem.iterator();

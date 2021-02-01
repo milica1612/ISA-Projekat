@@ -2,14 +2,25 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Vacation {
-   private Long vacationId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vacationId;
    
-   public Status status;
-   public TimeInterval timeInterval;
-   public PharmacyEmployee pharmacyEmployee;
+	@Column(name = "status", nullable = false)
+    public Status status;
+    public TimeInterval timeInterval;
+    public PharmacyEmployee pharmacyEmployee;
    
-   public Vacation(Long vacationId, Status status, TimeInterval timeInterval, PharmacyEmployee pharmacyEmployee) {
+    public Vacation(Long vacationId, Status status, TimeInterval timeInterval, PharmacyEmployee pharmacyEmployee) {
 		super();
 		this.vacationId = vacationId;
 		this.status = status;

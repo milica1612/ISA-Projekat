@@ -2,12 +2,25 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Shift {
-   private Date day;
-   private Long shiftId;
-   public WorkSchedule workSchedule;
-   
-   public Shift(Date day, Long shiftId, WorkSchedule workSchedule) {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long shiftId;
+    
+	public WorkSchedule workSchedule;
+    
+	@Column(name = "day", nullable = false)
+	private Date day;
+    
+    public Shift(Date day, Long shiftId, WorkSchedule workSchedule) {
 		super();
 		this.day = day;
 		this.shiftId = shiftId;

@@ -1,11 +1,16 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
 public class Dermatologist extends PharmacyEmployee {
    
-
-	public java.util.Collection<Pharmacy> pharmacy;
+	public Collection<Pharmacy> pharmacy;
 	
    
 	public Dermatologist(Double rating) {
@@ -13,21 +18,21 @@ public class Dermatologist extends PharmacyEmployee {
 		this.pharmacy = new ArrayList<Pharmacy>();
 	}
 
-	public java.util.Collection<Pharmacy> getPharmacy() {
+	public Collection<Pharmacy> getPharmacy() {
 	      if (pharmacy == null)
 	         pharmacy = new java.util.HashSet<Pharmacy>();
 	      return pharmacy;
 	   }
    
-    public java.util.Iterator getIteratorPharmacy() {
+    public Iterator getIteratorPharmacy() {
        if (pharmacy == null)
            pharmacy = new java.util.HashSet<Pharmacy>();
        return pharmacy.iterator();
     }
    
-    public void setPharmacy(java.util.Collection<Pharmacy> newPharmacy) {
+    public void setPharmacy(Collection<Pharmacy> newPharmacy) {
        removeAllPharmacy();
-       for (java.util.Iterator iter = newPharmacy.iterator(); iter.hasNext();)
+       for (Iterator iter = newPharmacy.iterator(); iter.hasNext();)
           addPharmacy((Pharmacy)iter.next());
     }
    
@@ -35,7 +40,7 @@ public class Dermatologist extends PharmacyEmployee {
 	      if (newPharmacy == null)
 	         return;
 	      if (this.pharmacy == null)
-	         this.pharmacy = new java.util.HashSet<Pharmacy>();
+	         this.pharmacy = new HashSet<Pharmacy>();
 	      if (!this.pharmacy.contains(newPharmacy))
 	         this.pharmacy.add(newPharmacy);
    }

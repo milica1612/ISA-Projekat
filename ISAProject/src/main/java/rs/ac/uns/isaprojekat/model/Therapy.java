@@ -1,20 +1,28 @@
 package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
 public class Therapy {
-   private Long therapyId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long therapyId;
+    
+	public Collection<Medicine> medicine;
+    public TimeInterval timeInterval;
+    public Examination examination;
    
-   public Collection<Medicine> medicine;
-   public TimeInterval timeInterval;
-   public Examination examination;
-   
-   public Therapy(Long therapyId, TimeInterval timeInterval, Examination examination) {
-	super();
-	this.therapyId = therapyId;
-	this.medicine = new ArrayList<Medicine>();
-	this.timeInterval = timeInterval;
-	this.examination = examination;
+    public Therapy(Long therapyId, TimeInterval timeInterval, Examination examination) {
+		super();
+		this.therapyId = therapyId;
+		this.medicine = new ArrayList<Medicine>();
+		this.timeInterval = timeInterval;
+		this.examination = examination;
    }
 
    public Long getTherapyId() {
