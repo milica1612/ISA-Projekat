@@ -1,6 +1,8 @@
-package rs.ac.uns.isaprojekat.model;
+
 
 import java.util.*;
+
+import rs.ac.uns.isaprojekat.model.*;
 
 public class AnswerEmployee {
    
@@ -10,12 +12,11 @@ public class AnswerEmployee {
 	public java.util.Collection<SystemAdministrator> systemAdministrator;
 	public ComplaintEmployee complaintEmployee;
    
-   public AnswerEmployee(String textEmp, Long answEmpId, Collection<SystemAdministrator> systemAdministrator,
-			ComplaintEmployee complaintEmployee) {
+   public AnswerEmployee(String textEmp, Long answEmpId, ComplaintEmployee complaintEmployee) {
 		super();
 		this.textEmp = textEmp;
 		this.answEmpId = answEmpId;
-		this.systemAdministrator = systemAdministrator;
+		this.systemAdministrator = new ArrayList<SystemAdministrator>();
 		this.complaintEmployee = complaintEmployee;
 	}
 

@@ -8,11 +8,11 @@ public class EPrescription {
    
    public java.util.Collection<Medicine> medicine;
    
-   public EPrescription(Long prescriptionId, Date date, Collection<Medicine> medicine) {
+   public EPrescription(Long prescriptionId, Date date) {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.date = date;
-	this.medicine = medicine;
+	this.medicine = new List<Medicine>();
 }
 
 public Long getPrescriptionId() {

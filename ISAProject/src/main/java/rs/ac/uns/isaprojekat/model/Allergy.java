@@ -4,11 +4,12 @@ import java.util.*;
 
 public class Allergy {
    private Long allergyId;
+   private Collection<Medicine> medicine;
    
-   public Allergy(Long allergyId, Collection<Medicine> medicine) {
+   public Allergy(Long allergyId) {
 	super();
 	this.allergyId = allergyId;
-	this.medicine = medicine;
+	this.medicine = new ArrayList<Medicine>();
 }
 
 public Long getAllergyId() {
@@ -18,24 +19,22 @@ public Long getAllergyId() {
 public void setAllergyId(Long allergyId) {
 	this.allergyId = allergyId;
 }
-
-public java.util.Collection<Medicine> medicine;
    
    public java.util.Collection<Medicine> getMedicine() {
       if (medicine == null)
-         medicine = new java.util.HashSet<Medicine>();
+         medicine = new HashSet<Medicine>();
       return medicine;
    }
    
    public java.util.Iterator getIteratorMedicine() {
       if (medicine == null)
-         medicine = new java.util.HashSet<Medicine>();
+         medicine = new HashSet<Medicine>();
       return medicine.iterator();
    }
    
    public void setMedicine(java.util.Collection<Medicine> newMedicine) {
       removeAllMedicine();
-      for (java.util.Iterator iter = newMedicine.iterator(); iter.hasNext();)
+      for (Iterator iter = newMedicine.iterator(); iter.hasNext();)
          addMedicine((Medicine)iter.next());
    }
    
@@ -43,7 +42,7 @@ public java.util.Collection<Medicine> medicine;
       if (newMedicine == null)
          return;
       if (this.medicine == null)
-         this.medicine = new java.util.HashSet<Medicine>();
+         this.medicine = new HashSet<Medicine>();
       if (!this.medicine.contains(newMedicine))
          this.medicine.add(newMedicine);
    }

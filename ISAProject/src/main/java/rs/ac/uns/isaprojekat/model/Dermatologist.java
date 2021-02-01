@@ -6,12 +6,13 @@ public class Dermatologist extends PharmacyEmployee {
    
 
 	public java.util.Collection<Pharmacy> pharmacy;
+	
+   
 	public Dermatologist(Double rating) {
 		super(rating);
-		// TODO Auto-generated constructor stub
+		this.pharmacy = new List<Pharmacy>();
 	}
-   
-	
+
 	public java.util.Collection<Pharmacy> getPharmacy() {
 	      if (pharmacy == null)
 	         pharmacy = new java.util.HashSet<Pharmacy>();
