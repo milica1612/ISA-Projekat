@@ -2,43 +2,65 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-/** @pdOid b1f8756d-8ddc-4701-8bd8-e85e402aecf7 */
 public class AnswerEmployee {
-   /** @pdOid d5069970-09e6-4819-ad9c-e7a49dde7a55 */
-   private String textEmp;
-   /** @pdOid ec74f63f-bca3-4223-b55e-4a7791503733 */
-   private Long answEmpId;
    
-   /** @pdRoleInfo migr=no name=SystemAdministrator assc=association20 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
-   public java.util.Collection<SystemAdministrator> systemAdministrator;
-   /** @pdRoleInfo migr=no name=ComplaintEmployee assc=association42 mult=0..1 */
-   public ComplaintEmployee complaintEmployee;
+	private String textEmp;
+	private Long answEmpId;
    
+	public java.util.Collection<SystemAdministrator> systemAdministrator;
+	public ComplaintEmployee complaintEmployee;
    
-   /** @pdGenerated default getter */
-   public java.util.Collection<SystemAdministrator> getSystemAdministrator() {
+   public AnswerEmployee(String textEmp, Long answEmpId, Collection<SystemAdministrator> systemAdministrator,
+			ComplaintEmployee complaintEmployee) {
+		super();
+		this.textEmp = textEmp;
+		this.answEmpId = answEmpId;
+		this.systemAdministrator = systemAdministrator;
+		this.complaintEmployee = complaintEmployee;
+	}
+
+public String getTextEmp() {
+		return textEmp;
+	}
+
+	public void setTextEmp(String textEmp) {
+		this.textEmp = textEmp;
+	}
+
+	public Long getAnswEmpId() {
+		return answEmpId;
+	}
+
+	public void setAnswEmpId(Long answEmpId) {
+		this.answEmpId = answEmpId;
+	}
+
+	public ComplaintEmployee getComplaintEmployee() {
+		return complaintEmployee;
+	}
+
+	public void setComplaintEmployee(ComplaintEmployee complaintEmployee) {
+		this.complaintEmployee = complaintEmployee;
+	}
+
+public java.util.Collection<SystemAdministrator> getSystemAdministrator() {
       if (systemAdministrator == null)
          systemAdministrator = new java.util.HashSet<SystemAdministrator>();
       return systemAdministrator;
    }
    
-   /** @pdGenerated default iterator getter */
    public java.util.Iterator getIteratorSystemAdministrator() {
       if (systemAdministrator == null)
          systemAdministrator = new java.util.HashSet<SystemAdministrator>();
       return systemAdministrator.iterator();
    }
    
-   /** @pdGenerated default setter
-     * @param newSystemAdministrator */
    public void setSystemAdministrator(java.util.Collection<SystemAdministrator> newSystemAdministrator) {
       removeAllSystemAdministrator();
       for (java.util.Iterator iter = newSystemAdministrator.iterator(); iter.hasNext();)
          addSystemAdministrator((SystemAdministrator)iter.next());
    }
    
-   /** @pdGenerated default add
-     * @param newSystemAdministrator */
    public void addSystemAdministrator(SystemAdministrator newSystemAdministrator) {
       if (newSystemAdministrator == null)
          return;
@@ -48,8 +70,6 @@ public class AnswerEmployee {
          this.systemAdministrator.add(newSystemAdministrator);
    }
    
-   /** @pdGenerated default remove
-     * @param oldSystemAdministrator */
    public void removeSystemAdministrator(SystemAdministrator oldSystemAdministrator) {
       if (oldSystemAdministrator == null)
          return;
@@ -58,7 +78,6 @@ public class AnswerEmployee {
             this.systemAdministrator.remove(oldSystemAdministrator);
    }
    
-   /** @pdGenerated default removeAll */
    public void removeAllSystemAdministrator() {
       if (systemAdministrator != null)
          systemAdministrator.clear();

@@ -2,12 +2,30 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-/** @pdOid 0e2e9f59-d8a7-4df8-83b6-aa3007136427 */
-public final class Patient extends User {
-   /** @pdOid 80669cf4-44ea-476d-b069-53abe9e02016 */
-   private int penalty;
-   
-   /** @pdRoleInfo migr=no name=Allergy assc=association28 mult=1..1 */
-   public Allergy allergy;
+	public final class Patient extends User {
+	
+	public Patient(Double rating, String firstName, String lastName, String userName, String password, String email,
+				String phoneNumber, Long userId, Collection<UserType> userType, Collection<Address> address) {
+			super(rating, firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+			// TODO Auto-generated constructor stub
+	}
+	
+	private int penalty;
+	   public Allergy allergy;
+	   
+	
+	public int getPenalty() {
+		return penalty;
+	}
+	public void setPenalty(int penalty) {
+		this.penalty = penalty;
+	}
+	public Allergy getAllergy() {
+		return allergy;
+	}
+	public void setAllergy(Allergy allergy) {
+		this.allergy = allergy;
+	}
+
 
 }

@@ -1,28 +1,71 @@
 package rs.ac.uns.isaprojekat.model;
 
-/** **********************************************************************
- * Module:  Address.java
- * Author:  Korisnik
- * Purpose: Defines the Class Address
- ********************************************************************** **/
-
 import java.util.*;
 
-/** @pdOid 963010ee-65fa-40f0-bac5-8894e5959e0c */
 public class Address {
-   /** @pdOid 5798ea67-a7b5-4a95-a684-cfc58842ccee */
    private String street;
-   /** @pdOid c24cdd06-fe10-4f51-8641-63162bb0be5f */
    private String streetNumber;
-   /** @pdOid 1b679e51-5227-4a18-b498-0578a2b86b2f */
    private String city;
-   /** @pdOid 0dff8200-79d4-4538-894b-c743ee21f19e */
    private String country;
-   /** @pdOid b7128550-1547-4934-a2d2-7279bacb3ea2 */
    private Long addressId;
-   /** @pdOid d96112b0-1e59-4b3f-9678-4d27e0b440c0 */
    private Double longitude;
-   /** @pdOid 6e81feb0-2966-4699-8045-8dbe59ad48c0 */
    private Double latitude;
+   
+   
+public Address(String street, String streetNumber, String city, String country, Long addressId, Double longitude,
+		Double latitude) {
+	super();
+	this.street = street;
+	this.streetNumber = streetNumber;
+	this.city = city;
+	this.country = country;
+	this.addressId = addressId;
+	this.longitude = longitude;
+	this.latitude = latitude;
+}
+public String getStreet() {
+	return street;
+}
+public void setStreet(String street) {
+	this.street = street;
+}
+public String getStreetNumber() {
+	return streetNumber;
+}
+public void setStreetNumber(String streetNumber) {
+	this.streetNumber = streetNumber;
+}
+public String getCity() {
+	return city;
+}
+public void setCity(String city) {
+	this.city = city;
+}
+public String getCountry() {
+	return country;
+}
+public void setCountry(String country) {
+	this.country = country;
+}
+public Long getAddressId() {
+	return addressId;
+}
+public void setAddressId(Long addressId) {
+	this.addressId = addressId;
+}
+public Double getLongitude() {
+	return longitude;
+}
+public void setLongitude(Double longitude) {
+	this.longitude = longitude;
+}
+public Double getLatitude() {
+	return latitude;
+}
+public void setLatitude(Double latitude) {
+	this.latitude = latitude;
+}
+   
+   
 
 }

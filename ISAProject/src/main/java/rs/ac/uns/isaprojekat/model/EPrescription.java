@@ -2,41 +2,53 @@ package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-/** @pdOid 0ec18951-701b-4e4b-b601-89e8239cc0d5 */
 public class EPrescription {
-   /** @pdOid abf2cf0e-8e67-49ad-86dd-e10ffd98c0e5 */
    private Long prescriptionId;
-   /** @pdOid f8f3ea02-b9e3-4580-8f42-c403e95feee3 */
    private Date date;
    
-   /** @pdRoleInfo migr=no name=Medicine assc=association66 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<Medicine> medicine;
    
-   
-   /** @pdGenerated default getter */
-   public java.util.Collection<Medicine> getMedicine() {
+   public EPrescription(Long prescriptionId, Date date, Collection<Medicine> medicine) {
+	super();
+	this.prescriptionId = prescriptionId;
+	this.date = date;
+	this.medicine = medicine;
+}
+
+public Long getPrescriptionId() {
+	return prescriptionId;
+}
+
+public void setPrescriptionId(Long prescriptionId) {
+	this.prescriptionId = prescriptionId;
+}
+
+public Date getDate() {
+	return date;
+}
+
+public void setDate(Date date) {
+	this.date = date;
+}
+
+public java.util.Collection<Medicine> getMedicine() {
       if (medicine == null)
          medicine = new java.util.HashSet<Medicine>();
       return medicine;
    }
    
-   /** @pdGenerated default iterator getter */
    public java.util.Iterator getIteratorMedicine() {
       if (medicine == null)
          medicine = new java.util.HashSet<Medicine>();
       return medicine.iterator();
    }
    
-   /** @pdGenerated default setter
-     * @param newMedicine */
    public void setMedicine(java.util.Collection<Medicine> newMedicine) {
       removeAllMedicine();
       for (java.util.Iterator iter = newMedicine.iterator(); iter.hasNext();)
          addMedicine((Medicine)iter.next());
    }
    
-   /** @pdGenerated default add
-     * @param newMedicine */
    public void addMedicine(Medicine newMedicine) {
       if (newMedicine == null)
          return;
@@ -46,8 +58,6 @@ public class EPrescription {
          this.medicine.add(newMedicine);
    }
    
-   /** @pdGenerated default remove
-     * @param oldMedicine */
    public void removeMedicine(Medicine oldMedicine) {
       if (oldMedicine == null)
          return;
@@ -56,7 +66,6 @@ public class EPrescription {
             this.medicine.remove(oldMedicine);
    }
    
-   /** @pdGenerated default removeAll */
    public void removeAllMedicine() {
       if (medicine != null)
          medicine.clear();
