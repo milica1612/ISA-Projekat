@@ -10,7 +10,7 @@ public class Dermatologist extends PharmacyEmployee {
    
 	public Dermatologist(Double rating) {
 		super(rating);
-		this.pharmacy = new List<Pharmacy>();
+		this.pharmacy = new ArrayList<Pharmacy>();
 	}
 
 	public java.util.Collection<Pharmacy> getPharmacy() {

@@ -12,7 +12,7 @@ public class EPrescription {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.date = date;
-	this.medicine = new List<Medicine>();
+	this.medicine = new ArrayList<Medicine>();
 }
 
 public Long getPrescriptionId() {
