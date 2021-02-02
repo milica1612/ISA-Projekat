@@ -1,19 +1,27 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Diagnosis {
-  // @Id
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long diagnosisId;
-   
+  
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Dermatologist dermatologist;
+   
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public Patient patient;
 	   
 	public Diagnosis(Long diagnosisId, Dermatologist dermatologist, Patient patient) {

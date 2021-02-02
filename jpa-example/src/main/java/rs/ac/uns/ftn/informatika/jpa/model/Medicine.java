@@ -4,37 +4,47 @@ import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Medicine {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medicineId;
    
-	//@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 	
-	//@Column(name = "type", nullable = false)
+	@Column(name = "type", nullable = false)
     private String type;
 	
-	//@Column(name = "manufacturer", nullable = false)
+	@Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 	
-	//@Column(name = "precautions", nullable = false)
+	@Column(name = "precautions", nullable = false)
     private String precautions;
 	
-	//@Column(name = "loyaltyPoints", nullable = false)
+	@Column(name = "loyaltyPoints", nullable = false)
     private int loyaltyPoints;
 	
+	@OneToOne(fetch = FetchType.EAGER)
     public MedicineSpecification medicineSpecification;
-    public Collection<Medicine> replacementMedicine;
-    public MedicineForm medicineForm;
     
-    @Column(name = "prescriptionType", nullable = false)
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<Medicine> replacementMedicine;
+    
+	@Enumerated(EnumType.STRING)
+	public MedicineForm medicineForm;
+    
+	@Enumerated(EnumType.STRING)
     public PrescriptionType prescriptionType;
 	   
 	public Medicine(Long medicineId, String name, String type, String manufacturer, String precautions, int loyaltyPoints,
@@ -47,8 +57,8 @@ public class Medicine {
 		this.manufacturer = manufacturer;
 		this.precautions = precautions;
 		this.loyaltyPoints = loyaltyPoints;
-		this.medicineSpecification = medicineSpecification;
-		this.replacementMedicine = replacementMedicine;
+		//this.medicineSpecification = medicineSpecification;
+		//this.replacementMedicine = replacementMedicine;
 		this.medicineForm = medicineForm;
 		this.prescriptionType = prescriptionType;
 	}
@@ -109,11 +119,11 @@ public class Medicine {
 		this.medicineSpecification = medicineSpecification;
 	}
 	
-	public java.util.Collection<Medicine> getReplacementMedicine() {
+	public java.util.Set<Medicine> getReplacementMedicine() {
 		return replacementMedicine;
 	}
 	
-	public void setReplacementMedicine(java.util.Collection<Medicine> replacementMedicine) {
+	public void setReplacementMedicine(java.util.Set<Medicine> replacementMedicine) {
 		this.replacementMedicine = replacementMedicine;
 	}
 	

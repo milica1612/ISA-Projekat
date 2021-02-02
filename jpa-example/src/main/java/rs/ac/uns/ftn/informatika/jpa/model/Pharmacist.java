@@ -2,17 +2,18 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 
-//@Entity
+@Entity
 public class Pharmacist extends PharmacyEmployee {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long phharmacyId;
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Pharmacy pharmacy;
 	   
     public Pharmacist(Double rating) {

@@ -2,38 +2,44 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Pharmacy {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pharmacyId;
    
-	//@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false)
 	protected String name;
 	
-	//@Column(name = "rating", nullable = false)
+	@Column(name = "rating", nullable = false)
     protected Double rating;
 	
-    public Pharmacist pharmacist;
-    public MedicineItem medicineItem;
-    public Dermatologist dermatologist;
+	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    public Set<Pharmacist> pharmacist;
+    //public MedicineItem medicineItem;
+	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Set<Dermatologist> dermatologist;
    
-    public Pharmacy(Long pharmacyId, String name, Double rating, Pharmacist pharmacist, MedicineItem medicineItem,
-		Dermatologist dermatologist) {
+    public Pharmacy(Long pharmacyId, String name, Double rating, MedicineItem medicineItem) {
 		super();
 		this.pharmacyId = pharmacyId;
 		this.name = name;
 		this.rating = rating;
-		this.pharmacist = pharmacist;
-		this.medicineItem = medicineItem;
-		this.dermatologist = dermatologist;
+		this.pharmacist = new HashSet<Pharmacist>();
+		//this.medicineItem = medicineItem;
+		this.dermatologist = new HashSet<Dermatologist>();
 	}
 	public Long getPharmacyId() {
 		return pharmacyId;
@@ -53,23 +59,18 @@ public class Pharmacy {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
-	public Pharmacist getPharmacist() {
+	public Set<Pharmacist> getPharmacist() {
 		return pharmacist;
 	}
-	public void setPharmacist(Pharmacist pharmacist) {
+	public void setPharmacist(Set<Pharmacist> pharmacist) {
 		this.pharmacist = pharmacist;
 	}
-	public MedicineItem getMedicineItem() {
-		return medicineItem;
-	}
-	public void setMedicineItem(MedicineItem medicineItem) {
-		this.medicineItem = medicineItem;
-	}
-	public Dermatologist getDermatologist() {
+	public Set<Dermatologist> getDermatologist() {
 		return dermatologist;
 	}
-	public void setDermatologist(Dermatologist dermatologist) {
+	public void setDermatologist(Set<Dermatologist> dermatologist) {
 		this.dermatologist = dermatologist;
 	}
+	
 
 }
