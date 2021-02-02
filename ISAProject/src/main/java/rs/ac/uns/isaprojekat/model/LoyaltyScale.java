@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class LoyaltyScale {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scaleId;
 	
-	@Column(name = "from", nullable = false)
+	//@Column(name = "from", nullable = false)
     private int from;
 	
-	@Column(name = "to", nullable = false)
+	//@Column(name = "to", nullable = false)
     private int to;   
     public LoyaltyCategory loyaltyCategory;
 	   

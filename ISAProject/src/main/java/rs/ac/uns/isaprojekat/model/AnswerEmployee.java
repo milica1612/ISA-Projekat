@@ -4,33 +4,37 @@ import java.util.*;
 
 import rs.ac.uns.isaprojekat.model.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-@Entity
+//@Entity
 public class AnswerEmployee {
    	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answEmpId;
 	
-	@Column(name = "textEmp", nullable = false)
+	//@Column(name = "textEmp", nullable = false)
 	private String textEmp;
 
+	//@OneToOne(mappedBy = "answerEmployee", cascade = CascadeType.ALL)
 	public ComplaintEmployee complaintEmployee;
-
-	public Collection<SystemAdministrator> systemAdministrator;
+	
+	
+	public Set<SystemAdministrator> systemAdministrator = new HashSet<SystemAdministrator>();
 	
    
     public AnswerEmployee(String textEmp, Long answEmpId, ComplaintEmployee complaintEmployee) {
 		super();
 		this.textEmp = textEmp;
 		this.answEmpId = answEmpId;
-		this.systemAdministrator = new ArrayList<SystemAdministrator>();
 		this.complaintEmployee = complaintEmployee;
 	}
 	

@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Vacation {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vacationId;
    
-	@Column(name = "status", nullable = false)
+	//@Column(name = "status", nullable = false)
     public Status status;
     public TimeInterval timeInterval;
     public PharmacyEmployee pharmacyEmployee;

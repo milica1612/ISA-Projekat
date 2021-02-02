@@ -9,15 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Shift {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shiftId;
     
 	public WorkSchedule workSchedule;
     
-	@Column(name = "day", nullable = false)
+	//@Column(name = "day", nullable = false)
 	private Date day;
     
     public Shift(Date day, Long shiftId, WorkSchedule workSchedule) {

@@ -9,31 +9,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long userId;
    
-	@Column(name = "firstName", nullable = false)
+	//@Column(name = "firstName", nullable = false)
     protected String firstName;
 	
-	@Column(name = "lastName", nullable = false)
+	//@Column(name = "lastName", nullable = false)
     protected String lastName;
 	
-	@Column(name = "username", nullable = false)
+	//@Column(name = "username", nullable = false)
     protected String userName;
 	
-	@Column(name = "password", nullable = false)
+	//@Column(name = "password", nullable = false)
     protected String password;
 	
-	@Column(name = "email", nullable = false)
+	//@Column(name = "email", nullable = false)
     protected String email;
 	
-	@Column(name = "phoneNumber", nullable = false)
+	//@Column(name = "phoneNumber", nullable = false)
     protected String phoneNumber;
    
-	@Column(name = "userType", nullable = false)
+	//@Column(name = "userType", nullable = false)
     public UserType userType;
 	
     public Address address;

@@ -8,14 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class PharmacyReport {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pharmacyRepId;
 	
-	@Column(name = "income", nullable = false)
+	//@Column(name = "income", nullable = false)
     private Double income;
 
     public PharmacyReport(Double income, Long pharmacyRepId) {

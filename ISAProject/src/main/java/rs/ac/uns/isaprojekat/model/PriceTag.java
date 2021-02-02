@@ -9,14 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class PriceTag {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long priceTagId;
 
-	@Column(name = "price", nullable = false)
+	//@Column(name = "price", nullable = false)
 	private Double price;
 	
 	public TimeInterval timeInterval;

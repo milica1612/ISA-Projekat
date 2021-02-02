@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Discount {
    
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)   
+  // @Id
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)   
    private Long discountId;
    
    public LoyaltyCategory loyaltyCategory;
    
-   @Column(name = "percent", nullable = false)
+   //@Column(name = "percent", nullable = false)
    private int percent;
 	   
    public Discount(int percent, Long discountId, LoyaltyCategory loyaltyCategory) {

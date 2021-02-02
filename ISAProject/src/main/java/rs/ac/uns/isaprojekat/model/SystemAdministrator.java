@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class SystemAdministrator extends User {
 	
 	public SystemAdministrator(String firstName, String lastName, String userName, String password, String email,

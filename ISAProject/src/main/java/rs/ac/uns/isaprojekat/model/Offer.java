@@ -9,22 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Offer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long offerId;
    
 	public Supplier supplier;
 	public Order order;
 	
-	@Column(name = "status", nullable = false)
+	//@Column(name = "status", nullable = false)
 	public Status status;
 	
-	@Column(name = "deliveryDeadline", nullable = false)
+	//@Column(name = "deliveryDeadline", nullable = false)
 	private Date deliveryDeadline;
 	
-	@Column(name = "price", nullable = false)
+	//@Column(name = "price", nullable = false)
 	private Double price;
    
 	

@@ -9,26 +9,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Appointment {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long appointmentId;
 	
-	@Column(name = "dateAndTime", nullable = false)
+	//@Column(name = "dateAndTime", nullable = false)
     private Date dateAndTime;
 	
-	@Column(name = "duration", nullable = false)
+	//@Column(name = "duration", nullable = false)
     private int duration;
 	
-	@Column(name = "price", nullable = false)
+	//@Column(name = "price", nullable = false)
     private Double price;
     
-	@Column(name = "cancelled", nullable = false)
+	//@Column(name = "cancelled", nullable = false)
 	private Boolean cancelled;
 	
-	@Column(name = "points", nullable = false)
+	//@Column(name = "points", nullable = false)
     private int points;
 	
 	public Patient patient;

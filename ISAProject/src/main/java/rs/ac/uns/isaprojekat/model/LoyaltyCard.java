@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class LoyaltyCard {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardId;
 	
-	@Column(name = "points", nullable = false)
+	//@Column(name = "points", nullable = false)
     private int points;
 	
     public Patient patient;

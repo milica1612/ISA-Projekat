@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Supscription {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supscriptionId;
 	
-	@Column(name = "cancelled", nullable = false)
+	//@Column(name = "cancelled", nullable = false)
     private Boolean cancelled;   
     public Collection<Pharmacy> pharmacy;
     public Patient patient;

@@ -9,14 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class AnswerPharmacy {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answPhId; 
 	
-	@Column(name = "textPh", nullable = false)
+	//@Column(name = "textPh", nullable = false)
     private String textPh;
 	
 	public ComplaintPharmacy complaintPharmacy;

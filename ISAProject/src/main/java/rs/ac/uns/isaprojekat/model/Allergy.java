@@ -1,26 +1,32 @@
 package rs.ac.uns.isaprojekat.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-@Entity
+//@Entity
 public class Allergy {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long allergyId;
 	
-	private Collection<Medicine> medicine;
+	//@OneToMany(mappedBy = "allergy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Medicine> medicine = new HashSet<Medicine>();
    
     public Allergy(Long allergyId) {
     	super();
     	this.allergyId = allergyId;
-    	this.medicine = new ArrayList<Medicine>();
     }
 	
 	public Long getAllergyId() {
@@ -31,19 +37,19 @@ public class Allergy {
 		this.allergyId = allergyId;
 	}
 	   
-	   public java.util.Collection<Medicine> getMedicine() {
+	   public Set<Medicine> getMedicine() {
 	      if (medicine == null)
 	         medicine = new HashSet<Medicine>();
 	      return medicine;
 	   }
 	   
-	   public java.util.Iterator getIteratorMedicine() {
+	   public Iterator getIteratorMedicine() {
 	      if (medicine == null)
 	         medicine = new HashSet<Medicine>();
 	      return medicine.iterator();
 	   }
 	   
-	   public void setMedicine(java.util.Collection<Medicine> newMedicine) {
+	   public void setMedicine(Set<Medicine> newMedicine) {
 	      removeAllMedicine();
 	      for (Iterator iter = newMedicine.iterator(); iter.hasNext();)
 	         addMedicine((Medicine)iter.next());

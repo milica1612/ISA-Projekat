@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class RateMedicine {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long rateMedicineId;
 	
-	@Column(name = "rating", nullable = false)
+	//@Column(name = "rating", nullable = false)
 	private int rating;
 	public Patient patient;
 	public Medicine medicine;

@@ -9,10 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Patient extends User {
 
-	@Column(name = "penalty", nullable = false)
+	//@Column(name = "penalty", nullable = false)
 	private int penalty;
 	public Allergy allergy;
 	   

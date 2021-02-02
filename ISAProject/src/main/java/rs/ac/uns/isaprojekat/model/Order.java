@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Order {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     
-	@Column(name = "offerDeadline", nullable = false)
+	//@Column(name = "offerDeadline", nullable = false)
 	private Date offerDeadline;
 	
-	@Column(name = "orderStatus", nullable = false)
+	//@Column(name = "orderStatus", nullable = false)
     public OrderStatus orderStatus;
 	
     public Pharmacy pharmacy;

@@ -4,7 +4,7 @@ import java.util.*;
 import javax.persistence.Entity;
 
 
-@Entity
+//@Entity
 public class SaleAndPromotion {
    
 	private Long saleId;

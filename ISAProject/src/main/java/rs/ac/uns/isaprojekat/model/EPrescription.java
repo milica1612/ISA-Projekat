@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class EPrescription {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @Id
+   //@GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long prescriptionId;
    
-   @Column(name = "date", nullable = false)
+  // @Column(name = "date", nullable = false)
    private Date date;
    
    public Collection<Medicine> medicine;

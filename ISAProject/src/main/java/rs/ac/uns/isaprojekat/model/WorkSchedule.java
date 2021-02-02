@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class WorkSchedule {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long workScheduleId;
 	
-	@Column(name = "startTime", nullable = false)
+	//@Column(name = "startTime", nullable = false)
     private Date startTime;
 	
-	@Column(name = "endTime", nullable = false)
+	//@Column(name = "endTime", nullable = false)
     private Date endTime;
     
 	public PharmacyEmployee pharmacyEmployee;

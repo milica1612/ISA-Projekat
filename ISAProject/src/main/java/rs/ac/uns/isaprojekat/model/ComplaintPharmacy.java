@@ -7,11 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class ComplaintPharmacy {
    
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @Id
+   //@GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long compPhId;
    private String textPh;
    public Patient patient;

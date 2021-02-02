@@ -9,25 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Medicine {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medicineId;
    
-	@Column(name = "name", nullable = false)
+	//@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "type", nullable = false)
+	//@Column(name = "type", nullable = false)
     private String type;
 	
-	@Column(name = "manufacturer", nullable = false)
+	//@Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 	
-	@Column(name = "precautions", nullable = false)
+	//@Column(name = "precautions", nullable = false)
     private String precautions;
 	
-	@Column(name = "loyaltyPoints", nullable = false)
+	//@Column(name = "loyaltyPoints", nullable = false)
     private int loyaltyPoints;
 	
     public MedicineSpecification medicineSpecification;

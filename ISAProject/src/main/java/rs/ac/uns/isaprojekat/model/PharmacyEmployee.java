@@ -8,13 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class PharmacyEmployee {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pharmacyEmployeeId;
 	
-	@Column(name = "rating", nullable = false)
+	//@Column(name = "rating", nullable = false)
 	protected Double rating;
 	
 	public PharmacyEmployee(Double rating) {
