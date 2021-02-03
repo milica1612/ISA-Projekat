@@ -1,4 +1,4 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 

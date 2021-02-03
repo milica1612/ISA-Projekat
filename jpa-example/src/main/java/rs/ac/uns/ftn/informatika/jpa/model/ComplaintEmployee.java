@@ -1,26 +1,31 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class ComplaintEmployee {
    
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compEmpId;
 
-	//@Column(name = "textEmployee", nullable = false)
+	@Column(name = "textEmployee", nullable = false)
 	private String textEmp;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Patient patient;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public PharmacyEmployee pharmacyEmployee;
 	   
 	public ComplaintEmployee(String textEmp, Long compEmpId, Patient patient, PharmacyEmployee pharmacyEmployee) {

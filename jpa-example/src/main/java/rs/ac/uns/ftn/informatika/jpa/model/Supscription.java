@@ -1,30 +1,38 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Supscription {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supscriptionId;
 	
-	//@Column(name = "cancelled", nullable = false)
+	@Column(name = "cancelled", nullable = false)
     private Boolean cancelled;   
-    public Collection<Pharmacy> pharmacy;
-    public Patient patient;
+    
+	@OneToMany(fetch = FetchType.LAZY)
+	public Set<Pharmacy> pharmacy;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Patient patient;
    
     public Supscription(Long supscriptionId, Boolean cancelled, Patient patient) {
 		super();
 		this.supscriptionId = supscriptionId;
 		this.cancelled = cancelled;
-		this.pharmacy = new ArrayList<Pharmacy>();
+		this.pharmacy = new HashSet<Pharmacy>();
 		this.patient = patient;
 	}
 

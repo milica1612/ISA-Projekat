@@ -1,24 +1,29 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class PriceTag {
 	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long priceTagId;
 
-	//@Column(name = "price", nullable = false)
+	@Column(name = "price", nullable = false)
 	private Double price;
 	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)    
 	public TimeInterval timeInterval;
    
    public PriceTag(Double price, TimeInterval timeInterval) {

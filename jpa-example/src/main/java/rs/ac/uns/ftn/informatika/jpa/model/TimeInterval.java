@@ -1,4 +1,4 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-//@Entity
+@Entity
 public class TimeInterval {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long timeIntervalId;
 	
-	//@Column(name = "startDate", nullable = false)
+	@Column(name = "startDate", nullable = false)
 	private Date startDate;
 	
-	//@Column(name = "endDate", nullable = false)
+	@Column(name = "endDate", nullable = false)
 	private Date endDate;
    
 	public TimeInterval(Date startDate, Date endDate) {

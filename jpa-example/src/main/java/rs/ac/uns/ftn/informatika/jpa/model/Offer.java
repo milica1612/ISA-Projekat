@@ -1,32 +1,38 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-
-//@Entity
+@Entity
 public class Offer {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long offerId;
    
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Supplier supplier;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
 	public Order order;
 	
-	//@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
 	public Status status;
 	
-	//@Column(name = "deliveryDeadline", nullable = false)
+	@Column(name = "deliveryDeadline", nullable = false)
 	private Date deliveryDeadline;
 	
-	//@Column(name = "price", nullable = false)
-	private Double price;
-   
+	@Column(name = "price", nullable = false)
+	private Double price;   
 	
 	public Offer(Date deliveryDeadline, Double price, Long offerId, Supplier supplier, Order order, Status status) {
 		super();

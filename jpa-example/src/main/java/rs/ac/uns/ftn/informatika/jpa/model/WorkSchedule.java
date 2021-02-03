@@ -1,27 +1,30 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class WorkSchedule {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long workScheduleId;
 	
-	//@Column(name = "startTime", nullable = false)
+	@Column(name = "startTime", nullable = false)
     private Date startTime;
 	
-	//@Column(name = "endTime", nullable = false)
+	@Column(name = "endTime", nullable = false)
     private Date endTime;
     
-	public PharmacyEmployee pharmacyEmployee;
+	@OneToOne(fetch = FetchType.LAZY)
+    public PharmacyEmployee pharmacyEmployee;
    
    
     public WorkSchedule(Date startTime, Date endTime, Long workScheduleId, PharmacyEmployee pharmacyEmployee) {

@@ -1,30 +1,32 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Shift {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shiftId;
     
-	public WorkSchedule workSchedule;
+	@OneToOne(fetch = FetchType.LAZY)
+    public WorkSchedule workSchedule;
     
-	//@Column(name = "day", nullable = false)
 	private Date day;
     
     public Shift(Date day, Long shiftId, WorkSchedule workSchedule) {
 		super();
 		this.day = day;
 		this.shiftId = shiftId;
-		this.workSchedule = workSchedule;
+		//this.workSchedule = workSchedule;
     }
 
    	public Date getDay() {
@@ -43,12 +45,12 @@ public class Shift {
 		this.shiftId = shiftId;
 	}
 
-	public WorkSchedule getWorkSchedule() {
+	/*public WorkSchedule getWorkSchedule() {
 		return workSchedule;
 	}
 
 	public void setWorkSchedule(WorkSchedule workSchedule) {
 		this.workSchedule = workSchedule;
-	}
+	}*/
 
 }

@@ -1,14 +1,23 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class SaleAndPromotion {
-   
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long saleId;
-	public Pharmacy pharmacy;
+	
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    public Pharmacy pharmacy;
    
     public SaleAndPromotion(Pharmacy pharmacy) {
 		super();

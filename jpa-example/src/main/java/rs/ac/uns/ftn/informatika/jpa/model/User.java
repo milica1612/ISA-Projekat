@@ -1,43 +1,53 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class User {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long userId;
    
-	//@Column(name = "firstName", nullable = false)
-    protected String firstName;
+	@Column(name = "firstName", nullable = false)
+    private String firstName;
 	
-	//@Column(name = "lastName", nullable = false)
-    protected String lastName;
+	@Column(name = "lastName", nullable = false)
+    private String lastName;
 	
-	//@Column(name = "username", nullable = false)
-    protected String userName;
+	@Column(name = "username", nullable = false)
+    private String userName;
 	
-	//@Column(name = "password", nullable = false)
-    protected String password;
+	@Column(name = "password", nullable = false)
+    private String password;
 	
-	//@Column(name = "email", nullable = false)
-    protected String email;
+	@Column(name = "email", nullable = false)
+    private String email;
 	
-	//@Column(name = "phoneNumber", nullable = false)
-    protected String phoneNumber;
+	@Column(name = "phoneNumber", nullable = false)
+    private String phoneNumber;
    
-	//@Column(name = "userType", nullable = false)
-    public UserType userType;
+	@Enumerated(EnumType.STRING)
+    private UserType userType;
 	
-    public Address address;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
+    private Address address;
    
+	public User() {}
+	
     public User(String firstName, String lastName, String userName, String password, String email,
 		String phoneNumber, Long userId, UserType userType, Address address) {
 		super();
@@ -49,7 +59,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.userId = userId;
 		this.userType = userType;
-		this.address = address;
+		//this.address = address;
     }
 
 	public String getFirstName() {

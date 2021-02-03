@@ -1,24 +1,32 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class LoyaltyCard {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardId;
 	
-	//@Column(name = "points", nullable = false)
+	@Column(name = "points", nullable = false)
     private int points;
 	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public Patient patient;
+
+	@Enumerated(EnumType.STRING)
     public LoyaltyCategory loyaltyCategory;
    
     public LoyaltyCard(int points, Long cardId, Patient patient, LoyaltyCategory loyaltyCategory) {

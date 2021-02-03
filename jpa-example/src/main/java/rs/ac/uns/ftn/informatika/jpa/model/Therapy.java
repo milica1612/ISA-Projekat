@@ -1,26 +1,34 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class Therapy {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long therapyId;
     
-	public Collection<Medicine> medicine;
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<Medicine> medicine;
+	
+	@OneToOne(fetch = FetchType.LAZY)
     public TimeInterval timeInterval;
+	
+	@OneToOne(fetch = FetchType.LAZY)
     public Examination examination;
    
     public Therapy(Long therapyId, TimeInterval timeInterval, Examination examination) {
 		super();
 		this.therapyId = therapyId;
-		this.medicine = new ArrayList<Medicine>();
+		this.medicine = new HashSet<Medicine>();
 		this.timeInterval = timeInterval;
 		this.examination = examination;
    }
@@ -45,7 +53,7 @@ public class Therapy {
       return medicine.iterator();
    }
    
-   public void setMedicine(Collection<Medicine> newMedicine) {
+   public void setMedicine(Set<Medicine> newMedicine) {
       removeAllMedicine();
       for (Iterator iter = newMedicine.iterator(); iter.hasNext();)
          addMedicine((Medicine)iter.next());

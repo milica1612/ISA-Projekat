@@ -1,4 +1,4 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
@@ -8,13 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-//@Entity
-public class PharmacyEmployee {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long pharmacyEmployeeId;
+@Entity
+public class PharmacyEmployee extends User {
 	
-	//@Column(name = "rating", nullable = false)
+	
+	@Column(name = "rating", nullable = false)
 	protected Double rating;
 	
 	public PharmacyEmployee(Double rating) {

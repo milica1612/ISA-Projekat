@@ -1,27 +1,39 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 
-//@Entity
+@Entity
 public class Order {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     
-	//@Column(name = "offerDeadline", nullable = false)
+	@Column(name = "offerDeadline", nullable = false)
 	private Date offerDeadline;
 	
-	//@Column(name = "orderStatus", nullable = false)
-    public OrderStatus orderStatus;
+	@Enumerated(EnumType.STRING)
+	public OrderStatus orderStatus;
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
+	public Set<MedicineItem> medicineItem;   
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
     public Pharmacy pharmacy;
+    
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public PharmacyAdministrator pharmacyAdministrator;
 	   
 	public Order(Date offerDeadline, Long orderId, OrderStatus orderStatus, Pharmacy pharmacy,
@@ -32,6 +44,15 @@ public class Order {
 		this.orderStatus = orderStatus;
 		this.pharmacy = pharmacy;
 		this.pharmacyAdministrator = pharmacyAdministrator;
+		this.medicineItem = new HashSet<MedicineItem>();
+	}
+	
+	public Set<MedicineItem> getMedicineItem() {
+		return medicineItem;
+	}
+
+	public void setMedicineItem(Set<MedicineItem> medicineItem) {
+		this.medicineItem = medicineItem;
 	}
 	
 	public Date getOfferDeadline() {

@@ -1,24 +1,30 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
-//@Entity
+@Entity
 public class RateMedicine {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long rateMedicineId;
 	
-	//@Column(name = "rating", nullable = false)
+	@Column(name = "rating", nullable = false)
 	private int rating;
-	public Patient patient;
-	public Medicine medicine;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    public Patient patient;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    public Medicine medicine;
    
    public RateMedicine(Long rateMedicineId, int rating, Patient patient, Medicine medicine) {
 		super();

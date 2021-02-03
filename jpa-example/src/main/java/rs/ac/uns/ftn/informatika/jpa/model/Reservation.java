@@ -1,12 +1,17 @@
-package rs.ac.uns.isaprojekat.model;
+package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -18,19 +23,22 @@ public class Reservation {
 	@Column(name = "recieved", nullable = false)
     private Boolean recieved;
 	
+	@OneToOne(fetch = FetchType.LAZY)
     public Patient patient;
-    public Collection<MedicineItem> medicineItem;
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+    public MedicineItem medicineItem;
     
 	@Column(name = "deadline", nullable = false)
     private Date deadline;
    
-    public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient) {
+    public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient, MedicineItem item) {
 		super();
 		this.deadline = deadline;
 		this.reservationId = reservationId;
 		this.recieved = recieved;
 		this.patient = patient;
-		this.medicineItem = new ArrayList<MedicineItem>();
+		this.medicineItem = item;
 	}
 
 	@Override
@@ -70,13 +78,14 @@ public class Reservation {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-	
-	public Collection<MedicineItem> getMedicineItem() {
+
+	public MedicineItem getMedicineItem() {
 		return medicineItem;
 	}
-	
-	public void setMedicineItem(Collection<MedicineItem> medicineItem) {
+
+	public void setMedicineItem(MedicineItem medicineItem) {
 		this.medicineItem = medicineItem;
 	}
-
+	
+	
 }
