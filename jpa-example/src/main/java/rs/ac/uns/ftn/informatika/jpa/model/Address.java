@@ -33,7 +33,9 @@ public class Address {
 	@Column(name = "latitude", nullable = false)
 	private Double latitude;
 	   
-	   
+	  
+	public Address()
+	{}
 	public Address(String street, String streetNumber, String city, String country, Long addressId, Double longitude,
 			Double latitude) {
 		super();
