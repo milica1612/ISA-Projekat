@@ -1,48 +1,41 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 
-@Entity
+//@Entity
 public class Appointment {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long appointmentId;
 	
-	@Column(name = "dateAndTime", nullable = false)
+	//@Column(name = "dateAndTime", nullable = false)
     private Date dateAndTime;
 	
-	@Column(name = "duration", nullable = false)
+	//@Column(name = "duration", nullable = false)
     private int duration;
 	
-	@Column(name = "price", nullable = false)
+	//@Column(name = "price", nullable = false)
     private Double price;
     
-	@Column(name = "cancelled", nullable = false)
+	//@Column(name = "cancelled", nullable = false)
 	private Boolean cancelled;
 	
-	@Column(name = "points", nullable = false)
+	//@Column(name = "points", nullable = false)
     private int points;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Patient patient;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Shift shift;
 	
-	@Enumerated(EnumType.STRING)
+	@Column(name = "appoitmentStatus", nullable = false)
     public AppointmentStatus appointmentStatus;
    
 	   

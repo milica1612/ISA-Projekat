@@ -1,34 +1,28 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 
-@Entity
+//@Entity
 public class MedicineSpecification {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medSpecId;
 	
 	private Double dosage;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	public Set<Contraindication> contraindication;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	public Set<Ingridient> ingridient;
+	public Collection<Contraindication> contraindication;
+	public Collection<Ingridient> ingridient;
    
     public MedicineSpecification(Double dosage, Long medSpecId) {
 		super();
 		this.dosage = dosage;
 		this.medSpecId = medSpecId;
-		this.contraindication = new HashSet<Contraindication>();
-		this.ingridient = new HashSet<Ingridient>();
+		this.contraindication = new ArrayList<Contraindication>();
+		this.ingridient = new ArrayList<Ingridient>();
     }
 	
 	public Double getDosage() {

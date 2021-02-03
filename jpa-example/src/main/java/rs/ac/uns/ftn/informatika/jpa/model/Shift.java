@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Shift {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shiftId;
     
-	//public WorkSchedule workSchedule;
+	public WorkSchedule workSchedule;
     
 	//@Column(name = "day", nullable = false)
 	private Date day;
@@ -24,7 +24,7 @@ public class Shift {
 		super();
 		this.day = day;
 		this.shiftId = shiftId;
-		//this.workSchedule = workSchedule;
+		this.workSchedule = workSchedule;
     }
 
    	public Date getDay() {
@@ -43,12 +43,12 @@ public class Shift {
 		this.shiftId = shiftId;
 	}
 
-	/*public WorkSchedule getWorkSchedule() {
+	public WorkSchedule getWorkSchedule() {
 		return workSchedule;
 	}
 
 	public void setWorkSchedule(WorkSchedule workSchedule) {
 		this.workSchedule = workSchedule;
-	}*/
+	}
 
 }

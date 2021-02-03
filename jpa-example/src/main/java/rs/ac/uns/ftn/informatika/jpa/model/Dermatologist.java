@@ -1,24 +1,21 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 
-@Entity
+//@Entity
 public class Dermatologist extends PharmacyEmployee {
-	
-   @ManyToMany(fetch = FetchType.LAZY)
-	public Set<Pharmacy> pharmacy;
+   
+	public Collection<Pharmacy> pharmacy;
 	
    
 	public Dermatologist(Double rating) {
 		super(rating);
-		this.pharmacy = new HashSet<Pharmacy>();
+		this.pharmacy = new ArrayList<Pharmacy>();
 	}
 
 	public Collection<Pharmacy> getPharmacy() {

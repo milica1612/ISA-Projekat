@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 import javax.persistence.Entity;

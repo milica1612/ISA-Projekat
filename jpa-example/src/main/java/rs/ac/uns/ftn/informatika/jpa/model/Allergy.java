@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,14 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
+//@Entity
 public class Allergy {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long allergyId;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//@OneToMany(mappedBy = "allergy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Medicine> medicine = new HashSet<Medicine>();
    
     public Allergy(Long allergyId) {

@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
@@ -9,15 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+//@Entity
 public class Ingridient {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ingridientId; 
 	
-	@Column(name = "name", nullable = false)
+	//@Column(name = "name", nullable = false)
     private String name;
+
 	   
 	public Ingridient(String name, Long ingridientId) {
 		super();

@@ -1,7 +1,8 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
+import rs.ac.uns.isaprojekat.model.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,29 +14,28 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 
-@Entity
+//@Entity
 public class AnswerEmployee {
    	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answEmpId;
 	
-	@Column(name = "textEmp", nullable = false)
+	//@Column(name = "textEmp", nullable = false)
 	private String textEmp;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//@OneToOne(mappedBy = "answerEmployee", cascade = CascadeType.ALL)
 	public ComplaintEmployee complaintEmployee;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	public SystemAdministrator systemAdministrator;
+	
+	public Set<SystemAdministrator> systemAdministrator = new HashSet<SystemAdministrator>();
 	
    
-    public AnswerEmployee(String textEmp, Long answEmpId, ComplaintEmployee complaintEmployee, SystemAdministrator systemAdministrator) {
+    public AnswerEmployee(String textEmp, Long answEmpId, ComplaintEmployee complaintEmployee) {
 		super();
 		this.textEmp = textEmp;
 		this.answEmpId = answEmpId;
 		this.complaintEmployee = complaintEmployee;
-		this.systemAdministrator = systemAdministrator;
 	}
 	
 	public String getTextEmp() {
@@ -61,13 +61,45 @@ public class AnswerEmployee {
 		public void setComplaintEmployee(ComplaintEmployee complaintEmployee) {
 			this.complaintEmployee = complaintEmployee;
 		}
-
-		public SystemAdministrator getSystemAdministrator() {
-			return systemAdministrator;
-		}
-
-		public void setSystemAdministrator(SystemAdministrator systemAdministrator) {
-			this.systemAdministrator = systemAdministrator;
-		}
 	
+	public java.util.Collection<SystemAdministrator> getSystemAdministrator() {
+	      if (systemAdministrator == null)
+	         systemAdministrator = new java.util.HashSet<SystemAdministrator>();
+	      return systemAdministrator;
+	   }
+	   
+	   public java.util.Iterator getIteratorSystemAdministrator() {
+	      if (systemAdministrator == null)
+	         systemAdministrator = new java.util.HashSet<SystemAdministrator>();
+	      return systemAdministrator.iterator();
+	   }
+	   
+	   public void setSystemAdministrator(java.util.Collection<SystemAdministrator> newSystemAdministrator) {
+	      removeAllSystemAdministrator();
+	      for (java.util.Iterator iter = newSystemAdministrator.iterator(); iter.hasNext();)
+	         addSystemAdministrator((SystemAdministrator)iter.next());
+	   }
+	   
+	   public void addSystemAdministrator(SystemAdministrator newSystemAdministrator) {
+	      if (newSystemAdministrator == null)
+	         return;
+	      if (this.systemAdministrator == null)
+	         this.systemAdministrator = new java.util.HashSet<SystemAdministrator>();
+	      if (!this.systemAdministrator.contains(newSystemAdministrator))
+	         this.systemAdministrator.add(newSystemAdministrator);
+	   }
+	   
+	   public void removeSystemAdministrator(SystemAdministrator oldSystemAdministrator) {
+	      if (oldSystemAdministrator == null)
+	         return;
+	      if (this.systemAdministrator != null)
+	         if (this.systemAdministrator.contains(oldSystemAdministrator))
+	            this.systemAdministrator.remove(oldSystemAdministrator);
+	   }
+	   
+	   public void removeAllSystemAdministrator() {
+	      if (systemAdministrator != null)
+	         systemAdministrator.clear();
+	   }
+
 }

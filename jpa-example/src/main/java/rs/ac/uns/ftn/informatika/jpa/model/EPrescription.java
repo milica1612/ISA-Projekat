@@ -1,35 +1,30 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 
 
-@Entity
+//@Entity
 public class EPrescription {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @Id
+   //@GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long prescriptionId;
    
-   @Column(name = "date", nullable = false)
+  // @Column(name = "date", nullable = false)
    private Date date;
    
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   public Set<Medicine> medicine;
+   public Collection<Medicine> medicine;
    
    public EPrescription(Long prescriptionId, Date date) {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.date = date;
-	this.medicine = new HashSet<Medicine>();
+	this.medicine = new ArrayList<Medicine>();
 }
 	
 	public Long getPrescriptionId() {
@@ -48,7 +43,7 @@ public class EPrescription {
 		this.date = date;
 	}
 	
-	public java.util.Set<Medicine> getMedicine() {
+	public java.util.Collection<Medicine> getMedicine() {
 	      if (medicine == null)
 	         medicine = new java.util.HashSet<Medicine>();
 	      return medicine;

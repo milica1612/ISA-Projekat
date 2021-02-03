@@ -1,23 +1,19 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 
-@Entity
+//@Entity
 public class Patient extends User {
 
-	@Column(name = "penalty", nullable = false)
+	//@Column(name = "penalty", nullable = false)
 	private int penalty;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
 	   
 	

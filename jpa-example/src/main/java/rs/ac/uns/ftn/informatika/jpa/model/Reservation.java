@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.informatika.jpa.model;
+package rs.ac.uns.isaprojekat.model;
 
 import java.util.*;
 
@@ -9,19 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-//@Entity
+@Entity
 public class Reservation {
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 	
-	//@Column(name = "recieved", nullable = false)
+	@Column(name = "recieved", nullable = false)
     private Boolean recieved;
 	
     public Patient patient;
     public Collection<MedicineItem> medicineItem;
     
-	//@Column(name = "deadline", nullable = false)
+	@Column(name = "deadline", nullable = false)
     private Date deadline;
    
     public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient) {
