@@ -36,6 +36,10 @@ public class LoyaltyCard {
 		this.patient = patient;
 		this.loyaltyCategory = loyaltyCategory;
 }
+    public LoyaltyCard()
+    {
+    	
+    }
 	
 	public int getPoints() {
 		return points;

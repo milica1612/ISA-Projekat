@@ -29,6 +29,10 @@ public class Allergy {
     	this.allergyId = allergyId;
     }
 	
+    public Allergy()
+    {
+    	
+    }
 	public Long getAllergyId() {
 		return allergyId;
 	}

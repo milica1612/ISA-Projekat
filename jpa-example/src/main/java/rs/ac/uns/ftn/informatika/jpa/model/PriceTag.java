@@ -31,6 +31,11 @@ public class PriceTag {
 		this.price = price;
 		this.timeInterval = timeInterval;
    	}
+   
+   public PriceTag()
+   {
+	   
+   }
 
 	public Double getPrice() {
 		return price;

@@ -36,6 +36,11 @@ public class ComplaintEmployee {
 		this.pharmacyEmployee = pharmacyEmployee;
 	}
 	
+	public ComplaintEmployee()
+	{
+		
+	}
+	
 	public String getTextEmp() {
 		return textEmp;
 	}

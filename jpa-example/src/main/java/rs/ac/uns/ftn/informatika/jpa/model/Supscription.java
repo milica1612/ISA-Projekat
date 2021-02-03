@@ -35,6 +35,11 @@ public class Supscription {
 		this.pharmacy = new HashSet<Pharmacy>();
 		this.patient = patient;
 	}
+    
+    public Supscription()
+    {
+    	
+    }
 
 	public Long getSupscriptionId() {
 		return supscriptionId;

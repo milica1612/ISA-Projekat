@@ -28,6 +28,11 @@ public class Recommendation {
 		this.medicine = new HashSet<Medicine>();
 		this.consultation = consultation;
 	}
+    
+    public Recommendation()
+    {
+    	
+    }
 
 	public Long getRecommendationId() {
 		return recommendationId;

@@ -37,6 +37,11 @@ public class AnswerEmployee {
 		this.complaintEmployee = complaintEmployee;
 		this.systemAdministrator = systemAdministrator;
 	}
+    
+    public AnswerEmployee()
+    {
+    	
+    }
 	
 	public String getTextEmp() {
 			return textEmp;

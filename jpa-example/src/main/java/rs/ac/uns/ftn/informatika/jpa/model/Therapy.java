@@ -32,6 +32,11 @@ public class Therapy {
 		this.timeInterval = timeInterval;
 		this.examination = examination;
    }
+    
+    public Therapy()
+    {
+    	
+    }
 
    public Long getTherapyId() {
 	   return therapyId;

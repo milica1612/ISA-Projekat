@@ -15,5 +15,9 @@ public class SystemAdministrator extends User {
 		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
 		// TODO Auto-generated constructor stub
 	}
+	public SystemAdministrator()
+	{
+		
+	}
 	
 }

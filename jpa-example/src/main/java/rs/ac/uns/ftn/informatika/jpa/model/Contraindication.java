@@ -24,6 +24,11 @@ public class Contraindication {
 		this.contraindicationId = contraindicationId;
 	}
 	
+	public Contraindication()
+	{
+		
+	}
+	
 	public String getDescription() {
 		return description;
 	}

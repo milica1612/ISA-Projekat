@@ -31,6 +31,11 @@ public class Diagnosis {
 		this.patient = patient;
 	}
 	
+	public Diagnosis()
+	{
+		
+	}
+	
 	public Long getDiagnosisId() {
 		return diagnosisId;
 	}

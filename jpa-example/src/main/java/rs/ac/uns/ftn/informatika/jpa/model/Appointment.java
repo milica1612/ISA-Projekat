@@ -59,6 +59,12 @@ public class Appointment {
 		this.shift = shift;
 		this.appointmentStatus = appointmentStatus;
 	}
+	
+	public Appointment()
+	{
+		
+	}
+	
 	public Date getDateAndTime() {
 		return dateAndTime;
 	}

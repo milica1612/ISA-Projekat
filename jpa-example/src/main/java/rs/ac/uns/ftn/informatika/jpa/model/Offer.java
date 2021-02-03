@@ -44,6 +44,11 @@ public class Offer {
 		this.status = status;
 	}
 	
+	public Offer()
+	{
+		
+	}
+	
 	public Date getDeliveryDeadline() {
 		return deliveryDeadline;
 	}

@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.dialect.Ingres10Dialect;
+
 
 @Entity
 public class Ingridient {
@@ -24,6 +26,12 @@ public class Ingridient {
 		this.name = name;
 		this.ingridientId = ingridientId;
 	}
+	
+	public Ingridient()
+	{
+		
+	}
+	
 	public String getName() {
 		return name;
 	}

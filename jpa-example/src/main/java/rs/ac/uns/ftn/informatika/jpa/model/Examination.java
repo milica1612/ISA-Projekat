@@ -24,6 +24,11 @@ public class Examination extends Appointment {
 		this.dermatologist = dermatologist;
 	}
 	
+    public Examination()
+    {
+    	
+    }
+    
 	public Dermatologist getDermatologist() {
 		return dermatologist;
 	}

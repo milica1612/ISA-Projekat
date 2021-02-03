@@ -22,6 +22,12 @@ public class PharmacyAdministrator extends User {
 		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
 		this.pharmacy = pharmacy;
 	}
+	
+	public PharmacyAdministrator()
+	{
+		
+	}
+	
 
 	public Pharmacy getPharmacy() {
 		return pharmacy;

@@ -23,6 +23,11 @@ public class SaleAndPromotion {
 		super();
 		this.pharmacy = pharmacy;
 	}
+    
+    public SaleAndPromotion()
+    {
+    	
+    }
 
     public Pharmacy getPharmacy() {
 	    return pharmacy;

@@ -28,19 +28,25 @@ public class Pharmacy {
 	
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     public Set<Pharmacist> pharmacist;
-    //public MedicineItem medicineItem;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Set<MedicineItem> medicineItem;
 	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Dermatologist> dermatologist;
    
-    public Pharmacy(Long pharmacyId, String name, Double rating, MedicineItem medicineItem) {
+    public Pharmacy(Long pharmacyId, String name, Double rating) {
 		super();
 		this.pharmacyId = pharmacyId;
 		this.name = name;
 		this.rating = rating;
 		this.pharmacist = new HashSet<Pharmacist>();
-		//this.medicineItem = medicineItem;
+		this.medicineItem = new HashSet<MedicineItem>();
 		this.dermatologist = new HashSet<Dermatologist>();
 	}
+    
+    public Pharmacy()
+    {
+    	
+    }
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}
@@ -71,6 +77,15 @@ public class Pharmacy {
 	public void setDermatologist(Set<Dermatologist> dermatologist) {
 		this.dermatologist = dermatologist;
 	}
+
+	public Set<MedicineItem> getMedicineItem() {
+		return medicineItem;
+	}
+
+	public void setMedicineItem(Set<MedicineItem> medicineItem) {
+		this.medicineItem = medicineItem;
+	}
+	
 	
 
 }

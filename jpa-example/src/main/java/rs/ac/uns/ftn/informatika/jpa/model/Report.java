@@ -24,6 +24,12 @@ public class Report {
 		this.reportId = reportId;
 		this.appointment = appointment;
 	}
+	
+	public Report()
+	{
+		
+	}
+	
 	public Long getReportId() {
 		return reportId;
 	}

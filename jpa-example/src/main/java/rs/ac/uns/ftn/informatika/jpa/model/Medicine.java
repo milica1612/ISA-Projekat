@@ -67,6 +67,11 @@ public class Medicine {
 		this.prescriptionType = prescriptionType;
 	}
 	
+	public Medicine()
+	{
+		
+	}
+	
 	public Long getMedicineId() {
 		return medicineId;
 	}

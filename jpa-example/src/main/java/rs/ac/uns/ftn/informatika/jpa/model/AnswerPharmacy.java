@@ -36,6 +36,11 @@ public class AnswerPharmacy {
 	this.systemAdministrator = systemAdministrator;
 	}
 	
+   public AnswerPharmacy()
+   {
+	   
+   }
+   
 	public String getTextPh() {
 		return textPh;
 	}

@@ -31,6 +31,11 @@ public class ComplaintPharmacy {
 		this.pharmacy = pharmacy;
 	}
 	
+	public ComplaintPharmacy() {
+		
+	}
+
+	
 	public String getTextPh() {
 		return textPh;
 	}

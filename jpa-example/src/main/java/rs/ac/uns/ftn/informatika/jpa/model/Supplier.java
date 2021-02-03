@@ -11,8 +11,7 @@ import javax.persistence.Id;
 public class Supplier extends User {
 
 	public Supplier() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Supplier(String firstName, String lastName, String userName, String password, String email,

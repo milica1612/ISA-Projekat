@@ -47,6 +47,11 @@ public class Order {
 		this.medicineItem = new HashSet<MedicineItem>();
 	}
 	
+	public Order()
+	{
+		
+	}
+	
 	public Set<MedicineItem> getMedicineItem() {
 		return medicineItem;
 	}

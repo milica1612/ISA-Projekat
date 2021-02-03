@@ -59,7 +59,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.userId = userId;
 		this.userType = userType;
-		//this.address = address;
+		this.address = address;
     }
 
 	public String getFirstName() {

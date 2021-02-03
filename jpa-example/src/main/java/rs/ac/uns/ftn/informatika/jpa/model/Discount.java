@@ -30,6 +30,12 @@ public class Discount {
 		this.discountId = discountId;
 		this.loyaltyCategory = loyaltyCategory;
 	}
+   
+   public Discount()
+   {
+	   
+   }
+   
 	public int getPercent() {
 		return percent;
 	}

@@ -24,6 +24,11 @@ public class Query {
 		this.medicine = medicine;
 	}
 	
+	public Query()
+	{
+		
+	}
+	
 	public Long getQueryId() {
 		return queryId;
 	}

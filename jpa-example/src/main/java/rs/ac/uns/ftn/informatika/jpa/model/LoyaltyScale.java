@@ -33,6 +33,12 @@ public class LoyaltyScale {
 		this.to = to;
 		this.loyaltyCategory = loyaltyCategory;
 	}
+	
+	public LoyaltyScale()
+	{
+		
+	}
+	
 	public Long getScaleId() {
 		return scaleId;
 	}

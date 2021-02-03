@@ -26,6 +26,12 @@ public class TimeInterval {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
+	
+	public TimeInterval()
+	{
+		
+	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}

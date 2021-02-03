@@ -23,6 +23,11 @@ public class Consultation extends Appointment {
 	super(dateAndTime, duration, price, appointmentId, cancelled, points, patient, shift, appointmentStatus);
 	this.pharmacist = pharmacist;
     }
+   
+   public Consultation()
+   {
+	   
+   }
 
 	public Pharmacist getPharmacist() {
 		return pharmacist;

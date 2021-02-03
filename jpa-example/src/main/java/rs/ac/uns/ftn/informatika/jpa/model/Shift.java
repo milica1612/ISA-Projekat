@@ -26,7 +26,12 @@ public class Shift {
 		super();
 		this.day = day;
 		this.shiftId = shiftId;
-		//this.workSchedule = workSchedule;
+		this.workSchedule = workSchedule;
+    }
+    
+    public Shift() 
+    {
+    	
     }
 
    	public Date getDay() {

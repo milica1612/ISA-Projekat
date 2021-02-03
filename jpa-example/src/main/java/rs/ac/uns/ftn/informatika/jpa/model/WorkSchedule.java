@@ -34,6 +34,11 @@ public class WorkSchedule {
 		this.workScheduleId = workScheduleId;
 		this.pharmacyEmployee = pharmacyEmployee;
    }
+    
+    public WorkSchedule()
+    {
+    	
+    }
 
 
 	public Date getStartTime() {

@@ -30,6 +30,11 @@ public class MedicineSpecification {
 		this.contraindication = new HashSet<Contraindication>();
 		this.ingridient = new HashSet<Ingridient>();
     }
+    
+    public MedicineSpecification()
+    {
+    	
+    }
 	
 	public Double getDosage() {
 		return dosage;

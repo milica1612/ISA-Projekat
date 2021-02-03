@@ -33,6 +33,11 @@ public class Vacation {
 		this.timeInterval = timeInterval;
 		this.pharmacyEmployee = pharmacyEmployee;
    	}
+    
+    public Vacation()
+    {
+    	
+    }
 
 	public Long getVacationId() {
 		return vacationId;

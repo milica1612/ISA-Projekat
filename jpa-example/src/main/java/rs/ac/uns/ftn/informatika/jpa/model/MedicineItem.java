@@ -30,6 +30,10 @@ public class MedicineItem {
 		this.quantity = quantity;
 		this.medicine = medicine;
     }
+    public MedicineItem()
+    {
+    	
+    }
 	
 	public int getQuantity() {
 		return quantity;

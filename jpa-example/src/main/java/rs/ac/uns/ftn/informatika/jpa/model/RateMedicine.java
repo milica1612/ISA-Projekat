@@ -33,6 +33,10 @@ public class RateMedicine {
 		this.patient = patient;
 		this.medicine = medicine;
    }
+   
+   public RateMedicine()
+   {
+   }
 
 	public Long getRateMedicineId() {
 		return rateMedicineId;

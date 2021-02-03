@@ -35,7 +35,9 @@ public class Address {
 	   
 	  
 	public Address()
-	{}
+	{
+		
+	}
 	public Address(String street, String streetNumber, String city, String country, Long addressId, Double longitude,
 			Double latitude) {
 		super();

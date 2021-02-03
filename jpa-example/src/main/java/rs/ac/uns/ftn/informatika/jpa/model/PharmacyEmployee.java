@@ -20,6 +20,11 @@ public class PharmacyEmployee extends User {
 		this.rating = rating;
 	}
 	
+	public PharmacyEmployee()
+	{
+		
+	}
+	
 	public Double getRating() {
 		return rating;
 	}

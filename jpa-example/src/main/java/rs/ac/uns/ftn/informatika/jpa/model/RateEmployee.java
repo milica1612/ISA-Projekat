@@ -31,6 +31,10 @@ public class RateEmployee {
 		this.patient = patient;
 		this.pharmacyEmployee = pharmacyEmployee;
    }
+   
+   public RateEmployee()
+   {
+   }
 	
 	public Long getRateId() {
 		return rateId;

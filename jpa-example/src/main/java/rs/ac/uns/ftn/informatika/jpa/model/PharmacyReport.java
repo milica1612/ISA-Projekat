@@ -30,6 +30,11 @@ public class PharmacyReport {
 		this.income = income;
 		this.pharmacyRepId = pharmacyRepId;
 	}
+    public PharmacyReport()
+    {
+    	
+    }
+    
 	public Double getIncome() {
 		return income;
 	}

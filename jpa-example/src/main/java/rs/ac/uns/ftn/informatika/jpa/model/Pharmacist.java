@@ -20,6 +20,11 @@ public class Pharmacist extends PharmacyEmployee {
 		super(rating);
 		// TODO Auto-generated constructor stub
 	}
+    
+    public Pharmacist()
+    {
+    	
+    }
 
     public Pharmacy getPharmacy() {
 		return pharmacy;

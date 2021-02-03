@@ -31,6 +31,10 @@ public class EPrescription {
 	this.date = date;
 	this.medicine = new HashSet<Medicine>();
 }
+   public EPrescription() 
+   {
+	   
+   }
 	
 	public Long getPrescriptionId() {
 		return prescriptionId;

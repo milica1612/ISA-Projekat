@@ -33,6 +33,11 @@ public class RatePharmacy {
 		this.pharmacy = pharmacy;
 		this.patient = patient;
     }
+	
+	public RatePharmacy()
+	{
+		
+	}
 
 	public Long getRatePhId() {
 		return ratePhId;

@@ -20,6 +20,11 @@ public class Dermatologist extends PharmacyEmployee {
 		super(rating);
 		this.pharmacy = new HashSet<Pharmacy>();
 	}
+	
+	public Dermatologist()
+	{
+		
+	}
 
 	public Collection<Pharmacy> getPharmacy() {
 	      if (pharmacy == null)

@@ -40,6 +40,11 @@ public class Reservation {
 		this.patient = patient;
 		this.medicineItem = item;
 	}
+    
+    public Reservation() 
+    {
+
+	}
 
 	@Override
 	public String toString() {
