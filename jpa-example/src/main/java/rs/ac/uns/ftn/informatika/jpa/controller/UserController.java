@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
@@ -62,7 +63,6 @@ public class UserController {
 	
 	@PostMapping(value = "/createSupplier")
 	public ResponseEntity<Patient> create(@RequestBody Supplier supplier){
-
 		
 		if(supplier == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -79,6 +79,29 @@ public class UserController {
 		_supplier.setPassword(supplier.getPassword());
 		
 		_supplier = (Supplier) _userService.save(_supplier);	
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		
+	}
+	
+	@PostMapping(value = "/createPharmacyAdmin")
+	public ResponseEntity<Patient> create(@RequestBody PharmacyAdministrator pharmacyAdministrator){
+
+		if(pharmacyAdministrator == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		PharmacyAdministrator _pharmacyAdministrator = new PharmacyAdministrator();
+		
+		_pharmacyAdministrator.setFirstName(pharmacyAdministrator.getFirstName());
+		_pharmacyAdministrator.setLastName(pharmacyAdministrator.getLastName());
+		_pharmacyAdministrator.setPhoneNumber(pharmacyAdministrator.getPhoneNumber());
+		_pharmacyAdministrator.setAddress(pharmacyAdministrator.getAddress());
+		_pharmacyAdministrator.setUserType(UserType.PH_ADMINISTRATOR);
+		_pharmacyAdministrator.setEmail(pharmacyAdministrator.getEmail());
+		_pharmacyAdministrator.setPassword(pharmacyAdministrator.getPassword());
+		_pharmacyAdministrator.setPharmacy(pharmacyAdministrator.getPharmacy());
+		
+		_pharmacyAdministrator = (PharmacyAdministrator) _userService.save(_pharmacyAdministrator);	
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		
 	}
