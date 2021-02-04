@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+
 import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.AddressService;
@@ -58,4 +60,26 @@ public class UserController {
 		
 	}
 	
+	@PostMapping(value = "/createSupplier")
+	public ResponseEntity<Patient> create(@RequestBody Supplier supplier){
+
+		
+		if(supplier == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		Supplier _supplier = new Supplier();
+		
+		_supplier.setFirstName(supplier.getFirstName());
+		_supplier.setLastName(supplier.getLastName());
+		_supplier.setPhoneNumber(supplier.getPhoneNumber());
+		_supplier.setAddress(supplier.getAddress());
+		_supplier.setUserType(UserType.SUPPLIER);
+		_supplier.setEmail(supplier.getEmail());
+		_supplier.setPassword(supplier.getPassword());
+		
+		_supplier = (Supplier) _userService.save(_supplier);	
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		
+	}
 }
