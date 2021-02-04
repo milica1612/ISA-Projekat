@@ -61,7 +61,18 @@ public class User {
 		this.userType = userType;
 		this.address = address;
     }
-
+    public User(String firstName, String lastName, String userName, String password, String email,
+    		String phoneNumber, UserType userType, Address address) {
+    		super();
+    		this.firstName = firstName;
+    		this.lastName = lastName;
+    		this.userName = userName;
+    		this.password = password;
+    		this.email = email;
+    		this.phoneNumber = phoneNumber;
+    		this.userType = userType;
+    		this.address = address;
+        }
 	public String getFirstName() {
 		return firstName;
 	}
@@ -132,5 +143,5 @@ public class User {
 	
 	public void setAddress(Address address) {
 		this.address = address;
-	}   
+	} 
 }

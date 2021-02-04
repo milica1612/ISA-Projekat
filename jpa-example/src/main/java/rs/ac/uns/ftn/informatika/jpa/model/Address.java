@@ -49,6 +49,17 @@ public class Address {
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
+	public Address(String street, String streetNumber, String city, String country, Double longitude,
+			Double latitude) {
+		super();
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
+	
 	public String getStreet() {
 		return street;
 	}

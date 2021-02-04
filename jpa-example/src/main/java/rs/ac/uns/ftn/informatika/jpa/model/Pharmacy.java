@@ -20,10 +20,10 @@ public class Pharmacy {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pharmacyId;
    
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
 	protected String name;
 	
-	@Column(name = "rating", nullable = false)
+	@Column(name = "rating")
     protected Double rating;
 	
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

@@ -15,9 +15,9 @@ import javax.persistence.OneToOne;
 @Entity
 public class Patient extends User {
 
-	@Column(name = "penalty", nullable = false)
+	@Column(name = "penalty")
 	private int penalty;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Allergy allergy;
 	   
 	public Patient()

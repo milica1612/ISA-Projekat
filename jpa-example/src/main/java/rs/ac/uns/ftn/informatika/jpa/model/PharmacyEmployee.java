@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class PharmacyEmployee extends User {
 	
 	
-	@Column(name = "rating", nullable = false)
+	@Column(name = "rating")
 	protected Double rating;
 	
 	public PharmacyEmployee(Double rating) {
