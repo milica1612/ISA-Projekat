@@ -16,7 +16,6 @@ import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 @RestController
 @RequestMapping(value = "address")
 public class AddressController {
-
 	
 
 	@Autowired

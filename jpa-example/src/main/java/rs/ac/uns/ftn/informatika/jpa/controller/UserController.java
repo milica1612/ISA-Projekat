@@ -19,7 +19,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "/users")
 public class UserController {
 	
 	@Autowired
@@ -78,6 +78,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createPharmacyAdmin")
+	
 	public ResponseEntity<Patient> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
 
 		if(pharmacyAdministrator == null) {
