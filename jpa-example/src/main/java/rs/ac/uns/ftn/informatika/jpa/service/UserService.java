@@ -22,12 +22,6 @@ public class UserService implements IUserService {
 		return userRepository.findById(id).orElse(null);
 	}
 	
-	
-	@Override
-	public User registerNewUser(User user) {
-		return null;
-	}
-
 
 	@Override
 	public User save(User user) {

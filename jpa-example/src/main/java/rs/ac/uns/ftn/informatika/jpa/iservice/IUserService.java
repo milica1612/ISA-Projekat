@@ -11,7 +11,5 @@ public interface IUserService {
 
 	User findById(Long id);
 
-	User registerNewUser(User user);
-
 	User save(User user);
 }
