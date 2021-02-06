@@ -15,6 +15,7 @@ public class MedicineService implements IMedicineService{
 
 	@Autowired IMedicineRepository _medicineRepository;
 
+	@Override
 	public ArrayList<Medicine> findAllMedicine() {
 		
 		return (ArrayList<Medicine>) _medicineRepository.findAll();

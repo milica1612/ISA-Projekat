@@ -66,11 +66,11 @@ template:
 		</tr>
 		<tr>
 		<th>Loyalty Points</th>
-		<td></td>
+		<td>{{this.loyalty_card.points}}</td>
 		</tr>
 		<tr>
 		<th>Loyalty Category</th>
-		<td></td>
+		<td>{{this.loyalty_card.loyaltyCategory}}</td>
 		</tr>
 		</table>
 	</div>
@@ -79,6 +79,9 @@ template:
 		axios
 		.get('users/1')
 		.then(response => (this.patient = response.data));
+		axios
+		.get('loyaltyCard/user/1')
+		.then(response => (this.loyalty_card = response.data));
 	},
 	methods: {
 	
