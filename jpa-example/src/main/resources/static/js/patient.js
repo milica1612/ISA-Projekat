@@ -3,9 +3,8 @@ Vue.component("patient",{
 		return{
 			mode: 'BROWSE',
 			patient: null,
-			backup: [],
 			loyalty_card: null,
-			allergies: []
+			medicine: []
 	}
 },
 template:
@@ -73,6 +72,17 @@ template:
 		<td>{{this.loyalty_card.loyaltyCategory}}</td>
 		</tr>
 		</table>
+		
+		<table>
+		<tr>
+		<th>Allergies to medicine</th>
+		</tr>
+		<tr v-for="m in patient.allergy.medicine">
+		<td>{{m.name}}</td>
+		</tr>
+		</table>
+		
+		
 	</div>
 	`,
 	mounted(){
