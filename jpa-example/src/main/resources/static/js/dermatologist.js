@@ -37,6 +37,8 @@ Vue.component("employee",{
 		},
 		saveEmployee : function () {
 			this.mode = "BROWSE";
+			axios
+			.post("/application/users/update", this.employee);
 		}
 	}
 });
