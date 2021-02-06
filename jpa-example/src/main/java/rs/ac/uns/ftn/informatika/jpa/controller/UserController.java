@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import rs.ac.uns.ftn.informatika.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
@@ -36,6 +40,11 @@ public class UserController {
 		return (User) _userService.findById(id);
 	}
 	
+	 @GetMapping(path = "")
+	 public List<UserDTO> getAllUsers() {
+		 return _userService.getAllUsers();
+	 }
+
 	
 	@PostMapping(value = "/createPatient")
 	public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
