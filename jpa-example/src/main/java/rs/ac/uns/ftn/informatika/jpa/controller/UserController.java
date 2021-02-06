@@ -84,6 +84,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createPharmacyAdmin")
+	
 	public ResponseEntity<Patient> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
 
 		if(pharmacyAdministrator == null) {
