@@ -25,8 +25,13 @@ public class UserService implements IUserService {
 
 	public void update(@Valid User user) {
 		User existing = userRepository.findById(user.getUserId()).orElse(null);
+		
 		existing.setFirstName(user.getFirstName());
 		existing.setLastName(user.getLastName());
+		existing.setAddress(user.getAddress());
+		existing.setPassword(user.getPassword());
+		existing.setPhoneNumber(user.getPhoneNumber());
+
 		userRepository.save(existing);
 		
 	}

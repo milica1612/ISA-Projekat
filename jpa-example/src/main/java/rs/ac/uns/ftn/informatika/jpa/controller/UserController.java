@@ -19,7 +19,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "/users")
 public class UserController {
 	
 	@Autowired
