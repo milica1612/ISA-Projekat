@@ -58,7 +58,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createSupplier")
-	public ResponseEntity<Patient> createSupplier(@RequestBody Supplier supplier){
+	public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
 		
 		if(supplier == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -81,7 +81,7 @@ public class UserController {
 	
 	@PostMapping(value = "/createPharmacyAdmin")
 	
-	public ResponseEntity<Patient> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
+	public ResponseEntity<PharmacyAdministrator> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
 
 		if(pharmacyAdministrator == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -104,7 +104,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createDermatologist")
-	public ResponseEntity<Patient> createDermatologist(@RequestBody Dermatologist dermatologist){
+	public ResponseEntity<Dermatologist> createDermatologist(@RequestBody Dermatologist dermatologist){
 
 		if(dermatologist == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
