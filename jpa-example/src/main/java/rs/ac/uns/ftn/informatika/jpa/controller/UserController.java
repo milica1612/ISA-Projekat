@@ -40,7 +40,7 @@ public class UserController {
 		return (User) _userService.findById(id);
 	}
 	
-	 @GetMapping(path = "")
+	 @GetMapping(path = "/allpatients")
 	 public List<UserDTO> getAllUsers() {
 		 return _userService.getAllUsers();
 	 }
