@@ -9,8 +9,8 @@ Vue.component("supplier", {
 	template: `
 	<div>
 		<table style = "margin: 0 auto;">
-		<tr><td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">See All Offers</button></td>
-		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:250%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Create Offer</button></td></tr>
+		<tr><td><a href = "#/seeOffers" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" >See All Offers</a></td>
+		<td><a href style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:250%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Create Offer</button></td></tr>
 		</table>
 		
 		<table style = "margin: 0 auto;">
