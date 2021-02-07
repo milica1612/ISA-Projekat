@@ -45,7 +45,8 @@ public class UserService implements IUserService {
 		userRepository.save(existing);
 		
 	}
-
+	
+	@Override
 	public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         List<User> usersList = new ArrayList<>();
@@ -58,4 +59,13 @@ public class UserService implements IUserService {
         return dtos;
 	}
 	
+	@Override
+	public ArrayList<UserDTO> userSearch(UserDTO userDTO) {
+        ArrayList<UserDTO> users = new ArrayList<>();
+        for (UserDTO user : getAllUsers()) {
+            if (user.getFirstName().equals(userDTO.getFirstName()) && user.getLastName().equals(userDTO.getLastName()))
+            		users.add(user);
+        }
+        return users;
+    }
 }

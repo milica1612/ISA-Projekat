@@ -16,4 +16,6 @@ public interface IUserService {
 	User save(User user);
 	
 	List<UserDTO> getAllUsers();
+	
+	List<UserDTO> userSearch(UserDTO userDTO);
 }

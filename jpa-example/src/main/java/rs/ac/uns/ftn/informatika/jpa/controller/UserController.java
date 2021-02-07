@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,7 +30,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 	
 	@Autowired
@@ -40,11 +41,19 @@ public class UserController {
 		return (User) _userService.findById(id);
 	}
 	
-	 @GetMapping(path = "/allpatients")
-	 public List<UserDTO> getAllUsers() {
+	@GetMapping(path = "/allpatients")
+	public List<UserDTO> getAllUsers() {
 		 return _userService.getAllUsers();
-	 }
-
+	}
+	 
+    @PostMapping(value = "/searchUser", produces = MediaType.APPLICATION_XML_VALUE)
+    public List<UserDTO> searchUser(@RequestBody String request1, String request2) {
+    
+    	UserDTO user = new UserDTO(request1, request2);
+    	System.out.println(user);
+    	
+    	return _userService.userSearch(user);
+	}
 	
 	@PostMapping(value = "/createPatient")
 	public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
