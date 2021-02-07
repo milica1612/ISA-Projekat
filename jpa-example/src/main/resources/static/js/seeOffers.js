@@ -2,17 +2,28 @@ Vue.component("seeOffers", {
 	data: function () {
 		    return {
 		    	seeOffers: null,
-				mode: 'BROWSE'		
+		    	
+				mode: 'BROWSE'	
 		    }
 	},
 	template: `
-	<div style = "padding: 40px;">
-	<h1 style = "text-align:center;">All Offers</h1>
-		<table style = "margin: 0 auto;">
-		
-		</table>
+	<div>
+		<div style = "margin: 0 auto;">
+			<div><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%;">Filter offers:</button></div>
+			<br/>
+			<div>
+				<select style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%;">
+					<option disabled selected value> Select Offer Type</option>
+					<option value= "ACCEPTED">ACCEPTED</option>
+					<option value= "DECLINED">DECLINED</option>
+					<option value= "WAITING">WAITING</option>
+				</select>
+			</div>
+		</div>	
 	
-		<table style = "margin: 0 auto;">
+	<div style = "margin-left: 50%; margin-bottom: 100%">
+	<h1 style = "text-align:center;">All Offers</h1>
+		<table >
 		<tr>
 		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Accepted</button></td>
 		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Declined</button></td>
@@ -35,6 +46,7 @@ Vue.component("seeOffers", {
 			</tr>
 		</table>
 	</div>
+</div>
 `,
 	mounted(){
 		axios

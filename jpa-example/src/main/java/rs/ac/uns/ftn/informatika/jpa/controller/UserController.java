@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
@@ -80,7 +81,6 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createPharmacyAdmin")
-	
 	public ResponseEntity<PharmacyAdministrator> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
 
 		if(pharmacyAdministrator == null) {
@@ -134,4 +134,26 @@ public class UserController {
 		_userService.update(user);
 		
 	}
+	
+	@GetMapping(value = "/new")
+	public Supplier getNewSupplier() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		
+		return  new Supplier(firstName, lastName, username, password, email,
+				phoneNumber, UserType.SUPPLIER, new Address(street, streetNumber, city, country, longitude, latitude));
+		
+	}
+	
 }

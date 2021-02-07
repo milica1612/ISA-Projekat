@@ -17,5 +17,10 @@ public class Supplier extends User {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Supplier(String firstName, String lastName, String userName, String password, String email,
+			String phoneNumber, UserType userType, Address address) {
+		super(firstName, lastName, userName, password, email, phoneNumber, userType, address);
+		// TODO Auto-generated constructor stub
+	}
 	
 }
