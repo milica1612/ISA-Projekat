@@ -7,4 +7,5 @@ import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 public interface IMedicineService {
 
 	public ArrayList<Medicine> findAllMedicine();
+
 }

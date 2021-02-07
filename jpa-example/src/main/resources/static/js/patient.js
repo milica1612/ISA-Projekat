@@ -4,7 +4,8 @@ Vue.component("patient",{
 			mode: 'BROWSE',
 			patient: null,
 			loyalty_card: null,
-			medicine: []
+			medicine: [],
+			selected_medicine: null
 	}
 },
 template:
@@ -58,6 +59,7 @@ template:
 		</td>
 		</tr>
 		</table>
+		<br/>
 		
 		<table>
 		<tr>
@@ -72,6 +74,7 @@ template:
 		<td>{{this.loyalty_card.loyaltyCategory}}</td>
 		</tr>
 		</table>
+		<br/>
 		
 		<table>
 		<tr>
@@ -81,17 +84,33 @@ template:
 		<td>{{m.name}}</td>
 		</tr>
 		</table>
+		<br/>
+		
+		<table>
+		<tr>
+		<th>Medicine</th>
+		</tr>
+		<tr v-for="med in medicine">
+		<td>{{med.name}}</td>
+		<td><button  type="button" v-on:click = "addAllergy(med)" v-bind:disabled = "mode =='BROWSE'" >Add allergy to medicine</button>
+		</td>
+		</tr>
+		</table>
 		
 		
 	</div>
 	`,
 	mounted(){
 		axios
-		.get('users/1')
+		.get('/application/users/1')
 		.then(response => (this.patient = response.data));
 		axios
-		.get('loyaltyCard/user/1')
+		.get('/application/loyaltyCard/user/1')
 		.then(response => (this.loyalty_card = response.data));
+		axios
+		.get('/application/medicine')
+		.then(response => (this.medicine = response.data));
+		
 	},
 	methods: {
 	
@@ -104,6 +123,9 @@ template:
 		
 		axios
 				.post("/application/users/update", this.patient);
+		},
+	addAllergy :function(med){
+		alert(med.name);
 		}
 	}
 });
