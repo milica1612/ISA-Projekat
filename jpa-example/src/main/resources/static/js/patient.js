@@ -5,7 +5,6 @@ Vue.component("patient",{
 			patient: null,
 			loyalty_card: null,
 			medicine: [],
-			selected_medicine: null,
 			patient_id: null
 	}
 },
@@ -87,7 +86,7 @@ template:
 		</tr>
 		<tr v-for="med in medicine">
 		<td>{{med.name}}</td>
-		<td><button  type="button" v-on:click = "addAllergy(med)" v-bind:disabled = "mode =='BROWSE'" >Add allergy to medicine</button>
+		<td><button  type="button" v-on:click = "addAllergy(med)" v-bind:disabled = "mode !='EDIT'" >Add allergy to medicine</button>
 		</td>
 		</tr>
 		</table>
@@ -135,6 +134,8 @@ template:
 		.then(response => (this.medicine = response.data));
 		},
 	addAllergy :function(med){
+		
+		this.mode = "ADD";
 		
 		axios
 		.put("/application/allergy/" + this.patient_id + "/add", med)
