@@ -137,6 +137,5 @@ public class UserController {
 		
 		_userService.update(user);
 		
-		//return new ModelAndView("redirect:/greetings", "greetings", greetingService.findAll());
 	}
 }
