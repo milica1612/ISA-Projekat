@@ -26,15 +26,15 @@ public class OfferController {
 	private UserService _userService;
 	
 
-	@GetMapping(path = "/seeOffers")
-	public List<Offer> findOffers() {
-		return  _offerService.findAll();
+	@GetMapping(path = "/seeOffers/{id}")
+	public List<Offer> findOffers(@PathVariable Long id) {
+		return  _offerService.findOffersBySupplier(id);
 	}
 
 	@GetMapping(path = "/filtrate/{status}/{id}")
 	public List<Offer> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
 		
-		List<Offer> offers = findOffers();
+		List<Offer> offers = findOffers(id);
 		User user = _userService.findById(id);
 		
 		List<Offer> filtrateOffers = new ArrayList<>();
@@ -43,7 +43,6 @@ public class OfferController {
 			for(Offer o : offers) {
 				if(o.getStatus().equals(status)) {
 					filtrateOffers.add(o);
-					break;
 				}
 			}
 		}

@@ -2,32 +2,19 @@ Vue.component("seeOffers", {
 	data: function () {
 		    return {
 		    	seeOffers: null,
-		    	
+		    	supplier: null,
 				mode: 'BROWSE'	
 		    }
 	},
 	template: `
+	<div >
 	<div>
-		<div style = "margin: 0 auto;">
-			<div><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%;">Filter offers:</button></div>
-			<br/>
-			<div>
-				<select style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%;">
-					<option disabled selected value> Select Offer Type</option>
-					<option value= "ACCEPTED">ACCEPTED</option>
-					<option value= "DECLINED">DECLINED</option>
-					<option value= "WAITING">WAITING</option>
-				</select>
-			</div>
-		</div>	
-	
-	<div style = "margin-left: 50%; margin-bottom: 100%">
 	<h1 style = "text-align:center;">All Offers</h1>
-		<table >
+		<table  style = "margin: 0 auto;">
 		<tr>
-		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Accepted</button></td>
-		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Declined</button></td>
-		<td><button style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:200%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Waiting</button></td>
+		<td><button v-on:click = "filtrateOffersA" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Accepted</button></td>
+		<td><button v-on:click = "filtrateOffersD" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Declined</button></td>
+		<td><button v-on:click = "filtrateOffersW" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:200%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Waiting</button></td>
 		</tr>
 		<tr style = "border: 1px solid black;">
 		<td style = "border: 1px solid black;">Delivery Deadline</td>
@@ -50,14 +37,24 @@ Vue.component("seeOffers", {
 `,
 	mounted(){
 		axios
-		.get('offers/seeOffers')
+		.get('offers/seeOffers/1')
 		.then(response => (this.seeOffers = response.data));
 	},
-	method: {
-		seeAllOffers: function(){
+	methods: {
+		filtrateOffersA: function(event){
 			axios
-			.get('offers/seeOffers')
+			.get("offers/filtrate/ACCEPTED/1")
 			.then(response => (this.seeOffers = response.data));
-	}
+		},
+		filtrateOffersD: function(event){
+			axios
+			.get("offers/filtrate/DECLINED/1")
+			.then(response => (this.seeOffers = response.data));
+		},
+		filtrateOffersW: function(event){
+			axios
+			.get("offers/filtrate/WAITING/1")
+			.then(response => (this.seeOffers = response.data));
+		}
 	}
 });
