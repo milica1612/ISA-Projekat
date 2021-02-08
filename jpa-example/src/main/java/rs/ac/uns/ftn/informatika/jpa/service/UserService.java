@@ -61,4 +61,24 @@ public class UserService implements IUserService {
 		}
 		return user;
 	}
+
+
+	@Override
+	public User findByEmailAndPassword(String email, String password) {
+
+		List<User> users = userRepository.findAll();
+		User user = new User();
+		
+		if(users == null) {
+			return null;
+		}
+
+		for (User u : users) {
+			if(u.getEmail().equals(email) && u.getPassword().equals(password)) {
+				user = u;
+				break;
+			}
+		}
+		return user;
+	}
 }

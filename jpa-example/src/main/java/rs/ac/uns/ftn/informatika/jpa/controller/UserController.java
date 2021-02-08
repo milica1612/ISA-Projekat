@@ -1,8 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 
-import java.util.List;
-import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
@@ -42,22 +42,31 @@ public class UserController {
 		return _userService.findByEmail(email);
 	}	
 	
-	@PostMapping(value = "/login")
-	public ResponseEntity<User> logInUser(@RequestBody String username, String password){
+	@GetMapping(value = "/email/{email}/{password}")
+	public User findUser(@PathVariable String email, @PathVariable String password) {
+		return _userService.findByEmailAndPassword(email, password);
+	}	
+	
+	@GetMapping(value = "/login")
+	public User logInUser(@RequestBody LogInDTO logInDTO, HttpSession session){
 		
-		User user = _userService.findByEmail(username);
+		User user = _userService.findByEmailAndPassword(logInDTO.getEmail(), logInDTO.getPassword());
 		
-		System.out.println(username);
+		System.out.println(logInDTO.getEmail());
+		System.out.println(logInDTO.getPassword());
+		
 		
 		if(user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
-		if(user.getEmail() != username || user.getPassword() != password) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
 		System.out.println(user.getEmail());
-		return new ResponseEntity<>(HttpStatus.OK);
+
+		System.out.println(user.getPassword());
+		
+		System.out.println(user.getEmail());
+		session.setAttribute("email", user.getEmail());
+		return user;
 		
 	}
 	

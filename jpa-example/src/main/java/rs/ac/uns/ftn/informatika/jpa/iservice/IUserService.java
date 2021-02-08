@@ -18,4 +18,7 @@ public interface IUserService {
 	User save(User user);
 	
 	User findByEmail(String email);
+	
+	User findByEmailAndPassword(String email, String password);
+	
 	}
