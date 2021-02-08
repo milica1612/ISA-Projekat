@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
@@ -30,7 +37,6 @@ public class PharmacyController {
 
 	@PostMapping(value = "/createPharmacy")
 	public ResponseEntity<Pharmacy> createPharmacy(@RequestBody Pharmacy pharmacy){
-
 		
 		if(pharmacy == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,11 +49,18 @@ public class PharmacyController {
 		_pharmacy.setDermatologist(pharmacy.getDermatologist());
 		_pharmacy.setMedicineItem(pharmacy.getMedicineItem());
 		_pharmacy.setPharmacist(pharmacy.getPharmacist());
-		
+	
 		_pharmacy = (Pharmacy) _pharmacyService.save(_pharmacy);	
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		
 	}
 
-	
+
+	@GetMapping(value = "/newPharmacy")
+	public Pharmacy getNewPharmacy() {
+						
+		String name = "";
+		Double rating = 0.0;
+		return new Pharmacy(name, rating);
+	}
 }

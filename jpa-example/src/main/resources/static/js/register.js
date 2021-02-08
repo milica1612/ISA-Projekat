@@ -43,7 +43,7 @@ Vue.component("register", {
 		    <th><input type="password" placeholder="Repeat Password"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		   <tr>
-		    <button type="button" v-on:click = "saveSupplier" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 675%;opacity: 0.9;">Register</button>
+		    <button type="submit" v-on:click = "saveSupplier" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 675%;opacity: 0.9;">Register</button>
 		  </tr>
 		    </table>
 	</div>

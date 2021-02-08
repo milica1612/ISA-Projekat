@@ -1,6 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -32,6 +35,30 @@ public class UserController {
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
 		return (User) _userService.findById(id);
+	}
+	
+	@GetMapping(value = "/email/{email}")
+	public User findUserByEmail(@PathVariable String email) {
+		return _userService.findByEmail(email);
+	}	
+	
+	@PostMapping(value = "/login")
+	public ResponseEntity<User> logInUser(@RequestBody String username, String password){
+		
+		User user = _userService.findByEmail(username);
+		
+		System.out.println(username);
+		
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		if(user.getEmail() != username || user.getPassword() != password) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		System.out.println(user.getEmail());
+		return new ResponseEntity<>(HttpStatus.OK);
+		
 	}
 	
 	

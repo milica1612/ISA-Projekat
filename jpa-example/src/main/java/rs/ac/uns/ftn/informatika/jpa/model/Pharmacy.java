@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 
 
 @Entity
@@ -42,6 +42,16 @@ public class Pharmacy {
 		this.medicineItem = new HashSet<MedicineItem>();
 		this.dermatologist = new HashSet<Dermatologist>();
 	}
+    
+    public Pharmacy(String name, Double rating) {
+		super();
+		this.name = name;
+		this.rating = rating;
+		this.pharmacist = new HashSet<Pharmacist>();
+		this.medicineItem = new HashSet<MedicineItem>();
+		this.dermatologist = new HashSet<Dermatologist>();
+	}
+    
     
     public Pharmacy()
     {
@@ -86,6 +96,4 @@ public class Pharmacy {
 		this.medicineItem = medicineItem;
 	}
 	
-	
-
 }

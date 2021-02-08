@@ -1,8 +1,12 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -24,7 +28,8 @@ public class UserService implements IUserService {
 	public User save(User user) {
 		return userRepository.save(user);
 	}
-
+	
+	@Override
 	public void update(@Valid User user) {
 		User existing = userRepository.findById(user.getUserId()).orElse(null);
 		
@@ -38,5 +43,22 @@ public class UserService implements IUserService {
 		
 	}
 
-	
+
+	@Override
+	public User findByEmail(String email) {
+		List<User> users = userRepository.findAll();
+		User user = new User();
+		
+		if(users == null) {
+			return null;
+		}
+
+		for (User u : users) {
+			if(u.getEmail().equals(email)) {
+				user = u;
+				break;
+			}
+		}
+		return user;
+	}
 }
