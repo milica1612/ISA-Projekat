@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -119,7 +120,7 @@ public class UserController {
 		_dermatologist.setUserType(UserType.DERMATOLOGIST);
 		_dermatologist.setEmail(dermatologist.getEmail());
 		_dermatologist.setPassword(dermatologist.getPassword());
-		_dermatologist.setPharmacy(dermatologist.getPharmacy());
+		_dermatologist.setRating(dermatologist.getRating());
 		
 		_dermatologist = (Dermatologist) _userService.save(_dermatologist);	
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -154,6 +155,48 @@ public class UserController {
 		return  new Supplier(firstName, lastName, username, password, email,
 				phoneNumber, UserType.SUPPLIER, new Address(street, streetNumber, city, country, longitude, latitude));
 		
+	}
+	
+	@GetMapping(value = "/newDermatologist")
+	public Dermatologist getNewDermatologist() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		Double rating = 0.0;
+		
+		return new Dermatologist(firstName, lastName, username, password, email,
+				phoneNumber, UserType.DERMATOLOGIST, new Address(street, streetNumber, city, country, latitude, longitude), rating);
+	}
+
+	
+	@GetMapping(value = "/newPhAdmin")
+	public PharmacyAdministrator getNewPharmacyAdmin() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		
+		return  new PharmacyAdministrator(firstName, lastName, username, password, email,
+				phoneNumber, UserType.PH_ADMINISTRATOR, new Address(street, streetNumber, city, country, longitude, latitude), new Pharmacy());
 	}
 	
 }

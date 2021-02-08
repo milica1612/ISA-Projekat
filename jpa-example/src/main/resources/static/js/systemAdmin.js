@@ -13,9 +13,9 @@ Vue.component("sysAdmin", {
 			<tr>
 			<th><button type="button" style="background-color:SlateBlue; border:none; padding: 15px 32px; font-size: 16px; display: inline-block;">Register Pharmacy</button></th>
 			
-			<th><a href = "#/register" style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Pharmacy Administrator</a></th>
+			<th><a href = "#/registerPhAdmin" style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Pharmacy Administrator</a></th>
 		    
-		    <td><a href = "#/register"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Dermatologist</a></td>
+		    <td><a href = "#/registerDerm"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Dermatologist</a></td>
 		    
 		    <th><a href = "#/register"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Supplier</a></th>
 		    

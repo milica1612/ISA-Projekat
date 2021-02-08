@@ -8,7 +8,7 @@ Vue.component("register", {
 	template: `
 	<div>
 		  <div>
-		    <h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">Create Account</h1>
+		    <h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">CREATE {{supplier.userType}} ACCOUNT</h1>
 		    <br>
 		<table style = "margin:0 auto;">
 		    <tr>
@@ -25,10 +25,10 @@ Vue.component("register", {
 		    </tr>
 		    <tr>
 		    <th><label><b>Address</b></label></th>
-		    <td><input type="text" v-model = "supplier.address.street" placeholder="Enter Street" style = "width: 100%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "supplier.address.streetNumber" placeholder="Enter Street Number" style = "width: 100%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "supplier.address.city" placeholder="Enter City" style = "width: 100%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "supplier.address.country" placeholder="Enter Country" style = "width: 103%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.street" placeholder="Enter Street" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.streetNumber" placeholder="Enter Street Number" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.city" placeholder="Enter City" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.country" placeholder="Enter Country" style = "width: 48%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
 		    </tr>
 		    <tr>
 		    <th><label><b>Phone Number</b></label></th>
@@ -43,7 +43,7 @@ Vue.component("register", {
 		    <th><input type="password" placeholder="Repeat Password"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		   <tr>
-		    <button type="button" v-on:click = "saveSupplier" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 672%;opacity: 0.9;">Register</button>
+		    <button type="button" v-on:click = "saveSupplier" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 675%;opacity: 0.9;">Register</button>
 		  </tr>
 		    </table>
 	</div>
