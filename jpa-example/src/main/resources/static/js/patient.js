@@ -140,9 +140,6 @@ template:
 		.put("/application/allergy/" + this.patient_id + "/add", med)
 		.then(response => (this.patient.allergy.medicine = response.data));
 		
-		axios
-		.put('/application/medicine/forAllergies', this.patient.allergy)
-		.then(response => (this.medicine = response.data));
 		}
 	}
 });
