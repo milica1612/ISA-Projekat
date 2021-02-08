@@ -19,8 +19,8 @@ public class AllergyService implements IAllergyService{
 
 	@Override
 	public Set<Medicine> addMedicineToAllergy(Medicine medicine, Long id) {
-		Long p = (long) 1;
-		Allergy allergy = _allergyRepository.findById(p).orElse(null);
+		Allergy allergy = _allergyRepository.findById(id).orElse(null);
+		Set medicineInAllergy = allergy.getMedicine();
 		allergy.addMedicine(medicine);
         _allergyRepository.save(allergy);
 		return allergy.getMedicine();

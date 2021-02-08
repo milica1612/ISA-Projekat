@@ -108,7 +108,7 @@ template:
 		.get('/application/loyaltyCard/user/1')
 		.then(response => (this.loyalty_card = response.data));
 		axios
-		.get('/application/medicine')
+		.put('/application/medicine/forAllergies', this.patient.allergy)
 		.then(response => (this.medicine = response.data));
 		
 	},

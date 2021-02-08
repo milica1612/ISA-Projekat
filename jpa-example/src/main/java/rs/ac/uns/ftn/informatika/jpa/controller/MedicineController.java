@@ -5,9 +5,12 @@ import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 
@@ -22,4 +25,9 @@ public class MedicineController {
 	public ArrayList<Medicine> findAllMedicine(){
 		return _medicineService.findAllMedicine();
 	}
+	@PutMapping(value = "/forAllergies")
+	public ArrayList<Medicine> findAllMedicineForAllergies(@RequestBody Allergy allergy){
+		return _medicineService.findAllMedicineForAllergies(allergy);
+	}
+	
 }
