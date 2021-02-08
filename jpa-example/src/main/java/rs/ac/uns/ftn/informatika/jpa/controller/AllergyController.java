@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,8 @@ public class AllergyController {
 	@Autowired
 	private AllergyService _allergyService ;
 	
-	@PutMapping("/add/{id}")
-	public Set<Medicine> addMedicineToAllergy(@PathParam (value = "id") Long id,@RequestBody Medicine medicine) {
+	@PutMapping("/{id}/add")
+	public Set<Medicine> addMedicineToAllergy(@PathVariable Long id,@RequestBody Medicine medicine) {
 		return _allergyService.addMedicineToAllergy(medicine, id);
 		
 	}
