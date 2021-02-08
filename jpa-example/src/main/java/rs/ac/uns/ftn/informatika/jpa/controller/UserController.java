@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -25,7 +28,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 	
 	@Autowired
@@ -34,6 +37,12 @@ public class UserController {
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
 		return (User) _userService.findById(id);
+	}
+	
+	@GetMapping(value = "/pharmacists")
+	public List<User> getAllPharmacists()
+	{
+		return _userService.getAllPharmacists();
 	}
 	
 	
