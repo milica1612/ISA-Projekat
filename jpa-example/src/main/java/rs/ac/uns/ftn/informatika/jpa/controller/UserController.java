@@ -46,12 +46,16 @@ public class UserController {
 		 return _userService.getAllUsers();
 	}
 	 
-    @PostMapping(value = "/searchUser", produces = MediaType.APPLICATION_XML_VALUE)
-    public List<UserDTO> searchUser(@RequestBody String request1, String request2) {
-    
-    	UserDTO user = new UserDTO(request1, request2);
-    	System.out.println(user);
+    @PostMapping(value = "/searchUser")
+    public List<UserDTO> searchUser(@RequestBody String request) {
     	
+    	String[] values = request.split("\\+");
+    	String[] valueNew = values[1].split("\\=");
+    	/*if (values.length != 2) {
+    		return null;
+    	}
+    	*/
+    	UserDTO user = new UserDTO(values[0], valueNew[0]);
     	return _userService.userSearch(user);
 	}
 	

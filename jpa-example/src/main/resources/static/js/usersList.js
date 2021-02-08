@@ -4,8 +4,8 @@ Vue.component("allpatients",{
 				allpatients: null,
 				mode: 'BROWSE',
 				backup: [],
-				datas1 : '',
-				datas2: '',
+				datas : null,
+				user : {},
 				selectedUser: {},
 			}				
 }, 
@@ -13,8 +13,7 @@ Vue.component("allpatients",{
 		<div>
 			<table>		
 				<tr>
-					<td><input type="text" v-model = "datas1" placeholder="Enter firstName"></td>
-					<td><input type="text" v-model = "datas2" placeholder="Enter lastName"></td>	
+					<td><input type="text" v-model = "datas" placeholder="Enter name"></td>
 					<td><button v-on:click = "searchPatient" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Search</button></td>				
 				</tr>
 			</table>		
@@ -38,8 +37,9 @@ Vue.component("allpatients",{
 	methods: {
 		searchPatient : function () {
 			axios
-			.post("users/searchUser", this.datas1, this.datas2)
+			.post("users/searchUser", this.datas)
 			.then(response => (this.allpatients = response.data));
+			
 		},
 		selectUser : function(user){
 			this.selectedUser = user;
