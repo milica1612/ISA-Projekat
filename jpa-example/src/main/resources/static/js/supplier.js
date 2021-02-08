@@ -10,8 +10,8 @@ Vue.component("supplier", {
 	<div>
 	<div style = "margin-top: 10px;">
 		<table>
-		<tr><td><a href = "#/seeOffers" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:150%; opacity: 0.9;" >See All Offers</a></td>
-		<td><a href style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:300%; opacity: 0.9;" v-bind:disabled = "mode != 'BROWSE'">Create Offer</a></td>
+		<tr><td><a href = "#/seeOffers" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:150%; opacity: 0.9;" >Show All Offers</a></td>
+		<td><a href = "#/showOrders" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:300%; opacity: 0.9;" >Show New Orders</a></td>
 		</tr>
 		</table>
 		
