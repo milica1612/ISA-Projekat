@@ -13,9 +13,9 @@ public interface IUserService {
 
 	User findById(Long id);
 
+	void update(User user);
+
 	User save(User user);
 	
 	User findByEmail(String email);
-	
-	void update(@Valid User user);
-}
+	}

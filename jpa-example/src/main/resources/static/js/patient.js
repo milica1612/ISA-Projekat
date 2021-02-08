@@ -3,9 +3,9 @@ Vue.component("patient",{
 		return{
 			mode: 'BROWSE',
 			patient: null,
-			backup: [],
 			loyalty_card: null,
-			allergies: []
+			medicine: [],
+			selected_medicine: null
 	}
 },
 template:
@@ -59,6 +59,7 @@ template:
 		</td>
 		</tr>
 		</table>
+		<br/>
 		
 		<table>
 		<tr>
@@ -66,19 +67,50 @@ template:
 		</tr>
 		<tr>
 		<th>Loyalty Points</th>
-		<td></td>
+		<td>{{this.loyalty_card.points}}</td>
 		</tr>
 		<tr>
 		<th>Loyalty Category</th>
-		<td></td>
+		<td>{{this.loyalty_card.loyaltyCategory}}</td>
 		</tr>
 		</table>
+		<br/>
+		
+		<table>
+		<tr>
+		<th>Allergies to medicine</th>
+		</tr>
+		<tr v-for="m in patient.allergy.medicine">
+		<td>{{m.name}}</td>
+		</tr>
+		</table>
+		<br/>
+		
+		<table>
+		<tr>
+		<th>Medicine</th>
+		</tr>
+		<tr v-for="med in medicine">
+		<td>{{med.name}}</td>
+		<td><button  type="button" v-on:click = "addAllergy(med)" v-bind:disabled = "mode =='BROWSE'" >Add allergy to medicine</button>
+		</td>
+		</tr>
+		</table>
+		
+		
 	</div>
 	`,
 	mounted(){
 		axios
-		.get('users/1')
+		.get('/application/users/1')
 		.then(response => (this.patient = response.data));
+		axios
+		.get('/application/loyaltyCard/user/1')
+		.then(response => (this.loyalty_card = response.data));
+		axios
+		.get('/application/medicine')
+		.then(response => (this.medicine = response.data));
+		
 	},
 	methods: {
 	
@@ -91,6 +123,9 @@ template:
 		
 		axios
 				.post("/application/users/update", this.patient);
+		},
+	addAllergy :function(med){
+		alert(med.name);
 		}
 	}
 });
