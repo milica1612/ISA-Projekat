@@ -5,7 +5,8 @@ Vue.component("patient",{
 			patient: null,
 			loyalty_card: null,
 			medicine: [],
-			selected_medicine: null
+			selected_medicine: null,
+			patient_id: null
 	}
 },
 template:
@@ -52,12 +53,6 @@ template:
 		<th>Password</th>
 		<td><input type = "text" v-model = "patient.password" v-bind:disabled = "mode =='BROWSE'"/></td>
 		</tr>
-		<tr>
-		<td><button type="button" v-on:click = "editInformation" type="button" v-bind:disabled ="mode !='BROWSE'">Edit</button>
-		</td>
-		<td><button  type="button" v-on:click = "saveInformation" v-bind:disabled = "mode =='BROWSE'" >Save</button>
-		</td>
-		</tr>
 		</table>
 		<br/>
 		
@@ -97,6 +92,15 @@ template:
 		</tr>
 		</table>
 		
+		<table>
+		<tr>
+		<td><button type="button" v-on:click = "editInformation" type="button" v-bind:disabled ="mode !='BROWSE'">Edit</button>
+		</td>
+		<td><button  type="button" v-on:click = "saveInformation" v-bind:disabled = "mode =='BROWSE'" >Save</button>
+		</td>
+		</tr>
+		<table>
+		
 		
 	</div>
 	`,
@@ -107,15 +111,17 @@ template:
 		axios
 		.get('/application/loyaltyCard/user/1')
 		.then(response => (this.loyalty_card = response.data));
-		axios
-		.put('/application/medicine/forAllergies', this.patient.allergy)
-		.then(response => (this.medicine = response.data));
 		
 	},
 	methods: {
 	
 	editInformation : function(event){
 		this.mode = "EDIT";
+		this.patient_id = this.patient.userId;
+		
+		axios
+		.put('/application/medicine/forAllergies', this.patient.allergy)
+		.then(response => (this.medicine = response.data));
 		},
 		
 	saveInformation : function(event){
@@ -123,9 +129,20 @@ template:
 		
 		axios
 				.post("/application/users/update", this.patient);
+		
+		axios
+		.put('/application/medicine/forAllergies', this.patient.allergy)
+		.then(response => (this.medicine = response.data));
 		},
 	addAllergy :function(med){
-		alert(med.name);
+		
+		axios
+		.put("/application/allergy/" + this.patient_id + "/add", med)
+		.then(response => (this.patient.allergy.medicine = response.data));
+		
+		axios
+		.put('/application/medicine/forAllergies', this.patient.allergy)
+		.then(response => (this.medicine = response.data));
 		}
 	}
 });
