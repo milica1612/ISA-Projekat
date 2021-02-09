@@ -1,60 +1,63 @@
 Vue.component("register", {
 	data: function () {
 		    return {
-		    	register: null
+		    	supplier: null,
+				mode: 'BROWSE'
 		    }
 	},
 	template: `
-		  <div class="container" style = "margin:0 auto;">
-		    <h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">Create Account</h1>
-		    
+	<div>
+		  <div>
+		    <h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">CREATE {{supplier.userType}} ACCOUNT</h1>
 		    <br>
 		<table style = "margin:0 auto;">
 		    <tr>
-		    <th> <label for="email" style = "text-align:left;">Email</label></th>
-		    <th> <input type="text" placeholder="Enter Email" name="email" id="email" style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required></th>
+		    <th> <label style = "text-align:left;">Email</label></th>
+		    <th> <input type="text" v-model = "supplier.email" placeholder="Enter Email"  style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		    <tr>
-		    <th><label for="firstName"><b>First Name</b></label></th>
-		    <th> <input type="text" placeholder="Enter First Name" name="firstName" id="firstName" style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required/></th>
+		    <th><label><b>First Name</b></label></th>
+		    <th> <input type="text" v-model = "supplier.firstName" placeholder="Enter First Name"  style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		    <tr>
-		    <th><label for="lastName">LastName</label></th>
-		    <th><input type="text" placeholder="Enter Last Name" name="lastName" id="lastName" style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
+		    <th><label>Last Name</label></th>
+		    <th><input type="text" v-model = "supplier.lastName" placeholder="Enter Last Name"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		    <tr>
-		    <th><label for="address"><b>Address</b></label></th>
-		    <th><input type="text" placeholder="Enter Address" name="address" id="address" style = "width: 100%; padding: 10px;  border: none; background: #f1f1f1;" required></th>
-		    
-		    
-		    <th><label for="city"><b>City</b></label></th>
-		    <th><input type="text" placeholder="Enter City" name="address" id="address" style = "width: 100%; padding: 10px;  border: none; background: #f1f1f1;" required></th>
-		    
-		    
-		    <th><label for="country"><b>Country</b></label></th>
-		    <th><input type="text" placeholder="Enter Country" name="address" id="address" style = "width: 103%; padding: 10px;  border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    
-		    <tr>
-		    <th><label for="phoneNumer"><b>Phone Number</b></label></th>
-		    <th><input type="phoneNumber" placeholder="Enter Phone Number" name="phoneNumber" id="phoneNumber" style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    
-		    <tr>
-		    <th><label for="psw"><b>Password</b></label></th>
-		    <th><input type="password" placeholder="Enter Password" name="psw" id="psw" style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
+		    <th><label><b>Address</b></label></th>
+		    <td><input type="text" v-model = "supplier.address.street" placeholder="Enter Street" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.streetNumber" placeholder="Enter Street Number" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.city" placeholder="Enter City" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
+		    <td><input type="text" v-model = "supplier.address.country" placeholder="Enter Country" style = "width: 48%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
 		    </tr>
 		    <tr>
-		    <th><label for="psw-repeat"><b>Repeat Password</b></label></th>
-		    <th><input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
+		    <th><label><b>Phone Number</b></label></th>
+		    <th><input type="phoneNumber" v-model = "supplier.phoneNumber"  placeholder="Enter Phone Number"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
+		    </tr>
+		    <tr>
+		    <th><label><b>Password</b></label></th>
+		    <th><input type="password" v-model = "supplier.password" placeholder="Enter Password"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
+		    </tr>
+		    <tr>
+		    <th><label><b>Repeat Password</b></label></th>
+		    <th><input type="password" placeholder="Repeat Password"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
 		    </tr>
 		   <tr>
-		    <button type="submit" class="registerbtn" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 672%;opacity: 0.9;">Register</button>
+		    <button type="submit" v-on:click = "saveSupplier" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 675%;opacity: 0.9;">Register</button>
 		  </tr>
 		    </table>
-		    </div>
+	</div>
+	</div>
 		`,
 		mounted(){
 			axios
+			.get('users/new')
+			.then(response => (this.supplier = response.data));
+		},
+		methods: {
+			saveSupplier : function () {
+				axios
+				.post("/application/users/createSupplier", this.supplier);
+			}	
 		}
 	});

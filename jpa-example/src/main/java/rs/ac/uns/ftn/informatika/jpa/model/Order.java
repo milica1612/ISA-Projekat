@@ -30,10 +30,10 @@ public class Order {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
 	public Set<MedicineItem> medicineItem;   
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)   
     public Pharmacy pharmacy;
     
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public PharmacyAdministrator pharmacyAdministrator;
 	   
 	public Order(Date offerDeadline, Long orderId, OrderStatus orderStatus, Pharmacy pharmacy,

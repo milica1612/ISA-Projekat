@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
-
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -13,4 +12,9 @@ public interface IUserService {
 	void update(User user);
 
 	User save(User user);
-}
+	
+	User findByEmail(String email);
+	
+	User findByEmailAndPassword(String email, String password);
+	
+	}
