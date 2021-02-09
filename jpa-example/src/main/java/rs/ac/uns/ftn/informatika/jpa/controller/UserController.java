@@ -52,19 +52,10 @@ public class UserController {
 		
 		User user = _userService.findByEmailAndPassword(logInDTO.getEmail(), logInDTO.getPassword());
 		
-		System.out.println(logInDTO.getEmail());
-		System.out.println(logInDTO.getPassword());
-		
-		
 		if(user == null) {
 			return null;
 		}
 		
-		System.out.println(user.getEmail());
-
-		System.out.println(user.getPassword());
-		
-		System.out.println(user.getEmail());
 		session.setAttribute("email", user.getEmail());
 		return user;
 		

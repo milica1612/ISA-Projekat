@@ -5,30 +5,22 @@ Vue.component("sysAdmin", {
 		    }
 	},
 	template: `
-	<div>
-		<h1>System Administrator</h1>
-				
-		<div>
-		<table>
-			<tr>
-			<th><button type="button" style="background-color:SlateBlue; border:none; padding: 15px 32px; font-size: 16px; display: inline-block;">Register Pharmacy</button></th>
-			
-			<th><a href = "#/registerPhAdmin" style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Pharmacy Administrator</a></th>
-		    
-		    <td><a href = "#/registerDerm"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Dermatologist</a></td>
-		    
-		    <th><a href = "#/register"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Register Supplier</a></th>
-		    
-			<th><button type="button" style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Add New Medicine</button></th>
-		    
-			<th><button type="button"  style="background-color:SlateBlue; border:none; padding: 15px 32px; font-size: 16px;display: inline-block; display: inline-block;">Answer On Complaint</button></th>
-			
-			<th><button type="button"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Loyalty Program</button></th>
-			
-			<th><button type="button"  style="background-color:SlateBlue; border:none;  padding: 15px 32px; font-size: 16px; display: inline-block;">Add New System Admin</button></th>
-		    </tr>
-		  </table>
+	<div>	
+		<div style = "background-color: #E0E8F0;; overflow: hidden;">
+		  <a href="#/registerPhAdmin" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Pharmacy</a>
+		  <a href="#/registerPhAdmin" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Pharmacy Admin</a>
+		  <a href="#/registerDerm" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Dermatologist</a>
+		  <a href="#/register" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Supplier</a>
+		  <a href="#/addMedicines" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Add New Medicine</a>
+		  <a href="#/registerDerm" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Complaint</a>
+		  <a href="#/registerDerm" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Loyalty Program</a>
+		  <a href="#/registerDerm" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">System Admin</a>
 		</div>
+		
+		<h2 style = "text-align:center">System Administrator Profile</h2>
+		
+		
+		
 </div>
 `,
 	mounted(){

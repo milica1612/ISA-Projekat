@@ -40,11 +40,13 @@ public class OfferService implements IOfferService{
 		Supplier supplier = new Supplier();
 		
 		List<Offer> offersBySupplier = new ArrayList<Offer>();
-		
+	
 		for(Offer o : offers) {
 			supplier.setUserId(o.getSupplier().getUserId());
+			
 			if(supplier.getUserId() == id) {
 				offersBySupplier.add(o);
+				
 			}
 		}
 		return offersBySupplier;		

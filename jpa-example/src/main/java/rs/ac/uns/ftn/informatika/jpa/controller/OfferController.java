@@ -25,7 +25,6 @@ public class OfferController {
 	@Autowired
 	private UserService _userService;
 	
-
 	@GetMapping(path = "/seeOffers/{id}")
 	public List<Offer> findOffers(@PathVariable Long id) {
 		return  _offerService.findOffersBySupplier(id);
