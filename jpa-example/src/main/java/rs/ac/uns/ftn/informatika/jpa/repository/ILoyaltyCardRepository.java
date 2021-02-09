@@ -3,10 +3,9 @@ package rs.ac.uns.ftn.informatika.jpa.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import rs.ac.uns.ftn.informatika.jpa.model.*;
+import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCard;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, Long> {
-
+public interface ILoyaltyCardRepository extends JpaRepository<LoyaltyCard, Long> {
 
 }

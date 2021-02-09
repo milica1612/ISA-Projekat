@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -33,12 +37,35 @@ public class UserController {
 	public User findUser(@PathVariable Long id) {
 		return (User) _userService.findById(id);
 	}
-	
+
 	@GetMapping(path = "/pharmacists")
 	public List<PharmacistDTO> getAllPharmacists() {
 		 return _userService.getAllPharmacists();
 	}
 	 
+	@GetMapping(value = "/email/{email}")
+	public User findUserByEmail(@PathVariable String email) {
+		return _userService.findByEmail(email);
+	}	
+	
+	@GetMapping(value = "/email/{email}/{password}")
+	public User findUser(@PathVariable String email, @PathVariable String password) {
+		return _userService.findByEmailAndPassword(email, password);
+	}	
+	
+	@GetMapping(value = "/login")
+	public User logInUser(@RequestBody LogInDTO logInDTO, HttpSession session){
+		
+		User user = _userService.findByEmailAndPassword(logInDTO.getEmail(), logInDTO.getPassword());
+		
+		if(user == null) {
+			return null;
+		}
+		
+		session.setAttribute("email", user.getEmail());
+		return user;
+		
+	}
 	
 	@PostMapping(value = "/createPatient")
 	public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
@@ -65,7 +92,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createSupplier")
-	public ResponseEntity<Patient> createSupplier(@RequestBody Supplier supplier){
+	public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
 		
 		if(supplier == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -87,8 +114,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createPharmacyAdmin")
-	
-	public ResponseEntity<Patient> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
+	public ResponseEntity<PharmacyAdministrator> createPharmacyAdmin(@RequestBody PharmacyAdministrator pharmacyAdministrator){
 
 		if(pharmacyAdministrator == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -111,7 +137,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createDermatologist")
-	public ResponseEntity<Patient> createDermatologist(@RequestBody Dermatologist dermatologist){
+	public ResponseEntity<Dermatologist> createDermatologist(@RequestBody Dermatologist dermatologist){
 
 		if(dermatologist == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -126,7 +152,7 @@ public class UserController {
 		_dermatologist.setUserType(UserType.DERMATOLOGIST);
 		_dermatologist.setEmail(dermatologist.getEmail());
 		_dermatologist.setPassword(dermatologist.getPassword());
-		_dermatologist.setPharmacy(dermatologist.getPharmacy());
+		_dermatologist.setRating(dermatologist.getRating());
 		
 		_dermatologist = (Dermatologist) _userService.save(_dermatologist);	
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -140,6 +166,69 @@ public class UserController {
 		
 		_userService.update(user);
 		
-		//return new ModelAndView("redirect:/greetings", "greetings", greetingService.findAll());
 	}
+	
+	@GetMapping(value = "/new")
+	public Supplier getNewSupplier() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		
+		return  new Supplier(firstName, lastName, username, password, email,
+				phoneNumber, UserType.SUPPLIER, new Address(street, streetNumber, city, country, longitude, latitude));
+		
+	}
+	
+	@GetMapping(value = "/newDermatologist")
+	public Dermatologist getNewDermatologist() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		Double rating = 0.0;
+		
+		return new Dermatologist(firstName, lastName, username, password, email,
+				phoneNumber, UserType.DERMATOLOGIST, new Address(street, streetNumber, city, country, latitude, longitude), rating);
+	}
+
+	
+	@GetMapping(value = "/newPhAdmin")
+	public PharmacyAdministrator getNewPharmacyAdmin() {
+						
+		String firstName = "";
+		String email = "";
+		String lastName = "";
+		String phoneNumber = "";
+		String street = "";
+		String streetNumber = "";
+		String city = "";
+		String country = "";
+		Double longitude = 0.0;
+		Double latitude = 0.0;
+		String username = "";
+		String password = "";
+		
+		return  new PharmacyAdministrator(firstName, lastName, username, password, email,
+				phoneNumber, UserType.PH_ADMINISTRATOR, new Address(street, streetNumber, city, country, longitude, latitude), new Pharmacy());
+	}
+	
 }

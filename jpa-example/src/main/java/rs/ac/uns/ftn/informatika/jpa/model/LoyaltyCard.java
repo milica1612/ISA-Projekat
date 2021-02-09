@@ -23,7 +23,7 @@ public class LoyaltyCard {
 	@Column(name = "points", nullable = false)
     private int points;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Patient patient;
 
 	@Enumerated(EnumType.STRING)

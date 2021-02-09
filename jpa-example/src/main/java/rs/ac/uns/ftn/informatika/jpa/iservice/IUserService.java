@@ -12,7 +12,14 @@ public interface IUserService {
 
 	User findById(Long id);
 
+	void update(User user);
+
 	User save(User user);
 	
 	List<PharmacistDTO> getAllPharmacists();
+	
+	User findByEmail(String email);
+	
+	User findByEmailAndPassword(String email, String password);
+	
 }

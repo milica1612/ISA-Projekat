@@ -19,10 +19,10 @@ public class Offer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long offerId;
    
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Supplier supplier;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)   
 	public Order order;
 	
 	@Enumerated(EnumType.STRING)

@@ -23,6 +23,9 @@ public class Medicine {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "code", nullable = false)
+	private String medicineCode;
+	
 	@Column(name = "type", nullable = false)
     private String type;
 	
@@ -50,7 +53,7 @@ public class Medicine {
 	@Enumerated(EnumType.STRING)
     public PrescriptionType prescriptionType;
 	   
-	public Medicine(Long medicineId, String name, String type, String manufacturer, String precautions, int loyaltyPoints,
+	public Medicine(Long medicineId, String name, String medicineCode, String type, String manufacturer, String precautions, int loyaltyPoints,
 			MedicineSpecification medicineSpecification, MedicineForm medicineForm, 
 			PrescriptionType prescriptionType) {
 		super();
@@ -65,6 +68,7 @@ public class Medicine {
 		this.priceTag = new HashSet<PriceTag>();
 		this.medicineForm = medicineForm;
 		this.prescriptionType = prescriptionType;
+		this.medicineCode = medicineCode;
 	}
 	
 	public Medicine()
@@ -72,6 +76,14 @@ public class Medicine {
 		
 	}
 	
+	public String getMedicineCode() {
+		return medicineCode;
+	}
+
+	public void setMedicineCode(String medicineCode) {
+		this.medicineCode = medicineCode;
+	}
+
 	public Long getMedicineId() {
 		return medicineId;
 	}
