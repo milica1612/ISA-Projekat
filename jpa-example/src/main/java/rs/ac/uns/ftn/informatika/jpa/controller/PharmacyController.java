@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
 @RestController

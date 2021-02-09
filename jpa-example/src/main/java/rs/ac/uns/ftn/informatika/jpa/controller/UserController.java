@@ -2,25 +2,20 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -39,12 +34,11 @@ public class UserController {
 		return (User) _userService.findById(id);
 	}
 	
-	@GetMapping(value = "/pharmacists")
-	public List<User> getAllPharmacists()
-	{
-		return _userService.getAllPharmacists();
+	@GetMapping(path = "/pharmacists")
+	public List<PharmacistDTO> getAllPharmacists() {
+		 return _userService.getAllPharmacists();
 	}
-	
+	 
 	
 	@PostMapping(value = "/createPatient")
 	public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){

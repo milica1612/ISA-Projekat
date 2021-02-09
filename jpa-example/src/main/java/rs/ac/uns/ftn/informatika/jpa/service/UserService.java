@@ -1,11 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -44,17 +47,17 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<User> getAllPharmacists() {
+	public List<PharmacistDTO> getAllPharmacists() {
 		List<User> users = userRepository.findAll();
-		List<User> pharmacistsList = new ArrayList<>();
+		List<Pharmacist> pharmacists = new ArrayList<>();
+		List<PharmacistDTO> pharmacistDTOs = new ArrayList<PharmacistDTO>();
 		
 		for (User u : users) 
 			if(u.getUserType() == UserType.PHARMACIST)
-				pharmacistsList.add(u);
+				pharmacists.add((Pharmacist)u);
 		
+		pharmacists.stream().forEach(p -> pharmacistDTOs.add(new PharmacistDTO(p.getFirstName(), p.getLastName(), p.getRating(), p.getPharmacy().getName())));
 		
-		return pharmacistsList;
+		return pharmacistDTOs;
 	}
-
-	
 }

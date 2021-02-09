@@ -29,15 +29,15 @@ Vue.component("searchPharmacists", {
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Rating</th>
+                <th>Reiting of a pharmacist</th>
                 <th>Pharmacy name</th>
             </tr>
             
             <tr v-for="p in pharmacists">
                 <td>{{p.firstName}}</td>
                 <td>{{p.lastName}}</td>
-      			<td></td>
-      			<td></td>
+      			<td>{{p.reiting}}</td>
+      			<td>{{p.pharmacyName}}</td>
             </tr>
         </table>
     </div>
