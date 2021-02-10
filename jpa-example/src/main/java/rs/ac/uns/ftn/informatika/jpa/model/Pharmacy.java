@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,6 +33,8 @@ public class Pharmacy {
     public Set<MedicineItem> medicineItem;
 	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Dermatologist> dermatologist;
+	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public Set<PharmacyAdministrator> phAdministrators;
    
     public Pharmacy(Long pharmacyId, String name, Double rating) {
 		super();
