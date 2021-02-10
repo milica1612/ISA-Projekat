@@ -6,7 +6,7 @@ Vue.component("sysAdmin", {
 	},
 	template: `
 	<div>	
-		<div style = "background-color: #E0E8F0;; overflow: hidden;">
+		<div style = "background-color: #E0E8F0; overflow: hidden;">
 		  <a href="#/registerPhAdmin" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Pharmacy</a>
 		  <a href="#/registerPhAdmin" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Pharmacy Admin</a>
 		  <a href="#/registerDerm" style = "float: left; color: #333; text-align:center; padding: 14px 16px; text-decoration:none; font-size: 17px;">Register Dermatologist</a>

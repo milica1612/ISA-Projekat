@@ -20,6 +20,7 @@ import rs.ac.uns.ftn.informatika.jpa.service.AllergyService;
 @RestController
 @RequestMapping(value = "/allergy")
 public class AllergyController {
+	
 	@Autowired
 	private AllergyService _allergyService ;
 	

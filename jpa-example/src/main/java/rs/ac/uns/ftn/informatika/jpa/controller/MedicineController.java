@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.Contraindication;
+import rs.ac.uns.ftn.informatika.jpa.model.Ingridient;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineSpecification;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
+import rs.ac.uns.ftn.informatika.jpa.service.MedicineSpecificationService;
 
 @RestController
 @RequestMapping(value = "/medicine")
@@ -25,6 +28,9 @@ public class MedicineController {
 
 	@Autowired
 	private MedicineService _medicineService ;
+	
+	@Autowired
+	private MedicineSpecificationService _specificationService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
@@ -37,21 +43,38 @@ public class MedicineController {
 	}
 	
 	@PostMapping(value = "/addMedicine")
-	public ResponseEntity<Patient> createPatient(@RequestBody MedicineDTO medicineDTO){
-
+	public Medicine addMedicine(@RequestBody MedicineDTO medicineDTO){
 		
 		if(medicineDTO == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
-		Medicine _medicine = new Medicine();
-		MedicineSpecification specification = new MedicineSpecification();
-
-		_medicine.setName(medicineDTO.getName());
-		_medicine.setType(medicineDTO.getMedicineType());
+		Medicine medicine = new Medicine();
+		MedicineSpecification medicineSpecification = new MedicineSpecification();
 		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		Contraindication contr = new Contraindication();
+		Ingridient ingridient = new Ingridient();
 		
+		HashSet<Medicine> medicineRepl = (HashSet<Medicine>) medicine.getReplacementMedicine();
+		
+		medicine.setName(medicineDTO.getName());
+		medicine.setMedicineCode(medicineDTO.getMedicineCode());
+		medicine.setType(medicineDTO.getMedicineType());
+		medicine.setLoyaltyPoints(medicineDTO.getLoyaltyPoint());
+		medicine.setReplacementMedicine(medicineRepl);
+		medicine.setManufacturer("Galenika");
+		medicine.setPrecautions("Nema");
+		contr.setDescription(medicineDTO.getContraindications());
+		ingridient.setName(medicineDTO.getIngridients());
+		medicineSpecification.setDosage(medicineDTO.getDosage());
+		
+	//	medicine.setMedicineSpecification(medicineSpecification);
+		_medicineService.save(medicine);
+		return medicine;
 	}
 	
+	@GetMapping(value = "/newMedicine")
+	public Medicine newMedicine() {
+		return _medicineService.newMedicine();
+	}
 }

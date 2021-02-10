@@ -8,9 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-
 @Entity
 public class MedicineSpecification {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medSpecId;
@@ -27,6 +27,13 @@ public class MedicineSpecification {
 		super();
 		this.dosage = dosage;
 		this.medSpecId = medSpecId;
+		this.contraindication = new HashSet<Contraindication>();
+		this.ingridient = new HashSet<Ingridient>();
+    }
+    
+    public MedicineSpecification(Double dosage) {
+		super();
+		this.dosage = dosage;
 		this.contraindication = new HashSet<Contraindication>();
 		this.ingridient = new HashSet<Ingridient>();
     }
@@ -52,21 +59,21 @@ public class MedicineSpecification {
 		this.medSpecId = medSpecId;
 	}
 	
-	public java.util.Collection<Contraindication> getContraindication() {
+	public Set<Contraindication> getContraindication() {
 	      if (contraindication == null)
-	         contraindication = new java.util.HashSet<Contraindication>();
+	         contraindication = new HashSet<Contraindication>();
 	      return contraindication;
 	   }
 	   
-	   public java.util.Iterator getIteratorContraindication() {
+	   public Iterator getIteratorContraindication() {
 	      if (contraindication == null)
 	         contraindication = new java.util.HashSet<Contraindication>();
 	      return contraindication.iterator();
 	   }
 	   
-	   public void setContraindication(java.util.Collection<Contraindication> newContraindication) {
+	   public void setContraindication(Set<Contraindication> newContraindication) {
 	      removeAllContraindication();
-	      for (java.util.Iterator iter = newContraindication.iterator(); iter.hasNext();)
+	      for (Iterator iter = newContraindication.iterator(); iter.hasNext();)
 	         addContraindication((Contraindication)iter.next());
 	   }
 	   
@@ -74,7 +81,7 @@ public class MedicineSpecification {
 	      if (newContraindication == null)
 	         return;
 	      if (this.contraindication == null)
-	         this.contraindication = new java.util.HashSet<Contraindication>();
+	         this.contraindication = new HashSet<Contraindication>();
 	      if (!this.contraindication.contains(newContraindication))
 	         this.contraindication.add(newContraindication);
 	   }
@@ -91,21 +98,21 @@ public class MedicineSpecification {
 	      if (contraindication != null)
 	         contraindication.clear();
 	   }
-	   public java.util.Collection<Ingridient> getIngridient() {
+	   public Set<Ingridient> getIngridient() {
 	      if (ingridient == null)
-	         ingridient = new java.util.HashSet<Ingridient>();
+	         ingridient = new HashSet<Ingridient>();
 	      return ingridient;
 	   }
 	   
-	   public java.util.Iterator getIteratorIngridient() {
+	   public Iterator getIteratorIngridient() {
 	      if (ingridient == null)
 	         ingridient = new java.util.HashSet<Ingridient>();
 	      return ingridient.iterator();
 	   }
 	   
-	   public void setIngridient(java.util.Collection<Ingridient> newIngridient) {
+	   public void setIngridient(Set<Ingridient> newIngridient) {
 	      removeAllIngridient();
-	      for (java.util.Iterator iter = newIngridient.iterator(); iter.hasNext();)
+	      for (Iterator iter = newIngridient.iterator(); iter.hasNext();)
 	         addIngridient((Ingridient)iter.next());
 	   }
 	   
@@ -113,7 +120,7 @@ public class MedicineSpecification {
 	      if (newIngridient == null)
 	         return;
 	      if (this.ingridient == null)
-	         this.ingridient = new java.util.HashSet<Ingridient>();
+	         this.ingridient = new HashSet<Ingridient>();
 	      if (!this.ingridient.contains(newIngridient))
 	         this.ingridient.add(newIngridient);
 	   }
