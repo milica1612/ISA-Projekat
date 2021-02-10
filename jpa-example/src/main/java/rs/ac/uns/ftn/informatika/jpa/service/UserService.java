@@ -1,16 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
-import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
@@ -44,22 +42,6 @@ public class UserService implements IUserService {
 		
 	}
 
-
-	@Override
-	public List<PharmacistDTO> getAllPharmacists() {
-		List<User> users = userRepository.findAll();
-		List<Pharmacist> pharmacists = new ArrayList<>();
-		List<PharmacistDTO> pharmacistDTOs = new ArrayList<PharmacistDTO>();
-		
-		for (User u : users) 
-			if(u.getUserType() == UserType.PHARMACIST)
-				pharmacists.add((Pharmacist)u);
-		
-		pharmacists.stream().forEach(p -> pharmacistDTOs.add(new PharmacistDTO(p.getFirstName(), p.getLastName(), p.getRating(), p.getPharmacy().getName())));
-		
-		return pharmacistDTOs;
-
-	}
 	@Override
 	public User findByEmail(String email) {
 		List<User> users = userRepository.findAll();
@@ -77,8 +59,7 @@ public class UserService implements IUserService {
 		}
 		return user;
 	}
-
-
+	
 	@Override
 	public User findByEmailAndPassword(String email, String password) {
 

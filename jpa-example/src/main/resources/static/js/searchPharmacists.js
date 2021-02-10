@@ -2,6 +2,10 @@ Vue.component("searchPharmacists", {
     data: function() {
             return {
                 pharmacists: null,
+                pharmacistList: null,
+                showList: false,
+                searchFirstName: '',
+                searchLastName: '',
             }
     }, 
     template: `
@@ -10,15 +14,15 @@ Vue.component("searchPharmacists", {
         
         <table>		
             <tr>
-                <td><input class = "input" type="text" placeholder="Enter first name"></td>
-                <td><input class = "input" type="text" placeholder="Enter last name"></td>			
+               <td><input class = "input" type="text" v-model="searchFirstName"  placeholder="Enter first name"></td>
+                <td><input class = "input" type="text" v-model="searchLastName"  placeholder="Enter last name"></td>	
             </tr>
             <tr>
                 <td>
-                    <button class="button">Cancel search</button>
+                     <button class="button" v-on:click="cancelSearch">Cancel search</button>
                 </td>
                 <td>
-                    <button class="button">Search pharmacists</button>
+                    <button class="button" v-on:click="searchPharmacist">Search pharmacists</button>
                 </td>
             </tr>
         </table>
@@ -33,7 +37,14 @@ Vue.component("searchPharmacists", {
                 <th>Pharmacy name</th>
             </tr>
             
-            <tr v-for="p in pharmacists">
+            <tr v-bind:hidden="showList" v-for="p in pharmacists">
+                <td>{{p.firstName}}</td>
+                <td>{{p.lastName}}</td>
+      			<td>{{p.reiting}}</td>
+      			<td>{{p.pharmacyName}}</td>
+            </tr>
+                
+            <tr v-bind:hidden="!showList" v-for="p in pharmacistList">
                 <td>{{p.firstName}}</td>
                 <td>{{p.lastName}}</td>
       			<td>{{p.reiting}}</td>
@@ -44,10 +55,27 @@ Vue.component("searchPharmacists", {
     `,
     mounted() {
         axios
-        .get('users/pharmacists')
+        .get('pharmacists/all')
         .then(response => (this.pharmacists = response.data));
     },
     methods: {
-
+		searchPharmacist: function(){
+    		if(this.searchFirstName !='' || this.searchLastName != ''){
+    			axios
+    			.get("pharmacists/searchPharmacists/" + this.searchFirstName + "/" + this.searchLastName)
+    			.then(response => {
+    				this.pharmacistList = response.data;
+    				this.showList = true;
+    			});    		
+    		}
+    		else{
+    			this.showList = false;
+    		}	
+    	},
+    	cancelSearch: function(){
+			this.showList = false;
+			this.searchFirstName = '';
+			this.searchLastName = '';
+		}
     }
 })

@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
-import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -37,12 +35,7 @@ public class UserController {
 	public User findUser(@PathVariable Long id) {
 		return (User) _userService.findById(id);
 	}
-
-	@GetMapping(path = "/pharmacists")
-	public List<PharmacistDTO> getAllPharmacists() {
-		 return _userService.getAllPharmacists();
-	}
-	 
+ 
 	@GetMapping(value = "/email/{email}")
 	public User findUserByEmail(@PathVariable String email) {
 		return _userService.findByEmail(email);
