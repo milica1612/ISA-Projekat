@@ -22,8 +22,8 @@ INSERT INTO public.address(
 	VALUES (6, 'Novi Sad','Srbija', 48, 44, 'Kisacka', 3);
 
 INSERT INTO public.pharmacy(
-	pharmacy_id, name, rating)
-	VALUES (DEFAULT, 'Pharmacy 1', 8.1);
+	pharmacy_id, name, rating, description, adress_id)
+	VALUES (1, 'Pharmacy 1', 8.1, 'First Pharmacy', 6);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)

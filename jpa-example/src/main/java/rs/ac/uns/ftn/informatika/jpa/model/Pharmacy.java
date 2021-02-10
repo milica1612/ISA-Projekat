@@ -10,8 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 
@@ -27,6 +29,9 @@ public class Pharmacy {
 	@Column(name = "rating")
     protected Double rating;
 	
+	@Column(name = "description")
+    protected String description;
+	
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     public Set<Pharmacist> pharmacist;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -35,6 +40,10 @@ public class Pharmacy {
     public Set<Dermatologist> dermatologist;
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Set<PharmacyAdministrator> phAdministrators;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="adress_id", referencedColumnName = "addressId", nullable=false)
+	private Address adress;
    
     public Pharmacy(Long pharmacyId, String name, Double rating) {
 		super();
