@@ -58,7 +58,13 @@ INSERT INTO public.allergy_medicine(
 INSERT INTO public."user"(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Patient', 1, 'milica98@gmail.com', 'Milica', 'Lukic', 'm_98', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
+
+
+INSERT INTO public."user"(
+	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Patient', 7, 'stefan98@gmail.com', 'Stefan', 'Grujic', 'g_98', '065/897-87-65', 'gruja', 'PATIENT', null, 0, 1, null, 1);
 	
+
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id)
 	VALUES (1, 'GOLD', 40, 1);

@@ -25,7 +25,9 @@ Vue.component("allpatients",{
 				<tr style = "border-bottom: 1px solid #ddd;" v-for="p in allpatients" v-on:click="selectUser(p)" v-bind:class="{selected: selectedUser.id===p.id}">
 					<td style = "border-bottom: 1px solid #ddd;" >{{p.firstName}}</td>
 					<td style = "border-bottom: 1px solid #ddd;">{{p.lastName}}</td>
-					
+					<li class="nav-item">
+              			<a class="nav-link" href="#/user/p.id">See profile</a>
+            		</li>
 				</tr>
 			</table>
 		</div>
