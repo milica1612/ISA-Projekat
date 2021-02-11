@@ -1,6 +1,10 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.dto.UserDTO;
+
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -41,6 +48,7 @@ public class UserController {
 		return _userService.findByEmail(email);
 	}	
 	
+
 	@GetMapping(value = "/email/{email}/{password}")
 	public User findUser(@PathVariable String email, @PathVariable String password) {
 		return _userService.findByEmailAndPassword(email, password);
@@ -57,7 +65,24 @@ public class UserController {
 		
 		session.setAttribute("email", user.getEmail());
 		return user;
-		
+	}
+	
+	@GetMapping(path = "/allpatients")
+	public List<UserDTO> getAllUsers() {
+		 return _userService.getAllUsers();
+	}
+	 
+    @PostMapping(value = "/searchUser")
+    public List<UserDTO> searchUser(@RequestBody String request) {
+    	
+    	String[] values = request.split("\\+");
+    	String[] valueNew = values[1].split("\\=");
+    	/*if (values.length != 2) {
+    		return null;
+    	}
+    	*/
+    	UserDTO user = new UserDTO(values[0], valueNew[0]);
+    	return _userService.userSearch(user);
 	}
 	
 	@PostMapping(value = "/createPatient")

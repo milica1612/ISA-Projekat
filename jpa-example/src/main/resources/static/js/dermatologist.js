@@ -21,7 +21,7 @@ Vue.component("employee",{
 				<tr><th>Password:</th><td><input type = "text" style = "width : 100%; padding: 10px; border: none; background: #f1f1f1;" v-model= "employee.password" v-bind:disabled = "mode != 'EDIT'"/></td><tr>
 				<tr>
 					<td><button v-on:click = "editEmployee" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Edit</button></td>
-					<td><button v-on:click = "saveEmployee" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9; type="button" v-bind:disabled = "mode != 'EDIT'">Save</button></td>
+					<td><button v-on:click = "saveEmployee" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; width:100%; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'EDIT'">Save</button></td>
 				</tr>	
 			</table>
 		</div>
