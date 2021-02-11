@@ -1,17 +1,13 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rs.ac.uns.ftn.informatika.dto.UserDTO;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
@@ -89,7 +85,7 @@ public class UserService implements IUserService {
 	
 	@Override
 	public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = _userRepository.findAll();
         List<User> usersList = new ArrayList<>();
         for (User u : users) {
 			if(u.getUserType() == UserType.PATIENT)
