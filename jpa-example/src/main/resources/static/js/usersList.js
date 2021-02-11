@@ -22,7 +22,7 @@ Vue.component("allpatients",{
 					<td style = "border-bottom: 1px solid #ddd;">IME:</td>
 					<td style = "border-bottom: 1px solid #ddd;">PREZIME:</td>
 				</tr>
-				<tr style = "border-bottom: 1px solid #ddd;" v-for="p in allpatients" v-on:click="selectUser(p)" v-bind:class="{selected: selectedUser.firstName===p.firstName}">
+				<tr style = "border-bottom: 1px solid #ddd;" v-for="p in allpatients" v-on:click="selectUser(p)" v-bind:class="{selected: selectedUser.id===p.id}">
 					<td style = "border-bottom: 1px solid #ddd;" >{{p.firstName}}</td>
 					<td style = "border-bottom: 1px solid #ddd;">{{p.lastName}}</td>
 				</tr>
