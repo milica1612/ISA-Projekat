@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class PharmacyController {
 	@Autowired
 	private PharmacyService _pharmacyService;
 
+	@GetMapping(value = "")
+	public ArrayList<Pharmacy> getAllPharmacies() {
+		return _pharmacyService.findAllPharmacy();
+	}
+	
 	@GetMapping(value = "/{id}")
 	public Pharmacy getPharmacy(@PathVariable Long id) {
 		return (Pharmacy) _pharmacyService.findById(id);

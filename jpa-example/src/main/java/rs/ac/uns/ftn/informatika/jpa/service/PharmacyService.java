@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,11 @@ public class PharmacyService implements IPharmacyService {
 	@Override
 	public Pharmacy save(Pharmacy pharmacy) {
 		return _pharmacyRepository.save(pharmacy);
+	}
+
+	@Override
+	public ArrayList<Pharmacy> findAllPharmacy() {
+		// TODO Auto-generated method stub
+		return (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
 	}
 }
