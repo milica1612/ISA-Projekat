@@ -81,7 +81,7 @@ INSERT INTO public."user"(
 	
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', 6, 'isateam39@gmail.com', 'Marko', 'Markovic', 'marko', '064/789-11-10', 'marko123', 'PH_ADMIN', null, null, 6, 1, null);	
+	VALUES ('PharmacyAdministrator', 6, 'isateam39@gmail.com', 'Marko', 'Markovic', 'marko', '064/789-11-10', 'marko123', 'PH_ADMINISTRATOR', null, null, 6, 1, null);	
 
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
