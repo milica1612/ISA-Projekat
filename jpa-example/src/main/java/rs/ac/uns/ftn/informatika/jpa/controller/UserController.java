@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.dto.UserDTO;
 
@@ -52,6 +55,11 @@ public class UserController {
 	@GetMapping(value = "/email/{email}/{password}")
 	public User findUser(@PathVariable String email, @PathVariable String password) {
 		return _userService.findByEmailAndPassword(email, password);
+	}	
+	
+	@GetMapping(path = "/findAllByUserType/{userType}")
+	public List<UserDTO> findAllByPharmacyIdAndUserType(@PathVariable UserType userType) {
+		return _userService.findUserByUserType(userType);
 	}	
 	
 	@GetMapping(value = "/login")
