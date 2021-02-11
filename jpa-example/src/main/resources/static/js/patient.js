@@ -10,10 +10,12 @@ Vue.component("patient",{
 },
 template:
 	`
-	<div id = "form-check-inline">
-		<table>
+	<div>
+	<h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">User profile</h1>
+	<br/>
+		<table style = "margin:0 auto; padding: 20px;">
 		<tr>
-		<th>Personal information</th>
+		<th><h3>Personal information</h3></th>
 		</tr>
 		<tr>
 		<th>Name</th>
@@ -53,11 +55,10 @@ template:
 		<td><input type = "text" v-model = "patient.password" v-bind:disabled = "mode =='BROWSE'"/></td>
 		</tr>
 		</table>
-		<br/>
 		
-		<table>
+		<table style = "margin:0 auto; padding: 20px;">
 		<tr>
-		<th>Loyalty card</th>
+		<th><h3>Loyalty card</h3></th>
 		</tr>
 		<tr>
 		<th>Loyalty Points</th>
@@ -68,21 +69,19 @@ template:
 		<td>{{this.loyalty_card.loyaltyCategory}}</td>
 		</tr>
 		</table>
-		<br/>
 		
-		<table>
+		<table style = "margin:0 auto; padding: 20px;">
 		<tr>
-		<th>Allergies to medicine</th>
+		<th><h3>Allergies to medicine</h3></th>
 		</tr>
 		<tr v-for="m in patient.allergy.medicine">
 		<td>{{m.name}}</td>
 		</tr>
 		</table>
-		<br/>
 		
-		<table>
+		<table style = "margin:0 auto; padding: 20px;">
 		<tr>
-		<th>Medicine</th>
+		<th><h3>Medicine</h3></th>
 		</tr>
 		<tr v-for="med in medicine">
 		<td>{{med.name}}</td>
@@ -91,7 +90,7 @@ template:
 		</tr>
 		</table>
 		
-		<table>
+		<table style = "margin:0 auto; padding: 20px;">
 		<tr>
 		<td><button type="button" v-on:click = "editInformation" type="button" v-bind:disabled ="mode !='BROWSE'">Edit</button>
 		</td>
