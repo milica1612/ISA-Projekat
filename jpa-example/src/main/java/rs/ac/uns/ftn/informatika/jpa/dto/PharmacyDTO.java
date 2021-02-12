@@ -8,13 +8,13 @@ public class PharmacyDTO {
 	private String country;
 	private Double longitude;
 	private Double latitude;
-	private double reiting;
+	private double raiting;
 	private String description;
 	
 	public PharmacyDTO() {}
 	
 	public PharmacyDTO(String name, String street, String streetNumber, String city, String country, Double longitude,
-			Double latitude, double reiting, String description) {
+			Double latitude, double raiting, String description) {
 		super();
 		this.name = name;
 		this.street = street;
@@ -23,7 +23,7 @@ public class PharmacyDTO {
 		this.country = country;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.reiting = reiting;
+		this.raiting = raiting;
 		this.description = description;
 	}
 
@@ -39,11 +39,11 @@ public class PharmacyDTO {
 	public void setStreet(String address) {
 		this.street = address;
 	}
-	public double getReiting() {
-		return reiting;
+	public double getRaiting() {
+		return raiting;
 	}
-	public void setReiting(double reiting) {
-		this.reiting = reiting;
+	public void setRaiting(double raiting) {
+		this.raiting = raiting;
 	}
 	public String getDescription() {
 		return description;

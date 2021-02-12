@@ -6,7 +6,7 @@ Vue.component("pharmacyProfile", {
 			streetNumber: '',
 			city: '',
 			country: '',
-			reiting: '',
+			raiting: '',
 			description: '',
 			pharmacy: null,
 			backup:[]
@@ -34,8 +34,8 @@ Vue.component("pharmacyProfile", {
 					<label for="exampleFormControlInput1">Pharmacy Country</label>
 					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="country" name="country"/>
 
-					<label for="exampleFormControlInput1">Pharmacy Reiting</label>
-					<input type="number" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="reiting" name="reiting"/>
+					<label for="exampleFormControlInput1">Pharmacy Raiting</label>
+					<input type="number" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="raiting" name="raiting"/>
 					
 					<label for="exampleFormControlInput1">Pharmacy Description</label>
 					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="description" name="description"/>
@@ -54,9 +54,9 @@ Vue.component("pharmacyProfile", {
 				this.streetNumber = response.data.streetNumber;
 				this.city = response.data.city;
 				this.country = response.data.country;
-				this.reiting = response.data.reiting;
+				this.raiting = response.data.raiting;
 				this.description = response.data.description;
-				this.backup = [this.name, this.addressStreet, this.streetNumber, this.city, this.country , this.reiting, this.description];
+				this.backup = [this.name, this.addressStreet, this.streetNumber, this.city, this.country , this.raiting, this.description];
 		}
 		});
     },
