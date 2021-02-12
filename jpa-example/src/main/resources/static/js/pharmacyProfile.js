@@ -2,7 +2,10 @@ Vue.component("pharmacyProfile", {
     data: function() {
         return{
 			name: '',
-        	address: '',
+        	addressStreet: '',
+			streetNumber: '',
+			city: '',
+			country: '',
 			reiting: '',
 			description: '',
 			pharmacy: null,
@@ -10,25 +13,34 @@ Vue.component("pharmacyProfile", {
         }
     },
     template:`
-    <div id="pharmacyProfile" class="container-fluid">
-    	
+    <div id="pharmacyProfile">
 		<h1>Pharmacy Profile</h1>
+			<div id="pharmacyProfileForm" class="form-group" class="container">
+				<form>
+					<label for="exampleFormControlInput1">Pharmacy Name</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="name" name="name"/>
+				
+					<label for="exampleFormControlInput1">Pharmacy Street</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="addressStreet" name="addressStreet"/>
 
-		<form>
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Pharmacy Name</label>
-				<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="name" name="name"/>
-			
-				<label for="exampleFormControlInput1">Pharmacy Address</label>
-				<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="address" name="address"/>
-				
-				<label for="exampleFormControlInput1">Pharmacy Reiting</label>
-				<input type="number" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="reiting" name="reiting"/>
-				
-				<label for="exampleFormControlInput1">Pharmacy Description</label>
-				<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="description" name="description"/>
+					<label for="exampleFormControlInput1">Pharmacy Street Number</label>
+					<input type="number" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="streetNumber" name="streetNumber"/>
+
+
+					<label for="exampleFormControlInput1">Pharmacy City</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="city" name="city"/>
+					
+
+					<label for="exampleFormControlInput1">Pharmacy Country</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="country" name="country"/>
+
+					<label for="exampleFormControlInput1">Pharmacy Reiting</label>
+					<input type="number" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="reiting" name="reiting"/>
+					
+					<label for="exampleFormControlInput1">Pharmacy Description</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" disabled="true" v-model="description" name="description"/>
+				</form>	
 			</div>
-		</form>
     </div>
     `,
     mounted(){
@@ -38,10 +50,13 @@ Vue.component("pharmacyProfile", {
 		if(response.data != null){
 				this.pharmacy = response.data;
 				this.name = response.data.name;
-				this.address = response.data.address;
+				this.addressStreet = response.data.street;
+				this.streetNumber = response.data.streetNumber;
+				this.city = response.data.city;
+				this.country = response.data.country;
 				this.reiting = response.data.reiting;
 				this.description = response.data.description;
-				this.backup = [this.name, this.address, this.reiting, this.description];
+				this.backup = [this.name, this.addressStreet, this.streetNumber, this.city, this.country , this.reiting, this.description];
 		}
 		});
     },
