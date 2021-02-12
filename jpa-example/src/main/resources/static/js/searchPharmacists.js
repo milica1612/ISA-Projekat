@@ -6,23 +6,40 @@ Vue.component("searchPharmacists", {
                 showList: false,
                 searchFirstName: '',
                 searchLastName: '',
+                minRaiting: '',
+                maxRaiting: ''
             }
     }, 
     template: `
-    <div>
-        <h2>Search and filter pharmacists</h2>
-        
+    <div id = "searchPharmacists">
+        <h1>Search and filter pharmacists</h1>
         <table>		
             <tr>
-               <td><input class = "input" type="text" v-model="searchFirstName"  placeholder="Enter first name"></td>
-                <td><input class = "input" type="text" v-model="searchLastName"  placeholder="Enter last name"></td>	
+               <td>
+                    <input class = "input" type="text" class="form-control" id="floatingInput" v-model="searchFirstName"  placeholder="Enter first name">
+               </td>
+            </tr>
+            <tr>
+               <td>
+                    <input class = "input" type="text" class="form-control" id="floatingInput" v-model="searchLastName"  placeholder="Enter last name">
+               </td>
+            </tr>
+            <tr>	
+               <td>
+                    <input class = "input" type="number" min=0  class="form-control" id="floatingInput" v-model="minRaiting"  placeholder="Enter min for raiting">
+                </td>
+            </tr>
+            <tr>	
+                <td>
+                    <input class = "input" type="number" max=10 class="form-control" id="floatingInput" v-model="maxRaiting"  placeholder="Enter max for raiting">
+                </td>	
             </tr>
             <tr>
                 <td>
-                     <button class="button" v-on:click="cancelSearch">Cancel search</button>
+                    <button class="w-40 h-20 btn btn-lg btn-primary" type="submit" v-on:click="cancelSearch">Cancel search</button>
                 </td>
                 <td>
-                    <button class="button" v-on:click="searchPharmacist">Search pharmacists</button>
+                    <button class="w-40 h-20 btn btn-lg btn-primary" type="submit" v-on:click="searchPharmacist">Search pharmacists</button>
                 </td>
             </tr>
         </table>
@@ -86,14 +103,25 @@ Vue.component("searchPharmacists", {
     				this.showList = true;
     			});    		
     		}
-    		else{
+    		else if (this.minRaiting != '' && this.maxRaiting != '')
+            {
+                axios
+    			.get("pharmacists/filterPharmacistByRaiting/" +  this.minRaiting + "/" + this.maxRaiting)
+    			.then(response => {
+    				this.pharmacistList = response.data;
+    				this.showList = true;
+    			}); 
+            }
+            else{
     			this.showList = false;
-    		}	
+    		}		
     	},
     	cancelSearch: function(){
 			this.showList = false;
 			this.searchFirstName = '';
 			this.searchLastName = '';
+			this.minRaiting = '';
+			this.maxRaiting = '';
 		}
     }
 })

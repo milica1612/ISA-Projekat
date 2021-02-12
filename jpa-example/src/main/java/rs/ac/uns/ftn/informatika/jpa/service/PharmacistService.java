@@ -58,5 +58,17 @@ public class PharmacistService implements IPharmacistService{
 		
 		return pharmacistDTOs;
 	}
+	
+	@Override
+	public List<PharmacistDTO> filterPharmacistByRaiting(Double minRaiting, Double maxRaiting) {
+		List<Pharmacist> pharmacists = _pharmacistRepository.findAll();
+		List<PharmacistDTO> pharmacistDTOs = new ArrayList<PharmacistDTO>();
+		
+		for (Pharmacist p : pharmacists)
+			if (p.getRating() >= minRaiting && p.getRating() <= maxRaiting)
+				pharmacistDTOs.add(new PharmacistDTO(p.getFirstName(), p.getLastName(), p.getRating(), p.getPharmacy().getName()));
+		
+		return pharmacistDTOs;
+	}
 
 }

@@ -46,4 +46,9 @@ public class PharmacistController {
 		return _pharmacistSerivce.findPharmacistsByPharmacy(pharmacyId);
 	}
 	
+	@GetMapping(path = "/filterPharmacistByRaiting/{minRaiting}/{maxRaiting}")
+	public List<PharmacistDTO> filterPharmacistByRaiting(@PathVariable Double minRaiting, @PathVariable Double maxRaiting)
+	{
+		return _pharmacistSerivce.filterPharmacistByRaiting(minRaiting, maxRaiting);
+	}
 }
