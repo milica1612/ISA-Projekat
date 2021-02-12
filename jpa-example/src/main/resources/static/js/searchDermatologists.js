@@ -1,27 +1,27 @@
-Vue.component("searchPharmacists", {
-    data: function() {
-            return {
-                pharmacists: null,
-                pharmacistList: null,
-                showList: false,
-                searchFirstName: '',
-                searchLastName: '',
-                minRaiting: '',
-                maxRaiting: ''
-            }
-    }, 
+Vue.component("searchDermatologists", {
+    data: function(){
+        return {
+            dermatologists: null,
+            dermatologistList: null,
+            showList: false,
+            searchFirstName: '',
+            searchLastName: '',
+            minRaiting: '',
+            maxRaiting: '',
+        }
+    },
     template: `
-    <div id = "searchPharmacists">
-        <h1>Search and filter pharmacists</h1>
+    <div id = "searchDermatologists">
+        <h1>Search and filter dermatologists</h1>
         <table>		
             <tr>
                <td>
-                    <input class = "input" type="text" class="form-control" id="floatingInput" v-model="searchFirstName"  placeholder="Enter first name">
+                    <input class = "input" type="text" class="form-control" v-model="searchFirstName"  placeholder="Enter first name">
                </td>
             </tr>
             <tr>
                <td>
-                    <input class = "input" type="text" class="form-control" id="floatingInput" v-model="searchLastName"  placeholder="Enter last name">
+                    <input class = "input" type="text" class="form-control" v-model="searchLastName"  placeholder="Enter last name">
                </td>
             </tr>
             <tr>	
@@ -39,76 +39,73 @@ Vue.component("searchPharmacists", {
                     <button class="w-40 h-20 btn btn-lg btn-primary" type="submit" v-on:click="cancelSearch">Cancel search</button>
                 </td>
                 <td>
-                    <button class="w-40 h-20 btn btn-lg btn-primary" type="submit" v-on:click="searchPharmacist">Search pharmacists</button>
+                    <button class="w-40 h-20 btn btn-lg btn-primary" type="submit" v-on:click="searchDermatologist">Search dermatologist</button>
                 </td>
             </tr>
         </table>
         
-		<h2>Pharmacists</h2>
+		<h2>Dermatologists</h2>
         
         <table id="searchTable">
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Raiting of a pharmacist</th>
-                <th>Pharmacy name</th>
+                <th>Raiting of a dermatologist</th>
             </tr>
             
-            <tr v-bind:hidden="showList" v-for="p in pharmacists">
-                <td>{{p.firstName}}</td>
-                <td>{{p.lastName}}</td>
-      			<td>{{p.raiting}}</td>
-      			<td>{{p.pharmacyName}}</td>
+            <tr v-bind:hidden="showList" v-for="d in dermatologists">
+                <td>{{d.firstName}}</td>
+                <td>{{d.lastName}}</td>
+      			<td>{{d.raiting}}</td>
             </tr>
                 
-            <tr v-bind:hidden="!showList" v-for="p in pharmacistList">
-                <td>{{p.firstName}}</td>
-                <td>{{p.lastName}}</td>
-      			<td>{{p.raiting}}</td>
-      			<td>{{p.pharmacyName}}</td>
+            <tr v-bind:hidden="!showList" v-for="d in dermatologistList">
+                <td>{{d.firstName}}</td>
+                <td>{{d.lastName}}</td>
+      			<td>{{d.raiting}}</td>
             </tr>
         </table>
-    </div>
-    `,
+    </div> 
+    ` ,
     mounted() {
         axios
-        .get('pharmacists/all')
-        .then(response => (this.pharmacists = response.data));
+        .get('dermatologists/all')
+        .then(response => (this.dermatologists = response.data));
     },
     methods: {
-		searchPharmacist: function(){
+		searchDermatologist: function(){
 		
 		    if(this.searchFirstName != '' && this.searchLastName == ''){
 		    	axios
-    			.get("pharmacists/searchPharmacistsByFirstName/" + this.searchFirstName)
+    			.get("dermatologists/searchDermatologistsByFirstName/" + this.searchFirstName)
     			.then(response => {
-    				this.pharmacistList = response.data;
+    				this.dermatologistList = response.data;
     				this.showList = true;
     			}); 
 		    }
 		    else if(this.searchFirstName == '' && this.searchLastName != '')
 		    {
 		    	axios
-    			.get("pharmacists/searchPharmacistsByLastName/" + this.searchLastName)
+    			.get("pharmacists/searchDermatologistsByLastName/" + this.searchLastName)
     			.then(response => {
-    				this.pharmacistList = response.data;
+    				this.dermatologistList = response.data;
     				this.showList = true;
     			}); 
 		    }
     		else if(this.searchFirstName !='' && this.searchLastName != ''){
     			axios
-    			.get("pharmacists/searchPharmacists/" + this.searchFirstName + "/" + this.searchLastName)
+    			.get("pharmacists/searchDermatologists/" + this.searchFirstName + "/" + this.searchLastName)
     			.then(response => {
-    				this.pharmacistList = response.data;
+    				this.dermatologistList = response.data;
     				this.showList = true;
     			});    		
     		}
     		else if (this.minRaiting != '' && this.maxRaiting != '')
             {
                 axios
-    			.get("pharmacists/filterPharmacistByRaiting/" +  this.minRaiting + "/" + this.maxRaiting)
+    			.get("pharmacists/filterDermatologistByRaiting/" +  this.minRaiting + "/" + this.maxRaiting)
     			.then(response => {
-    				this.pharmacistList = response.data;
+    				this.dermatologistList = response.data;
     				this.showList = true;
     			}); 
             }
@@ -124,4 +121,5 @@ Vue.component("searchPharmacists", {
 			this.maxRaiting = '';
 		}
     }
+
 })

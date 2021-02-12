@@ -5,16 +5,16 @@ import java.util.List;
 public class DermatologistDTO {
 	private String firstName;
 	private String lastName;
-	private double reiting;
+	private double raiting;
 	private List<String> pharmacyName;
 	
 	public DermatologistDTO() {}
 	
-	public DermatologistDTO(String firstName, String lastName, double reiting, List<String> pharmacyName) {
+	public DermatologistDTO(String firstName, String lastName, double raiting, List<String> pharmacyName) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.reiting = reiting;
+		this.raiting = raiting;
 		this.pharmacyName = pharmacyName;
 	}
 	
@@ -30,11 +30,11 @@ public class DermatologistDTO {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public double getReiting() {
-		return reiting;
+	public double getRaiting() {
+		return raiting;
 	}
-	public void setReiting(double reiting) {
-		this.reiting = reiting;
+	public void setRaiting(double raiting) {
+		this.raiting = raiting;
 	}
 	public List<String> getPharmacyName() {
 		return pharmacyName;

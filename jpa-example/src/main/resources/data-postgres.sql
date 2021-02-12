@@ -32,6 +32,10 @@ INSERT INTO public.address(
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
 	VALUES (9, 'Novi Sad','Srbija', 48, 44, 'Kosovska', 18);
+	
+INSERT INTO public.address(
+	address_id, city, country, latitude, longitude, street, street_number)
+	VALUES (10, 'Backi Jarak','Srbija', 48, 44, 'Veljka Vlahovica', 10);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description, adress_id)
@@ -99,10 +103,17 @@ INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('PharmacyAdministrator', 6, 'isateam39@gmail.com', 'Marko', 'Markovic', 'marko', '064/789-11-10', 'marko123', 'PH_ADMINISTRATOR', null, null, 6, 1, null);	
 
-INSERT INTO public."user"(
+INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Pharmacist', 7, 'isateam39@gmail.com', 'Ana', 'Tankosic', '123', '064/010-65-66', 'ana123', 'PHARMACIST', 9.2, null, 6, 1, null);
 	
+INSERT INTO public.user(
+	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', 10, 'isateam39@gmail.com', 'Stefan', 'Rakic', '123', '064/010-65-66', 'stefan123', 'DERMATOLOGIST', 7.6, null, 10, 1, null);
+
+INSERT INTO public.user(
+	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', 11, 'isateam39@gmail.com', 'Katarina', 'Majkic', '123', '060/588-15-85', 'katarina123', 'DERMATOLOGIST', 9.6, null, 9, 2, null);
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)

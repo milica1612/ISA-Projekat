@@ -1,15 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.iservice.IAllergyService;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
-import rs.ac.uns.ftn.informatika.jpa.iservice.IAllergyService;
 import rs.ac.uns.ftn.informatika.jpa.repository.IAllergyRepository;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class AllergyService implements IAllergyService{

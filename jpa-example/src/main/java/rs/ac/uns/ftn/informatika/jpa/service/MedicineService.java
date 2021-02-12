@@ -3,7 +3,6 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

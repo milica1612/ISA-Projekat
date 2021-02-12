@@ -5,6 +5,7 @@ const logIn = {template: '<logIn></logIn>'}
 const supplier = {template: '<supplier></supplier>'}
 const addMedicines = {template: '<addMedicines></addMedicines>'}
 const searchPharmacists = {template: '<searchPharmacists></searchPharmacists>'}
+const searchDermatologists = {template: '<searchDermatologists></searchDermatologists>'}
 const patient = {template: '<patient></patient>'}
 const seeOffers = {template: '<seeOffers></seeOffers>'}
 const registerPhAdmin = {template: '<registerPhAdmin></registerPhAdmin>'}
@@ -22,6 +23,7 @@ const router = new VueRouter({
 		{path: '/supplier', component: supplier},
 		{path: '/addMedicines', component: addMedicines},
 		{path: '/searchPharmacists', component: searchPharmacists},
+		{path: '/searchDermatologists', component: searchDermatologists},
 		{path: '/patient', component: patient},
 		{path: '/seeOffers', component: seeOffers},
 		{path: '/registerPhAdmin', component: registerPhAdmin},
