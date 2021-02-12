@@ -1,52 +1,91 @@
 Vue.component("registerDerm", {
 	data: function () {
 		    return {
-		        dermatologist: null,
-				mode: 'BROWSE'
+		    	registered: false,
+		    	dermatologist: null,
+		    	emailError: "",
+		    	firstNameError: "",
+		    	lastNameError: "",
+		    	streetError: "",
+		    	streetNumberError: "",
+		    	cityError: "",
+		    	countryError: "",
+		    	phoneNumberError: "",
+		    	error: "",
+		    	passwordError: ""
 		    }
 	},
 	template: `
-	<div>
-		  <div>
-		    <h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">CREATE {{dermatologist.userType}} ACCOUNT</h1>
-		    <br>
-		<table style = "margin:0 auto;">
-		    <tr>
-		    <th> <label style = "text-align:left;">Email</label></th>
-		    <th> <input type="text" v-model = "dermatologist.email" placeholder="Enter Email"  style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    <tr>
-		    <th><label><b>First Name</b></label></th>
-		    <th> <input type="text" v-model = "dermatologist.firstName" placeholder="Enter First Name"  style = "width: 355%; padding: 10px;border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    <tr>
-		    <th><label>Last Name</label></th>
-		    <th><input type="text" v-model = "dermatologist.lastName" placeholder="Enter Last Name"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    <tr>
-		    <th><label><b>Address</b></label></th>
-		    <td><input type="text" v-model = "dermatologist.address.street" placeholder="Enter Street" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "dermatologist.address.streetNumber" placeholder="Enter Street Number" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "dermatologist.address.city" placeholder="Enter City" style = "width: 70%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    <td><input type="text" v-model = "dermatologist.address.country" placeholder="Enter Country" style = "width: 48%; padding: 10px;  border: none; background: #f1f1f1;" required></td>
-		    </tr>
-		    <tr>
-		    <th><label><b>Phone Number</b></label></th>
-		    <th><input type="phoneNumber" v-model = "dermatologist.phoneNumber"  placeholder="Enter Phone Number"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    <tr>
-		    <th><label><b>Password</b></label></th>
-		    <th><input type="password" v-model = "dermatologist.password" placeholder="Enter Password"  style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		    <tr>
-		    <th><label><b>Repeat Password</b></label></th>
-		    <th><input type="password" placeholder="Repeat Password" style = "width: 355%; padding: 10px; border: none; background: #f1f1f1;" required></th>
-		    </tr>
-		   <tr>
-		    <button type="button" v-on:click = "saveDermatologist" style = "background-color: SlateBlue;padding: 10px; border: none;cursor: pointer;width: 675%;opacity: 0.9;">Register</button>
-		  </tr>
-		    </table>
-	</div>
+	<div id="login">
+		<h1>Registration</h1>
+		<form v-on:submit.prevent="isValidForm" method="post">
+			<div class="container" v-bind:hidden="registered">
+				<div class="form-floating">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.email" placeholder="Enter Email" required/>
+					<label for="floatingInput">Email</label>
+					<p>{{emailError}}</p>
+				</div>
+				
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.firstName" placeholder="Enter Last Name" required/>
+					<label for="floatingInput">First Name</label>
+				<p>{{firstNameError}}</p>
+				</div>
+				
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.lastName" placeholder="Enter First Name" required/>
+					<label for="floatingInput">Last Name</label>
+					<p>{{lastNameError}}</p>
+				</div>
+			
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.address.street" placeholder="Enter Street" required/>
+					<label for="floatingInput">Street</label>
+					<p>{{streetError}}</p>
+				</div>
+				
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.address.streetNumber" placeholder="Enter Street Number" required/>
+					<label for="floatingInput">Street Number</label>
+					<p>{{streetNumberError}}</p>
+				</div>
+				
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.address.city" placeholder="Enter City" required/>
+					<label for="floatingInput">City</label>
+					<p>{{cityError}}</p>
+				</div>
+				
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.address.country" placeholder="Enter Country" required/>
+					<label for="floatingInput">Country</label>
+					<p>{{countryError}}</p>
+				</div>
+					
+				<div class="form-floating mt-2 mb-2">
+					<input class="form-control" id="floatingInput" v-model="dermatologist.phoneNumber" placeholder="Enter Phone Number" required/>
+					<label for="floatingInput">Phone Number</label>
+					<p>{{phoneNumberError}}</p>
+				</div>
+				
+				<div class="form-floating">
+					<input type="password" class="form-control" id="floatingPassword" v-model="dermatologist.password" placeholder="Enter Password">
+					<label for="floatingPassword">Password</label>
+					<p>{{passwordError}}</p>
+				</div>
+				
+				<div class="form-floating">
+					<input type="password" class="form-control" id="floatingPassword" placeholder="Repeat Password" required>
+					<label for="floatingPassword">Repeat Password</label>
+					<p>{{passwordError}}</p>
+				</div>
+				
+				<p id="errorMessage">{{error}}</p>
+				<div id="registerButton" class="form-floating">
+					<button class="w-100 btn btn-lg btn-primary" v-on:click = "saveDermatologist" type="submit">Sign up!</button>
+				</div>
+			</div>
+		</form>
 	</div>
 		`,
 		mounted(){
@@ -58,6 +97,12 @@ Vue.component("registerDerm", {
 			saveDermatologist : function () {
 				axios
 				.post("/application/users/createDermatologist", this.dermatologist);
-			}	
+			},
+			isValidForm: function(e) {
+				if(dermatologist == null) {
+					error = "Greska";
+				}
+			}
 		}
 	});
+

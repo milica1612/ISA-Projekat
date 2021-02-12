@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,6 +83,29 @@ public class UserService implements IUserService {
 		return user;
 	}
 	
+	@Override
+	public List<UserDTO> getAllUsers() {
+        List<User> users = _userRepository.findAll();
+        List<User> usersList = new ArrayList<>();
+        for (User u : users) {
+			if(u.getUserType() == UserType.PATIENT)
+				usersList.add(u);
+        }
+        List<UserDTO> dtos = new ArrayList<>();
+        usersList.stream().forEach(user -> dtos.add(new UserDTO(user.getFirstName(), user.getLastName())));      
+        return dtos;
+	}
+	
+	@Override
+	public ArrayList<UserDTO> userSearch(UserDTO userDTO) {
+        ArrayList<UserDTO> users = new ArrayList<>();
+        for (UserDTO user : getAllUsers()) {
+            if (user.getFirstName().equals(userDTO.getFirstName()) && user.getLastName().equals(userDTO.getLastName()))
+            		users.add(user);
+        }
+        return users;
+    }
+
 	@Override
 	public List<UserDTO> findUserByUserType(UserType userType)
 	{

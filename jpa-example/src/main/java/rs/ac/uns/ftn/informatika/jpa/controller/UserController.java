@@ -44,6 +44,7 @@ public class UserController {
 		return _userService.findByEmail(email);
 	}	
 	
+
 	@GetMapping(value = "/email/{email}/{password}")
 	public User findUser(@PathVariable String email, @PathVariable String password) {
 		return _userService.findByEmailAndPassword(email, password);
@@ -65,7 +66,24 @@ public class UserController {
 		
 		session.setAttribute("email", user.getEmail());
 		return user;
-		
+	}
+	
+	@GetMapping(path = "/allpatients")
+	public List<UserDTO> getAllUsers() {
+		 return _userService.getAllUsers();
+	}
+	 
+    @PostMapping(value = "/searchUser")
+    public List<UserDTO> searchUser(@RequestBody String request) {
+    	
+    	String[] values = request.split("\\+");
+    	String[] valueNew = values[1].split("\\=");
+    	/*if (values.length != 2) {
+    		return null;
+    	}
+    	*/
+    	UserDTO user = new UserDTO(values[0], valueNew[0]);
+    	return _userService.userSearch(user);
 	}
 	
 	@PostMapping(value = "/createPatient")
@@ -93,10 +111,10 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createSupplier")
-	public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
+	public Supplier createSupplier(@RequestBody Supplier supplier){
 		
 		if(supplier == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		Supplier _supplier = new Supplier();
@@ -110,7 +128,7 @@ public class UserController {
 		_supplier.setPassword(supplier.getPassword());
 		
 		_supplier = (Supplier) _userService.save(_supplier);	
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return _supplier;
 		
 	}
 	
