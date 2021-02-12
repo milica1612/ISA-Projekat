@@ -111,10 +111,10 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createSupplier")
-	public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
+	public Supplier createSupplier(@RequestBody Supplier supplier){
 		
 		if(supplier == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		Supplier _supplier = new Supplier();
@@ -128,7 +128,7 @@ public class UserController {
 		_supplier.setPassword(supplier.getPassword());
 		
 		_supplier = (Supplier) _userService.save(_supplier);	
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return _supplier;
 		
 	}
 	

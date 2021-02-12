@@ -6,8 +6,8 @@ Vue.component("supplier", {
 				backup: []
 		    }
 	},
-	template: `
-	<div>
+	template: 
+	`
 	<div style = "margin-top: 10px;">
 	 
 		<div style = "background-color: #E0E8F0;; overflow: hidden;">
@@ -33,18 +33,18 @@ Vue.component("supplier", {
 		</tr>	
 	</table>
 </div>
-</div>
 `,
 	mounted(){
 		axios
-		.get('users/1')
+		.get('/application/users/3')
 		.then(response => (this.supplier = response.data));
 	},
 	methods: {
-		editSupplier : function () {
+		editSupplier : function (event) {
 			this.mode = "EDIT";
+			
 		},
-		saveSupplier : function () {
+		saveSupplier : function (event) {
 			this.mode = "BROWSE";
 			axios
 			.post("/application/users/update", this.supplier);
