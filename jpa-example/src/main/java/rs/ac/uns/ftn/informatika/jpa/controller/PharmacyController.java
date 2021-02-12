@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,21 +11,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
 @RestController
-@RequestMapping(value = "pharmacy")
+@RequestMapping(value = "/pharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PharmacyController {
 	
 	@Autowired
 	private PharmacyService _pharmacyService;
+	
+	@GetMapping(path = "/getPharmacyById/{pharmacyId}")
+	public PharmacyDTO getPharmacyById(@PathVariable Long pharmacyId) {
+		return  _pharmacyService.getPharmacyById(pharmacyId);
+	}
 
 	@GetMapping(value = "/{id}")
 	public Pharmacy getPharmacy(@PathVariable Long id) {
-		return (Pharmacy) _pharmacyService.findById(id);
+		return _pharmacyService.findById(id);
 	}
-	
 
 	@PostMapping(value = "/createPharmacy")
 	public ResponseEntity<Pharmacy> createPharmacy(@RequestBody Pharmacy pharmacy){

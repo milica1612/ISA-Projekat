@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
@@ -22,4 +23,14 @@ public class PharmacyService implements IPharmacyService {
 	public Pharmacy save(Pharmacy pharmacy) {
 		return _pharmacyRepository.save(pharmacy);
 	}
+
+	@Override
+	public PharmacyDTO getPharmacyById(Long pharmacyId) {		
+		Pharmacy p = _pharmacyRepository.findById(pharmacyId).orElse(null);
+		
+		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAdress().getStreet(),p.getRating(), p.getDescription());
+		
+		return result;
+	}
+
 }
