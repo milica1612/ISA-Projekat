@@ -26,12 +26,12 @@ Vue.component("searchDermatologists", {
             </tr>
             <tr>	
                <td>
-                    <input class = "input" type="number" min=0  class="form-control" id="floatingInput" v-model="minRaiting"  placeholder="Enter min for raiting">
+                    <input class = "input" type="number" min=0  class="form-control" v-model="minRaiting"  placeholder="Enter min for raiting">
                 </td>
             </tr>
             <tr>	
                 <td>
-                    <input class = "input" type="number" max=10 class="form-control" id="floatingInput" v-model="maxRaiting"  placeholder="Enter max for raiting">
+                    <input class = "input" type="number" max=10 class="form-control"  v-model="maxRaiting"  placeholder="Enter max for raiting">
                 </td>	
             </tr>
             <tr>
@@ -86,7 +86,7 @@ Vue.component("searchDermatologists", {
 		    else if(this.searchFirstName == '' && this.searchLastName != '')
 		    {
 		    	axios
-    			.get("pharmacists/searchDermatologistsByLastName/" + this.searchLastName)
+    			.get("dermatologists/searchDermatologistsByLastName/" + this.searchLastName)
     			.then(response => {
     				this.dermatologistList = response.data;
     				this.showList = true;
@@ -94,7 +94,7 @@ Vue.component("searchDermatologists", {
 		    }
     		else if(this.searchFirstName !='' && this.searchLastName != ''){
     			axios
-    			.get("pharmacists/searchDermatologists/" + this.searchFirstName + "/" + this.searchLastName)
+    			.get("dermatologists/searchDermatologists/" + this.searchFirstName + "/" + this.searchLastName)
     			.then(response => {
     				this.dermatologistList = response.data;
     				this.showList = true;
@@ -103,7 +103,7 @@ Vue.component("searchDermatologists", {
     		else if (this.minRaiting != '' && this.maxRaiting != '')
             {
                 axios
-    			.get("pharmacists/filterDermatologistByRaiting/" +  this.minRaiting + "/" + this.maxRaiting)
+    			.get("dermatologists/filterDermatologistByRaiting/" +  this.minRaiting + "/" + this.maxRaiting)
     			.then(response => {
     				this.dermatologistList = response.data;
     				this.showList = true;

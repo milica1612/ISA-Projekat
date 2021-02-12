@@ -13,15 +13,15 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
 
 @Service
-public class DermatologistService implements IDermatologistService{
+public class DermatologistService implements IDermatologistService {
 	@Autowired
 	private IDermatologistRepository _dermatologistRepository;
-	
+
 	@Override
 	public List<DermatologistDTO> getAllDermatologist() {
 		List<Dermatologist> dermatologists = _dermatologistRepository.findAll();
 		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
-		
+
 		for (Dermatologist d : dermatologists) {
 			DermatologistDTO dermatologistDTO = new DermatologistDTO();
 			dermatologistDTO.setFirstName(d.getFirstName());
@@ -34,32 +34,92 @@ public class DermatologistService implements IDermatologistService{
 			dermatologistDTO.setRaiting(d.getRating());
 			dermatologistDTOs.add(dermatologistDTO);
 		}
-		
+
 		return dermatologistDTOs;
 	}
 
 	@Override
 	public List<DermatologistDTO> searchDermatologist(String firstName, String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Dermatologist> dermatologists = _dermatologistRepository.findAllByFirstNameAndLastName(firstName,
+				lastName);
+		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
+		for (Dermatologist d : dermatologists) {
+			DermatologistDTO dermatologistDTO = new DermatologistDTO();
+			dermatologistDTO.setFirstName(d.getFirstName());
+			dermatologistDTO.setLastName(d.getLastName());
+			List<String> pharmacyNames = new ArrayList<String>();
+			for (Pharmacy p : d.getPharmacy()) {
+				pharmacyNames.add(p.getName());
+			}
+			dermatologistDTO.setPharmacyName(pharmacyNames);
+			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTOs.add(dermatologistDTO);
+
+		}
+		return dermatologistDTOs;
 	}
 
 	@Override
 	public List<DermatologistDTO> searchDermatologistsByFirstName(String firstName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Dermatologist> dermatologists = _dermatologistRepository.findAllByFirstName(firstName);
+		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
+		for (Dermatologist d : dermatologists) {
+			DermatologistDTO dermatologistDTO = new DermatologistDTO();
+			dermatologistDTO.setFirstName(d.getFirstName());
+			dermatologistDTO.setLastName(d.getLastName());
+			List<String> pharmacyNames = new ArrayList<String>();
+			for (Pharmacy p : d.getPharmacy()) {
+				pharmacyNames.add(p.getName());
+			}
+			dermatologistDTO.setPharmacyName(pharmacyNames);
+			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTOs.add(dermatologistDTO);
+
+		}
+		return dermatologistDTOs;
 	}
 
 	@Override
 	public List<DermatologistDTO> searchDermatologistsByLastName(String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Dermatologist> dermatologists = _dermatologistRepository.findAllByLastName(lastName);
+		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
+		for (Dermatologist d : dermatologists) {
+			DermatologistDTO dermatologistDTO = new DermatologistDTO();
+			dermatologistDTO.setFirstName(d.getFirstName());
+			dermatologistDTO.setLastName(d.getLastName());
+			List<String> pharmacyNames = new ArrayList<String>();
+			for (Pharmacy p : d.getPharmacy()) {
+				pharmacyNames.add(p.getName());
+			}
+			dermatologistDTO.setPharmacyName(pharmacyNames);
+			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTOs.add(dermatologistDTO);
+
+		}
+		return dermatologistDTOs;
 	}
 
 	@Override
 	public List<DermatologistDTO> filterDermatologistByRaiting(Double minRaiting, Double maxRaiting) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Dermatologist> dermatologists = _dermatologistRepository.findAll();
+		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
+
+		for (Dermatologist d : dermatologists)
+			if (d.getRating() >= minRaiting && d.getRating() <= maxRaiting) {
+				DermatologistDTO dermatologistDTO = new DermatologistDTO();
+				dermatologistDTO.setFirstName(d.getFirstName());
+				dermatologistDTO.setLastName(d.getLastName());
+				List<String> pharmacyNames = new ArrayList<String>();
+				for (Pharmacy p : d.getPharmacy()) {
+					pharmacyNames.add(p.getName());
+				}
+				dermatologistDTO.setPharmacyName(pharmacyNames);
+				dermatologistDTO.setRaiting(d.getRating());
+				dermatologistDTOs.add(dermatologistDTO);
+
+			}
+
+		return dermatologistDTOs;
 	}
 
 }
