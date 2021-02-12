@@ -83,6 +83,11 @@ INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('PharmacyAdministrator', 6, 'isateam39@gmail.com', 'Marko', 'Markovic', 'marko', '064/789-11-10', 'marko123', 'PH_ADMINISTRATOR', null, null, 6, 1, null);	
 
+INSERT INTO public."user"(
+	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Pharmacist', 7, 'isateam39@gmail.com', 'Ana', 'Tankosic', '123', '064/010-65-66', 'ana123', 'PHARMACIST', 9.2, null, 6, 1, null);
+	
+	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
 	VALUES ('1', '2021/04/04', 'PROCESSED', '1', '4');

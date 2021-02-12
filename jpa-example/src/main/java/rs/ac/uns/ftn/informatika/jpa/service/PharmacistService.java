@@ -25,7 +25,21 @@ public class PharmacistService implements IPharmacistService{
 				.collect(Collectors.toList());
 	}
 
-
+	@Override
+	public List<PharmacistDTO> searchPharmacistsByFirstName(String firstName) {
+		return _pharmacistRepository.findAllByFirstName(firstName).stream()
+				.map(p -> new PharmacistDTO(p.getFirstName(), p.getLastName(), p.getRating(), p.getPharmacy().getName()))
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<PharmacistDTO> searchPharmacistsByLastName(String lastName) {
+		return _pharmacistRepository.findAllByLastName(lastName).stream()
+				.map(p -> new PharmacistDTO(p.getFirstName(), p.getLastName(), p.getRating(), p.getPharmacy().getName()))
+				.collect(Collectors.toList());
+	}
+	
+	
 	@Override
 	public List<PharmacistDTO> searchPharmacist(String firstName, String lastName) {
 		return _pharmacistRepository.findAllByFirstNameAndLastName(firstName, lastName).stream()

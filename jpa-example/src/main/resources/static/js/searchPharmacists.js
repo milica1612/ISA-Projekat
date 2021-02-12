@@ -60,7 +60,25 @@ Vue.component("searchPharmacists", {
     },
     methods: {
 		searchPharmacist: function(){
-    		if(this.searchFirstName !='' || this.searchLastName != ''){
+		
+		    if(this.searchFirstName != '' && this.searchLastName == ''){
+		    	axios
+    			.get("pharmacists/searchPharmacistsByFirstName/" + this.searchFirstName)
+    			.then(response => {
+    				this.pharmacistList = response.data;
+    				this.showList = true;
+    			}); 
+		    }
+		    else if(this.searchFirstName == '' && this.searchLastName != '')
+		    {
+		    	axios
+    			.get("pharmacists/searchPharmacistsByLastName/" + this.searchLastName)
+    			.then(response => {
+    				this.pharmacistList = response.data;
+    				this.showList = true;
+    			}); 
+		    }
+    		else if(this.searchFirstName !='' && this.searchLastName != ''){
     			axios
     			.get("pharmacists/searchPharmacists/" + this.searchFirstName + "/" + this.searchLastName)
     			.then(response => {
