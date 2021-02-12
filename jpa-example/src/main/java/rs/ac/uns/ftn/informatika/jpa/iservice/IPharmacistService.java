@@ -6,7 +6,9 @@ import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 
 public interface IPharmacistService {
 	
-    List<PharmacistDTO> getAllPharmacists();
+    List<PharmacistDTO> getAllPharmacist();
 	
     List<PharmacistDTO> searchPharmacist(String firstName, String lastName);
+
+	List<PharmacistDTO> findPharmacistsByPharmacy(Long pharmacyId);
 }

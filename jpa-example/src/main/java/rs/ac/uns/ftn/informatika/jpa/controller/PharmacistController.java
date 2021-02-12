@@ -20,13 +20,19 @@ public class PharmacistController {
 	private PharmacistService _pharmacistSerivce ;
 	
 	@GetMapping(path = "/all")
-	public List<PharmacistDTO> getAllPharmacists() {
-		 return _pharmacistSerivce.getAllPharmacists();
+	public List<PharmacistDTO> getAllPharmacist() {
+		 return _pharmacistSerivce.getAllPharmacist();
 	}
 	
 	@GetMapping(path = "/searchPharmacists/{firstName}/{lastName}")
 	public List<PharmacistDTO> searchPharmacist(@PathVariable String firstName, @PathVariable String lastName){
 		 return _pharmacistSerivce.searchPharmacist(firstName, lastName);
 	}
-
+	
+	@GetMapping(path = "/findPharmacistsByPharmacy/{pharmacyId}")
+	public List<PharmacistDTO> findPharmacistsByPharmacy(@PathVariable Long pharmacyId)
+	{
+		return _pharmacistSerivce.findPharmacistsByPharmacy(pharmacyId);
+	}
+	
 }
