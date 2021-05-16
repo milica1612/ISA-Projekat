@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class PharmacyAdministrator extends User {
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)      
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)      
 	public Pharmacy pharmacy;
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
