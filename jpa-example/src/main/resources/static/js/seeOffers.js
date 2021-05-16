@@ -1,4 +1,3 @@
-
 Vue.component("seeOffers", {
 	data: function () {
 		    return {
@@ -32,7 +31,7 @@ Vue.component("seeOffers", {
 		<td style = "border: 1px solid black;">Pharmacy Name</td>
 		</tr>
 		<tr v-for = "o in seeOffers" style = "border: 1px solid black; background-color: #E0E8F0;">
-				<td style = "border: 1px solid black;">{{o.deliveryDeadline}}</td>
+				<td style = "border: 1px solid black;">{{o.deliveryDeadline.substring(0,10)}}</td>
 				<td style = "border: 1px solid black;">{{o.price}}</td>
 				<td style = "border: 1px solid black;">{{o.status}}</td>
 				<td style = "border: 1px solid black;">{{o.order.orderStatus}}</td>
@@ -46,15 +45,18 @@ Vue.component("seeOffers", {
 			
 		<table style = " width:100%; background-color: #E0E8F0;">
 		<tr style = "background-color: #60A0A0;">
-		<td style = "border: 1px solid black;">Offer deadline</td>
-		<td style = "border: 1px solid black;">Status</td>
-		<td style = "border: 1px solid black;">Pharmacy</td>
-
+			<td style = "border: 1px solid black;">Offer deadline</td>
+			<td style = "border: 1px solid black;">Status</td>
+			<td style = "border: 1px solid black;">Pharmacy</td>
+			<td style = "border: 1px solid black; width:10%">Give suggest</td>
 		</tr>
-		<tr v-for = "os in showOrder" style = "background-color: #E0E8F0;">				
-				<td style = "border: 1px solid black;">{{os.offerDeadline}}</td>
+		<tr v-for = "os in showOrders" style = "background-color: #E0E8F0;">				
+				<td style = "border: 1px solid black;">{{os.offerDeadline.substring(0,10)}}</td>
 				<td style = "border: 1px solid black;">{{os.orderStatus}}</td>
 				<td style = "border: 1px solid black;">{{os.pharmacy.name}}</td>
+				<td style = "border: 1px solid black;">
+					<a href = "#/suggestOffer">Suggest offer</a>
+				</td>
 		</tr>
 		</table>
 		
@@ -64,34 +66,35 @@ Vue.component("seeOffers", {
 `,
 	mounted(){
 		axios
-		.get('offers/seeOffers/1')
+		.get('offers/seeOffers/3')
 		.then(response => (this.seeOffers = response.data));
+
 		axios
 		.get('orders/allOrders')
-		.then(response => (this.showOrder = response.data));
+		.then(response => (this.showOrders = response.data));
 	},
 	methods: {
 		showAll: function(){
 			axios
-			.get("/application/offers/seeOffers/1")
+			.get("/application/offers/seeOffers/3")
 			.then(response => (this.seeOffers = response.data));
 		},
 		filtrateOffersA: function(event){
 			axios
-			.get("/application/offers/filtrate/ACCEPTED/1")
+			.get("/application/offers/filtrate/ACCEPTED/3")
 			.then(response => (this.seeOffers = response.data));
 		},
 		filtrateOffersD: function(event){
 			axios
-			.get("/application/offers/filtrate/DECLINED/1")
+			.get("/application/offers/filtrate/DECLINED/3")
 			.then(response => (this.seeOffers = response.data));
 		},
 		filtrateOffersW: function(event){
 			axios
-			.get("/application/offers/filtrate/WAITING/1")
+			.get("/application/offers/filtrate/WAITING/3")
 			.then(response => (this.seeOffers = response.data));
 		},
-		showOrder: function(os){
+		showOrders: function(os){
 			axios
 			.get('/application/orders/allOrders', os)
 			.then(response => (this.showOrders = response.data));

@@ -1,8 +1,12 @@
 Vue.component("logIn", {
 	data: function () {
 		    return {
+		    	currentUser: {},
 		    	logged: false,
-		    	user: null
+		    	user: null,
+		    	emailError: "",
+		    	passwordError: "",
+		    	error: ""
 		    }
 	},
 	template: `
@@ -11,12 +15,12 @@ Vue.component("logIn", {
 		<form v-on:submit.prevent="isValidForm" method="post">
 			<div class="container" v-bind:hidden="logged">
 				<div class="form-floating mt-2 mb-2">
-					<input class="form-control" id="floatingInput" v-model="email" placeholder="Enter Email">
+					<input class="form-control" id="floatingInput" v-model="currentUser.email" placeholder="Enter Email">
 					<label for="floatingInput">Email</label>
 					<p>{{emailError}}</p>
 				</div>
 				<div class="form-floating">
-					<input type="password" class="form-control" id="floatingPassword" v-model="password" placeholder="Enter Password">
+					<input type="password" class="form-control" id="floatingPassword" v-model="currentUser.password" placeholder="Enter Password">
 					<label for="floatingPassword">Password</label>
 					<p>{{passwordError}}</p>
 				</div>
@@ -27,7 +31,6 @@ Vue.component("logIn", {
 			</div>
 		</form>
 	</div>
-
 		`,
 		mounted(){
 			axios

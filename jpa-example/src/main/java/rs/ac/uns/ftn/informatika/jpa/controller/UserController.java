@@ -1,10 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Set;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,13 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
-import rs.ac.uns.ftn.informatika.dto.UserDTO;
-
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -52,6 +48,11 @@ public class UserController {
 	@GetMapping(value = "/email/{email}/{password}")
 	public User findUser(@PathVariable String email, @PathVariable String password) {
 		return _userService.findByEmailAndPassword(email, password);
+	}	
+	
+	@GetMapping(path = "/findAllByUserType/{userType}")
+	public List<UserDTO> findAllByPharmacyIdAndUserType(@PathVariable UserType userType) {
+		return _userService.findUserByUserType(userType);
 	}	
 	
 	@GetMapping(value = "/login")
@@ -110,10 +111,10 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/createSupplier")
-	public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
+	public Supplier createSupplier(@RequestBody Supplier supplier){
 		
 		if(supplier == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		Supplier _supplier = new Supplier();
@@ -127,7 +128,7 @@ public class UserController {
 		_supplier.setPassword(supplier.getPassword());
 		
 		_supplier = (Supplier) _userService.save(_supplier);	
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return _supplier;
 		
 	}
 	

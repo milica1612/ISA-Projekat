@@ -1,6 +1,10 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -9,6 +13,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Dermatologist extends PharmacyEmployee {
 	
+
    @ManyToMany(fetch = FetchType.EAGER)
 	public Set<Pharmacy> pharmacy;
 

@@ -1,11 +1,6 @@
-package rs.ac.uns.ftn.informatika.dto;
-
-import javax.persistence.Column;
-
-import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+package rs.ac.uns.ftn.informatika.jpa.dto;
 
 public class UserDTO {
-
 	private String firstName;	
     private String lastName;
 
@@ -32,5 +27,4 @@ public class UserDTO {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
 }

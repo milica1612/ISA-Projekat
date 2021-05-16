@@ -29,16 +29,40 @@ public class Pharmacy {
 	@Column(name = "rating")
     protected Double rating;
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<PharmacyAdministrator> getPhAdministrators() {
+		return phAdministrators;
+	}
+
+	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
+		this.phAdministrators = phAdministrators;
+	}
+
+	public Address getAdress() {
+		return adress;
+	}
+
+	public void setAdress(Address adress) {
+		this.adress = adress;
+	}
+
 	@Column(name = "description")
     protected String description;
 	
+
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     public Set<Pharmacist> pharmacist;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<MedicineItem> medicineItem;
 	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<Dermatologist> dermatologist;
-	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<PharmacyAdministrator> phAdministrators;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
