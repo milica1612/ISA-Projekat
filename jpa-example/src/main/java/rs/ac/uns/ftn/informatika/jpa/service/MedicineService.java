@@ -46,6 +46,18 @@ public class MedicineService implements IMedicineService{
 		
 		return result;
 	}
+
+	@Override
+	public ArrayList<Medicine> findMedicineByName(String name) {
+		ArrayList<Medicine> medicine = findAllMedicine();
+		ArrayList<Medicine> result = new ArrayList<Medicine>();
+		
+		for (Medicine med : medicine) {
+			if(med.getName().equals(name))
+				result.add(med);
+		}
+		return result;
+	}
 	
 	
 }
