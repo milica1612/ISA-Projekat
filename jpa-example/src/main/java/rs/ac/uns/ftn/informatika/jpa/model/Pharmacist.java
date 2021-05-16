@@ -1,10 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
-<<<<<<< Updated upstream
-import java.util.HashSet;
 
-=======
+import java.util.HashSet;
 import javax.persistence.CascadeType;
->>>>>>> Stashed changes
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -17,7 +14,7 @@ public class Pharmacist extends PharmacyEmployee {
 	public Pharmacy pharmacy;
 	   	
     public Pharmacist(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, UserType userType, Address address, Double rating) {
+			String phoneNumber, UserType userType, Address address, Double rating, Pharmacy pharmacy) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userType, address, rating);
 		this.pharmacy = pharmacy;
     }
