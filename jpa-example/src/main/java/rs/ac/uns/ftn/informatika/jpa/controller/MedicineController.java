@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,12 @@ public class MedicineController {
 	public ArrayList<Medicine> findAllMedicine(){
 		return _medicineService.findAllMedicine();
 	}
+	
+	@GetMapping(value = "/getMedicineByName/{name}")
+	public ArrayList<Medicine> findMedicineByName(@PathVariable String name){
+		return _medicineService.findMedicineByName(name);
+	}
+	
 	@PutMapping(value = "/forAllergies")
 	public ArrayList<Medicine> findAllMedicineForAllergies(@RequestBody Allergy allergy){
 		return _medicineService.findAllMedicineForAllergies(allergy);
