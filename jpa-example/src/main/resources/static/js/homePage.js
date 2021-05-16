@@ -6,20 +6,32 @@ Vue.component("homePage", {
 		    }
 	},
 	template: `
-	<div>		
-			<table style = "width: 100%; border-bottom: 1px solid #ddd;">
-				<tr><th colspan="3">Pharmacies</th></tr>
-				<tr style = "border-bottom: 1px solid #ddd;">
-					<td style = "border-bottom: 1px solid #ddd;">Name</td>
-					<td style = "border-bottom: 1px solid #ddd;">Rating</td>
-					<td style = "border-bottom: 1px solid #ddd;">Description</td>
+	<div id = "homePage">	
+
+			<h2>Pharmacies</h2>
+			<a href = "#/searchMedicine">Show medicines</a>
+			<br>
+			<label for="searchPharmacies">Search Pharmacies:</label>
+			<input type="search" id="searchPharmacies" name="searchPharmacies">
+			<button type="submit">Search</button>
+			<br>
+			<label class = "filtrate">Filtrate:</label>
+			<button type="submit">Rating</button>
+			
+			<div class = "container">
+			<table class = "table">
+				<tr style = "background-color: #60A0A0;">
+					<td>Name</td>
+					<td>Rating</td>
+					<td>Address</td>
 				</tr>
-				<tr style = "border-bottom: 1px solid #ddd;" v-for="p in pharmacies">
-					<td style = "border-bottom: 1px solid #ddd;" >{{p.name}}</td>
-					<td style = "border-bottom: 1px solid #ddd;">{{p.rating}}</td>
-					<td style = "border-bottom: 1px solid #ddd;">{{p.description}}</td>
+				<tr v-for="p in pharmacies">
+					<td>{{p.name}}</td>
+					<td>{{p.rating}}</td>
+					<td>{{p.adress.street + " " + p.adress.streetNumber + ", " + p.adress.city + ", " + p.adress.country}}</td>
 				</tr>
 			</table>
+			</div>
 		</div>
 
 		`,
