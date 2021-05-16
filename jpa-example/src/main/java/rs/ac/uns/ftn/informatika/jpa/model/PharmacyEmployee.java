@@ -16,7 +16,6 @@ public class PharmacyEmployee extends User {
 		this.rating = rating;
 	}
 
-
 	
 	public PharmacyEmployee()
 	{

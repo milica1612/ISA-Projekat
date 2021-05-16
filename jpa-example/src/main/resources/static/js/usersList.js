@@ -19,8 +19,8 @@ Vue.component("allpatients",{
 			</table>		
 			<table style = "width: 100%; border-bottom: 1px solid #ddd;">
 				<tr style = "border-bottom: 1px solid #ddd;">
-					<td style = "border-bottom: 1px solid #ddd;">IME:</td>
-					<td style = "border-bottom: 1px solid #ddd;">PREZIME:</td>
+					<td style = "border-bottom: 1px solid #ddd;">FIRSTNAME:</td>
+					<td style = "border-bottom: 1px solid #ddd;">LASTNAME:</td>
 				</tr>
 				<tr style = "border-bottom: 1px solid #ddd;" v-for="p in allpatients" v-on:click="selectUser(p)" v-bind:class="{selected: selectedUser.id===p.id}">
 					<td style = "border-bottom: 1px solid #ddd;" >{{p.firstName}}</td>

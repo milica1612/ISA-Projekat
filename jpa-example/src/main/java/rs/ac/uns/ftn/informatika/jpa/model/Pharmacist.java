@@ -1,6 +1,10 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
+<<<<<<< Updated upstream
 import java.util.HashSet;
 
+=======
+import javax.persistence.CascadeType;
+>>>>>>> Stashed changes
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
