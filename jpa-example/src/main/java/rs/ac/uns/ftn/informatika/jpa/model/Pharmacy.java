@@ -32,13 +32,13 @@ public class Pharmacy {
 	@Column(name = "description")
     protected String description;
 	
-	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     public Set<Pharmacist> pharmacist;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<MedicineItem> medicineItem;
-	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<Dermatologist> dermatologist;
-	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<PharmacyAdministrator> phAdministrators;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

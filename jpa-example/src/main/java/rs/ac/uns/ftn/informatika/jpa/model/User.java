@@ -59,6 +59,7 @@ public class User {
 		this.userType = userType;
 		this.address = address;
     }
+	
     public User(String firstName, String lastName, String userName, String password, String email,
     		String phoneNumber, UserType userType, Address address) {
     		super();

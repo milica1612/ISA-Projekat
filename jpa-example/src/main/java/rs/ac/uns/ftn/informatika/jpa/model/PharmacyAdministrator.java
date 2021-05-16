@@ -9,15 +9,15 @@ import javax.persistence.ManyToOne;
 @Entity
 public class PharmacyAdministrator extends User {
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)      
+	@ManyToOne(fetch = FetchType.EAGER)      
 	public Pharmacy pharmacy;
 
-	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
+	/*public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, Long userId, UserType userType, Address address, Pharmacy pharmacy) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
 		this.pharmacy = pharmacy;
 	}
-
+*/
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, UserType userType, Address address, Pharmacy pharmacy) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userType, address);
