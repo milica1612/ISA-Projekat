@@ -34,6 +34,11 @@ public class PharmacyController {
 		return _pharmacyService.findAllPharmacy();
 	}
 	
+	@GetMapping(value = "/getByNameOrAddress/{parametar}")
+	public ArrayList<Pharmacy> getPharmacyByNameOrAddress(@PathVariable String parametar) {
+		return _pharmacyService.getPharmacyByNameOrAddress(parametar);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public Pharmacy getPharmacy(@PathVariable Long id) {
 		return _pharmacyService.findById(id);

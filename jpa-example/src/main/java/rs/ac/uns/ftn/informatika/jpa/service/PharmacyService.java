@@ -36,7 +36,50 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	public ArrayList<Pharmacy> findAllPharmacy() {
-		// TODO Auto-generated method stub
 		return (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
 	}
+
+	@Override
+	public ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar) {
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = getPharmacyByName(parametar);
+		if(!result.isEmpty()) {
+			return result;
+		}
+		result = getPharmacyByAddress(parametar);
+		
+		return result;
+	}
+	
+	public ArrayList<Pharmacy> getPharmacyByName(String name){
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getName().equals(name)) {
+				result.add(pharmacy);
+			}
+		}
+		return result;
+	}
+	
+	public ArrayList<Pharmacy> getPharmacyByAddress(String address){
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		try {
+		String[] parts = address.trim().split(",");
+		String street = parts[0].trim();
+		String streetNumber = parts[1].trim();
+		String city = parts[2].trim();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getAdress().getStreet().equals(street) && pharmacy.getAdress().getStreetNumber().equals(streetNumber) && pharmacy.getAdress().getCity().equals(city)) {
+				result.add(pharmacy);
+			}
+		}
+		}catch (Exception e) {
+			return result;
+		}
+		
+		return result;
+	}
+	
 }
