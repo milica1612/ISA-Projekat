@@ -14,5 +14,7 @@ public interface IPharmacyService {
 	PharmacyDTO getPharmacyById(Long pharmacyId);
 	
 	ArrayList<Pharmacy> findAllPharmacy();
+	
+	ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar);
 
 }
