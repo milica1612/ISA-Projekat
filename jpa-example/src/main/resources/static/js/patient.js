@@ -11,7 +11,7 @@ Vue.component("patient",{
 template:
 	`
 	<div>
-	<h1 style = "margin:0 auto; text-align:center; background-color:#f1f1f1;">User profile</h1>
+	<h1 style = "margin:0 auto; text-align:center;">User profile</h1>
 	<br/>
 		<table style = "margin:0 auto; padding: 20px;">
 		<tr>

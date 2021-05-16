@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,11 @@ public class PharmacyController {
 		return  _pharmacyService.getPharmacyById(pharmacyId);
 	}
 
+	@GetMapping(value = "")
+	public ArrayList<Pharmacy> getAllPharmacies() {
+		return _pharmacyService.findAllPharmacy();
+	}
+	
 	@GetMapping(value = "/{id}")
 	public Pharmacy getPharmacy(@PathVariable Long id) {
 		return _pharmacyService.findById(id);
