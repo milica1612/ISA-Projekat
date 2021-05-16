@@ -1,33 +1,33 @@
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (1, 'Novi Sad', 'Srbija', 48, 44, 'Danila Kisa', 30);
+	VALUES ('1', 'Novi Sad', 'Srbija', 48, 44, 'Danila Kisa', 30);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (2, 'Novi Sad', 'Srbija', 48, 44, 'Branka Bajića', 20);	
+	VALUES ('2', 'Novi Sad', 'Srbija', 48, 44, 'Branka Bajića', 20);	
 	
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (3, 'Novi Sad', 'Srbija', 48, 44, 'Bulevar kralja Petra I', 25);	
+	VALUES ('3', 'Novi Sad', 'Srbija', 48, 44, 'Bulevar kralja Petra I', 25);	
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (4, 'Novi Sad','Srbija', 48, 44, 'Alekse Santica', 46);
+	VALUES ('4', 'Novi Sad','Srbija', 48, 44, 'Alekse Santica', 46);
 	
 INSERT INTO public.address(address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (5, 'Novi Sad','Srbija', 48, 44, 'Alekse Santica', 11);
+	VALUES ('5', 'Novi Sad','Srbija', 48, 44, 'Alekse Santica', 11);
 	
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (6, 'Novi Sad','Srbija', 48, 44, 'Kisacka', 3);
+	VALUES ('6', 'Novi Sad','Srbija', 48, 44, 'Kisacka', 3);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (7, 'Novi Sad','Srbija', 48, 44, 'Maksima Gorkog', 11);
+	VALUES ('7', 'Novi Sad','Srbija', 48, 44, 'Maksima Gorkog', 11);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (8, 'Novi Sad','Srbija', 48, 44, 'Sremska', 98);
+	VALUES ('8', 'Novi Sad','Srbija', 48, 44, 'Sremska', 98);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
@@ -77,7 +77,7 @@ INSERT INTO public.allergy_medicine(
 
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Patient', 1, 'milica98@gmail.com', 'Milica', 'Lukic', 'm_98', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
+	VALUES ('Patient', '1', 'milica98@gmail.com', 'Milica', 'Lukic', 'm_98', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
 	
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id)
@@ -85,19 +85,19 @@ INSERT INTO public.loyalty_card(
 
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', 2, 'isateam39@gmail.com', 'Pera', 'Peric', 'pera', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
+	VALUES ('Supplier', '2', 'isateam39@gmail.com', 'Pera', 'Peric', 'pera', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
 
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', 3, 'isateam39@gmail.com', 'Mirko', 'Mirkovic', 'mm', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
+	VALUES ('Supplier', '3', 'isateam39@gmail.com', 'Mirko', 'Mirkovic', 'mm', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
 
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', 4, 'isateam39@gmail.com', 'Luka', 'Lukovic', 'lukal', '061/333-11-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
+	VALUES ('Supplier', '4', 'isateam39@gmail.com', 'Luka', 'Lukovic', 'lukal', '061/333-11-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
 
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Pharmacist', 5, 'isateam39@gmail.com', 'Nikola', 'Nikolic', '123', '061/000-25-10', 'nikola123', 'PHARMACIST', 7.2, null, 3, 1, null);
+	VALUES ('Pharmacist', '5', 'isateam39@gmail.com', 'Nikola', 'Nikolic', '123', '061/000-25-10', 'nikola123', 'PHARMACIST', 7.2, null, 3, 1, null);
 	
 INSERT INTO public.user(
 	dtype, user_id, email, first_name, last_name, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)

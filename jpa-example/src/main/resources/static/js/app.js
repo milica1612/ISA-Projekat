@@ -12,6 +12,7 @@ const registerPhAdmin = {template: '<registerPhAdmin></registerPhAdmin>'}
 const registerDerm = {template: '<registerDerm></registerDerm>'}
 const allpatients = {template: '<allpatients></allpatients>'}
 const pharmacyProfile = {template: '<pharmacyProfile></pharmacyProfile>'}
+const suggestOffer = {template: '<suggestOffer></suggestOffer>'}
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -29,7 +30,8 @@ const router = new VueRouter({
 		{path: '/registerPhAdmin', component: registerPhAdmin},
 		{path: '/registerDerm', component: registerDerm},
 		{path: '/allpatients', component: allpatients},
-		{path: '/pharmacyProfile', component: pharmacyProfile}
+		{path: '/pharmacyProfile', component: pharmacyProfile},
+		{path: '/suggestOffer', component: suggestOffer}
 	]
 });
 

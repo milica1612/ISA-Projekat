@@ -1,4 +1,3 @@
-
 Vue.component("seeOffers", {
 	data: function () {
 		    return {
@@ -56,7 +55,7 @@ Vue.component("seeOffers", {
 				<td style = "border: 1px solid black;">{{os.orderStatus}}</td>
 				<td style = "border: 1px solid black;">{{os.pharmacy.name}}</td>
 				<td style = "border: 1px solid black;">
-					<a href = "#/">Suggest offer</a>
+					<a href = "#/suggestOffer">Suggest offer</a>
 				</td>
 		</tr>
 		</table>

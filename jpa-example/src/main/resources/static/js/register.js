@@ -107,7 +107,7 @@ Vue.component("register", {
 </div>
 		`,
 		mounted(){
-			this.newUser.UserType = "SUPPLIER";
+			this.newUser.UserType = "PATIENT";
 		},
 		methods: {
 			saveSupplier : function (supplier) {
