@@ -150,6 +150,36 @@ hr {
   border: none;
   cursor: pointer;
 }
+
 #homePage a {
+	margin-right : 16px;
+}
+
+#searchMedicine h2 
+{
+	text-align: center;
+}
+
+#searchMedicine label {
+  margin-top: 8px;
+  margin-left: 130px;
+}
+
+#searchMedicine input[type=search] { 
+  border: none;
+  margin-top: 8px;
+  margin-left: 16px;
+}
+
+#searchMedicine button {
+  margin-top: 8px;
+  margin-left: 16px;
+  background: #60A0A0;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+#searchMedicine a {
 	margin-right : 16px;
 }

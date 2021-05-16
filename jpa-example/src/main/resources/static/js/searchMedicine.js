@@ -1,7 +1,7 @@
 Vue.component("searchMedicine", {
 	data: function () {
 		    return {
-		    	medicine: []
+		    	medicines: []
 		    }
 	},
 	template: `
@@ -9,7 +9,7 @@ Vue.component("searchMedicine", {
 
 			<h2>Search Medicine</h2>
 			<br>
-			<label for="searchPharmacies">Search Pharmacies:</label>
+			<label>Search Medicines:</label>
 			<input type="search">
 			<button type="submit">Search</button>
 			<br>
@@ -20,8 +20,8 @@ Vue.component("searchMedicine", {
 			<table class = "table">
 				<tr style = "background-color: #60A0A0;">
 					<td>Name</td>
+					<td>Type</td>
 					<td>Rating</td>
-					<td>Address</td>
 				</tr>
 				<tr v-for="m in medicines">
 					<td>{{m.name}}</td>
@@ -30,10 +30,11 @@ Vue.component("searchMedicine", {
 			</table>
 			</div>
 		</div>
-
 		`,
 		mounted(){
 		axios
+		.get('/application/medicine')
+		.then(response => (this.medicines = response.data));
 	
 	}
 	});

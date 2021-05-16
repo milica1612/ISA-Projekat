@@ -2,7 +2,8 @@ Vue.component("homePage", {
 	data: function () {
 		    return {
 		    	logged: false,
-		    	pharmacies: []
+		    	pharmacies: [],
+		    	searchField: ""
 		    }
 	},
 	template: `
@@ -11,9 +12,10 @@ Vue.component("homePage", {
 			<h2>Pharmacies</h2>
 			<a href = "#/searchMedicine">Show medicines</a>
 			<br>
+
 			<label for="searchPharmacies">Search Pharmacies:</label>
-			<input type="search" id="searchPharmacies" name="searchPharmacies">
-			<button type="submit">Search</button>
+			<input type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>
+			<button type="submit" v-on:click = "searchPharmacies">Search</button>
 			<br>
 			<label class = "filtrate">Filtrate:</label>
 			<button type="submit">Rating</button>
@@ -40,5 +42,12 @@ Vue.component("homePage", {
 		.get('/application/pharmacy')
 		.then(response => (this.pharmacies = response.data));
 		
-	}
+		},
+		methods: {
+			searchPharmacies: function() {
+				axios
+				.get("/application/pharmacy/getByNameOrAddress/" + this.searchField)
+				.then(response => (this.pharmacies = response.data));
+				}
+		}
 	});
