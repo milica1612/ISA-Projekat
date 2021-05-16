@@ -26,7 +26,7 @@ Vue.component("allpatients",{
 					<td style = "border-bottom: 1px solid #ddd;" >{{p.firstName}}</td>
 					<td style = "border-bottom: 1px solid #ddd;">{{p.lastName}}</td>
 					<li class="nav-item">
-              			<a class="nav-link" href="#/user/p.id">See profile</a>
+              			<a class="nav-link" href="#/patient">See profile</a>
             		</li>
 				</tr>
 			</table>
