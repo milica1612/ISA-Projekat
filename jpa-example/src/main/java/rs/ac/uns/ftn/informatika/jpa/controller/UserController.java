@@ -85,7 +85,7 @@ public class UserController {
     	UserDTO user = new UserDTO(values[0], valueNew[0]);
     	return _userService.userSearch(user);
 	}
-	
+	/*
 	@PostMapping(value = "/createPatient")
 	public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
 
@@ -177,7 +177,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		
 	}
-
+*/
 	@PostMapping(value = "/update")
 	public void updateUser(@RequestBody User user) throws Exception {
 		

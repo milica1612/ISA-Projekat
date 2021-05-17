@@ -13,4 +13,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 public interface IUserRepository extends JpaRepository<User, Long> {
 	
 	List<User> findUserByUserType(UserType user_type);
+
+	User findByUsername(String username);
 }

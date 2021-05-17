@@ -7,10 +7,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
+import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -20,7 +23,14 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private IUserRepository _userRepository;
+	
+	@Autowired
+	private AuthorityService _authorityService;
 
+	@Autowired
+	private PasswordEncoder _passwordEncoder;
+	
+	
 	@Override
 	public User findById(Long id) {
 		
@@ -28,9 +38,22 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public User save(User user) {
-		return _userRepository.save(user);
+	public User save(RegistrationRequest request) {
+		User u = new User();
+		u.setUserName(request.getUsername());
+		u.setPassword(_passwordEncoder.encode(request.getPassword()));
+		u.setFirstName(request.getFirstName());
+		u.setLastName(request.getLastName());
+		u.setEnabled(true);
+		
+		List<Authority> auth = _authorityService.findByName("ROLE_USER");
+		u.setAuthorities(auth);
+		
+		u = this._userRepository.save(u);
+		return u;
 	}
+	
+	
 	
 	@Override
 	public void update(@Valid User user) {
@@ -111,5 +134,9 @@ public class UserService implements IUserService {
 	{
 		return _userRepository.findUserByUserType(userType).stream()
 				.map(u -> new UserDTO(u.getFirstName(), u.getLastName())).collect(Collectors.toList());
+	}
+
+	public User findByUsername(String username) {
+			return _userRepository.findByUsername(username);
 	}
 }

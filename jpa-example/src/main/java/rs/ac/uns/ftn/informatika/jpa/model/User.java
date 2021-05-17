@@ -1,5 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +14,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
@@ -26,7 +41,7 @@ public class User {
     private String lastName;
 	
 	@Column(name = "username")
-    private String userName;
+    private String username;
 	
 	@Column(name = "password", nullable = false)
     private String password;
@@ -36,28 +51,42 @@ public class User {
 	
 	@Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
-   
+
+	@Column(name = "lastResetPassDate", nullable = false)
+    private Date lastResetPasswordDate;
+	
 	@Enumerated(EnumType.STRING)
     private UserType userType;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
     private Address address;
+	
+	@Column(name = "enabled", nullable = false)
+	private Boolean enabled;
    
+	@ManyToMany(fetch = FetchType.EAGER)
+	/*@JoinTable(name = "user_authority", 
+		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))*/
+	private List<Authority> authorities;
+	
 	public User() {}
 	
     public User(String firstName, String lastName, String userName, String password, String email,
-		String phoneNumber, Long userId, UserType userType, Address address) {
+		String phoneNumber, Boolean enabled, Long userId, UserType userType, Address address, Date lastPassResetDate) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userName = userName;
+		this.username = userName;
 		this.password = password;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.userId = userId;
 		this.userType = userType;
 		this.address = address;
+		this.enabled = enabled;
+		this.lastResetPasswordDate = lastPassResetDate;
     }
 	
     public User(String firstName, String lastName, String userName, String password, String email,
@@ -65,7 +94,7 @@ public class User {
     		super();
     		this.firstName = firstName;
     		this.lastName = lastName;
-    		this.userName = userName;
+    		this.username = userName;
     		this.password = password;
     		this.email = email;
     		this.phoneNumber = phoneNumber;
@@ -89,11 +118,11 @@ public class User {
 	}
 	
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 	
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 	
 	public String getPassword() {
@@ -142,5 +171,61 @@ public class User {
 	
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Date getLastResetPasswordDate() {
+		return lastResetPasswordDate;
+	}
+
+	public void setLastResetPasswordDate(Date lastResetPasswordDate) {
+		this.lastResetPasswordDate = lastResetPasswordDate;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.authorities;
+	}
+
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+	
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+	 	return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return enabled;
 	} 
 }

@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +22,8 @@ public class Patient extends User {
 		
 	}
 	public Patient(String firstName, String lastName, String userName, String password, String email,
-				String phoneNumber, Long userId, UserType userType, Address address) {
-			super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+				String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled, Date lastResetPasswordDate) {
+			super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate);
 			// TODO Auto-generated constructor stub
 	}
 	

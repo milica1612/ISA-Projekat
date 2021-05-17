@@ -12,8 +12,8 @@ public class Supplier extends User {
 	}
 
 	public Supplier(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, UserType userType, Address address) {
-		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled) {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	
