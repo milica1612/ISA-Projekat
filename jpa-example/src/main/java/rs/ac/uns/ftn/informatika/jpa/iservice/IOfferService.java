@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 
@@ -17,5 +18,8 @@ public interface IOfferService {
 	List<Offer> findOffersBySupplier(Long id);
 	
 	Offer findById(Long id);
+	
+    void suggestOffer(OfferDTO offerDTO) throws Exception;
+
 
 }
