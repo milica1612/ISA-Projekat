@@ -136,7 +136,7 @@ hr {
   margin-left: 130px;
 }
 
-#homePage input[type=search] { 
+#homePage input[type=search], input[type=checkbox] { 
   border: none;
   margin-top: 8px;
   margin-left: 16px;
@@ -182,4 +182,8 @@ hr {
 
 #searchMedicine a {
 	margin-right : 16px;
+}
+
+#searchMedicine h3 {
+	text-align: center;
 }

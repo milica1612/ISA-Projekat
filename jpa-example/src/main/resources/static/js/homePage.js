@@ -17,9 +17,23 @@ Vue.component("homePage", {
 			<input type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>
 			<button type="submit" v-on:click = "searchPharmacies">Search</button>
 			<br>
-			<label class = "filtrate">Filtrate:</label>
-			<button type="submit">Rating</button>
+			<label class = "filtrate">Filtrate by rating:</label>
+					  	
+			<label for="vehicle1">5</label>
+			<input type="checkbox">
 			
+		  	<label for="vehicle2">4</label>
+		  	<input type="checkbox">
+		  	
+		  	<label for="vehicle3">3</label>
+		  	<input type="checkbox">
+		  	
+		  	<label for="vehicle3">2</label>
+		  	<input type="checkbox">
+		  	
+		  	<label for="vehicle3">1</label>
+		  	<input type="checkbox">
+
 			<div class = "container">
 			<table class = "table">
 				<tr style = "background-color: #60A0A0;">
