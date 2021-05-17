@@ -39,11 +39,11 @@ INSERT INTO public.address(
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description, adress_id)
-	VALUES (1, 'BENU', 8.1, 'First Pharmacy', 7);
+	VALUES (1, 'BENU', 3.4, 'First Pharmacy', 7);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description, adress_id)
-	VALUES (2, 'Jankovic', 9.6, 'Second Pharmacy', 8);
+	VALUES (2, 'Jankovic', 4.6, 'Second Pharmacy', 8);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)

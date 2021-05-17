@@ -29,14 +29,19 @@ public class PharmacyController {
 	@Autowired
 	private PharmacyService _pharmacyService;
 	
+	@GetMapping(value = "")
+	public ArrayList<Pharmacy> getAllPharmacies() {
+		return _pharmacyService.findAllPharmacy();
+	}
+	
 	@GetMapping(path = "/getPharmacyById/{pharmacyId}")
 	public PharmacyDTO getPharmacyById(@PathVariable Long pharmacyId) {
 		return  _pharmacyService.getPharmacyById(pharmacyId);
 	}
 
-	@GetMapping(value = "")
-	public ArrayList<Pharmacy> getAllPharmacies() {
-		return _pharmacyService.findAllPharmacy();
+	@GetMapping(value = "/filtrateByRating/{rating}")
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(@PathVariable Long rating){
+		return _pharmacyService.filtratePharmaciesByRating(rating);
 	}
 	
 	@GetMapping(value = "/getByNameOrAddress/{parametar}")

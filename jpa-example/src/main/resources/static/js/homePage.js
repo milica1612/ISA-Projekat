@@ -17,22 +17,22 @@ Vue.component("homePage", {
 			<input type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>
 			<button type="submit" v-on:click = "searchPharmacies">Search</button>
 			<br>
-			<label class = "filtrate">Filtrate by rating:</label>
+			<label class = "filtrate">Filtrate by rating higher than:</label>
 					  	
 			<label for="vehicle1">5</label>
-			<input type="checkbox">
+			<input type="radio" value=5 name="rating" @change = "filtrate(5)">
 			
 		  	<label for="vehicle2">4</label>
-		  	<input type="checkbox">
+		  	<input type="radio" value=4 name="rating" @change = "filtrate(4)">
 		  	
 		  	<label for="vehicle3">3</label>
-		  	<input type="checkbox">
+		  	<input type="radio" value=3 name="rating" @change = "filtrate(3)">
 		  	
 		  	<label for="vehicle3">2</label>
-		  	<input type="checkbox">
+		  	<input type="radio" value=2 name="rating" @change = "filtrate(2)">
 		  	
 		  	<label for="vehicle3">1</label>
-		  	<input type="checkbox">
+		  	<input type="radio" value=1 name="rating" @change = "filtrate(1)">
 
 			<div class = "container">
 			<table class = "table">
@@ -62,6 +62,11 @@ Vue.component("homePage", {
 				axios
 				.get("/application/pharmacy/getByNameOrAddress/" + this.searchField)
 				.then(response => (this.pharmacies = response.data));
-				}
+				},
+			filtrate: function(rating){
+				axios
+				.get("/application/pharmacy/filtrateByRating/" + rating)
+				.then(response => (this.pharmacies = response.data));
+			}
 		}
 	});

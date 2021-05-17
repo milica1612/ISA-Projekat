@@ -55,7 +55,7 @@ public class PharmacyService implements IPharmacyService {
 		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		for (Pharmacy pharmacy : pharmacies) {
-			if(pharmacy.getName().equals(name)) {
+			if(pharmacy.getName().equals(name.trim())) {
 				result.add(pharmacy);
 			}
 		}
@@ -65,20 +65,23 @@ public class PharmacyService implements IPharmacyService {
 	public ArrayList<Pharmacy> getPharmacyByAddress(String address){
 		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
-		try {
-		String[] parts = address.trim().split(",");
-		String street = parts[0].trim();
-		String streetNumber = parts[1].trim();
-		String city = parts[2].trim();
+		String city = address.trim();
 		for (Pharmacy pharmacy : pharmacies) {
-			if(pharmacy.getAdress().getStreet().equals(street) && pharmacy.getAdress().getStreetNumber().equals(streetNumber) && pharmacy.getAdress().getCity().equals(city)) {
+			if(pharmacy.getAdress().getCity().equals(city)) {
 				result.add(pharmacy);
 			}
+		}		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating) {
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getRating() >= rating) 
+				result.add(pharmacy);
 		}
-		}catch (Exception e) {
-			return result;
-		}
-		
 		return result;
 	}
 	
