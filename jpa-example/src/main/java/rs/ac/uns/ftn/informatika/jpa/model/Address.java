@@ -27,10 +27,10 @@ public class Address {
 	@Column(name = "country", nullable = false)
 	private String country;
 	
-	@Column(name = "longitude", nullable = false)
+	@Column(name = "longitude")
 	private Double longitude;
 	
-	@Column(name = "latitude", nullable = false)
+	@Column(name = "latitude")
 	private Double latitude;
 	   
 	  

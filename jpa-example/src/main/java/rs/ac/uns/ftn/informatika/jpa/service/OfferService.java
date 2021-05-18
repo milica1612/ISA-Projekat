@@ -52,6 +52,7 @@ public class OfferService implements IOfferService{
 		return offersBySupplier;		
 	}
 
+
 	
 
 }

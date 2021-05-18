@@ -52,7 +52,7 @@ public class User implements UserDetails {
 	@Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
 
-	@Column(name = "lastResetPassDate", nullable = false)
+	@Column(name = "lastResetPassDate")
     private Date lastResetPasswordDate;
 	
 	@Enumerated(EnumType.STRING)

@@ -25,6 +25,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
@@ -56,9 +57,9 @@ public class UserController {
 	}	
 	
 	@GetMapping(value = "/login")
-	public User logInUser(@RequestBody LogInDTO logInDTO, HttpSession session){
+	public User logInUser(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpSession session){
 		
-		User user = _userService.findByEmailAndPassword(logInDTO.getEmail(), logInDTO.getPassword());
+		User user = _userService.findByEmailAndPassword(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 		
 		if(user == null) {
 			return null;

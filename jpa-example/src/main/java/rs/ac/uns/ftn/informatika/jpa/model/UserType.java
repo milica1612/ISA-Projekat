@@ -5,7 +5,7 @@ public enum UserType {
    PHARMACIST,
    PH_ADMINISTRATOR,
    SYS_ADMINISTRATOR,
-   PATIENT,
+   ROLE_PATIENT,
    SUPPLIER,
    NONE
 }

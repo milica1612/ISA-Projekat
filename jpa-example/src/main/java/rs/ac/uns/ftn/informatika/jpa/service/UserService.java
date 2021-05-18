@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
@@ -40,16 +41,27 @@ public class UserService implements IUserService {
 	@Override
 	public User save(RegistrationRequest request) {
 		User u = new User();
-		u.setUserName(request.getUsername());
+		Address address = new Address();
+		address.setStreet(request.getStreet());
+		address.setStreetNumber(request.getStreetNumber());
+		address.setCity(request.getCity());
+		address.setCountry(request.getCountry());
+		address.setLatitude(null);
+		address.setLongitude(null);
+		u.setEmail(request.getEmail());
 		u.setPassword(_passwordEncoder.encode(request.getPassword()));
 		u.setFirstName(request.getFirstName());
 		u.setLastName(request.getLastName());
+		u.setUserName(request.getUsername());
+		u.setPhoneNumber(request.getPhoneNumber());
+		u.setAddress(address);
+		
 		u.setEnabled(true);
 		
-		List<Authority> auth = _authorityService.findByName("ROLE_USER");
+		List<Authority> auth = _authorityService.findByName("ROLE_PATIENT");
 		u.setAuthorities(auth);
 		
-		u = this._userRepository.save(u);
+		this._userRepository.save(u);
 		return u;
 	}
 	
@@ -111,7 +123,7 @@ public class UserService implements IUserService {
         List<User> users = _userRepository.findAll();
         List<User> usersList = new ArrayList<>();
         for (User u : users) {
-			if(u.getUserType() == UserType.PATIENT)
+			if(u.getUserType() == UserType.ROLE_PATIENT)
 				usersList.add(u);
         }
         List<UserDTO> dtos = new ArrayList<>();
@@ -136,7 +148,5 @@ public class UserService implements IUserService {
 				.map(u -> new UserDTO(u.getFirstName(), u.getLastName())).collect(Collectors.toList());
 	}
 
-	public User findByUsername(String username) {
-			return _userRepository.findByUsername(username);
-	}
+	
 }

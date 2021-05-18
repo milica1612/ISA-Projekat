@@ -9,13 +9,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import rs.ac.uns.ftn.informatika.jpa.security.TokenUtils;
+import rs.ac.uns.ftn.informatika.jpa.security.auth.RestAuthenticationEntryPoint;
+import rs.ac.uns.ftn.informatika.jpa.security.auth.TokenAuthenticationFilter;
 import rs.ac.uns.ftn.informatika.jpa.service.CustomUserDetailsService;
 
+@EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -32,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		private CustomUserDetailsService jwtUserDetailsService;
 
 		// Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
-		//@Autowired
-		//private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+		@Autowired
+		private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
 		// Registrujemo authentication manager koji ce da uradi autentifikaciju korisnika za nas
 		@Bean
@@ -50,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		}
 
 		// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
-	//	@Autowired
-//		private TokenUtils tokenUtils;
+		@Autowired
+		private TokenUtils tokenUtils;
 
 		// Definisemo prava pristupa odredjenim URL-ovima
 		@Override
@@ -61,19 +67,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
 					// sve neautentifikovane zahteve obradi uniformno i posalji 401 gresku
-			//		.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
+					.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
 					// svim korisnicima dopusti da pristupe putanjama /auth/**, (/h2-console/** ako se koristi H2 baza) i /api/foo
-					.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().antMatchers("/api/foo").permitAll()
-					
+					.authorizeRequests()
+					.antMatchers(
+							"/auth/signup",
+							"/auth/login",
+							"/auth/verify"
+					).permitAll()
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
 					.anyRequest().authenticated().and()
+					.httpBasic().and()
 					// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
-					.cors().and();
+					.cors().and()
 
 					// umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
-				//	.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-				//			BasicAuthenticationFilter.class);
+					.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
+							BasicAuthenticationFilter.class);
+			http.cors();
 			// zbog jednostavnosti primera
 			http.csrf().disable();
 		}
@@ -83,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		@Override
 		public void configure(WebSecurity web) throws Exception {
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-			web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
+			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 					"/**/*.css", "/**/*.js");
 		}

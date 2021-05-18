@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 
 @Entity
 public class Pharmacy {
@@ -36,11 +37,11 @@ public class Pharmacy {
 		this.description = description;
 	}
 
-	public Set<PharmacyAdministrator> getPhAdministrators() {
+	public List<PharmacyAdministrator> getPhAdministrators() {
 		return phAdministrators;
 	}
 
-	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
+	public void setPhAdministrators(List<PharmacyAdministrator> phAdministrators) {
 		this.phAdministrators = phAdministrators;
 	}
 
@@ -56,13 +57,16 @@ public class Pharmacy {
     protected String description;
 	
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    public Set<Pharmacist> pharmacist;
+    public List<Pharmacist> pharmacist;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<MedicineItem> medicineItem;
-	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<Dermatologist> dermatologist;
-	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	public Set<PharmacyAdministrator> phAdministrators;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	public List<PharmacyAdministrator> phAdministrators;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="adress_id", referencedColumnName = "addressId", nullable=false)
@@ -73,7 +77,7 @@ public class Pharmacy {
 		this.pharmacyId = pharmacyId;
 		this.name = name;
 		this.rating = rating;
-		this.pharmacist = new HashSet<Pharmacist>();
+		this.pharmacist = new ArrayList<Pharmacist>();
 		this.medicineItem = new HashSet<MedicineItem>();
 		this.dermatologist = new HashSet<Dermatologist>();
 	}
@@ -82,16 +86,14 @@ public class Pharmacy {
 		super();
 		this.name = name;
 		this.rating = rating;
-		this.pharmacist = new HashSet<Pharmacist>();
+		this.pharmacist = new ArrayList<Pharmacist>();
 		this.medicineItem = new HashSet<MedicineItem>();
 		this.dermatologist = new HashSet<Dermatologist>();
 	}
     
     
-    public Pharmacy()
-    {
-    	
-    }
+    public Pharmacy(){}
+    
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}
@@ -110,10 +112,10 @@ public class Pharmacy {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
-	public Set<Pharmacist> getPharmacist() {
+	public List<Pharmacist> getPharmacist() {
 		return pharmacist;
 	}
-	public void setPharmacist(Set<Pharmacist> pharmacist) {
+	public void setPharmacist(List<Pharmacist> pharmacist) {
 		this.pharmacist = pharmacist;
 	}
 	public Set<Dermatologist> getDermatologist() {

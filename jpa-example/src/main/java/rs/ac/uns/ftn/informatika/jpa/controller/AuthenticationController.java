@@ -28,6 +28,7 @@ import rs.ac.uns.ftn.informatika.jpa.exception.ResourceConflictException;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserTokenState;
 import rs.ac.uns.ftn.informatika.jpa.security.TokenUtils;
+import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
 import rs.ac.uns.ftn.informatika.jpa.service.CustomUserDetailsService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
@@ -48,10 +49,9 @@ public class AuthenticationController {
 	private UserService userService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody LogInDTO authenticationRequest,
+	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
-
-		// 
+ 
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 						authenticationRequest.getPassword()));
@@ -70,17 +70,16 @@ public class AuthenticationController {
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
-	public ResponseEntity<User> addUser(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
-
-		User existUser = this.userService.findByUsername(userRequest.getUsername());
-		if (existUser != null) {
+	public ResponseEntity<?> addUser(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
+		try {
+		User existUser = this.userService.findByEmail(userRequest.getEmail());
+		if (existUser != null) 
 			throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+		
+		  return new ResponseEntity<>(this.userService.save(userRequest), HttpStatus.CREATED);
+		} catch (Exception e) { 
+			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
 		}
-
-		User user = this.userService.save(userRequest);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getUserId()).toUri());
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
 	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
