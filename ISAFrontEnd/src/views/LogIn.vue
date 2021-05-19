@@ -1,0 +1,79 @@
+<template>
+  <v-card style="margin-top: 10%" width="30%" class="mx-auto">
+    <v-card-title class="justify-center">
+      <h1 class="display-1 mt-20">LogIn</h1>
+    </v-card-title>
+    <v-card-text>
+      <v-form class="mx-auto ml-20 mr-20">
+        <v-text-field
+          label="E-mail"
+          v-model="email"
+          prepend-icon="mdi-account-circle"
+        />
+        <v-text-field
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          label="Password"
+          v-model="password"
+          hint="At least 8 characters"
+          prepend-icon="mdi-lock"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+      </v-form>
+    </v-card-text>
+    <div></div>
+    <v-card-actions>
+      <v-btn
+        class="mx-auto mb-5; color:white"
+        color="accent"
+        elevation="2"
+        x-large
+        raised
+        v-on:click="logIn"
+        >Log In</v-btn
+      >
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "Login",
+  data: () => ({
+    showPassword: false,
+    email: "",
+    password: "",
+    users: [],
+  }),
+  computed: {
+    user() {
+      return { email: this.email, password: this.password };
+    },
+  },
+  methods: {
+    logIn() {
+      this.$http
+        .post("http://localhost:8080/login/", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((resp) => {
+          console.log(resp.data);
+          localStorage.setItem("email", this.user.email);
+          localStorage.setItem("token", resp.data.token);
+          localStorage.setItem("userId", resp.data.id);
+
+          localStorage.setItem("userType", resp.data.userType);
+          console.log(localStorage.getItem("userType"));
+          window.location.href = "http://localhost:8081/";
+        })
+        .catch((er) => {
+          alert("Invalid email and/or password! Please, try again!");
+          this.email = "";
+          this.password = "";
+          console.log(er.response.data);
+        });
+    },
+  },
+};
+</script>
