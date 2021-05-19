@@ -13,8 +13,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Dermatologist extends PharmacyEmployee {
 	
-
-   @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
 	public Set<Pharmacy> pharmacy;
 
 	public Dermatologist(String firstName, String lastName, String userName, String password, String email,

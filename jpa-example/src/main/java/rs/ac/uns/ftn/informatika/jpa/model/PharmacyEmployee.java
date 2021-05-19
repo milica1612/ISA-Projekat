@@ -8,13 +8,19 @@ import javax.persistence.Entity;
 public class PharmacyEmployee extends User {
 	
 	@Column(name = "rating")
-	public Double rating;
+	protected Double rating;
+
+	public PharmacyEmployee(String firstName, String lastName, String userName, String password, String email,
+			String phoneNumber, Long userId, UserType userType, Address address) {
+		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+	}
 
 	public PharmacyEmployee(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, UserType userType, Address address, Double rating) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userType, address);
 		this.rating = rating;
 	}
+
 
 	
 	public PharmacyEmployee()
