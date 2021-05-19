@@ -29,7 +29,7 @@
                 <v-btn flat class="hidden-sm-and-down" v-on:click="logOff">Log off</v-btn>
             </div>
             <div v-if="!isLogged">
-                <v-btn color="brown lighten-3" class="hidden-sm-and-down ma-1">
+                <v-btn flat class="hidden-sm-and-down ma-1">
                   <router-link class="router" to="/register">Register</router-link>
                 </v-btn>
             </div>

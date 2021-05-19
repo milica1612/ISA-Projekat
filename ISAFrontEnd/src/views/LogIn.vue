@@ -8,6 +8,8 @@
         <v-text-field
           label="E-mail"
           v-model="email"
+          :rules="[() => !!email || 'This field is required']"
+          :error-messages="errorMessages"
           prepend-icon="mdi-account-circle"
         />
         <v-text-field
@@ -15,6 +17,8 @@
           :type="showPassword ? 'text' : 'password'"
           label="Password"
           v-model="password"
+          :rules="[() => !!password || 'This field is required']"
+          :error-messages="errorMessages"
           hint="At least 8 characters"
           prepend-icon="mdi-lock"
           @click:append="showPassword = !showPassword"
@@ -53,7 +57,7 @@ export default {
   methods: {
     logIn() {
       this.$http
-        .post("http://localhost:8080/login/", {
+        .post("http://localhost:8080/auth/login/", {
           email: this.email,
           password: this.password,
         })
