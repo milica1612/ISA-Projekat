@@ -9,3 +9,4 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 public interface IPharmacyRepository extends JpaRepository<Pharmacy, Long> {
 
 }
+

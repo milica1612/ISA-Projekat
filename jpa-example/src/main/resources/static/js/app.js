@@ -16,6 +16,8 @@ const suggestOffer = {template: '<suggestOffer></suggestOffer>'}
 const homePage = {template: '<homePage></homePage>'}
 const homePageDermatologist = {template: '<homePageDermatologist></homePageDermatologist>'}
 const homePagePharmacist = {template: '<homePagePharmacist></homePagePharmacist>'}
+const searchMedicine = {template: '<searchMedicine></searchMedicine>'}
+
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -39,7 +41,7 @@ const router = new VueRouter({
 		{path: '/homePage', component: homePage},
 		{path: '/homePageDermatologist', component: homePageDermatologist},
 		{path: '/homePagePharmacist', component: homePagePharmacist}
-
+		{path: '/searchMedicine', component: searchMedicine}
 
 	]
 });

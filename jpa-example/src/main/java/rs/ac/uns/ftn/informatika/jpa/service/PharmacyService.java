@@ -36,7 +36,53 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	public ArrayList<Pharmacy> findAllPharmacy() {
-		// TODO Auto-generated method stub
 		return (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
 	}
+
+	@Override
+	public ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar) {
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = getPharmacyByName(parametar);
+		if(!result.isEmpty()) {
+			return result;
+		}
+		result = getPharmacyByAddress(parametar);
+		
+		return result;
+	}
+	
+	public ArrayList<Pharmacy> getPharmacyByName(String name){
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getName().equals(name.trim())) {
+				result.add(pharmacy);
+			}
+		}
+		return result;
+	}
+	
+	public ArrayList<Pharmacy> getPharmacyByAddress(String address){
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		String city = address.trim();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getAdress().getCity().equals(city)) {
+				result.add(pharmacy);
+			}
+		}		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating) {
+		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		for (Pharmacy pharmacy : pharmacies) {
+			if(pharmacy.getRating() >= rating) 
+				result.add(pharmacy);
+		}
+		return result;
+	}
+	
 }
