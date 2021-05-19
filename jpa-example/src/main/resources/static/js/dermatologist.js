@@ -28,7 +28,7 @@ Vue.component("employee",{
 		`,
 	mounted() {
 		axios
-		.get('users/10')
+		.get('users/3')
 		.then(response => (this.employee = response.data));
 	},
 	methods: {

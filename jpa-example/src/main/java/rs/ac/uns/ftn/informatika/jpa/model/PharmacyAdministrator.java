@@ -4,9 +4,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="pharmacyadmin")
 public class PharmacyAdministrator extends User {
 
 	@ManyToOne(fetch = FetchType.EAGER)      

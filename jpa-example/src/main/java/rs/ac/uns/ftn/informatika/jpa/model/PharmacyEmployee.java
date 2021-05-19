@@ -3,8 +3,10 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="pharmacyemployee")
 public class PharmacyEmployee extends User {
 	
 	@Column(name = "rating")

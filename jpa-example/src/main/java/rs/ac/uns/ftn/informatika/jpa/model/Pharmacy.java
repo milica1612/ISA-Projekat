@@ -28,41 +28,18 @@ public class Pharmacy {
 	@Column(name = "rating")
     protected Double rating;
 	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<PharmacyAdministrator> getPhAdministrators() {
-		return phAdministrators;
-	}
-
-	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
-		this.phAdministrators = phAdministrators;
-	}
-
-	public Address getAdress() {
-		return adress;
-	}
-
-	public void setAdress(Address adress) {
-		this.adress = adress;
-	}
 
 	@Column(name = "description")
     protected String description;
 	
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    public Set<Pharmacist> pharmacist;
+    public Set<Pharmacist> pharmacist = new HashSet<Pharmacist>();
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    public Set<MedicineItem> medicineItem;
+    public Set<MedicineItem> medicineItem = new HashSet<MedicineItem>();
 	@ManyToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    public Set<Dermatologist> dermatologist;
+    public Set<Dermatologist> dermatologist =  new HashSet<Dermatologist>();
 	@OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	public Set<PharmacyAdministrator> phAdministrators;
+	public Set<PharmacyAdministrator> phAdministrators = new HashSet<PharmacyAdministrator>();
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="adress_id", referencedColumnName = "addressId", nullable=false)
@@ -129,6 +106,30 @@ public class Pharmacy {
 
 	public void setMedicineItem(Set<MedicineItem> medicineItem) {
 		this.medicineItem = medicineItem;
+	}	
+	public String getDescription() {
+		return description;
 	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<PharmacyAdministrator> getPhAdministrators() {
+		return phAdministrators;
+	}
+
+	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
+		this.phAdministrators = phAdministrators;
+	}
+
+	public Address getAdress() {
+		return adress;
+	}
+
+	public void setAdress(Address adress) {
+		this.adress = adress;
+	}
+
 	
 }

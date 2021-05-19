@@ -9,14 +9,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 
 @Entity
+@Table(name="users")
+@Inheritance(strategy=TABLE_PER_CLASS)
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long userId;
    
 	@Column(name = "firstName", nullable = false)
