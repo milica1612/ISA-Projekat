@@ -10,13 +10,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>rs.ac.uns.ftn.informatika</groupId>
-	<artifactId>jpa-example</artifactId>
+	<artifactId>ISABackEnd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<packaging>war</packaging>
 	
-	<name>jpa-example</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ISABackEnd</name>
+	<description>ISA Team 39</description>
 
 	<properties>
 		<java.version>1.8</java.version>
