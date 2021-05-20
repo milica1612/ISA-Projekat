@@ -37,6 +37,7 @@ public class OfferController {
 		return  _offerService.findOffersBySupplier(id);
 	}
 
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(path = "/filtrate/{status}/{id}")
 	public List<Offer> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
 		
@@ -55,6 +56,7 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping(value = "/suggestOffer")
 	public Offer suggestOffer(@RequestBody Offer offer){
 		

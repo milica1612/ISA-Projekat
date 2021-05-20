@@ -1,58 +1,81 @@
 <template>
-  <v-card style="margin-top: 3%"  class="mx-auto">
-    <v-card-title>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      :search="search"
-    >
-    <tbody>
-         <tr v-for="(item,index) in items" :key="index">
-          <td>{{item.postId}}</td>
-          <td>{{item.email}}</td>
-          <td>{{item.name}}</td>
-        </tr>
-      </tbody>
-    </v-data-table>
-  </v-card>
+<div id="offer">
+  <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th class="text-left">
+              Delivery Deadline
+            </th>
+            <th class="text-left">
+              Offer Status
+            </th>
+            <th class="text-left">
+              Order Status
+            </th>
+            <th class="text-left">
+              Price
+            </th>
+            <th class="text-left">
+              Pharmacy Name
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="o in offers"
+              :key="o"
+          >
+            <td>{{o.deliveryDeadline}}</td>
+            <td>{{o.status}}</td>
+            <td>{{o.order.orderStatus}}</td>
+            <td>{{o.price}}</td>
+            <td>{{o.order.pharmacy.name}}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </div>
+</div>
 </template>
-
 
 <script>
 
 export default {
     name: "Offers",
-    data: () => ({
-        search: '',
-        items: [],
-        headers: [
-          {
-            text: 'Delivery Deadline',
-            value: 'deliveryDeadline',
-            align: 'start',
-            filterable: false
-          },
-          { text: 'Price', value: 'price' },
-          { text: 'Offer Status', value: 'offerStatus' },
-          { text: 'Order Status', value: 'orderStatus' },
-          { text: 'Pharmacy', value: 'pharmacy' },
-        ],
-        
-    }),
-    methods: {
-      showAllOffers() {
-        this.$http
-            .get("http://localhost:8090/application/offers/seeOffers/3")
-            .then(response => (this.headers = response.data));
-    },   
+    data: function() {
+     return {
+        logged: false,
+        offers: []
+     }
     },
+    mounted() { 
+        this.axios
+            .get('http://localhost:8090/application/offers/seeOffers/3')
+            .then(r => (this.offers = r.data))
+        
+    },
+    methods: {
+        filtrateOffersA: function(){
+			this.axios
+			.get("http://localhost:8090/application/offers/filtrate/ACCEPTED/3")
+			.then(response => (this.offers = response.data));
+		},
+        filtrateOffersD: function(){
+			this.axios
+			.get("http://localhost:8090/application/offers/filtrate/DECLINED/3")
+			.then(response => (this.offers = response.data));
+		},
+        filtrateOffersW: function(){
+			this.axios
+			.get("http://localhost:8090/application/offers/filtrate/WAITING/3")
+			.then(response => (this.offers = response.data));
+            }
+    }
   }
 </script>
+
+<style scoped>
+
+</style>
