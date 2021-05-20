@@ -24,13 +24,14 @@ import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "/pharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PharmacyController {
 	
 	@Autowired
 	private PharmacyService _pharmacyService;
 	
-	@CrossOrigin(origins = "http://localhost:8080")
+	
 	@GetMapping(value = "")
 	public ArrayList<Pharmacy> getAllPharmacies() {
 		System.out.println("All Pharmacies");
