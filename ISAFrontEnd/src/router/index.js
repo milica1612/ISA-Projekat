@@ -26,6 +26,24 @@ const routes = [{
         name: 'BrowsePharmacies',
         component: () =>
             import ('../views/BrowsePharmacies.vue')
+    },
+    {
+        path: '/usersList',
+        name: 'UsersList',
+        component: () =>
+            import ('../views/UsersList.vue')
+    },
+    {
+        path: '/homePageDermatologist',
+        name: 'HomePageDermatologist',
+        component: () =>
+            import ('../views/HomePageDermatologist.vue')
+    },
+    {
+        path: '/homePagePharmacist',
+        name: 'HomePagePharmacist',
+        component: () =>
+            import ('../views/HomePagePharmacist.vue')
     }
 ]
 

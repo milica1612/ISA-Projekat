@@ -15,9 +15,7 @@ Vue.component("homePageDermatologist", {
 		  <a href="#/scheduleAppointment" style = "float: left; color: #333; text-align:center; padding: 14px 50px; text-decoration:none; font-size: 17px;">Schedule new Appointment</a>
 		</div>
 		
-		<h2 style = "text-align:center">Home page for dermatologist</h2>
-		
-		
+		<h2 style = "text-align:center">Home page for dermatologist</h2>		
 		
 </div>
 `,
