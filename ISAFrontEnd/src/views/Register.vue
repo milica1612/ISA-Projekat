@@ -1,7 +1,7 @@
 <template>
   <v-card style="margin-top: 3%" width="30%" class="mx-auto">
     <v-card-title class="justify-center">
-      <h1 class="display-1 mt-20">Register</h1>
+      <h1 class="display-1 mt-20">Edit Profile</h1>
     </v-card-title>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20">

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -32,6 +33,12 @@ const routes = [{
         name: 'BrowsePharmacies',
         component: () =>
             import ('../views/BrowsePharmacies.vue')
+    },
+    {
+        path: '/supplierProfile',
+        name: 'SupplierProfile',
+        component: () =>
+            import ('../views/SupplierProfile.vue')
     }
 ]
 

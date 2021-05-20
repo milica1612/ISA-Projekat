@@ -37,13 +37,14 @@ public class UserController {
 	@Autowired
 	private UserService _userService ;
 
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/loggedUser")
 	public User getLoggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return user;
 	}
 	
-	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
 		return (User) _userService.findById(id);
@@ -70,7 +71,8 @@ public class UserController {
 	public List<UserDTO> getAllUsers() {
 		 return _userService.getAllUsers();
 	}
-	 
+
+	
     @PostMapping(value = "/searchUser")
     public List<UserDTO> searchUser(@RequestBody String request) {
     	
@@ -84,11 +86,9 @@ public class UserController {
     	return _userService.userSearch(user);
 	}
 
+	@CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping(value = "/update")
 	public void updateUser(@RequestBody User user) throws Exception {
-		
-		System.out.println(user.getUserId());
-		
 		_userService.update(user);
 		
 	}
