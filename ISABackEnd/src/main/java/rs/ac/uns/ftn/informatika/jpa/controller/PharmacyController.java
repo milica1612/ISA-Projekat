@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +30,10 @@ public class PharmacyController {
 	@Autowired
 	private PharmacyService _pharmacyService;
 	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "")
 	public ArrayList<Pharmacy> getAllPharmacies() {
+		System.out.println("All Pharmacies");
 		return _pharmacyService.findAllPharmacy();
 	}
 	
