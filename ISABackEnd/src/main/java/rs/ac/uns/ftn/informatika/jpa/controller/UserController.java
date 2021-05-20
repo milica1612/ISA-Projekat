@@ -28,6 +28,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
@@ -69,6 +70,7 @@ public class UserController {
 		return user;
 	}
 	
+
 	@GetMapping(path = "/allpatients")
 	public List<UserDTO> getAllUsers() {
 		 return _userService.getAllUsers();
