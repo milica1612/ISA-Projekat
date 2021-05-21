@@ -1,26 +1,26 @@
 <template>
-  <div id = "homePage">
-    <h1>Pharmacies</h1>
+  <div id = "searchMedicine">
+
+    <h1>Search Medicine</h1>
     <br>
     <v-btn
         elevation="6"
         large
         outlined
         color="white"
-    ><router-link to="/browseMedicine" tag="button">Browse medicine</router-link></v-btn>
+    ><router-link to="/browsePharmacies" tag="button">Browse pharmacies</router-link></v-btn>
     <br>
 
-    <h3>Search Pharmacies:</h3>
-    <input placeholder="Enter name or city" type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>
+    <h3>Search Medicines:</h3>
+    <input placeholder="Enter medicine" type="search" v-model = "searchMedicine" id="search" name="searchMedicine" required>
     <v-btn
         color="secondary"
         elevation="3"
         x-small
-        v-on:click = "searchPharmacies"
+        v-on:click = "searchMedicines"
     >Search</v-btn>
     <br>
     <h3>Filtrate by rating higher than:</h3>
-
 
     <label>Rating 5</label>
     <input type="radio" value=5 name="rating" @change = "filtrate(5)">
@@ -46,21 +46,50 @@
               Name
             </th>
             <th class="text-left">
-              Rating
+              Type
             </th>
             <th class="text-left">
-              Address
+              Rating
             </th>
           </tr>
           </thead>
           <tbody>
           <tr
-              v-for="p in pharmacies"
-              :key="p"
+              v-for="m in medicines"
+              :key="m"
           >
-            <td>{{ p.name }}</td>
-            <td>{{ p.rating }}</td>
-            <td>{{p.adress.street + " " + p.adress.streetNumber + ", " + p.adress.city + ", " + p.adress.country}}</td>
+            <td>{{ m.name }}</td>
+            <td>{{ m.type }}</td>
+            <td>{{ m.rating }}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </div>
+
+    <h2>Available In</h2>
+    <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th class="text-left">
+              Name
+            </th>
+            <th class="text-left">
+              Type
+            </th>
+            <th class="text-left">
+              Price
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="a in availableInPharmacies" :key="a"
+          >
+            <td>{{ a.name }}</td>
+            <td>{{ a.price }}</td>
           </tr>
           </tbody>
         </template>
@@ -71,41 +100,42 @@
 
 <script>
 export default {
-  name: "BrowsePharmacies",
-
+  name: "BrowseMedicine",
   data: function () {
     return {
-      logged: false,
-      pharmacies: [],
-      searchField: ""
+      medicines: [],
+      availableInPharmacies: [],
+      searchMedicine: ""
     }
   },
-mounted() {
-  {
-  this.axios
-      .get('http://localhost:8090/application/pharmacy')
-      .then(r => (this.pharmacies = r.data))
-  }
-},
+  mounted(){
+    this.axios
+        .get('http://localhost:8090/application/medicine')
+        .then(response => (this.medicines = response.data));
+    this.axios
+        .get('http://localhost:8090/application/pharmacy')
+        .then(response => (this.availableInPharmacies = response.data));
+  },
   methods: {
-    searchPharmacies: function() {
+    searchMedicines: function() {
       this.axios
-          .get("http://localhost:8090/application/pharmacy/getByNameOrAddress/" + this.searchField)
-          .then(response => (this.pharmacies = response.data))
-    },
-    filtrate: function(rating){
-      this.axios
-          .get("http://localhost:8090/application/pharmacy/filtrateByRating/" + rating)
-          .then(response => (this.pharmacies = response.data))
+          .get("http://localhost:8090/application/medicine/getMedicineByName/" + this.searchMedicine)
+          .then(response => (this.medicines = response.data));
     }
   }
 }
 </script>
 
 <style scoped>
-#searchPharmacies{
+#search{
   background-color: white;
 }
+#searchButton{
+  color: white;
+  border: white;
+  border-width: 10px;
+}
+
 .container {
   display: block;
   position: relative;

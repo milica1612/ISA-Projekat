@@ -28,7 +28,7 @@ public class MedicineController {
 	public ArrayList<Medicine> findAllMedicine(){
 		return _medicineService.findAllMedicine();
 	}
-	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/getMedicineByName/{name}")
 	public ArrayList<Medicine> findMedicineByName(@PathVariable String name){
 		return _medicineService.findMedicineByName(name);
