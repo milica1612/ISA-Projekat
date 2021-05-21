@@ -1,8 +1,11 @@
 <template>
   <div>
+
     <h1 style = "margin:0 auto; text-align:center;">User profile</h1>
-    <br/>
-    <v-simple-table style = "margin:0 auto; padding: 20px;">
+    <br>
+    <div class = "container">
+    <v-simple-table>
+      <template v-slot:default>
       <tr>
         <th><h3>Personal information</h3></th>
       </tr>
@@ -43,30 +46,55 @@
         <th>Password</th>
         <td><input type = "text" v-model = "patient.password" /></td>
       </tr>
+      </template>
     </v-simple-table>
+    </div>
+    <br>
 
-    <table style = "margin:0 auto; padding: 20px;">
-      <tr>
-        <th><h3>Loyalty card</h3></th>
-      </tr>
-      <tr>
-        <th>Loyalty Points</th>
-        <td>{{this.loyalty_card.points}}</td>
-      </tr>
-      <tr>
-        <th>Loyalty Category</th>
-        <td>{{this.loyalty_card.loyaltyCategory}}</td>
-      </tr>
-    </table>
+<!--    <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <th class="text-left">
+              Loyalty points
+            </th>
+            <th class="text-left">
+              Loyalty category
+            </th>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{this.loyalty_card.points}}</td>
+            <td>{{this.loyalty_card.points}}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </div>-->
 
-    <!-- <table style = "margin:0 auto; padding: 20px;">
-       <tr>
-         <th><h3>Allergies to medicine</h3></th>
-       </tr>
-       <tr v-for="m in patient.allergy.medicine" : key="m">
-         <td>{{m.name}}</td>
-       </tr>
-     </table>-->
+    <h3 style = "margin:0 auto; text-align:center;">Loyalty card</h3>
+    <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th class="text-left">
+              Loyalty points
+            </th>
+            <th class="text-left">
+              Loyalty category
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr style="align-content: center">
+            <td>{{loyalty_card.points}}</td>
+            <td>{{loyalty_card.loyaltyCategory}}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </div>
 
     <div class = "container">
       <v-simple-table>
