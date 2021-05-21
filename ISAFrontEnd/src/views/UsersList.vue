@@ -11,13 +11,13 @@
         <thead>
         <tr>
           <th class="text-left">
-            Name
+            FirstName
           </th>
           <th class="text-left">
-            Rating
+            LastName
           </th>
           <th class="text-left">
-            Address
+            SeeProfile
           </th>
         </tr>
         </thead>
