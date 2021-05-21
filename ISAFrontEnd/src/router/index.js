@@ -68,6 +68,18 @@ const routes = [{
         name: 'EditPatientInfo',
         component: () =>
             import ('../views/EditPatientInfo.vue')
+    },
+    {
+        path: '/supplier',
+        name: 'Supplier',
+        component: () =>
+            import ('../views/Supplier.vue')
+    },
+    {
+        path: '/editSupplierProfile',
+        name: 'EditSupplierProfile',
+        component: () =>
+            import ('../views/EditSupplierProfile.vue')
     }
 ]
 
