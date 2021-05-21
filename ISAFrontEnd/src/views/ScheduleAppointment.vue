@@ -31,40 +31,61 @@
       </template>
     </v-simple-table>
     <br>
-    <h3 style = "text-align:center">Schedule New Term:</h3>
     <br>
-    <div class = "modal-body " >
-      <div class="container" >
-        <div class="row justify-content-sm-center">
-          <form style = "align:center" action="/action_page.php">
-            <label for="dateandtime">Choose Date and Time:</label>
-            <input type="datetime-local" id="dateandtime" name="dateandtime"  v-model="appointment.dateAndTime" required>
-          </form>
-        </div>
+    <h3 style = "text-align:center" >Schedule New Term:</h3>
+    <div id="scheduleNew" >
+      <br>
+      <div class="row justify-content-sm-center">
+        <form style = "align:center" action="/action_page.php">
+          <label for="dateandtime">Choose Date and Time:</label>
+          <input type="datetime-local" id="dateandtime" name="dateandtime"  v-model="appointment.dateAndTime" required>
+        </form>
       </div>
       <div class="row justify-content-sm-center">
         <div class="col-md-4">
-          <input class = "form-control" type = "text" placeholder = "Enter Duration" v-model="appointment.duration" required>
-          <label style="color:red">{{durationError}}</label>
-        </div>
-      </div>
-      <div class="row justify-content-sm-center">
-        <div class="col-md-4">
-          <input class = "form-control" type = "text" placeholder = "Enter Price" v-model="appointment.price" required>
-          <label style="color:red">{{priceError}}</label>
-        </div>
-      </div>
-      <div class="row justify-content-sm-center">
-        <div class="col-md-4">
-          <input class = "form-control" type = "text" placeholder = "Enter Points" v-model="appointment.points" required>
-          <label style="color:red">{{pointsError}}</label>
-        </div>
-      </div>
-      <div class="row justify-content-sm-center">
-        <div class="row justify-content-sm-center" style="margin-top: 10px;">
-          <div class="col-md-4">
-            <button type = "button" class="btn btn-primary" v-on:click="scheduleAppointment(appointment)">Schedule</button>
-          </div>
+          <template>
+            <v-form>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="14" >
+                  <v-text-field v-model="appointment.duration" label="Enter duration" filled required></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </template> <label style="color:red">{{durationError}}</label>
+          <template>
+            <v-form>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="14" >
+                  <v-text-field v-model="appointment.price" label="Enter price" filled required></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </template> <label style="color:red">{{priceError}}</label>
+          <template>
+            <v-form>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="14">
+                    <v-text-field v-model="appointment.points" label="Enter points" filled required></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </template> <label style="color:red">{{pointsError}}</label>
+          <template>
+            <div class="text-center">
+              <v-btn color="blue" dark v-on:click="scheduleAppointment(appointment)">SCHEDULE</v-btn>
+              <v-bottom-sheet v-model="sheet">
+                <v-sheet class="text-center" height="200px">
+                  <v-btn class="mt-6" text color="red" @click="sheet = !sheet">close</v-btn>
+                </v-sheet>
+              </v-bottom-sheet>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -126,3 +147,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#scheduleNew{
+  margin-left: 480px;
+}
+</style>

@@ -146,3 +146,18 @@ INSERT INTO public.offer(
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES ('7', '2021/02/01', '54000', 'DECLINED', '1', '2');
+
+INSERT INTO public.appointment(
+	dtype, appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, 
+    shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+	VALUES ('Examination', '1', 'NONE', '0', '2021-06-19 08:00:00', 30, 30, 3000.00, 1, null, null, 11);
+    
+INSERT INTO public.appointment(
+	dtype, appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, 
+    shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+	VALUES ('Examination', '2', 'NONE', '0', '2021-06-19 09:00:00', 30, 30, 3000.00, null, null, null, 11);
+    
+INSERT INTO public.appointment(
+	dtype, appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, 
+    shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+	VALUES ('Examination', '3', 'MISSED', '0', '2021-04-19 09:00:00', 30, 30, 3000.00, null, null, null, 11);
