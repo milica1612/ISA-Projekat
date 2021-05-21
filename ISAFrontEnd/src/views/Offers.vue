@@ -43,7 +43,7 @@
               Price
             </th>
             <th class="text-left">
-              Pharmacy Name
+              Pharmacy
             </th>
           </tr>
           </thead>
@@ -61,6 +61,46 @@
           </tbody>
         </template>
       </v-simple-table>
+
+
+  <h2 
+            text-align:left
+            color:blue
+          >New arrived orders:</h2>
+
+      <v-simple-table style="margin-top: 1%;"  >
+        <h2 >New arrived orders:</h2>
+
+        <template v-slot:default>
+
+    
+          <thead>
+          <tr>
+            <th class="text-left">
+              Offer Deadline
+            </th>
+            <th class="text-left">
+              Status
+            </th>
+            <th class="text-left">
+              Pharmacy
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="order of orders"
+              :key="order"
+          >
+            <td>{{ order.offerDeadline.substring(0, 10) }}</td>
+            <td>{{order.orderStatus }}</td>
+            <td>{{ order.pharmacy.name }}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+
+
     </div>
 </div>
 </template>
@@ -72,14 +112,19 @@ export default {
     data: function() {
      return {
         logged: false,
-        offers: []
+        offers: [],
+        orders: []
      }
     },
     mounted() { 
     {
         this.axios
             .get('http://localhost:8090/application/offers/seeOffers/3')
-            .then(r => (this.offers = r.data))
+            .then(r => (this.offers = r.data));
+        
+        this.axios
+            .get('http://localhost:8090/application/orders/allOrders')
+            .then(r => (this.orders = r.data))
     }   
     },
     methods: {
@@ -110,4 +155,13 @@ export default {
 
 <style scoped>
 
+td{
+    padding: 7%;
+}
+
+h2 {
+
+    text-align:center;
+    color:white
+}
 </style>
