@@ -7,70 +7,44 @@
     <v-simple-table>
       <template v-slot:default>
       <tr>
-        <th><h3>Personal information</h3></th>
+        <th colspan="2" id="personal_info"><h3>Personal information</h3></th>
       </tr>
       <tr>
         <th>Name</th>
-        <td><input type = "text" v-model = "patient.firstName" /></td>
+        <td><input type = "text" v-model = "patient.firstName" disabled/></td>
       </tr>
       <tr>
         <th>Last Name</th>
-        <td><input type = "text" v-model = "patient.lastName" /></td>
+        <td><input type = "text" v-model = "patient.lastName" disabled/></td>
       </tr>
       <tr>
         <th>Phone Number</th>
-        <td><input type = "text" v-model = "patient.phoneNumber" /></td>
+        <td><input type = "text" v-model = "patient.phoneNumber" disabled/></td>
       </tr>
       <tr>
         <th>Country</th>
-        <td><input type = "text" v-model = "patient.address.country" /></td>
+        <td><input type = "text" v-model = "patient.address.country" disabled/></td>
       </tr>
       <tr>
         <th>City</th>
-        <td><input type = "text" v-model = "patient.address.city" /></td>
+        <td><input type = "text" v-model = "patient.address.city" disabled/></td>
       </tr>
       <tr>
         <th>Street</th>
-        <td><input type = "text" v-model = "patient.address.street" /></td>
+        <td><input type = "text" v-model = "patient.address.street" disabled/></td>
       </tr>
       <tr>
         <th>Home Number</th>
-        <td><input type = "text" v-model = "patient.address.streetNumber" /></td>
+        <td><input type = "text" v-model = "patient.address.streetNumber" disabled/></td>
       </tr>
       <tr>
         <th>E-mail</th>
         <td>{{patient.email}}</td>
       </tr>
-      <tr>
-      <tr>
-        <th>Password</th>
-        <td><input type = "text" v-model = "patient.password" /></td>
-      </tr>
       </template>
     </v-simple-table>
     </div>
     <br>
-
-<!--    <div class = "container">
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <th class="text-left">
-              Loyalty points
-            </th>
-            <th class="text-left">
-              Loyalty category
-            </th>
-          </thead>
-          <tbody>
-          <tr>
-            <td>{{this.loyalty_card.points}}</td>
-            <td>{{this.loyalty_card.points}}</td>
-          </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </div>-->
 
     <h3 style = "margin:0 auto; text-align:center;">Loyalty card</h3>
     <div class = "container">
@@ -112,14 +86,6 @@
               :key="m"
           >
             <td>{{ m.name }}</td>
-            <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-on:click = "addAllergy(med)"
-              >Add medicine to allergy</v-btn>
-            </td>
           </tr>
           </tbody>
         </template>
@@ -133,8 +99,9 @@
               color="primary"
               elevation="3"
               medium
-              v-on:click = "editInformation"
-          >Edit</v-btn>
+              v-on:click = "editInformation">
+    <router-link to="/editPatientInfo" tag="button">Edit</router-link>
+          </v-btn>
   </v-row>
   </div>
 </template>
@@ -159,41 +126,22 @@ export default {
         .get('http://localhost:8090/application/loyaltyCard/user/1')
         .then(response => (this.loyalty_card = response.data));
 
-  },
-  methods: {
-
-    editInformation : function(){
-      this.mode = "EDIT";
-      this.patient_id = this.patient.userId;
-
-      this.axios
-          .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy)
-          .then(response => (this.medicine = response.data));
-    },
-
-    saveInformation : function(){
-      this.mode = "BROWSE";
-
-      this.axios
-          .post("http://localhost:8090/application/users/update", this.patient);
-
-      this.axios
-          .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy)
-          .then(response => (this.medicine = response.data));
-    },
-    addAllergy :function(med){
-
-      this.mode = "ADD";
-
-      this.axios
-          .put("http://localhost:8090/application/allergy/" + this.patient_id + "/add", med)
-          .then(response => (this.patient.allergy.medicine = response.data));
-
-    }
   }
 }
 </script>
 
 <style scoped>
-
+#personal_info{
+  text-align: center;
+}
+th{
+  text-align: justify;
+  padding: 7px;
+}
+input[type = text]{
+  text-align: justify;
+}
+input[type = password]{
+  text-align: justify;
+}
 </style>
