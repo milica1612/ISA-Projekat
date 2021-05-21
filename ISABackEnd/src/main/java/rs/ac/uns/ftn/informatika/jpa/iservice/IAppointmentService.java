@@ -11,7 +11,7 @@ public interface IAppointmentService {
 
 	List<AppointmentTimeDTO> getAllAppointments();
 	
-	void chooseAppointmentDerm(Appointment a, Patient p);
+	void chooseAppointmentDerm(Appointment a);
 
 	Appointment save(Appointment a);
 }

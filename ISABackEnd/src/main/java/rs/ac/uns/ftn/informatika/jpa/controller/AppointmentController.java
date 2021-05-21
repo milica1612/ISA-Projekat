@@ -34,9 +34,9 @@ public class AppointmentController {
 	}
 	
 	@PostMapping(value = "/scheduledAppointment")
-	public void chooseAppointmentDerm(@RequestBody Appointment a, Patient p) throws Exception {
+	public void chooseAppointmentDerm(@RequestBody Appointment a) throws Exception {
 		
-		_appointmentService.chooseAppointmentDerm(a, p);
+		_appointmentService.chooseAppointmentDerm(a);
 		
 	}
 	

@@ -38,10 +38,10 @@ public class AppointmentService implements IAppointmentService {
 
 
 	@Override
-	public void chooseAppointmentDerm(Appointment a, Patient p) {
+	public void chooseAppointmentDerm(Appointment a) {
 			
 		if(a.getAppointmentStatus().equals(AppointmentStatus.STARTED)) {
-			a.setPatient(p);
+			//a.setPatient(p);
 		}
 		
 		_appointmentRepository.save(a);

@@ -25,7 +25,7 @@
         <tr v-for="a in allappointments" :key="a">
           <td>{{a.dateAndTime}}</td>
           <td>{{a.duration}}</td>
-          <button v-on:click = "chooseAppointmentDerm">Schedule</button>
+          <button style="color: darkblue" v-on:click = "chooseAppointmentDerm(a)">Schedule</button>
         </tr>
         </tbody>
       </template>
@@ -112,9 +112,10 @@ export default {
     }
   },
   methods: {
-    chooseAppointmentDerm(){
+    chooseAppointmentDerm: function(appointment){
+
       this.axios
-          .post('http://localhost:8090/application/appointment/scheduledAppointment', this.appointmet, this.patient)
+          .post('http://localhost:8090/application/appointment/scheduledAppointment', appointment)
     },
 
     scheduleAppointment(appointment){
