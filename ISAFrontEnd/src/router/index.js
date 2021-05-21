@@ -46,6 +46,12 @@ const routes = [{
             import ('../views/HomePagePharmacist.vue')
     },
     {
+        path: '/patient',
+        name: 'Patient',
+        component: () =>
+            import ('../views/Patient.vue')
+    },
+    {
         path: '/offers',
         name: 'Offers',
         component: () =>
