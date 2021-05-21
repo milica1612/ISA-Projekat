@@ -6,25 +6,37 @@
     <br>
     <h3 style = "text-align:center">Select Examination:</h3>
     <br>
-    <table style = "width: 100%; border-bottom: 1px solid #ddd;">
-      <tr style = "border-bottom: 1px solid #ddd;">
-        <td style = "border-bottom: 1px solid #ddd;">DATE AND TIME:</td>
-        <td style = "border-bottom: 1px solid #ddd;">DATE AND TIME:</td>
-        <td style = "border-bottom: 1px solid #ddd;">DURATION (min):</td>
-      </tr>
-      <tr style = "border-bottom: 1px solid #ddd;" v-for="a in allappointments" :key="a">
-        <td style = "border-bottom: 1px solid #ddd;" >{{a.dateAndTime}}</td>
-        <td style = "border-bottom: 1px solid #ddd;">{{a.duration}}</td>
-        <button v-on:click = "chooseAppointmentDerm">Schedule</button>
-      </tr>
-    </table>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+        <tr>
+          <th class="text-left">
+            Date and time:
+          </th>
+          <th class="text-left">
+            Duration:
+          </th>
+          <th class="text-left">
+            Schedule:
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="a in allappointments" :key="a">
+          <td>{{a.dateAndTime}}</td>
+          <td>{{a.duration}}</td>
+          <button v-on:click = "chooseAppointmentDerm">Schedule</button>
+        </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
     <br>
     <h3 style = "text-align:center">Schedule New Term:</h3>
     <br>
     <div class = "modal-body " >
       <div class="container" >
         <div class="row justify-content-sm-center">
-          <form style = "text-align:center" action="/action_page.php">
+          <form style = "align:center" action="/action_page.php">
             <label for="dateandtime">Choose Date and Time:</label>
             <input type="datetime-local" id="dateandtime" name="dateandtime"  v-model="appointment.dateAndTime" required>
           </form>
@@ -72,14 +84,16 @@ export default {
     pointsError: null
   }),
   mounted(){
-    this.axios
-        .get('http://localhost:8090/application/appointments/allappointments')
-        .then((resp) => (this.allappointments = resp.data));
+    {
+      this.axios
+          .get('http://localhost:8090/application/appointments/allappointments')
+          .then((resp) => (this.allappointments = resp.data))
+    }
   },
   methods: {
     chooseAppointmentDerm(){
       this.axios
-          .post('http://localhost:8090/application/application/scheduledAppointment', this.appointmet, this.patient)
+          .post('http://localhost:8090/application/appointment/scheduledAppointment', this.appointmet, this.patient)
     },
 
     scheduleAppointment(appointment){
