@@ -62,6 +62,18 @@ const routes = [{
         name: 'ScheduleAppointment',
         component: () =>
             import ('../views/ScheduleAppointment.vue')
+    },
+    {
+        path: '/supplier',
+        name: 'Supplier',
+        component: () =>
+            import ('../views/Supplier.vue')
+    },
+    {
+        path: '/editSupplierProfile',
+        name: 'EditSupplierProfile',
+        component: () =>
+            import ('../views/EditSupplierProfile.vue')
     }
 ]
 
