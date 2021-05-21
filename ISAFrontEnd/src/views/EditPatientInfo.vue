@@ -151,6 +151,8 @@
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: "EditPatientInfo",
   data: function(){
@@ -187,13 +189,18 @@ export default {
 
       this.axios
           .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy)
-          .then(response => (this.medicine = response.data));
+          .then(router.push('patient'));
     },
     addAllergy :function(med){
+      this.patient_id = this.patient.userId;
       this.axios
           .put("http://localhost:8090/application/allergy/" + this.patient_id + "/add", med)
-          .then(response => (this.patient.allergy.medicine = response.data));
-
+          .then((response) =>{
+            this.patient.allergy.medicine = response.data;
+            this.axios
+                .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy)
+                .then(response => (this.medicine = response.data));
+    });
     }
   }
 }

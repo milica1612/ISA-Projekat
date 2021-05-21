@@ -98,8 +98,7 @@
           <v-btn
               color="primary"
               elevation="3"
-              medium
-              v-on:click = "editInformation">
+              medium>
     <router-link to="/editPatientInfo" tag="button">Edit</router-link>
           </v-btn>
   </v-row>
