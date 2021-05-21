@@ -1,9 +1,33 @@
 <template>
 <div id="offer">
   <div class = "container">
-      <v-simple-table>
+
+        <v-row
+            align="center"
+            justify="space-around"
+            style="margin-top: 3%" 
+        >
+        <h2 
+            text-align:left
+            color:blue
+        >Filter orders by:</h2>
+            <v-btn
+                v-on:click = "filtrateOffersA"
+            >Accepted</v-btn>
+            <v-btn
+                v-on:click = "filtrateOffersD"
+            >Declined</v-btn>
+            <v-btn
+                v-on:click = "filtrateOffersW"
+            >Waiting</v-btn>
+            <v-btn
+                v-on:click = "showAll"
+            >No Filter</v-btn>
+        </v-row>
+
+
+      <v-simple-table style="margin-top: 1%"  >
         <template v-slot:default>
-          
           <thead>
           <tr>
             <th class="text-left">
@@ -28,7 +52,7 @@
               v-for="offer of offers"
               :key="offer"
           >
-            <td>{{ offer.deliveryDeadline }}</td>
+            <td>{{ offer.deliveryDeadline.substring(0, 10) }}</td>
             <td>{{ offer.status }}</td>
             <td>{{ offer.order.orderStatus}}</td>
             <td>{{ offer.price }}</td>
