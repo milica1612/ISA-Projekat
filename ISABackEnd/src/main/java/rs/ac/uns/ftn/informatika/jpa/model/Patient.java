@@ -15,14 +15,8 @@ public class Patient extends User {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
 	   
-	public Patient()
-	{
-		
-	}
-	public Patient(String firstName, String lastName, String userName, String password, String email,
-				String phoneNumber, Long userId, UserType userType, Address address) {
-			super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
-			// TODO Auto-generated constructor stub
+	public Patient() {
+			super();
 	}
 	
 	

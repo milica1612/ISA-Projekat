@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +21,8 @@ public class Supplier extends User {
 	}
 
 	public Supplier(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, UserType userType, Address address, Set<MedicineItem> medItem) {
-		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address);
+			String phoneNumber, Long userId, UserType userType, Address address, Set<MedicineItem> medItem, Boolean enabled, Date lastResetPasswordDate) {
+		super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate);
 		this.medicineItem = new HashSet<MedicineItem>();
 		
 	}
