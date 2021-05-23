@@ -64,6 +64,12 @@ const routes = [{
             import ('../views/ScheduleAppointment.vue')
     },
     {
+        path: '/editPatientInfo',
+        name: 'EditPatientInfo',
+        component: () =>
+            import ('../views/EditPatientInfo.vue')
+    },
+    {
         path: '/supplier',
         name: 'Supplier',
         component: () =>
@@ -74,6 +80,12 @@ const routes = [{
         name: 'EditSupplierProfile',
         component: () =>
             import ('../views/EditSupplierProfile.vue')
+    },
+    {
+        path: '/browseMedicine',
+        name: 'BrowseMedicine',
+        component: () =>
+            import ('../views/BrowseMedicine.vue')
     }
 ]
 
