@@ -1,13 +1,21 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOfferService;
+import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
+import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 
@@ -50,6 +58,42 @@ public class OfferService implements IOfferService{
 			}
 		}
 		return offersBySupplier;		
+	}
+
+	@Override
+	public void createOffer(OfferDTO offerDTO, Order order, Supplier supplier) {
+		Offer offer = new Offer();
+		
+		if(order.getOfferDeadline().after(new Date())) {
+			if(checkOffer(order, supplier)) {
+				offer.setPrice(offerDTO.getFinalPrice());
+				offer.setDeliveryDeadline(offerDTO.getDeliveryDeadline());
+			}
+		}
+		_offerRepository.save(offer);
+	}
+
+	@Override
+	public Boolean checkOffer(Order order, Supplier supplier) {
+		List<MedicineItem> mitem = (List<MedicineItem>) supplier.getMedicineItem();
+		
+		MedicineItem medicineItem = (MedicineItem) order.getMedicineItem();
+		
+		if(mitem.isEmpty()) {
+			return false;
+		}
+		List<MedicineItem> medicineForOrder = new ArrayList<>();
+		
+		for(MedicineItem m : mitem) {
+			if(!(m.getMedicine().equals(order.getMedicineItem()))) {
+				if(m.getQuantity() < medicineItem.getQuantity()) {
+					return false;
+				}
+			}
+		medicineForOrder.add(m);
+		}
+		return true;
+
 	}
 
 }

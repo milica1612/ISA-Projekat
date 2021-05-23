@@ -45,7 +45,7 @@
       <tr>
       <tr>
         <th>Password</th>
-        <td><input type = "text" v-model = "supplier.password" disabled/></td>
+        <td><input type = "password" v-model = "supplier.password" disabled/></td>
       </tr>
       </template>
     </v-simple-table>

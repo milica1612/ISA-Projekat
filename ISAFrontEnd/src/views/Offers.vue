@@ -68,12 +68,11 @@
             color:blue
           >New arrived orders:</h2>
 
-      <v-simple-table style="margin-top: 1%;"  >
+      <v-simple-table style="margin-top: 1%;"  
+            show-select  >
         <h2 >New arrived orders:</h2>
 
         <template v-slot:default>
-
-    
           <thead>
           <tr>
             <th class="text-left">
@@ -113,7 +112,9 @@ export default {
      return {
         logged: false,
         offers: [],
-        orders: []
+        orders: [],
+        singleSelect: false,
+        selected: []
      }
     },
     mounted() { 
@@ -138,7 +139,7 @@ export default {
 			.get("http://localhost:8090/application/offers/filtrate/DECLINED/3")
 			.then(response => (this.offers = response.data));
 		},
-        filtrateOffersW: function(){
+     filtrateOffersW: function(){
 			this.axios
 			.get("http://localhost:8090/application/offers/filtrate/WAITING/3")
 			.then(response => (this.offers = response.data));

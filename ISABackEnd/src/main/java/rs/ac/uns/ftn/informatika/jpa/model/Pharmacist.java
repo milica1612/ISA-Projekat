@@ -10,10 +10,9 @@ public class Pharmacist extends PharmacyEmployee {
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Pharmacy pharmacy;
 	
-	
 	public Pharmacist()
     {
-    	
+		
     }
 	
     public Pharmacist(String firstName, String lastName, String userName, String password, String email,
