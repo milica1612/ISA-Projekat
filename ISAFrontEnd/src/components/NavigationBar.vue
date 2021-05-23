@@ -18,7 +18,7 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer class="hidden-md-and-up"></v-spacer>
             <v-btn flat class="hidden-sm-and-down ma-1" @click="drawer = !drawer">Menu</v-btn>
-            <v-toolbar-title class="appTitlePos"><router-link class="appTitle" to="/">{{appTitle}}</router-link></v-toolbar-title>
+            <v-toolbar-title class="appTitlePos"><router-link class="appTitle" to="/browsePharmacies">{{appTitle}}</router-link></v-toolbar-title>
             <v-spacer class="hidden-sm-and-down"></v-spacer>
             <div v-if="!isLogged">
                 <v-btn flat class="hidden-sm-and-down">
@@ -29,7 +29,7 @@
                 <v-btn flat class="hidden-sm-and-down" v-on:click="logOff">Log off</v-btn>
             </div>
             <div v-if="!isLogged">
-                <v-btn color="brown lighten-3" class="hidden-sm-and-down ma-1">
+                <v-btn flat class="hidden-sm-and-down ma-1">
                   <router-link class="router" to="/register">Register</router-link>
                 </v-btn>
             </div>

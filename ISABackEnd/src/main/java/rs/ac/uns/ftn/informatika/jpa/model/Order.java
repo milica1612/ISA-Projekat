@@ -27,7 +27,7 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	public OrderStatus orderStatus;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)   
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)   
 	public Set<MedicineItem> medicineItem;   
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)   

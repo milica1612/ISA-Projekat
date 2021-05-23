@@ -6,21 +6,27 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
+import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.OfferService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "/offers")
 public class OfferController {
 
@@ -53,26 +59,13 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
-	@PostMapping(value = "/suggestOffer")
-	public Offer suggestOffer(@RequestBody Offer offer){
-		
-		if(offer == null) {
-			return null;
+	@PutMapping(value = "createOffer/{id}/{order_id}")
+	public ResponseEntity<?> createOffer(@RequestBody OfferDTO offerDTO, Supplier supplier, Order order){
+		try {
+			_offerService.createOffer(offerDTO, null, null);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
-		Offer _offer = new Offer();
-		
-		_offer.setPrice(offer.getPrice());
-		_offer.setDeliveryDeadline(offer.getDeliveryDeadline());
-		_offer.setOrder(null);;
-		_offer.setStatus(Status.WAITING);
-		_offer.setSupplier(null);
-	
-	
-		_offer = (Offer) _offerService.save(_offer);	
-		return _offer;
-		
 	}
-
-	
 }
