@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -43,7 +44,7 @@ public class OfferService implements IOfferService{
 
 	@Override
 	public List<Offer> findOffersBySupplier(Long id) {
-
+		
 		List<Offer> offers = _offerRepository.findAll();
 		Supplier supplier = new Supplier();
 		
@@ -54,15 +55,17 @@ public class OfferService implements IOfferService{
 			
 			if(supplier.getUserId() == id) {
 				offersBySupplier.add(o);
-				
 			}
 		}
 		return offersBySupplier;		
 	}
 
 	@Override
-	public void createOffer(OfferDTO offerDTO, Order order, Supplier supplier) {
+	public void createOffer(OfferDTO offerDTO, Order order) {
 		Offer offer = new Offer();
+		
+		Supplier supplier = (Supplier) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(supplier.getEmail());
 		
 		if(order.getOfferDeadline().after(new Date())) {
 			if(checkOffer(order, supplier)) {

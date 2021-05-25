@@ -77,7 +77,7 @@ INSERT INTO public.allergy_medicine(
 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_name, last_name, last_reset_pass_date, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Patient', default, 'milica98@gmail.com', true, 'Milica', 'Lukic', '2020-11-11', '$2y$10$kR7pVOBgOrMwvu7A6kjX/OAN7nEO3T1AHVT5DeSntVHrLU5F39UNW', '065/897-87-65', 'mimi', 'ROLE_PATIENT', null, 0, 1, null, 1);
+	VALUES ('Patient', default, 'milica98@gmail.com', true, 'Milica', 'Lukic', '2020-11-11', '$2a$10$QKlw4.Hn068yGN8DMdWlUeR.YlXFikRtB4qLxAVRM5FqqU2Seu7qq', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
 	
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
@@ -85,7 +85,7 @@ INSERT INTO public.loyalty_card(
 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_name, last_name, last_reset_pass_date, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'isateam3922@gmail.com', true, 'Pera', 'Peric', '2020-11-11', 'pera', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
+	VALUES ('Supplier', default, 'ivanagavric05@gmail.com', true, 'Pera', 'Peric', '2020-11-11', '$2a$10$QKlw4.Hn068yGN8DMdWlUeR.YlXFikRtB4qLxAVRM5FqqU2Seu7qq', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_name, last_name, last_reset_pass_date, password, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
@@ -105,40 +105,49 @@ INSERT INTO public.user(
 
 	INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/04', 'PROCESSED', '2', '6');
+	VALUES (default, '2021/04/04', 'PROCESSED', '2', '5');
 
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/11', 'PROCESSED', '2', '6');
+	VALUES (default, '2021/04/11', 'PROCESSED', '2', '5');
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/21', 'PROCESSED', '2', '6');
+	VALUES (default, '2021/04/21', 'PROCESSED', '2', '5');
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/05/05', '22000', 'ACCEPTED', '1', '3');
+	VALUES (default, '2021/05/05', '22000', 'ACCEPTED', '1', '2');
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/06', '8000', 'ACCEPTED', '2', '3');
+	VALUES (default, '2021/06/06', '8000', 'ACCEPTED', '2', '2');
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/05', '12000', 'DECLINED', '3', '3');	
+	VALUES (default, '2021/06/05', '12000', 'DECLINED', '3', '2');	
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/03/05', '15000', 'WAITING', '1', '3');
+	VALUES (default, '2021/03/05', '15000', 'WAITING', '1', '2');
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/03', '100000', 'DECLINED', '2', '3');
+	VALUES (default, '2021/02/03', '100000', 'DECLINED', '2', '2');
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/15', '2000', 'WAITING', '3', '3');
+	VALUES (default, '2021/02/15', '2000', 'WAITING', '3', '2');
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/02/01', '54000', 'DECLINED', '1', '2');
+	
+INSERT INTO public.authority(name) VALUES ('PATIENT');	
+INSERT INTO public.authority(name) VALUES ('ADMIN');	
+INSERT INTO public.authority(name) VALUES ('SUPPLIER');	
+INSERT INTO public.authority(name) VALUES ('PHADMIN');
+INSERT INTO public.authority(name) VALUES ('PHARMACIST');	
+INSERT INTO public.authority(name) VALUES ('DERMATOLOGIST');
+
+INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (1, 1);	

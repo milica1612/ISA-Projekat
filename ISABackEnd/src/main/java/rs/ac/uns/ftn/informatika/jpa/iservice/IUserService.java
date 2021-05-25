@@ -28,4 +28,5 @@ public interface IUserService {
 	List<UserDTO> userSearch(UserDTO userDTO);
 	
 	List<UserDTO> findUserByUserType(UserType userType);
+	
 }

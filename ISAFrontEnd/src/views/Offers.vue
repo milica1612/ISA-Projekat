@@ -120,33 +120,57 @@ export default {
     mounted() { 
     {
         this.axios
-            .get('http://localhost:8090/application/offers/seeOffers/3')
+            .get('http://localhost:8090/offers/seeOffers/' + localStorage.getItem("userId"), {
+              headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+            })
             .then(r => (this.offers = r.data));
         
         this.axios
-            .get('http://localhost:8090/application/orders/allOrders')
+            .get('http://localhost:8090/orders/allOrders', {
+              headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+            })
             .then(r => (this.orders = r.data))
     }   
     },
     methods: {
         filtrateOffersA: function(){
 			this.axios
-			.get("http://localhost:8090/application/offers/filtrate/ACCEPTED/3")
+			.get("http://localhost:8090/offers/filtrate/ACCEPTED/" + localStorage.getItem("userId"), {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+      })
 			.then(response => (this.offers = response.data));
 		},
         filtrateOffersD: function(){
 			this.axios
-			.get("http://localhost:8090/application/offers/filtrate/DECLINED/3")
+			.get("http://localhost:8090/offers/filtrate/DECLINED/" + localStorage.getItem("userId"), {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+      })
 			.then(response => (this.offers = response.data));
 		},
      filtrateOffersW: function(){
 			this.axios
-			.get("http://localhost:8090/application/offers/filtrate/WAITING/3")
+			.get("http://localhost:8090/offers/filtrate/WAITING/" + localStorage.getItem("userId"), {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+      })
 			.then(response => (this.offers = response.data));
         },
         showAll: function() {
             this.axios
-            .get('http://localhost:8090/application/offers/seeOffers/3')
+            .get('http://localhost:8090/offers/seeOffers/' + localStorage.getItem("userId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+            })
             .then(r => (this.offers = r.data));
         }
     }

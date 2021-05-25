@@ -22,5 +22,5 @@ public interface IOfferService {
 	
 	Boolean checkOffer(Order order, Supplier supplier);
 
-	void createOffer(OfferDTO offerDTO, Order order, Supplier supplier);
+	void createOffer(OfferDTO offerDTO, Order order);
 }

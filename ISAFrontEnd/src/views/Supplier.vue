@@ -4,7 +4,7 @@
   <div class = "container">
     <h1 style = "text-align:center" >Supplier profile</h1>
     <br/>
-    <v-simple-table style = "margin:0 auto; padding: 20px; width: 50%">
+    <v-simple-table style = "margin:0 auto; padding: 20px; width: 100%">
     <template v-slot:default>
       <tr>
         <th><h3>Personal information</h3></th>
@@ -14,39 +14,48 @@
         <th>First Name</th>
         <td><input type = "text" v-model = "supplier.firstName" disabled /></td>
       </tr>
+      <br>
       <tr>
         <th>Last Name</th>
         <td><input type = "text" v-model = "supplier.lastName" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>Phone Number</th>
         <td><input type = "text" v-model = "supplier.phoneNumber" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>Country</th>
         <td><input type = "text" v-model = "supplier.address.country" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>City</th>
         <td><input type = "text" v-model = "supplier.address.city" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>Street</th>
         <td><input type = "text" v-model = "supplier.address.street" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>Street Number</th>
         <td><input type = "text" v-model = "supplier.address.streetNumber" disabled/></td>
       </tr>
+      <br>
       <tr>
         <th>E-mail</th>
         <td>{{supplier.email}}</td>
       </tr>
+      <br>
       <tr>
       <tr>
         <th>Password</th>
         <td><input type = "password" v-model = "supplier.password" disabled/></td>
       </tr>
+      <br>
       </template>
     </v-simple-table>
     </div>
@@ -76,7 +85,11 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8090/application/users/3')
+        .get('http://localhost:8090/users/' + localStorage.getItem("userId"), {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+            })
         .then(response => (this.supplier = response.data));
   },
   methods: {
@@ -89,7 +102,11 @@ export default {
       this.mode = "BROWSE";
 
       this.axios
-          .post("http://localhost:8090/application/users/update", this.supplier);
+          .post("http://localhost:8090/users/update", this.supplier, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          });
 
     }
   }

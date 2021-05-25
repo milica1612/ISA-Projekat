@@ -118,13 +118,24 @@ export default {
     }
   },
   mounted(){
-    this.axios
-        .get('http://localhost:8090/application/users/1')
-        .then(response => (this.patient = response.data));
-    this.axios
-        .get('http://localhost:8090/application/loyaltyCard/user/1')
-        .then(response => (this.loyalty_card = response.data));
+    console.log(this.role)
+        console.log(localStorage.getItem("userId"))
 
+        this.axios
+          .get('http://localhost:8090/users/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.patient = response.data));
+        
+        this.axios
+          .get('http://localhost:8090/loyaltyCard/user/' + localStorage.getItem("userId"), {
+             headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.loyalty_card = response.data));
   }
 }
 </script>

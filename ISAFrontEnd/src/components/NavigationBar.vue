@@ -63,15 +63,17 @@ export default {
     methods:{
     init(){
         this.userType =localStorage.getItem('userType');
-        if (this.userType == 0){   // USER-TYPE
+        console.log(this.userType);
+        if (this.userType === "PATIENT"){   // USER-TYPE
             this.items = [
-                { title: 'Home', path: '/' }
+                { title: 'Patient', path: '/patient'}
             ]
-        } else if (this.userType == 1) {   //  USER-TYPE
+        } else if (this.userType === "SUPPLIER") {   //  USER-TYPE
             this.items = [
-                { title: 'Home', path: '/' }
+                { title: 'Offers', path: '/offers' },
+                { title: 'Supplier', path: '/supplier' }
             ]
-        } else if (this.userType == 2) {   //  USER-TYPE
+        } else if (this.userType == "SYS_ADMINISTRATOR") {   //  USER-TYPE
             this.items = [
                 { title: 'Home', path: '/' },
             ]
@@ -84,7 +86,7 @@ export default {
       logOff() {
         localStorage.setItem("token", "");
         localStorage.setItem("userType", null);
-        window.location.href = "http://localhost:8081/";
+        window.location.href = "http://localhost:8080/login";
       }
     }
 }

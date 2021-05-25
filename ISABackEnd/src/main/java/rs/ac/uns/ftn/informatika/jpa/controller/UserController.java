@@ -2,12 +2,10 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.LogInDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
-import rs.ac.uns.ftn.informatika.jpa.model.Address;
-import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.Patient;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
-import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -36,9 +27,19 @@ public class UserController {
 	@Autowired
 	private UserService _userService ;
 
+	@GetMapping(value = "/currentUser")
+	public User getCurrentLoggedUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return user;
+	}
+	
+	
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
-		return (User) _userService.findById(id);
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(user.getEmail());
+		return (User) _userService.findById(user.getUserId());
 	}
  
 	@GetMapping(value = "/email/{email}")
@@ -56,19 +57,6 @@ public class UserController {
 	public List<UserDTO> findAllByPharmacyIdAndUserType(@PathVariable UserType userType) {
 		return _userService.findUserByUserType(userType);
 	}	
-	
-	@GetMapping(value = "/login")
-	public User logInUser(@RequestBody LogInDTO logInDTO, HttpSession session){
-		
-		User user = _userService.findByEmailAndPassword(logInDTO.getEmail(), logInDTO.getPassword());
-		
-		if(user == null) {
-			return null;
-		}
-		
-		session.setAttribute("email", user.getEmail());
-		return user;
-	}
 	
 
 	@GetMapping(path = "/allpatients")

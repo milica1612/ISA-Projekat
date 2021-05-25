@@ -57,19 +57,22 @@ export default {
   methods: {
     logIn() {
       this.$http
-        .post("http://localhost:8080/auth/login/", {
+        .post("http://localhost:8090/auth/login", {
           email: this.email,
           password: this.password,
         })
         .then((resp) => {
           console.log(resp.data);
-          localStorage.setItem("email", this.user.email);
-          localStorage.setItem("token", resp.data.token);
-          localStorage.setItem("userId", resp.data.id);
+          try{
+              localStorage.setItem("email", this.user.email);
+              localStorage.setItem("token", resp.data.accessToken);
+              localStorage.setItem("userId", resp.data.user.userId);
 
-          localStorage.setItem("userType", resp.data.userType);
-          console.log(localStorage.getItem("userType"));
-          window.location.href = "http://localhost:8081/";
+              localStorage.setItem("userType", resp.data.user.userType);
+              console.log(localStorage.getItem("user"));
+        } catch(error) {
+            alert(error)
+        }
         })
         .catch((er) => {
           alert("Invalid email and/or password! Please, try again!");

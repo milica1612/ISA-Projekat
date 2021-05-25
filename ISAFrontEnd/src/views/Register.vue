@@ -22,7 +22,7 @@
          <v-text-field
           label="Street Name"
           v-model="streetName"
-          :rules="[() => !!streetNumber || 'This field is required']"
+          :rules="[() => !!streetName || 'This field is required']"
           :error-messages="errorMessages"
           prepend-icon="mdi-account-circle"
         />
@@ -78,7 +78,7 @@
           :type="showPassword ? 'text' : 'password'"
           label="Repeat Password"
           v-model="repeated_password"
-          :rules="[() => !!repeated_password || 'This field is required', rules.passwordsMatch]"
+          :rules="[() => !!repeated_password || 'This field is required', passwordConfirmationRule]"
           :error-messages="errorMessages"
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
           prepend-icon="mdi-lock"
@@ -94,9 +94,7 @@
         elevation="2"
         x-large
         raised
-        v-on:click="register"
-        >Register</v-btn
-      >
+        v-on:click="register">Register</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -119,9 +117,6 @@ export default {
     phoneNumber: "",
     repeated_password: "",
     users: [],
-    rules: {
-          passwordsMatch: () => (`The passwords you entered don't match.`),
-        },
   }),
   computed: {
     user() {
@@ -134,12 +129,15 @@ export default {
                 country: this.country,
                 phoneNumber: this.phoneNumber,
                 repeated_password: this.repeated_password};
+    },
+    passwordConfirmationRule() {
+      return () => (this.password === this.repeated_password) || 'Password must match.'
     }
   },
   methods: {
-    logIn() {
+    register() {
       this.$http
-        .post("http://localhost:8080/auth/signup/", {
+        .post("http://localhost:8090/auth/signup", {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
@@ -150,18 +148,11 @@ export default {
           country: this.country,
           phoneNumber: this.phoneNumber
         })
-        .then((resp) => {
-          console.log(resp.data);
-          localStorage.setItem("email", this.user.email);
-          localStorage.setItem("token", resp.data.token);
-          localStorage.setItem("userId", resp.data.id);
-
-          localStorage.setItem("userType", resp.data.userType);
-          console.log(localStorage.getItem("userType"));
-          window.location.href = "http://localhost:8081/";
+        .then(() => {
+          window.location.href = "http://localhost:8080/login";
         })
         .catch((er) => {
-          alert("Invalid email and/or password! Please, try again!");
+          alert("Username already exists!");
           this.email = "";
           this.password = "";
           this.firstName = "";

@@ -31,7 +31,9 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private PasswordEncoder _passwordEncoder;
-	
+
+	@Autowired
+	private AddressService _addressService;
 	
 	@Override
 	public User findById(Long id) {
@@ -42,13 +44,7 @@ public class UserService implements IUserService {
 	@Override
 	public User save(RegistrationRequest request) {
 		
-		Address address = new Address();
-		address.setStreet(request.getStreet());
-		address.setStreetNumber(request.getStreetNumber());
-		address.setCity(request.getCity());
-		address.setCountry(request.getCountry());
-		address.setLatitude(null);
-		address.setLongitude(null);
+		Address a = new Address();
 		
 		Patient p = new Patient();
 		
@@ -56,21 +52,23 @@ public class UserService implements IUserService {
 		p.setPassword(_passwordEncoder.encode(request.getPassword()));
 		p.setFirstName(request.getFirstName());
 		p.setLastName(request.getLastName());
-		p.setUserName(null);
+
 		p.setPhoneNumber(request.getPhoneNumber());
-		p.setAddress(address);
+
+		a = request.getAddress();
+		p.setAddress(a);
+		//this._addressService.createAddress(request.getAddress());
 		p.setUserType(UserType.PATIENT);
 		
 		p.setEnabled(true);
 		
-		List<Authority> auth = _authorityService.findByName("ROLE_PATIENT");
+		
+		List<Authority> auth = _authorityService.findByName("PATIENT");
 		p.setAuthorities(auth);
 		
 		this._userRepository.save(p);
 		return p;
 	}
-	
-	
 	
 	@Override
 	public void update(@Valid User user) {

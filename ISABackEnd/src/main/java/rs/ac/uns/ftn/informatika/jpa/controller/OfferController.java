@@ -60,9 +60,9 @@ public class OfferController {
 	}
 	
 	@PutMapping(value = "createOffer/{id}/{order_id}")
-	public ResponseEntity<?> createOffer(@RequestBody OfferDTO offerDTO, Supplier supplier, Order order){
+	public ResponseEntity<?> createOffer(@RequestBody OfferDTO offerDTO, Order order){
 		try {
-			_offerService.createOffer(offerDTO, null, null);
+			_offerService.createOffer(offerDTO, null);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
