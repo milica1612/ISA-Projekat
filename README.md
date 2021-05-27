@@ -27,3 +27,9 @@
 - Vue.js
 - Node.js
 - PostgreSQL
+
+## Steps to take when starting a backend project in an Eclipse development environment
+- Import project into workspace: Import -> Maven -> Existing Maven Project
+- Then install all the dependencies from the pom.xml file
+- Finally, right-click on the project -> Run as -> Java Application / Spring Boot app (if the STS plugin from the Eclipse marketplace is installed)
+http: // localhost: 8080 /
