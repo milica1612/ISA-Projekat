@@ -122,7 +122,7 @@ export default {
         console.log(localStorage.getItem("userId"))
 
         this.axios
-          .get('http://localhost:8090/users/' + localStorage.getItem("userId"), {
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -130,7 +130,7 @@ export default {
           .then(response => (this.patient = response.data));
         
         this.axios
-          .get('http://localhost:8090/loyaltyCard/user/' + localStorage.getItem("userId"), {
+          .get('http://localhost:8091/loyaltyCard/user/' + localStorage.getItem("userId"), {
              headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }

@@ -120,7 +120,7 @@ export default {
     mounted() { 
     {
         this.axios
-            .get('http://localhost:8090/offers/seeOffers/' + localStorage.getItem("userId"), {
+            .get('http://localhost:8091/offers/seeOffers/' + localStorage.getItem("userId"), {
               headers: {
                   Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -128,7 +128,7 @@ export default {
             .then(r => (this.offers = r.data));
         
         this.axios
-            .get('http://localhost:8090/orders/allOrders', {
+            .get('http://localhost:8091/orders/allOrders', {
               headers: {
                   Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -139,7 +139,7 @@ export default {
     methods: {
         filtrateOffersA: function(){
 			this.axios
-			.get("http://localhost:8090/offers/filtrate/ACCEPTED/" + localStorage.getItem("userId"), {
+			.get("http://localhost:8091/offers/filtrate/ACCEPTED/" + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
           }
@@ -148,7 +148,7 @@ export default {
 		},
         filtrateOffersD: function(){
 			this.axios
-			.get("http://localhost:8090/offers/filtrate/DECLINED/" + localStorage.getItem("userId"), {
+			.get("http://localhost:8091/offers/filtrate/DECLINED/" + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
           }
@@ -157,7 +157,7 @@ export default {
 		},
      filtrateOffersW: function(){
 			this.axios
-			.get("http://localhost:8090/offers/filtrate/WAITING/" + localStorage.getItem("userId"), {
+			.get("http://localhost:8091/offers/filtrate/WAITING/" + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
           }
@@ -166,7 +166,7 @@ export default {
         },
         showAll: function() {
             this.axios
-            .get('http://localhost:8090/offers/seeOffers/' + localStorage.getItem("userId"), {
+            .get('http://localhost:8091/offers/seeOffers/' + localStorage.getItem("userId"), {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
             }

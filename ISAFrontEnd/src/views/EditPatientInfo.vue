@@ -166,14 +166,14 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8090/users/' + localStorage.getItem("userId"), {
+        .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
         })
         .then(response => (this.patient = response.data));
     this.axios
-        .get('http://localhost:8090/application/loyaltyCard/user/' + localStorage.getItem("userId"), {
+        .get('http://localhost:8091/application/loyaltyCard/user/' + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -185,7 +185,7 @@ export default {
 
     editInformation : function(){
       this.axios
-          .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy, {
+          .put('http://localhost:8091/application/medicine/forAllergies', this.patient.allergy, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
@@ -196,14 +196,14 @@ export default {
       this.mode = "BROWSE";
 
       this.axios
-          .post("http://localhost:8090/application/users/update", this.patient, {
+          .post("http://localhost:8091/application/users/update", this.patient, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           });
 
       this.axios
-          .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy, {
+          .put('http://localhost:8091/application/medicine/forAllergies', this.patient.allergy, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -213,7 +213,7 @@ export default {
     addAllergy :function(med){
       this.patient_id = this.patient.userId;
       this.axios
-          .put("http://localhost:8090/application/allergy/" + this.patient_id + "/add", med, {
+          .put("http://localhost:8091/application/allergy/" + this.patient_id + "/add", med, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -221,7 +221,7 @@ export default {
           .then((response) =>{
             this.patient.allergy.medicine = response.data;
             this.axios
-                .put('http://localhost:8090/application/medicine/forAllergies', this.patient.allergy, {
+                .put('http://localhost:8091/application/medicine/forAllergies', this.patient.allergy, {
                   headers: {
                       Authorization: 'Bearer ' + localStorage.getItem("token")
                 }

@@ -85,7 +85,7 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8090/users/' + localStorage.getItem("userId"), {
+        .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
           }
@@ -102,7 +102,7 @@ export default {
       this.mode = "BROWSE";
 
       this.axios
-          .post("http://localhost:8090/users/update", this.supplier, {
+          .post("http://localhost:8091/users/update", this.supplier, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }

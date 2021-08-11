@@ -104,7 +104,7 @@ export default {
           && appointment.points != "" && appointment.points != undefined && appointment.points != null)
       {
         this.axios
-            .post("http://localhost:8090/application/appointments/scheduleAppointment", appointment)
+            .post("http://localhost:8091/application/appointments/scheduleAppointment", appointment)
             .then((resp) => (this.appointment = resp.data))
       }
     }
