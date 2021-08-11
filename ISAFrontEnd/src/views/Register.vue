@@ -137,7 +137,7 @@ export default {
   methods: {
     register() {
       this.$http
-        .post("http://localhost:8090/auth/signup", {
+        .post("http://localhost:8091/auth/signup", {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
