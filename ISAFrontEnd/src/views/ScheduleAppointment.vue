@@ -73,13 +73,13 @@ export default {
   }),
   mounted(){
     this.axios
-        .get('http://localhost:8090/application/appointments/allappointments')
+        .get('http://localhost:8090/appointments/allappointments')
         .then((resp) => (this.allappointments = resp.data));
   },
   methods: {
     chooseAppointmentDerm(){
       this.axios
-          .post('http://localhost:8090/application/application/scheduledAppointment', this.appointmet, this.patient)
+          .post('http://localhost:8090/appointments/scheduledAppointment', this.appointmet, this.patient)
     },
 
     scheduleAppointment(appointment){
@@ -104,7 +104,7 @@ export default {
           && appointment.points != "" && appointment.points != undefined && appointment.points != null)
       {
         this.axios
-            .post("http://localhost:8091/application/appointments/scheduleAppointment", appointment)
+            .post("http://localhost:8091/appointments/scheduleAppointment", appointment)
             .then((resp) => (this.appointment = resp.data))
       }
     }

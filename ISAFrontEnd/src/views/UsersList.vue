@@ -48,14 +48,14 @@ export default {
   mounted() {
     {
       this.axios
-          .get("http://localhost:8091/application/users/allpatients")
+          .get("http://localhost:8091/users/allpatients")
           .then((resp) => (this.allpatients = resp.data))
     }
   },
   methods: {
     searchPatient() {
       this.$http
-          .post("http://localhost:8091/application/users/searchUser", this.datas)
+          .post("http://localhost:8091/users/searchUser", this.datas)
           .then((resp) => (this.allpatients = resp.data))
     }
   }

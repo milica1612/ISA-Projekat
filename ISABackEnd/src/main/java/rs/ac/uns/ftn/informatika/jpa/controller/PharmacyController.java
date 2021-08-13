@@ -31,7 +31,6 @@ public class PharmacyController {
 	@Autowired
 	private PharmacyService _pharmacyService;
 	
-	
 	@GetMapping(value = "")
 	public ArrayList<Pharmacy> getAllPharmacies() {
 		System.out.println("All Pharmacies");

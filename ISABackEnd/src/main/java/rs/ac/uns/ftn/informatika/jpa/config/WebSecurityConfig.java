@@ -74,7 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 					.antMatchers(
 							"/auth/signup",
 							"/auth/login",
-							"/auth/verify"
+							"/auth/verify",
+							"/pharmacy",
+							"/pharmacy/getByNameOrAddress/{parametar}",
+							"/medicine",
+							"/medicine/getMedicineByName/{name}"
+							
 					).permitAll()
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
 					.anyRequest().authenticated().and()
@@ -92,12 +97,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 		// Generalna bezbednost aplikacije
 		// sve sto treba da se ignorise 
+		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
-			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
-					"/**/*.css", "/**/*.js");
+			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
+					"/pharmacy/getByNameOrAddress/{parametar}",
+					"/medicine","/medicine/getMedicineByName/{name}", "/*.html", "/favicon.ico", 
+					"/**/*.html","/**/*.css", "/**/*.js");
 		}
 }
 

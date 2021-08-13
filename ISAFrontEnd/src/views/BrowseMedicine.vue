@@ -110,16 +110,16 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8091/application/medicine')
+        .get('http://localhost:8091/medicine')
         .then(response => (this.medicines = response.data));
     this.axios
-        .get('http://localhost:8091/application/pharmacy')
+        .get('http://localhost:8091/pharmacy')
         .then(response => (this.availableInPharmacies = response.data));
   },
   methods: {
     searchMedicines: function() {
       this.axios
-          .get("http://localhost:8091/application/medicine/getMedicineByName/" + this.searchMedicine)
+          .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
     }
   }

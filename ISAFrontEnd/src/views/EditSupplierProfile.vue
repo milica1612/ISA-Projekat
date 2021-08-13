@@ -77,13 +77,13 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8091/application/users/3')
+        .get('http://localhost:8091/users/3')
         .then(response => (this.supplier = response.data));
   },
   methods: {
     saveInformation : function(){
       this.axios
-          .post("http://localhost:8091/application/users/update", this.supplier);
+          .post("http://localhost:8091/users/update", this.supplier);
     }
   }
 }

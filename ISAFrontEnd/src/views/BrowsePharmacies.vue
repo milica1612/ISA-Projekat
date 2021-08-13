@@ -83,19 +83,19 @@ export default {
 mounted() {
   {
   this.axios
-      .get('http://localhost:8091/application/pharmacy')
+      .get('http://localhost:8091/pharmacy')
       .then(r => (this.pharmacies = r.data))
   }
 },
   methods: {
     searchPharmacies: function() {
       this.axios
-          .get("http://localhost:8091/application/pharmacy/getByNameOrAddress/" + this.searchField)
+          .get("http://localhost:8091/pharmacy/getByNameOrAddress/" + this.searchField)
           .then(response => (this.pharmacies = response.data))
     },
     filtrate: function(rating){
       this.axios
-          .get("http://localhost:8091/application/pharmacy/filtrateByRating/" + rating)
+          .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
           .then(response => (this.pharmacies = response.data))
     }
   }
