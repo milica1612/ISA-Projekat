@@ -76,9 +76,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/auth/login",
 							"/auth/verify",
 							"/pharmacy",
-							"/pharmacy/getByNameOrAddress/{parametar}",
+							"/pharmacy/getByNameOrAddress/**",
 							"/medicine",
-							"/medicine/getMedicineByName/{name}"
+							"/medicine/getMedicineByName/**",
+							"/pharmacy/filtrateByRating/**"
 							
 					).permitAll()
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
@@ -103,8 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
-					"/pharmacy/getByNameOrAddress/{parametar}",
-					"/medicine","/medicine/getMedicineByName/{name}", "/*.html", "/favicon.ico", 
+					"/pharmacy/getByNameOrAddress/**",
+					"/medicine","/medicine/getMedicineByName/**", "/*.html", "/favicon.ico", 
 					"/**/*.html","/**/*.css", "/**/*.js");
 		}
 }
