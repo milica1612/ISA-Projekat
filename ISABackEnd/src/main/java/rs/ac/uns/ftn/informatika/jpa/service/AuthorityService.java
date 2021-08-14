@@ -1,8 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,24 +11,16 @@ import rs.ac.uns.ftn.informatika.jpa.repository.IAuthorityRepository;
 public class AuthorityService implements IAuthorityService {
 
 	@Autowired
-	private IAuthorityRepository auhtorityRepository;
+	private IAuthorityRepository authorityRepository;
 	
 	@Override
-	public List<Authority> findById(Long id) {
-		Authority auth = this.auhtorityRepository.getOne(id);
-		List<Authority> auths = new ArrayList<Authority>();
-		auths.add(auth);
-		return auths;
+	public Authority findById(Long id) {
+		return authorityRepository.getOne(id);
 	}
 
 	@Override
-	public List<Authority> findByName(String name) {
-
-		Authority auth = this.auhtorityRepository.findByName(name);
-		List<Authority> auths = new ArrayList<Authority>();
-		auths.add(auth);
-		return auths;
+	public Authority findByName(String name) {
+		return authorityRepository.findByName(name);
 	}
 
-	
 }

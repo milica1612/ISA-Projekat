@@ -22,16 +22,21 @@ import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class UserService implements IUserService {
-
-	@Autowired
-	private IUserRepository _userRepository;
 	
-	@Autowired
+	private final IUserRepository _userRepository;
+	
+	private final ConfirmationTokenService confirmationTokenService;
+	
 	private AuthorityService _authorityService;
 
 	@Autowired
 	private PasswordEncoder _passwordEncoder;
 	
+	@Autowired
+	public UserService(IUserRepository userRepository, ConfirmationTokenService confirmationTokenService) {
+		this._userRepository = userRepository;
+		this.confirmationTokenService =  confirmationTokenService;	
+	}
 	
 	@Override
 	public User findById(Long id) {
@@ -70,7 +75,9 @@ public class UserService implements IUserService {
 		return p;
 	}
 	
-	
+	public User updateUser(User user) {
+		return _userRepository.save(user);
+	}
 	
 	@Override
 	public void update(@Valid User user) {

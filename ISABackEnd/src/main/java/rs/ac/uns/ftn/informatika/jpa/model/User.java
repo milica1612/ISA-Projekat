@@ -14,9 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -25,13 +25,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "mySeqGenUsers", sequenceName = "mySeqUsers", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenUsers")
+	@Column(name = "user_id", unique = true, nullable = false)
 	private Long userId;
    
 	@Column(name = "firstName", nullable = false)
@@ -46,7 +46,7 @@ public class User implements UserDetails {
 	@Column(name = "password", nullable = false)
     private String password;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
     private String email;
 	
 	@Column(name = "phoneNumber", nullable = false)
@@ -55,7 +55,7 @@ public class User implements UserDetails {
 	@Column(name = "lastResetPassDate")
 	protected Date lastResetPasswordDate;
 	
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
     private UserType userType;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -63,18 +63,15 @@ public class User implements UserDetails {
     private Address address;
 	
 	@Column(name = "enabled", nullable = false)
-	private Boolean enabled;
+	private Boolean isEnabled;
    
 	@ManyToMany(fetch = FetchType.EAGER)
-	/*@JoinTable(name = "user_authority", 
-		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))*/
 	private List<Authority> authorities;
 	
 	public User() {}
 	
     public User(String firstName, String lastName, String userName, String password, String email,
-		String phoneNumber, Boolean enabled, Long userId, UserType userType, Address address, Date lastPassResetDate) {
+		String phoneNumber, Boolean isEnabled, Long userId, UserType userType, Address address, Date lastPassResetDate) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -85,7 +82,7 @@ public class User implements UserDetails {
 		this.userId = userId;
 		this.userType = userType;
 		this.address = address;
-		this.enabled = enabled;
+		this.isEnabled = isEnabled;
 		this.lastResetPasswordDate = lastPassResetDate;
     }
 	
@@ -100,7 +97,8 @@ public class User implements UserDetails {
     		this.phoneNumber = phoneNumber;
     		this.userType = userType;
     		this.address = address;
-        }
+    }
+    
 	public String getFirstName() {
 		return firstName;
 	}
@@ -173,12 +171,12 @@ public class User implements UserDetails {
 		this.address = address;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getIsEnabled() {
+		return isEnabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public Date getLastResetPasswordDate() {
@@ -201,7 +199,6 @@ public class User implements UserDetails {
 	
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return username;
 	}
 
@@ -225,7 +222,6 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return enabled;
-	} 
+		return true;
+	}
 }
