@@ -49,7 +49,7 @@
           </thead>
           <tbody>
           <tr
-              v-for="offer of offers"
+              v-for="offer in offers"
               :key="offer"
           >
             <td>{{ offer.deliveryDeadline.substring(0, 10) }}</td>
@@ -88,7 +88,7 @@
           </thead>
           <tbody>
           <tr
-              v-for="order of orders"
+              v-for="order in orders"
               :key="order"
           >
             <td>{{ order.offerDeadline.substring(0, 10) }}</td>

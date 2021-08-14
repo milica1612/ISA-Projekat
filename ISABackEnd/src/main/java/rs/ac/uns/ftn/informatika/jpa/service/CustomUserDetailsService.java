@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 	// Funkcija pomocu koje korisnik menja svoju lozinku
 	public void changePassword(String oldPassword, String newPassword) {
-
+ 
 		// Ocitavamo trenutno ulogovanog korisnika
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		String username = currentUser.getName();

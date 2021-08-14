@@ -68,9 +68,8 @@ export default {
               localStorage.setItem("token", resp.data.accessToken);
               localStorage.setItem("userId", resp.data.user.userId);
               localStorage.setItem("userType", resp.data.user.userType);
-
-              console.log(localStorage.getItem("user"));
-              window.location.href = "http://localhost:8080/patient"
+                          
+             window.location.href = "http://localhost:8080/NavigationBar";
           } catch(error) {
             alert(error)
         }
