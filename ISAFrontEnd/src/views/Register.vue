@@ -142,10 +142,12 @@ export default {
           password: this.password,
           firstName: this.firstName,
           lastName: this.lastName,
-          streetName: this.streetName,
-          streetNumber: this.streetNumber,
-          city: this.city,
-          country: this.country,
+          address: {
+            street: this.streetName,
+            streetNumber: this.streetNumber,
+            city: this.city,
+            country: this.country
+          },
           phoneNumber: this.phoneNumber
         })
         .then(() => {

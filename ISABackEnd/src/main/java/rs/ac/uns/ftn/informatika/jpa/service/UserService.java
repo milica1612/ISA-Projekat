@@ -57,7 +57,7 @@ public class UserService implements IUserService {
 
 		a = request.getAddress();
 		p.setAddress(a);
-		//this._addressService.createAddress(request.getAddress());
+		this._addressService.createAddress(request.getAddress());
 		p.setUserType(UserType.PATIENT);
 		
 		p.setEnabled(true);
