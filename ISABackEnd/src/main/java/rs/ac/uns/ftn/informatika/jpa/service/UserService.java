@@ -7,9 +7,10 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
@@ -138,5 +139,4 @@ public class UserService implements IUserService {
 				.map(u -> new UserDTO(u.getFirstName(), u.getLastName())).collect(Collectors.toList());
 	}
 
-	
 }

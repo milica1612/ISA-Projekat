@@ -68,8 +68,16 @@ export default {
               localStorage.setItem("token", resp.data.accessToken);
               localStorage.setItem("userId", resp.data.user.userId);
               localStorage.setItem("userType", resp.data.user.userType);
-                          
-             window.location.href = "http://localhost:8080/NavigationBar";
+
+              if(resp.data.user.userType == "DERMATOLOGIST"){
+                window.location.href = "http://localhost:8080/homePageDermatologist";
+              }
+              else if(resp.data.user.userType == "PHARMACIST"){
+                window.location.href = "http://localhost:8080/homePagePharmacist";
+              }
+              else
+                window.location.href = "http://localhost:8080/NavigationBar";
+
           } catch(error) {
             alert(error)
         }

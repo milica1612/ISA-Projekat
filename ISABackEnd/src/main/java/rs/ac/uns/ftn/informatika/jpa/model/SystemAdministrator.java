@@ -11,8 +11,8 @@ import javax.persistence.Id;
 public class SystemAdministrator extends User {
 	
 	public SystemAdministrator(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled, Date lastResetPasswordDate) {
-		super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate);
+			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled, Date lastResetPasswordDate, Boolean firstLogin) {
+		super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate, firstLogin);
 		// TODO Auto-generated constructor stub
 	}
 	public SystemAdministrator()
