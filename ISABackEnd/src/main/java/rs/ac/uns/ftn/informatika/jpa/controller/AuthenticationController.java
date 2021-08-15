@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,6 +115,33 @@ public class AuthenticationController {
 	static class PasswordChanger {
 		public String oldPassword;
 		public String newPassword;
+		public String email;
+		public String rewritePassword;
 	}
 
+	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+    public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
+		User user = userService.findByEmail(passwordChanger.email);
+		 
+		if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+			throw new IllegalArgumentException("Password can not be same as old.");
+	    }
+		if(!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
+            throw new IllegalArgumentException("Password must match!");
+        }
+        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
+            throw new IllegalArgumentException("Please fill all the required fields!");
+        }
+       
+        if(!passwordChanger.oldPassword.equals(user.getPassword())) {
+        	throw new IllegalArgumentException("Current password is not valid!");
+        }
+       
+        userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
 }

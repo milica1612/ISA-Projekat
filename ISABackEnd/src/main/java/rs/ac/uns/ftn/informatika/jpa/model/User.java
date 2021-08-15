@@ -69,10 +69,13 @@ public class User implements UserDetails {
 		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))*/
 	private List<Authority> authorities;
 	
+	@Column(name = "firstLogin", nullable = false)
+	private Boolean firstLogin;
+	
 	public User() {}
 	
     public User(String firstName, String lastName, String userName, String password, String email,
-		String phoneNumber, Boolean enabled, Long userId, UserType userType, Address address, Date lastPassResetDate) {
+		String phoneNumber, Boolean enabled, Long userId, UserType userType, Address address, Date lastPassResetDate, Boolean firstLogin) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -85,6 +88,7 @@ public class User implements UserDetails {
 		this.address = address;
 		this.enabled = enabled;
 		this.lastResetPasswordDate = lastPassResetDate;
+		this.firstLogin = firstLogin;
     }
 	
     public User(String firstName, String lastName, String userName, String password, String email,
@@ -163,6 +167,14 @@ public class User implements UserDetails {
 		this.userType = userType;
 	}
 	
+	public Boolean getFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(Boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+
 	public Address getAddress() {
 		return address;
 	}

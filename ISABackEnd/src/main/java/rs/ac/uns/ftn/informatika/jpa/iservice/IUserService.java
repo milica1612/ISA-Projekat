@@ -3,6 +3,8 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
@@ -28,5 +30,4 @@ public interface IUserService {
 	List<UserDTO> userSearch(UserDTO userDTO);
 	
 	List<UserDTO> findUserByUserType(UserType userType);
-	
 }

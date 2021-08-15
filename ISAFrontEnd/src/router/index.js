@@ -70,6 +70,18 @@ const routes = [{
             import ('../views/EditPatientInfo.vue')
     },
     {
+        path: '/editDermatologistInfo',
+        name: 'EditDermatologistInfo',
+        component: () =>
+            import ('../views/EditDermatologistInfo.vue')
+    },
+    {
+        path: '/editPharmacistInfo',
+        name: 'EditPharmacistInfo',
+        component: () =>
+            import ('../views/EditPharmacistInfo.vue')
+    },
+    {
         path: '/supplier',
         name: 'Supplier',
         component: () =>
@@ -86,6 +98,18 @@ const routes = [{
         name: 'BrowseMedicine',
         component: () =>
             import ('../views/BrowseMedicine.vue')
+    },
+    {
+        path: '/dermatologistProfile',
+        name: 'DermatologistProfile',
+        component: () =>
+            import ('../views/DermatologistProfile.vue')
+    },
+    {
+        path: '/pharmacistProfile',
+        name: 'PharmacistProfile',
+        component: () =>
+            import ('../views/PharmacistProfile.vue')
     }
 ]
 

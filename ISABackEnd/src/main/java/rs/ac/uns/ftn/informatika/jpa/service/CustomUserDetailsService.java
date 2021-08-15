@@ -68,5 +68,14 @@ public class CustomUserDetailsService implements UserDetailsService{
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 	}
+	
+	public void changeFirstPassword(String oldPass, String newPass) {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) currentUser.getPrincipal();
+        user.setPassword(passwordEncoder.encode(newPass));
+        user.setFirstLogin(false);
+        userRepository.save(user);
+	}
 
 }
+
