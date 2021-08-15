@@ -79,7 +79,8 @@ export default {
             ]
         } else {   // NOT YET REGISTERED
             this.items = [
-                { title: 'Home', path: '/' }
+                { title: 'Browse Pharmacies', path: '/browsePharmacies' },
+                { title: 'Browse Medicine', path: '/browseMedicine' }
             ]
         }
     },

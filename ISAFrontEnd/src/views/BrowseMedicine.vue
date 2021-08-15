@@ -1,16 +1,7 @@
 <template>
   <div id = "searchMedicine">
-
-    <h1>Search Medicine</h1>
     <br>
-    <v-btn
-        elevation="6"
-        large
-        outlined
-        color="white"
-    ><router-link to="/browsePharmacies" tag="button">Browse pharmacies</router-link></v-btn>
-    <br>
-
+    <div class = "container">
     <h3>Search Medicines:</h3>
     <input placeholder="Enter medicine" type="search" v-model = "searchMedicine" id="search" name="searchMedicine" required>
     <v-btn
@@ -37,7 +28,7 @@
     <label>Rating 1</label>
     <input type="radio" value=1 name="rating" @change = "filtrate(1)">
 
-    <div class = "container">
+
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -67,8 +58,8 @@
       </v-simple-table>
     </div>
 
-    <h2>Available In</h2>
     <div class = "container">
+    <h3>Available In:</h3>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -142,7 +133,7 @@ export default {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 18px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
