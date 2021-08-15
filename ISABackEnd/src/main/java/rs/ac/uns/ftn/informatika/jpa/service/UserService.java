@@ -77,7 +77,6 @@ public class UserService implements IUserService {
 		existing.setFirstName(user.getFirstName());
 		existing.setLastName(user.getLastName());
 		existing.setAddress(user.getAddress());
-		existing.setPassword(user.getPassword());
 		existing.setPhoneNumber(user.getPhoneNumber());
 
 		_userRepository.save(existing);
