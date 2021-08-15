@@ -7,8 +7,9 @@
     <v-btn
         color="secondary"
         elevation="3"
-        x-small
+        small
         v-on:click = "searchPharmacies"
+        v-if="notFilled"
     >Search</v-btn>
     <br>
     <h3>Filtrate by rating higher than:</h3>
@@ -88,6 +89,16 @@ mounted() {
       this.axios
           .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
           .then(response => (this.pharmacies = response.data))
+    }
+  },
+  computed:{
+    notFilled: function () {
+      if (this.searchField.trim() == ""){
+        return false
+      }
+      else {
+        return true
+      }
     }
   }
 }

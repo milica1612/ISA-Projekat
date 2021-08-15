@@ -7,8 +7,9 @@
     <v-btn
         color="secondary"
         elevation="3"
-        x-small
+        small
         v-on:click = "searchMedicines"
+        v-if="notFilled"
     >Search</v-btn>
     <br>
     <h3>Filtrate by rating higher than:</h3>
@@ -112,6 +113,17 @@ export default {
       this.axios
           .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
+    }
+  },
+
+  computed:{
+    notFilled: function () {
+      if (this.searchMedicine.trim() == ""){
+        return false
+      }
+      else {
+        return true
+      }
     }
   }
 }

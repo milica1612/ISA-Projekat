@@ -52,6 +52,9 @@ public class PharmacyService implements IPharmacyService {
 	}
 	
 	public ArrayList<Pharmacy> getPharmacyByName(String name){
+		if(name.trim().equals("")) {
+			return findAllPharmacy();
+		}
 		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		for (Pharmacy pharmacy : pharmacies) {
