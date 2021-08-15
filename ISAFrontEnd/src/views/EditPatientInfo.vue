@@ -1,13 +1,11 @@
 <template>
   <div>
-
-    <h1 style = "margin:0 auto; text-align:center;">User profile</h1>
     <br>
     <div class = "container">
       <v-simple-table>
         <template v-slot:default>
           <tr>
-            <th colspan="2" id="personal_info"><h3>Personal information</h3></th>
+            <th colspan="2" id="personal_info"><h3>Edit personal information</h3></th>
           </tr>
           <tr>
             <th>Name</th>
@@ -41,21 +39,18 @@
             <th>E-mail</th>
             <td>{{patient.email}}</td>
           </tr>
-          <tr>
-          <tr>
-            <th>Password</th>
-            <td><input type = "password" v-model = "patient.password" /></td>
-          </tr>
         </template>
       </v-simple-table>
     </div>
     <br>
 
-    <h3 style = "margin:0 auto; text-align:center;">Loyalty card</h3>
     <div class = "container">
       <v-simple-table>
         <template v-slot:default>
           <thead>
+          <tr>
+            <th colspan="2" id="loyalty"><h3>Loyalty card</h3></th>
+          </tr>
           <tr>
             <th class="text-left">
               Loyalty points
@@ -80,8 +75,8 @@
         <template v-slot:default>
           <thead>
           <tr>
-            <th class="text-left">
-              Allergies to medicine
+            <th id="allergies">
+              <h3>Allergies to medicine</h3>
             </th>
           </tr>
           </thead>
@@ -95,15 +90,6 @@
           </tbody>
         </template>
       </v-simple-table>
-    </div>
-    <br>
-    <div align="center">
-    <v-btn
-        color="primary"
-        elevation="3"
-        small
-        v-on:click = "editInformation"
-    >Edit allergies</v-btn>
     </div>
     <br>
 
@@ -171,7 +157,14 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
         })
-        .then(response => (this.patient = response.data));
+        .then(response => (this.patient = response.data,
+            this.axios
+                .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
+                  headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                  }})
+                .then(response => (this.medicine = response.data)
+        )));
     this.axios
         .get('http://localhost:8091/loyaltyCard/user/' + localStorage.getItem("userId"), {
           headers: {
@@ -182,15 +175,6 @@ export default {
 
   },
   methods: {
-
-    editInformation : function(){
-      this.axios
-          .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-          .then(response => (this.medicine = response.data));
-    },
 
     saveInformation : function(){
       this.mode = "BROWSE";
@@ -234,7 +218,7 @@ export default {
 </script>
 
 <style scoped>
-#personal_info{
+#personal_info,#loyalty,#allergies{
   text-align: center;
 }
 th{

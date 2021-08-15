@@ -1,7 +1,5 @@
 <template>
   <div>
-
-    <h1 style = "margin:0 auto; text-align:center;">User profile</h1>
     <br>
     <div class = "container">
     <v-simple-table>
@@ -45,12 +43,13 @@
     </v-simple-table>
     </div>
     <br>
-
-    <h3 style = "margin:0 auto; text-align:center;">Loyalty card</h3>
     <div class = "container">
       <v-simple-table>
         <template v-slot:default>
           <thead>
+          <tr>
+            <th colspan="2" id="loyalty"><h3>Loyalty card</h3></th>
+          </tr>
           <tr>
             <th class="text-left">
               Loyalty points
@@ -75,8 +74,8 @@
         <template v-slot:default>
           <thead>
           <tr>
-            <th class="text-left">
-              Allergies to medicine
+            <th id="allergies">
+              <h3>Allergies to medicine</h3>
             </th>
           </tr>
           </thead>
@@ -141,7 +140,7 @@ export default {
 </script>
 
 <style scoped>
-#personal_info{
+#personal_info,#loyalty,#allergies{
   text-align: center;
 }
 th{
