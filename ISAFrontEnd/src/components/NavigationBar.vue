@@ -66,7 +66,9 @@ export default {
         console.log(this.userType);
         if (this.userType === "PATIENT"){   // USER-TYPE
             this.items = [
-                { title: 'Patient', path: '/patient'}
+                { title: 'My profile', path: '/patient'},
+                { title: 'Browse Pharmacies', path: '/browsePharmacies' },
+                { title: 'Browse Medicine', path: '/browseMedicine' }
             ]
         } else if (this.userType === "SUPPLIER") {   //  USER-TYPE
             this.items = [

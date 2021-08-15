@@ -55,7 +55,7 @@ public class PharmacyService implements IPharmacyService {
 		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		for (Pharmacy pharmacy : pharmacies) {
-			if(pharmacy.getName().equals(name.trim())) {
+			if(pharmacy.getName().toLowerCase().contains(name.toLowerCase().trim())) {
 				result.add(pharmacy);
 			}
 		}
@@ -67,7 +67,7 @@ public class PharmacyService implements IPharmacyService {
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		String city = address.trim();
 		for (Pharmacy pharmacy : pharmacies) {
-			if(pharmacy.getAdress().getCity().equals(city)) {
+			if(pharmacy.getAdress().getCity().toLowerCase().contains(city.toLowerCase().trim())) {
 				result.add(pharmacy);
 			}
 		}		
