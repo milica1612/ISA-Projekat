@@ -116,6 +116,12 @@ const routes = [{
         name: 'SystemAdminProfile',
         component: () =>
             import ('../views/SystemAdminProfile.vue')
+    },
+    {
+        path: '/createSystemAdmin',
+        name: 'CreateSystemAdmin',
+        component: () =>
+            import ('../views/CreateSystemAdmin.vue')
     }
 
 ]

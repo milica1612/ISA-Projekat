@@ -78,7 +78,7 @@ export default {
         } else if (this.userType == "SYS_ADMINISTRATOR") {   //  USER-TYPE
             this.items = [
                 { title: 'My Profile', path: '/systemAdminProfile' },
-                { title: 'Add System Admin', path: '/' },
+                { title: 'Add System Admin', path: '/createSystemAdmin' },
                 { title: 'Add Pharmacy Admin', path: '/' },
                 { title: 'Add Dermatologist', path: '/' },
                 { title: 'Add Supplier', path: '/' },
