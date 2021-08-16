@@ -62,9 +62,9 @@ public class UserService implements IUserService {
 		p.setUserType(UserType.PATIENT);
 		
 		p.setEnabled(true);
+		p.setFirstLogin(false);
 		
-		
-		List<Authority> auth = _authorityService.findByName("PATIENT");
+		List<Authority> auth = _authorityService.findByName("ROLE_PATIENT");
 		p.setAuthorities(auth);
 		
 		this._userRepository.save(p);
