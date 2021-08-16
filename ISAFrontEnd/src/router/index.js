@@ -110,7 +110,14 @@ const routes = [{
         name: 'PharmacistProfile',
         component: () =>
             import ('../views/PharmacistProfile.vue')
+    },
+    {
+        path: '/systemAdminProfile',
+        name: 'SystemAdminProfile',
+        component: () =>
+            import ('../views/SystemAdminProfile.vue')
     }
+
 ]
 
 const router = new VueRouter({

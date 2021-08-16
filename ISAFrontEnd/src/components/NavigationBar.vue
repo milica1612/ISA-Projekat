@@ -73,11 +73,19 @@ export default {
         } else if (this.userType === "SUPPLIER") {   //  USER-TYPE
             this.items = [
                 { title: 'Offers', path: '/offers' },
-                { title: 'Supplier', path: '/supplier' }
+                { title: 'My Profile', path: '/supplier' }
             ]
         } else if (this.userType == "SYS_ADMINISTRATOR") {   //  USER-TYPE
             this.items = [
-                { title: 'Home', path: '/' },
+                { title: 'My Profile', path: '/systemAdminProfile' },
+                { title: 'Add System Admin', path: '/' },
+                { title: 'Add Pharmacy Admin', path: '/' },
+                { title: 'Add Dermatologist', path: '/' },
+                { title: 'Add Supplier', path: '/' },
+                { title: 'Add Pharmacy', path: '/' },
+                { title: 'Medicines', path: '/' },
+                { title: 'Complaints', path: '/' },
+                { title: 'Loyalty Program', path: '/' }
             ]
         } else {   // NOT YET REGISTERED
             this.items = [
