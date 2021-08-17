@@ -10,6 +10,7 @@
   "dependencies": {
     "@syncfusion/ej2-vue-schedule": "^18.4.41",
     "axios": "^0.21.1",
+    "caniuse-lite": "^1.0.30001251",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",

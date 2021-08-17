@@ -69,8 +69,11 @@ export default {
               localStorage.setItem("userId", resp.data.user.userId);
               localStorage.setItem("userType", resp.data.user.userType);
               localStorage.setItem("first_login", resp.data.user.firstLogin);
-
-              if(resp.data.user.firstLogin == false) {
+           if(resp.data.user.userType == "PATIENT"){
+              window.location.href = "http://localhost:8080/homePagePatient";
+            }
+           else {
+             if(resp.data.user.firstLogin == false) {
                 window.location.href = "http://localhost:8080/changePasswordFirstLogin";
               }
               else {
@@ -81,6 +84,8 @@ export default {
                 } else
                   window.location.href = "http://localhost:8080/NavigationBar";
               }
+           }
+
           } catch(error) {
             alert(error)
         }
