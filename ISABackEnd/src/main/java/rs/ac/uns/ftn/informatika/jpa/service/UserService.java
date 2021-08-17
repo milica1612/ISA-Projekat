@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
+import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
@@ -35,6 +35,12 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private AddressService _addressService;
+	
+	@Autowired
+	private EmailService _emailService; 
+	
+	@Autowired
+	private ConfirmationTokenService _confirmationTokenService;
 	
 	@Override
 	public User findById(Long id) {
@@ -61,13 +67,15 @@ public class UserService implements IUserService {
 		this._addressService.createAddress(request.getAddress());
 		p.setUserType(UserType.PATIENT);
 		
-		p.setEnabled(true);
+		p.setEnabled(false);
 		p.setFirstLogin(false);
 		
 		List<Authority> auth = _authorityService.findByName("ROLE_PATIENT");
 		p.setAuthorities(auth);
 		
 		this._userRepository.save(p);
+		ConfirmationToken confirmationToken = _confirmationTokenService.saveConfirmationToken(p);
+		sendConfirmationEmail(p, confirmationToken);
 		return p;
 	}
 	
@@ -136,6 +144,27 @@ public class UserService implements IUserService {
 	{
 		return _userRepository.findUserByUserType(userType).stream()
 				.map(u -> new UserDTO(u.getFirstName(), u.getLastName())).collect(Collectors.toList());
+	}
+
+	@Override
+	public void sendConfirmationEmail(User user, ConfirmationToken confirmationToken) {
+		
+		System.out.println("User's email" + user.getEmail());
+		
+		try {
+
+			String supplierEmail = user.getEmail();
+			String subject = "Confirm registration";
+			String text = "Please confirm your registration by clicking the link below \n\n"
+					+ "http://localhost:8080/confirmRegistration/" + confirmationToken.getConfirmationToken();
+			_emailService.sendNotificaitionAsync(supplierEmail, subject, text);
+
+			System.out.println("Email sent");
+
+		} catch (Exception e) {
+			System.out.println("Error sending email: " + e.getMessage());
+		}
+		
 	}
 
 }

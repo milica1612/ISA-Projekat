@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +28,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.exception.ResourceConflictException;
+import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserTokenState;
 import rs.ac.uns.ftn.informatika.jpa.security.TokenUtils;
 import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
+import rs.ac.uns.ftn.informatika.jpa.service.ConfirmationTokenService;
 import rs.ac.uns.ftn.informatika.jpa.service.CustomUserDetailsService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
@@ -48,6 +53,9 @@ public class AuthenticationController {
 	 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ConfirmationTokenService confirmationTokenService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
@@ -144,4 +152,25 @@ public class AuthenticationController {
         result.put("result", "success");
         return ResponseEntity.accepted().body(result);
     }
+	
+	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
+	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
+		try {
+
+			ConfirmationToken confirmationToken = confirmationTokenService.findByConfirmationToken(token);
+			if (confirmationToken != null && LocalDateTime.now().isBefore(confirmationToken.getCreatedDate().plusDays(5))) {
+				User user = userService.findByEmail(confirmationToken.getUsers().getEmail());
+				user.setEnabled(true);
+				userService.update(user);
+				return new ResponseEntity<>(HttpStatus.OK);
+
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
 }
