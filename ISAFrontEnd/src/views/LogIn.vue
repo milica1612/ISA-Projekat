@@ -75,6 +75,9 @@ export default {
               else if(resp.data.user.userType == "PHARMACIST"){
                 window.location.href = "http://localhost:8080/homePagePharmacist";
               }
+              else if(resp.data.user.userType == "PATIENT"){
+                window.location.href = "http://localhost:8080/homePagePatient";
+              }
               else
                 window.location.href = "http://localhost:8080/NavigationBar";
 

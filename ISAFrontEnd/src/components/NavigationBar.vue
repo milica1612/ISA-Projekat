@@ -66,6 +66,7 @@ export default {
         console.log(this.userType);
         if (this.userType === "PATIENT"){   // USER-TYPE
             this.items = [
+                { title: 'Home', path: '/homePagePatient' },
                 { title: 'My profile', path: '/patient'},
                 { title: 'Browse Pharmacies', path: '/browsePharmacies' },
                 { title: 'Browse Medicine', path: '/browseMedicine' }

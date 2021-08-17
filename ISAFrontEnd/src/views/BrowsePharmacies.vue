@@ -34,20 +34,23 @@
         <template v-slot:default>
           <thead>
           <tr>
-            <th class="text-left">
+            <th :class="sortedClass('name')"
+                @click="sortBy('name')">
               Name
             </th>
-            <th class="text-left">
+            <th :class="sortedClass('rating')"
+                @click="sortBy('rating')">
               Rating
             </th>
-            <th class="text-left">
+            <th :class="sortedClass('adress')"
+                @click="sortBy('adress')">
               Address
             </th>
           </tr>
           </thead>
           <tbody>
           <tr
-              v-for="p in pharmacies"
+              v-for="p in sortedItems"
               :key="p"
           >
             <td>{{ p.name }}</td>
@@ -69,7 +72,11 @@ export default {
     return {
       logged: false,
       pharmacies: [],
-      searchField: ""
+      searchField: "",
+      sort: {
+        key: '',
+        isAsc: false
+      }
     }
   },
 mounted() {
@@ -80,6 +87,14 @@ mounted() {
   }
 },
   methods: {
+    sortedClass (key) {
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
+
+    },
+    sortBy (key) {
+      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
+      this.sort.key = key;
+    },
     searchPharmacies: function() {
       this.axios
           .get("http://localhost:8091/pharmacy/getByNameOrAddress/" + this.searchField)
@@ -99,6 +114,18 @@ mounted() {
       else {
         return true
       }
+    },sortedItems () {
+      const list = this.pharmacies.slice();  // ソート時でdataの順序を書き換えないため
+      if (this.sort.key !="") {
+        list.sort((a, b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
+
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
+      }
+
+      return list;
     }
   }
 }
@@ -108,6 +135,7 @@ mounted() {
 #searchPharmacies{
   background-color: white;
 }
+
 .container {
   display: block;
   position: relative;
