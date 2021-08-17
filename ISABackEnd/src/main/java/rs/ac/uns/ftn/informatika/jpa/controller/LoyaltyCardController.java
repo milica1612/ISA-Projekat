@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCard;
 import rs.ac.uns.ftn.informatika.jpa.service.LoyaltyCardDTO;
 import rs.ac.uns.ftn.informatika.jpa.service.LoyaltyCardService;
 

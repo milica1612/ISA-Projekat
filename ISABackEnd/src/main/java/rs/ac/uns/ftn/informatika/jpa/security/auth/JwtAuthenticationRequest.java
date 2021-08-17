@@ -1,7 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.security.auth;
 
-
-//DTO za login
 public class JwtAuthenticationRequest {
 	
  private String email;
