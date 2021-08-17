@@ -120,10 +120,16 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+//    @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
     public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
 		User user = userService.findByEmail(passwordChanger.email);
-		 
+		
+	
+		if (user.getEmail().equals(null)) {
+			throw new IllegalArgumentException("Invalid email or password");
+		}
+		//System.out.println(passwordChanger.email); 
+		
 		if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
 			throw new IllegalArgumentException("Password can not be same as old.");
 	    }
@@ -131,11 +137,7 @@ public class AuthenticationController {
             throw new IllegalArgumentException("Password must match!");
         }
         if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
-            throw new IllegalArgumentException("Please fill all the required fields!");
-        }
-       
-        if(!passwordChanger.oldPassword.equals(user.getPassword())) {
-        	throw new IllegalArgumentException("Current password is not valid!");
+            throw new IllegalArgumentException("Fill all the required fields!");
         }
        
         userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
