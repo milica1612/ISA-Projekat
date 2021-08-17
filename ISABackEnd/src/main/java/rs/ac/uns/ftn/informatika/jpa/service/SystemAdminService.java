@@ -14,6 +14,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.ISystemAdminService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
@@ -21,6 +22,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.ISystemAdminRepository;
 
 @Service
@@ -37,6 +39,9 @@ public class SystemAdminService implements ISystemAdminService {
 
 	@Autowired
 	private AddressService _addressService;
+	
+	@Autowired
+	private IPharmacyRepository _pharmacyRepository;
 	
 	
 	@Override
@@ -78,9 +83,17 @@ public class SystemAdminService implements ISystemAdminService {
 	}
 
 	@Override
-	public Pharmacy createPharmacy(PharmacyDTO pharmacy) {
-		// TODO Auto-generated method stub
-		return null;
+	public Pharmacy createPharmacy(PharmacyDTO pharmacyDTO) {
+		Pharmacy pharmacy = new Pharmacy();
+		
+		pharmacy.setName(pharmacyDTO.getName());
+		pharmacy.setDescription(pharmacyDTO.getDescription());
+		
+		Address a = new Address();
+		a = pharmacyDTO.getAddress();
+		pharmacy.setAdress(a);
+		this._addressService.createAddress(pharmacyDTO.getAddress());
+		return _pharmacyRepository.save(pharmacy);
 	}
 
 	@Override
@@ -113,7 +126,30 @@ public class SystemAdminService implements ISystemAdminService {
 
 	@Override
 	public User saveDermatologist(RegistrationRequest request) {
-		return null;
+		Address a = new Address();
+		
+		Dermatologist dermatologist = new Dermatologist();
+		
+		dermatologist.setEmail(request.getEmail());
+		dermatologist.setPassword(_passwordEncoder.encode(request.getPassword()));
+		dermatologist.setFirstName(request.getFirstName());
+		dermatologist.setLastName(request.getLastName());
+
+		dermatologist.setPhoneNumber(request.getPhoneNumber());
+
+		a = request.getAddress();
+		dermatologist.setAddress(a);
+		this._addressService.createAddress(request.getAddress());
+		dermatologist.setUserType(UserType.DERMATOLOGIST);
+		
+		dermatologist.setEnabled(true);
+		dermatologist.setFirstLogin(false);
+		
+		List<Authority> auth = _authorityService.findByName("ROLE_DERMATOLOGIST");
+		dermatologist.setAuthorities(auth);
+		
+		this._systemAdminRepository.save(dermatologist);
+		return dermatologist;	
 	}
 
 	@Override

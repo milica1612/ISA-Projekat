@@ -29,30 +29,6 @@ public class Pharmacy {
 	@Column(name = "rating")
     protected Double rating;
 	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<PharmacyAdministrator> getPhAdministrators() {
-		return phAdministrators;
-	}
-
-	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
-		this.phAdministrators = phAdministrators;
-	}
-
-	public Address getAdress() {
-		return adress;
-	}
-
-	public void setAdress(Address adress) {
-		this.adress = adress;
-	}
-
 	@Column(name = "description")
     protected String description;
 	
@@ -95,6 +71,30 @@ public class Pharmacy {
     {
     	
     }
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<PharmacyAdministrator> getPhAdministrators() {
+		return phAdministrators;
+	}
+
+	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
+		this.phAdministrators = phAdministrators;
+	}
+
+	public Address getAdress() {
+		return adress;
+	}
+
+	public void setAdress(Address adress) {
+		this.adress = adress;
+	}
+
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}

@@ -134,6 +134,18 @@ const routes = [{
         name: 'CreatePhAdmin',
         component: () =>
             import ('../views/CreatePhAdmin.vue')
+    },
+    {
+        path: '/createDermatologist',
+        name: 'CreateDermatologist',
+        component: () =>
+            import ('../views/CreateDermatologist.vue')
+    },
+    {
+        path: '/createPharmacy',
+        name: 'CreatePharmacy',
+        component: () =>
+            import ('../views/CreatePharmacy.vue')
     }
 
 ]

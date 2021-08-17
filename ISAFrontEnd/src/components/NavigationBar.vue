@@ -79,10 +79,10 @@ export default {
             this.items = [
                 { title: 'My Profile', path: '/systemAdminProfile' },
                 { title: 'Add System Admin', path: '/createSystemAdmin' },
-                { title: 'Add Pharmacy Admin', path: '/CreatePhAdmin' },
-                { title: 'Add Dermatologist', path: '/' },
+                { title: 'Add Pharmacy Admin', path: '/createPhAdmin' },
+                { title: 'Add Dermatologist', path: '/createDermatologist' },
                 { title: 'Add Supplier', path: '/createSupplier' },
-                { title: 'Add Pharmacy', path: '/' },
+                { title: 'Add Pharmacy', path: '/createPharmacy' },
                 { title: 'Medicines', path: '/' },
                 { title: 'Complaints', path: '/' },
                 { title: 'Loyalty Program', path: '/' }
