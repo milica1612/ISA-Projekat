@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
@@ -76,18 +77,6 @@ public class SystemAdminService implements ISystemAdminService {
 	}
 
 	@Override
-	public List<UserDTO> getAllUsers() {
-		List<SystemAdministrator> sys_Admins = _systemAdminRepository.findAll();
-        List<SystemAdministrator> sysAdminList = new ArrayList<>();
-        for (SystemAdministrator s : sys_Admins) {
-			if(s.getUserType() == UserType.SYS_ADMINISTRATOR)
-				sysAdminList.add(s);
-        }
-        List<UserDTO> dtos = new ArrayList<>();
-        sysAdminList.stream().forEach(user -> dtos.add(new UserDTO(user.getFirstName(), user.getLastName())));      
-        return dtos;	}
-
-	@Override
 	public Pharmacy createPharmacy(PharmacyDTO pharmacy) {
 		// TODO Auto-generated method stub
 		return null;
@@ -106,8 +95,31 @@ public class SystemAdminService implements ISystemAdminService {
 
 	@Override
 	public User saveSupplier(RegistrationRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		Address a = new Address();
+		
+		Supplier supplier = new Supplier();
+		
+		supplier.setEmail(request.getEmail());
+		supplier.setPassword(_passwordEncoder.encode(request.getPassword()));
+		supplier.setFirstName(request.getFirstName());
+		supplier.setLastName(request.getLastName());
+
+		supplier.setPhoneNumber(request.getPhoneNumber());
+
+		a = request.getAddress();
+		supplier.setAddress(a);
+		this._addressService.createAddress(request.getAddress());
+		supplier.setUserType(UserType.SUPPLIER);
+		
+		supplier.setEnabled(true);
+		supplier.setFirstLogin(false);
+		
+		List<Authority> auth = _authorityService.findByName("ROLE_SUPPLIER");
+		supplier.setAuthorities(auth);
+		
+		this._systemAdminRepository.save(supplier);
+		return supplier;	
+
 	}
 
 }

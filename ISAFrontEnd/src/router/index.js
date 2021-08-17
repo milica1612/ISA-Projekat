@@ -122,6 +122,12 @@ const routes = [{
         name: 'CreateSystemAdmin',
         component: () =>
             import ('../views/CreateSystemAdmin.vue')
+    },
+    {
+        path: '/createSupplier',
+        name: 'CreateSupplier',
+        component: () =>
+            import ('../views/CreateSupplier.vue')
     }
 
 ]

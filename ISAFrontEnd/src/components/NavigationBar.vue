@@ -81,7 +81,7 @@ export default {
                 { title: 'Add System Admin', path: '/createSystemAdmin' },
                 { title: 'Add Pharmacy Admin', path: '/' },
                 { title: 'Add Dermatologist', path: '/' },
-                { title: 'Add Supplier', path: '/' },
+                { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/' },
                 { title: 'Medicines', path: '/' },
                 { title: 'Complaints', path: '/' },

@@ -8,7 +8,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 
-public interface ISystemAdminRepository extends JpaRepository<SystemAdministrator, Long>  {
+public interface ISystemAdminRepository extends JpaRepository<User, Long>  {
 
 	
 	List<User> findUserByUserType(UserType user_type);

@@ -80,7 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/medicine",
 							"/medicine/getMedicineByName/**",
 							"/pharmacy/filtrateByRating/**",
-							"/systemAdmin/createSystemAdmin/**"
+							"/systemAdmin/createSystemAdmin/**",
+							"/systemAdmin/createSupplier/**"
 							
 					).permitAll()
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
@@ -106,7 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
 					"/pharmacy/getByNameOrAddress/**",
-					"/medicine","/medicine/getMedicineByName/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**", "/*.html", "/favicon.ico", 
+					"/medicine","/medicine/getMedicineByName/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**","/systemAdmin/createSupplier/**",  "/*.html", "/favicon.ico", 
 					"/**/*.html","/**/*.css", "/**/*.js");
 		}
 }
