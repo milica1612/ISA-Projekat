@@ -44,14 +44,6 @@ INSERT INTO public.pharmacy(
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description, adress_id)
 	VALUES (default, 'Jankovic', 4.6, 'Second Pharmacy', 8);
-
-INSERT INTO public.pharmacy(
-	pharmacy_id, name, rating, description, adress_id)
-	VALUES (default, 'Laurus', 4.4, 'Pharmacy', 1);
-
-INSERT INTO public.pharmacy(
-	pharmacy_id, name, rating, description, adress_id)
-	VALUES (default, 'Jankovic 2', 2.4, 'Pharmacy 2', 2);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
