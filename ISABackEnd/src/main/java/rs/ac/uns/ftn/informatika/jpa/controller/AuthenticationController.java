@@ -166,19 +166,17 @@ public class AuthenticationController {
 
 	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
 	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
-		
-		System.out.println("Usasooooooooooooooooooodads ada sdasdasdadadsada");
+
 		try {
 
 			ConfirmationToken confirmationToken = confirmationTokenService.findByConfirmationToken(token);
-			
+
 			System.out.println(confirmationToken.toString());
 			if (confirmationToken != null
 					&& LocalDateTime.now().isBefore(confirmationToken.getCreatedDate().plusDays(5))) {
 				User user = userService.findByEmail(confirmationToken.getUsers().getEmail());
 				user.setEnabled(true);
 				userService.update(user);
-				System.out.println("Uradio update!");
 				return new ResponseEntity<>(HttpStatus.OK);
 
 			} else {

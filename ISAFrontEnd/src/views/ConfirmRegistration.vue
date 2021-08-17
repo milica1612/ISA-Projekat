@@ -30,6 +30,8 @@ export default {
         .then((response) => {
           console.log(response);
           this.message = "You have successfully verified your account!";
+          alert("You can now log in to the system!");
+          this.redirectToLogIn();
         })
         .catch((err) => {
           console.log(err);

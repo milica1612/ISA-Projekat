@@ -1,5 +1,5 @@
 <template>
-  <v-card style="margin-top: 3%" width="30%" class="mx-auto">
+  <v-card style="margin-top: 3%" width="40%" class="mx-auto">
     <v-card-title class="justify-center">
       <h1 class="display-1 mt-20">Register</h1>
     </v-card-title>
@@ -41,6 +41,7 @@
           prepend-icon="mdi-account-circle"
         />
         <v-autocomplete
+            class = "countryCombo"
             ref="country"
             v-model="country"
             :rules="[() => !!country || 'This field is required']"
@@ -89,7 +90,7 @@
     <div></div>
     <v-card-actions>
       <v-btn
-        class="mx-auto mb-5; color:white"
+        class="mx-auto mb-10 mt-10; color:white"
         color="accent"
         elevation="2"
         x-large
@@ -170,3 +171,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.countryCombo{
+  width: 96%;
+  margin-left: 4%;
+  cursor: pointer;
+}
+</style>
