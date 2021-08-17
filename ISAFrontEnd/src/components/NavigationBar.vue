@@ -79,7 +79,7 @@ export default {
             this.items = [
                 { title: 'My Profile', path: '/systemAdminProfile' },
                 { title: 'Add System Admin', path: '/createSystemAdmin' },
-                { title: 'Add Pharmacy Admin', path: '/' },
+                { title: 'Add Pharmacy Admin', path: '/CreatePhAdmin' },
                 { title: 'Add Dermatologist', path: '/' },
                 { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/' },

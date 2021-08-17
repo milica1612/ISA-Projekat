@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -84,8 +85,30 @@ public class SystemAdminService implements ISystemAdminService {
 
 	@Override
 	public User savePharmacyAdmin(RegistrationRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		Address a = new Address();
+		
+		PharmacyAdministrator ph_admin = new PharmacyAdministrator();
+		
+		ph_admin.setEmail(request.getEmail());
+		ph_admin.setPassword(_passwordEncoder.encode(request.getPassword()));
+		ph_admin.setFirstName(request.getFirstName());
+		ph_admin.setLastName(request.getLastName());
+
+		ph_admin.setPhoneNumber(request.getPhoneNumber());
+
+		a = request.getAddress();
+		ph_admin.setAddress(a);
+		this._addressService.createAddress(request.getAddress());
+		ph_admin.setUserType(UserType.PH_ADMINISTRATOR);
+		
+		ph_admin.setEnabled(true);
+		ph_admin.setFirstLogin(false);
+		
+		List<Authority> auth = _authorityService.findByName("ROLE_PH_ADMIN");
+		ph_admin.setAuthorities(auth);
+		
+		this._systemAdminRepository.save(ph_admin);
+		return ph_admin;	
 	}
 
 	@Override

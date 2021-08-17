@@ -128,6 +128,12 @@ const routes = [{
         name: 'CreateSupplier',
         component: () =>
             import ('../views/CreateSupplier.vue')
+    },
+    {
+        path: '/createPhAdmin',
+        name: 'CreatePhAdmin',
+        component: () =>
+            import ('../views/CreatePhAdmin.vue')
     }
 
 ]
