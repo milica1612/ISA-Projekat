@@ -6,32 +6,34 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
-
 @Entity
 public class Patient extends User {
+
+	private static final long serialVersionUID = 6497460964207145259L;
 
 	@Column(name = "penalty")
 	private int penalty;
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
-	   
+
 	public Patient() {
-			super();
+		super();
 	}
-	
-	
+
 	public int getPenalty() {
 		return penalty;
 	}
+
 	public void setPenalty(int penalty) {
 		this.penalty = penalty;
 	}
+
 	public Allergy getAllergy() {
 		return allergy;
 	}
+
 	public void setAllergy(Allergy allergy) {
 		this.allergy = allergy;
 	}
-
 
 }

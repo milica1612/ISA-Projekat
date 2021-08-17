@@ -28,15 +28,14 @@ public class EmailService {
 	@Async
 	public void sendNotificaitionAsync(String emailAddress, String subject, String text) throws MailException, InterruptedException {
 		
-		System.out.println(env.getProperty("spring.mail.username"));
+		System.out.println(env.getProperty("spring.mail.username")); // Email sa koga se salje
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(emailAddress);
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject(subject);
 		mail.setText(text);
 		javaMailSender.send(mail);
-
-		System.out.println("Email poslat!");
+		System.out.println("Email successfully sent!");
 	}
 
 }

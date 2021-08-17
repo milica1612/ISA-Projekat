@@ -1,8 +1,6 @@
 <template>
-  <div >
-    <p class="center">
-        {{ message }}
-    </p>
+  <div>
+    <p id="message">{{ message }}</p>
   </div>
 </template>
 
@@ -10,8 +8,8 @@
 export default {
   name: "ConfirmRegistration",
   data: () => ({
-    confirmationToken:"",
-    message: ""
+    confirmationToken: "",
+    message: "",
   }),
   mounted() {
     this.init();
@@ -19,46 +17,41 @@ export default {
   methods: {
     init() {
       var href = window.location.href;
-      var hPaths = [];
-      hPaths=  href.split('/');
-      this.confirmationToken = hPaths[4];
+      var paths = [];
+      paths = href.split("/");
+      this.confirmationToken = paths[4];
       alert(this.confirmationToken);
-      
       this.$http
-        .put("https://localhost:8091/auth/confirm_account/" + this.confirmationToken, {})
-        .then((res) => {
-          console.log(res);
-          this.message = "You have successfully verified your account! \n You can log in on system!"
+        .put(
+          "http://localhost:8091/auth/confirm_account/" +
+            this.confirmationToken,
+          {}
+        )
+        .then((response) => {
+          console.log(response);
+          this.message = "You have successfully verified your account!";
         })
         .catch((err) => {
           console.log(err);
-          this.message = "Your token is invalid or expiried! Please, contact system admin!"
+          this.message =
+            "Your token is invalid or expiried! Please, contact system admin!";
         });
     },
     redirectToLogIn() {
-      window.location.href = "https://localhost:8080/login";
+      window.location.href = "http://localhost:8080/logIn";
     },
   },
 };
 </script>
 
 <style scoped>
-.helloMessage {
-  font-weight: bolder;
-  font-size: 20px;
-  height: 50px;
-}
-
-.center {
-  margin-top: 20%;
+#message {
+  margin-top: 10%;
   padding: 10px;
   text-align: center;
-}
-
-#certificateCard {
-  margin-top: 5%;
-  width: 70%;
-  height: 760px;
-  overflow-y: scroll;
+  font-weight: bolder;
+  font-size: 2.5em;
+  text-decoration: none;
+  color: darkblue;
 }
 </style>

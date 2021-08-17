@@ -50,49 +50,58 @@ public class AuthenticationController {
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
-	 
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ConfirmationTokenService confirmationTokenService;
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+	public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
- 
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-						authenticationRequest.getPassword()));
+		try {
+			User logInUser = userService.login(authenticationRequest);
+			StringBuilder passwordWithSalt = new StringBuilder();
+			passwordWithSalt.append(authenticationRequest.getPassword());
+			passwordWithSalt.append(logInUser.getSalt());
 
-		// Ubaci korisnika u trenutni security kontekst
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationRequest.getEmail(), passwordWithSalt.toString()));
 
-		// Kreiraj token za tog korisnika
-		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getEmail());
-		int expiresIn = tokenUtils.getExpiredIn();
-
-		// Vrati token kao odgovor na uspesnu autentifikaciju
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user));
+			// Ubaci korisnika u trenutni security kontekst
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			User user = (User) authentication.getPrincipal();
+			if (user.getEnabled()) {
+				// Kreiraj token za tog korisnika
+				String jwt = tokenUtils.generateToken(authenticationRequest.getEmail());
+				int expiresIn = tokenUtils.getExpiredIn();
+				// Vrati token kao odgovor na uspesnu autentifikaciju
+				return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user));
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
 	public ResponseEntity<?> addUser(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
 		try {
-		User existUser = this.userService.findByEmail(userRequest.getEmail());
+			User existUser = this.userService.findByEmail(userRequest.getEmail());
 
-		if (existUser != null) 
-			throw new ResourceConflictException(userRequest.getId(), "Username already exists");
-		
-		  return new ResponseEntity<>(this.userService.save(userRequest), HttpStatus.CREATED);
-		} catch (Exception e) { 
+			if (existUser != null)
+				throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+
+			return new ResponseEntity<>(this.userService.save(userRequest), HttpStatus.CREATED);
+		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
+	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token
+	// osvezi
 	@PostMapping(value = "/refresh")
 	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
 
@@ -110,6 +119,7 @@ public class AuthenticationController {
 			return ResponseEntity.badRequest().body(userTokenState);
 		}
 	}
+
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
@@ -128,40 +138,47 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
-    public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
+	@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+	public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
 		User user = userService.findByEmail(passwordChanger.email);
-		 
-		if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
-			throw new IllegalArgumentException("Password can not be same as old.");
-	    }
-		if(!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
-            throw new IllegalArgumentException("Password must match!");
-        }
-        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
-            throw new IllegalArgumentException("Please fill all the required fields!");
-        }
-       
-        if(!passwordChanger.oldPassword.equals(user.getPassword())) {
-        	throw new IllegalArgumentException("Current password is not valid!");
-        }
-       
-        userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
-        Map<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return ResponseEntity.accepted().body(result);
-    }
-	
+		if (passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+			throw new IllegalArgumentException("Password can not be same as old.");
+		}
+		if (!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
+			throw new IllegalArgumentException("Password must match!");
+		}
+		if (passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()
+				|| passwordChanger.oldPassword.isEmpty()) {
+			throw new IllegalArgumentException("Please fill all the required fields!");
+		}
+
+		if (!passwordChanger.oldPassword.equals(user.getPassword())) {
+			throw new IllegalArgumentException("Current password is not valid!");
+		}
+
+		userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+		Map<String, String> result = new HashMap<>();
+		result.put("result", "success");
+		return ResponseEntity.accepted().body(result);
+	}
+
 	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
 	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
+		
+		System.out.println("Usasooooooooooooooooooodads ada sdasdasdadadsada");
 		try {
 
 			ConfirmationToken confirmationToken = confirmationTokenService.findByConfirmationToken(token);
-			if (confirmationToken != null && LocalDateTime.now().isBefore(confirmationToken.getCreatedDate().plusDays(5))) {
+			
+			System.out.println(confirmationToken.toString());
+			if (confirmationToken != null
+					&& LocalDateTime.now().isBefore(confirmationToken.getCreatedDate().plusDays(5))) {
 				User user = userService.findByEmail(confirmationToken.getUsers().getEmail());
 				user.setEnabled(true);
 				userService.update(user);
+				System.out.println("Uradio update!");
 				return new ResponseEntity<>(HttpStatus.OK);
 
 			} else {

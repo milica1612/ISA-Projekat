@@ -88,8 +88,11 @@ export default {
     },
       logOff() {
         localStorage.setItem("token", "");
+        localStorage.setItem("token", "");
+        localStorage.setItem("userId", "");
+        localStorage.setItem("email", "");
         localStorage.setItem("userType", null);
-        window.location.href = "http://localhost:8080/login";
+        window.location.href = "http://localhost:8080/logIn";
       }
     }
 }

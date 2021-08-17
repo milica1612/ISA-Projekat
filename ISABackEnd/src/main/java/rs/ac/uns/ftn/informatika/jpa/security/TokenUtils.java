@@ -25,19 +25,15 @@ public class TokenUtils {
 
 	// Period vazenja
 
-	@Value("100000000")
-
+	@Value("7200000")
 	private int EXPIRES_IN;
 
 	// Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
 	@Value("Authorization")
 	private String AUTH_HEADER;
 
-	// Moguce je generisati JWT za razlicite klijente (npr. web i mobilni klijenti nece imati isto trajanje JWT, JWT za mobilne klijente ce trajati duze jer se mozda aplikacija redje koristi na taj nacin)
-	private static final String AUDIENCE_UNKNOWN = "unknown";
 	private static final String AUDIENCE_WEB = "web";
-	private static final String AUDIENCE_MOBILE = "mobile";
-	private static final String AUDIENCE_TABLET = "tablet";
+
 
 	// Algoritam za potpisivanje JWT
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
@@ -81,7 +77,7 @@ public class TokenUtils {
 	public boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
 		final Date created = this.getIssuedAtDateFromToken(token);
 		return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset))
-				&& (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
+				&& (!this.isTokenExpired(token)));
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
@@ -173,11 +169,6 @@ public class TokenUtils {
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = this.getExpirationDateFromToken(token);
 		return expiration.before(new Date());
-	}
-
-	private Boolean ignoreTokenExpiration(String token) {
-		String audience = this.getAudienceFromToken(token);
-		return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
 	}
 
 	// Funkcija za citanje svih podataka iz JWT tokena

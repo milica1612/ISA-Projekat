@@ -10,8 +10,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
-import rs.ac.uns.ftn.informatika.jpa.security.TokenUtils;
-import rs.ac.uns.ftn.informatika.jpa.security.auth.TokenAuthenticationFilter;
+import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
 
 @Service
 public interface IUserService {
@@ -19,6 +18,8 @@ public interface IUserService {
 	User findById(Long id);
 
 	void update(User user);
+	
+	User login(JwtAuthenticationRequest authenticationRequest);
 
 	User save(RegistrationRequest request);
 	
