@@ -119,52 +119,8 @@ public class AuthenticationController {
 			return ResponseEntity.badRequest().body(userTokenState);
 		}
 	}
-
-	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-
-		HashMap<String, String> result = new HashMap<>();
-		result.put("result", "success");
-		return ResponseEntity.accepted().body(result);
-	}
-
-	static class PasswordChanger {
-		public String oldPassword;
-		public String newPassword;
-		public String email;
-		public String rewritePassword;
-	}
-
-	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
-	public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
-		User user = userService.findByEmail(passwordChanger.email);
-
-		if (passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
-			throw new IllegalArgumentException("Password can not be same as old.");
-		}
-		if (!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
-			throw new IllegalArgumentException("Password must match!");
-		}
-		if (passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()
-				|| passwordChanger.oldPassword.isEmpty()) {
-			throw new IllegalArgumentException("Please fill all the required fields!");
-		}
-
-		if (!passwordChanger.oldPassword.equals(user.getPassword())) {
-			throw new IllegalArgumentException("Current password is not valid!");
-		}
-
-		userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-
-		Map<String, String> result = new HashMap<>();
-		result.put("result", "success");
-		return ResponseEntity.accepted().body(result);
-	}
-
-	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
+  
+  @PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
 	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
 
 		try {
@@ -188,4 +144,49 @@ public class AuthenticationController {
 		}
 
 	}
+  
+	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+		HashMap<String, String> result = new HashMap<>();
+		result.put("result", "success");
+		return ResponseEntity.accepted().body(result);
+	}
+
+	static class PasswordChanger {
+		public String oldPassword;
+		public String newPassword;
+		public String email;
+		public String rewritePassword;
+	}
+
+	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
+//@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+    public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
+		User user = userService.findByEmail(passwordChanger.email);
+		
+	
+		if (user.getEmail().equals(null)) {
+			throw new IllegalArgumentException("Invalid email or password");
+		}
+		//System.out.println(passwordChanger.email); 
+		
+		if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+			throw new IllegalArgumentException("Password can not be same as old.");
+	    }
+		if(!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
+            throw new IllegalArgumentException("Password must match!");
+        }
+        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
+            throw new IllegalArgumentException("Fill all the required fields!");
+        }
+       
+        userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
 }

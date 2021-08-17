@@ -75,6 +75,25 @@ export default {
                 { title: 'Offers', path: '/offers' },
                 { title: 'Supplier', path: '/supplier' }
             ]
+        } else if (this.userType === "DERMATOLOGIST"){
+          this.items = [
+            { title: 'My Patients', path: '/allPatients'},
+            { title: 'Start Examination', path: '/startExamination'},
+            { title: 'Work Calendar', path: '/workCalendar'},
+            { title: 'Schedule Vacation', path: '/scheduleVacation'},
+            { title: 'My profile', path: '/dermatologistProfile'},
+            { title: 'Schedule new Appointment', path: '/scheduleAppointment'}
+          ]
+        } else if (this.userType === "PHARMACIST") {
+          this.items = [
+            {title: 'My Patients', path: '/allPatients'},
+            {title: 'Start Counseling', path: '/startCounseling'},
+            {title: 'Work Calendar', path: '/workCalendar'},
+            {title: 'Dispense Medicine', path: '/dispenseMedicine'},
+            {title: 'Schedule Vacation', path: '/scheduleVacation'},
+            {title: 'My profile', path: '/pharmacistProfile'},
+            {title: 'Schedule new Counseling', path: '/scheduleCounseling'}
+          ]
         } else if (this.userType == "SYS_ADMINISTRATOR") {   //  USER-TYPE
             this.items = [
                 { title: 'Home', path: '/' },
