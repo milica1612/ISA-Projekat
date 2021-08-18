@@ -119,8 +119,8 @@ public class AuthenticationController {
 			return ResponseEntity.badRequest().body(userTokenState);
 		}
 	}
-  
-  @PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
+
+	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
 	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
 
 		try {
@@ -144,11 +144,17 @@ public class AuthenticationController {
 		}
 
 	}
-  
+
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+		User passwordChangerUser = userService.findByEmail(passwordChanger.email);
+
+		StringBuilder oldPasswordWithSalt = new StringBuilder();
+		oldPasswordWithSalt.append(passwordChanger.oldPassword);
+		oldPasswordWithSalt.append(passwordChangerUser.getSalt());
+
+		userDetailsService.changePassword(oldPasswordWithSalt.toString(), passwordChanger.newPassword);
 
 		HashMap<String, String> result = new HashMap<>();
 		result.put("result", "success");
@@ -163,30 +169,36 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
-//@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
-    public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
+	// @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR',
+	// 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+	public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
 		User user = userService.findByEmail(passwordChanger.email);
-		
-	
+
 		if (user.getEmail().equals(null)) {
 			throw new IllegalArgumentException("Invalid email or password");
 		}
-		//System.out.println(passwordChanger.email); 
-		
-		if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
-			throw new IllegalArgumentException("Password can not be same as old.");
-	    }
-		if(!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
-            throw new IllegalArgumentException("Password must match!");
-        }
-        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
-            throw new IllegalArgumentException("Fill all the required fields!");
-        }
-       
-        userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
-        Map<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return ResponseEntity.accepted().body(result);
-    }
+		if (passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()
+				|| passwordChanger.oldPassword.isEmpty()) {
+			throw new IllegalArgumentException("Fill all the required fields!");
+		}
+
+		if (passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+			throw new IllegalArgumentException("Password can not be same as old.");
+		}
+
+		if (!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
+			throw new IllegalArgumentException("Password must match!");
+		}
+
+		StringBuilder oldPasswordWithSalt = new StringBuilder();
+		oldPasswordWithSalt.append(passwordChanger.oldPassword);
+		oldPasswordWithSalt.append(user.getSalt());
+
+		userDetailsService.changeFirstPassword(oldPasswordWithSalt.toString(), passwordChanger.newPassword);
+
+		Map<String, String> result = new HashMap<>();
+		result.put("result", "success");
+		return ResponseEntity.accepted().body(result);
+	}
 }
