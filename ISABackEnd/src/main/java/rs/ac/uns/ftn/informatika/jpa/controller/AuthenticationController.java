@@ -178,11 +178,6 @@ public class AuthenticationController {
 			throw new IllegalArgumentException("Invalid email or password");
 		}
 
-		if (passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()
-				|| passwordChanger.oldPassword.isEmpty()) {
-			throw new IllegalArgumentException("Fill all the required fields!");
-		}
-
 		if (passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
 			throw new IllegalArgumentException("Password can not be same as old.");
 
@@ -193,9 +188,13 @@ public class AuthenticationController {
         if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
             throw new IllegalArgumentException("Fill all the required fields!");
         }
+        
+		StringBuilder oldPasswordWithSalt = new StringBuilder();
+		oldPasswordWithSalt.append(passwordChanger.oldPassword);
+		oldPasswordWithSalt.append(user.getSalt());
        
-        userDetailsService.changeFirstPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-
+		userDetailsService.changeFirstPassword(oldPasswordWithSalt.toString(), passwordChanger.newPassword);
+		
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return ResponseEntity.accepted().body(result);
