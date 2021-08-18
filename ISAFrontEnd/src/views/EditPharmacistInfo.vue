@@ -4,7 +4,6 @@
     <h1 style = "margin:0 auto; text-align:center;">Pharmacist profile</h1>
     <br>
     <div class = "container">
-
       <v-simple-table>
         <template v-slot:default>
           <tr>
@@ -42,11 +41,6 @@
             <th>E-mail</th>
             <td>{{pharmacist.email}}</td>
           </tr>
-          <tr>
-          <tr>
-            <th>Password</th>
-            <td><input type = "password" v-model = "pharmacist.password" /></td>
-          </tr>
         </template>
       </v-simple-table>
     </div>
@@ -59,21 +53,58 @@
           elevation="3"
           medium
           v-on:click="saveInformation()"
-          router-link to="/pharmacistProfile"
       >Save</v-btn>
+    </v-row>
+    <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+          <tr>
+            <th colspan="2" id="change_password"><h3>Change Password</h3></th>
+          </tr>
+          <tr>
+            <th>Current Password</th>
+            <td><input type = "password" v-model = "oldPass" /></td>
+          </tr>
+          <tr>
+            <th>New Password</th>
+            <td><input type = "password" v-model = "newPass" /></td>
+          </tr>
+          <tr>
+            <th>Rewrite New Password</th>
+            <td><input type = "password" v-model = "rewritePass" /></td>
+          </tr>
+        </template>
+      </v-simple-table>
+    </div>
+    <br>
+    <v-row
+        align="center"
+        justify="space-around">
+      <v-btn
+          color="primary"
+          elevation="3"
+          medium
+          v-on:click="savePassword()"
+      >Save password</v-btn>
     </v-row>
   </div>
 </template>
 
 <script>
 
+import router from "../router";
+
 export default {
-  name: "EditPharmacistInfo",
+  name: "EditDermatologistInfo",
   data: function(){
     return{
       mode: 'BROWSE',
       pharmacist: null,
-      pharmacist_id: null
+      pharmacist_id: null,
+      oldPass: "",
+      newPass: "",
+      rewritePass: "",
+      email: localStorage.getItem("email")
     }
   },
   mounted(){
@@ -87,7 +118,7 @@ export default {
   },
   methods: {
 
-    saveInformation : function(){
+    saveInformation : function() {
       this.mode = "BROWSE";
 
       this.axios
@@ -95,7 +126,35 @@ export default {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
-          });
+          })
+          .then(resp => {
+            console.log(resp.data);
+            router.push('pharmacistProfile');
+          })
+    },
+    savePassword: function (){
+      this.mode = "BROWSE";
+
+      if (this.newPass !== this.rewritePass){
+        alert("Password must match!")
+      } else{
+        const passwordChanger={
+          oldPassword: this.oldPass,
+          newPassword: this.newPass,
+          email: this.email,
+          rewritePassword: this.rewritePass
+        }
+
+        this.axios
+            .post("http://localhost:8091/auth/changeUserPassword", passwordChanger,{
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }})
+            .then(resp => {
+              console.log(resp.data);
+              router.push('pharmacistProfile');
+            })
+      }
     }
   }
 }
@@ -103,6 +162,9 @@ export default {
 
 <style scoped>
 #personal_info{
+  text-align: center;
+}
+#change_password{
   text-align: center;
 }
 th{

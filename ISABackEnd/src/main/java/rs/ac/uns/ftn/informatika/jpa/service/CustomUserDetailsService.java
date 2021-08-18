@@ -82,6 +82,17 @@ public class CustomUserDetailsService implements UserDetailsService{
         userRepository.save(user);
 	}
 	
+	public void changeUserPassword(String oldPass, String newPass) {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) currentUser.getPrincipal();
+         
+        if(!passwordEncoder.matches(oldPass, user.getPassword())) {
+        	throw new IllegalArgumentException("Current password is not valid!");
+        }
+        
+        user.setPassword(passwordEncoder.encode(newPass));
+        userRepository.save(user);
+	}
 
 }
 

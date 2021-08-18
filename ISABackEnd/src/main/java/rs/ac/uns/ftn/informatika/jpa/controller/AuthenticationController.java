@@ -189,4 +189,33 @@ public class AuthenticationController {
         result.put("result", "success");
         return ResponseEntity.accepted().body(result);
     }
+	
+	
+	//**************OVA JE ISTA SAMO ZA OBICNO MIJENJANJE LOZINKE*****************
+	@RequestMapping(value = "/changeUserPassword", method = RequestMethod.POST)
+	//@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
+	    public ResponseEntity<?> changeUserPassword(@RequestBody PasswordChanger passwordChanger) {
+			User user = userService.findByEmail(passwordChanger.email);
+		
+			if (user.getEmail().equals(null)) {
+				throw new IllegalArgumentException("Invalid email or password");
+			}
+			//System.out.println(passwordChanger.email); 
+			
+			if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+				throw new IllegalArgumentException("Password can not be same as old.");
+		    }
+			if(!passwordChanger.newPassword.equals(passwordChanger.rewritePassword)) {
+	            throw new IllegalArgumentException("Password must match!");
+	        }
+	        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewritePassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
+	            throw new IllegalArgumentException("Fill all the required fields!");
+	        }
+	       
+	        userDetailsService.changeUserPassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+	        Map<String, String> result = new HashMap<>();
+	        result.put("result", "success");
+	        return ResponseEntity.accepted().body(result);
+	    }
 }

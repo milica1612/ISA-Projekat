@@ -41,11 +41,6 @@
             <th>E-mail</th>
             <td>{{dermatologist.email}}</td>
           </tr>
-          <tr>
-          <tr>
-            <th>Password</th>
-            <td><input type = "password" v-model = "dermatologist.password" /></td>
-          </tr>
         </template>
       </v-simple-table>
     </div>
@@ -58,13 +53,46 @@
           elevation="3"
           medium
           v-on:click="saveInformation()"
-          router-link to="/dermatologistProfile"
       >Save</v-btn>
     </v-row>
-  </div>
+    <div class = "container">
+      <v-simple-table>
+        <template v-slot:default>
+            <tr>
+              <th colspan="2" id="change_password"><h3>Change Password</h3></th>
+            </tr>
+            <tr>
+              <th>Current Password</th>
+              <td><input type = "password" v-model = "oldPass" /></td>
+            </tr>
+            <tr>
+              <th>New Password</th>
+              <td><input type = "password" v-model = "newPass" /></td>
+            </tr>
+            <tr>
+              <th>Rewrite New Password</th>
+              <td><input type = "password" v-model = "rewritePass" /></td>
+            </tr>
+        </template>
+      </v-simple-table>
+    </div>
+    <br>
+      <v-row
+        align="center"
+        justify="space-around">
+      <v-btn
+          color="primary"
+          elevation="3"
+          medium
+          v-on:click="savePassword()"
+      >Save password</v-btn>
+      </v-row>
+    </div>
 </template>
 
 <script>
+
+import router from "../router";
 
 export default {
   name: "EditDermatologistInfo",
@@ -72,7 +100,11 @@ export default {
     return{
       mode: 'BROWSE',
       dermatologist: null,
-      dermatologist_id: null
+      dermatologist_id: null,
+      oldPass: "",
+      newPass: "",
+      rewritePass: "",
+      email: localStorage.getItem("email")
     }
   },
   mounted(){
@@ -94,7 +126,35 @@ export default {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
-          });
+          })
+          .then(resp => {
+            console.log(resp.data);
+            router.push('dermatologistProfile');
+          })
+    },
+    savePassword: function (){
+      this.mode = "BROWSE";
+
+      if (this.newPass !== this.rewritePass){
+        alert("Password must match!")
+      } else{
+          const passwordChanger={
+            oldPassword: this.oldPass,
+            newPassword: this.newPass,
+            email: this.email,
+            rewritePassword: this.rewritePass
+          }
+
+        this.axios
+            .post("http://localhost:8091/auth/changeUserPassword", passwordChanger,{
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }})
+            .then(resp => {
+              console.log(resp.data);
+              router.push('dermatologistProfile');
+            })
+      }
     }
   }
 }
@@ -102,6 +162,9 @@ export default {
 
 <style scoped>
 #personal_info{
+  text-align: center;
+}
+#change_password{
   text-align: center;
 }
 th{
