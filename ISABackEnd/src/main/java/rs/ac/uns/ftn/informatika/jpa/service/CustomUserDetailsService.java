@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -24,9 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
 	private IUserRepository userRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -63,9 +63,15 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 		User user = (User) loadUserByUsername(username);
 
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		user.setSalt(encodedSalt);
+		String newPlainPassword = generatePasswordWithSalt(newPassword, encodedSalt);
 		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
 		// ne zelimo da u bazi cuvamo lozinke u plain text formatu
-		user.setPassword(passwordEncoder.encode(newPassword));
+		String newSecurePassword = hashPassword(newPlainPassword);
+		user.setPassword(newSecurePassword);
+		
 		userRepository.save(user);
 	}
 	
@@ -73,26 +79,60 @@ public class CustomUserDetailsService implements UserDetailsService{
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) currentUser.getPrincipal();
          
-        if(!passwordEncoder.matches(oldPass, user.getPassword())) {
+        if(!verifyHash(oldPass, user.getPassword()))
         	throw new IllegalArgumentException("Current password is not valid!");
-        }
         
-        user.setPassword(passwordEncoder.encode(newPass));
+        byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		user.setSalt(encodedSalt);
+		String newPlainPassword = generatePasswordWithSalt(newPass, encodedSalt);
+		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
+		// radimo hesh(newPass + genSalt)
+		String newSecurePassword = hashPassword(newPlainPassword);
+		user.setPassword(newSecurePassword);
         user.setFirstLogin(true);
         userRepository.save(user);
 	}
 	
+	//razlika je sto ovdje ne setujemo polje u tabeli za prvo logovanje
 	public void changeUserPassword(String oldPass, String newPass) {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) currentUser.getPrincipal();
          
-        if(!passwordEncoder.matches(oldPass, user.getPassword())) {
+        if(!verifyHash(oldPass, user.getPassword()))
         	throw new IllegalArgumentException("Current password is not valid!");
-        }
         
-        user.setPassword(passwordEncoder.encode(newPass));
+        byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		user.setSalt(encodedSalt);
+		String newPlainPassword = generatePasswordWithSalt(newPass, encodedSalt);
+		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
+		// radimo hesh(newPass + genSalt)
+		String newSecurePassword = hashPassword(newPlainPassword);
+		user.setPassword(newSecurePassword);
         userRepository.save(user);
 	}
 
+	private static byte[] generateSalt() {
+		SecureRandom random = new SecureRandom();
+		byte[] salt = new byte[16];
+		random.nextBytes(salt);
+		return salt;
+	}
+	
+	public String hashPassword(String password) {
+		return BCrypt.hashpw(password, BCrypt.gensalt(12));
+	}
+	
+	private String generatePasswordWithSalt(String inputPassword, String salt) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(inputPassword);
+		stringBuilder.append(salt);
+		return stringBuilder.toString();
+	}
+	
+	public boolean verifyHash(String password, String hash) {
+		return BCrypt.checkpw(password, hash);
+	}
 }
 

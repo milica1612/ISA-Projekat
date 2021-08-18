@@ -57,9 +57,17 @@ export default {
     saveInformation : function() {
       this.mode = "BROWSE";
 
-      /*if (this.newPass !== this.rewritePass){
-        alert("Password must match!")
-      }*/
+      if (this.oldPass == '' && this.newPass == '' && this.rewritePassword == ''){
+        alert("Fill all the required fields!")
+      }
+
+      if (this.oldPass === this.newPass){
+        alert("Password can not be same as old!")
+      }
+
+      if (this.rewritePass !== this.newPass){
+        alert("New password and rewrite password must match!")
+      }
 
       const passwordChanger={
         oldPassword: this.oldPass,
@@ -67,6 +75,10 @@ export default {
         email: this.email,
         rewritePassword: this.rewritePass
     }
+      
+      
+
+
 
       this.axios
         .post("http://localhost:8091/auth/firstLogin", passwordChanger,{
@@ -74,6 +86,7 @@ export default {
           Authorization: 'Bearer ' + localStorage.getItem("token")
         }})
         .then(resp => {
+          alert("Successfully changed password!")
           console.log(resp.data);
           if (localStorage.getItem("userType") == "DERMATOLOGIST") {
             window.location.href = "http://localhost:8080/homePageDermatologist";
