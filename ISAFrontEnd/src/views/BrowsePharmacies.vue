@@ -56,6 +56,15 @@
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.adress.street + " " + p.adress.streetNumber + ", " + p.adress.city + ", " + p.adress.country}}</td>
+            <td>
+              <v-btn
+                  color="secondary"
+                  elevation="3"
+                  x-small
+                  v-on:click = "openPharmacyPage(p)"
+                  v-if="isLogged"
+              >Visit</v-btn>
+            </td>
           </tr>
           </tbody>
         </template>
@@ -73,6 +82,7 @@ export default {
       logged: false,
       pharmacies: [],
       searchField: "",
+      token: localStorage.getItem("token"),
       sort: {
         key: '',
         isAsc: false
@@ -87,6 +97,11 @@ mounted() {
   }
 },
   methods: {
+    openPharmacyPage(p){
+      localStorage.setItem("pharmacy", p.pharmacyId);
+      localStorage.setItem("pharmacyName", p.name);
+      window.location.href = "http://localhost:8080/pharmacyPage";
+    },
     sortedClass (key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
 
@@ -107,6 +122,13 @@ mounted() {
     }
   },
   computed:{
+    isLogged: function (){
+      if (this.token == ""){
+        return false
+      }else{
+        return true
+      }
+    },
     notFilled: function () {
       if (this.searchField.trim() == ""){
         return false
