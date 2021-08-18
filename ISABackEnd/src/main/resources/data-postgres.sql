@@ -161,6 +161,22 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (4, 3);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (5, 4);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (6, 6);	
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (7, 2);
+
+INSERT INTO public.appointment(dtype, appointment_id, appointment_status, cancelled, date_and_time, 
+duration, points, price, patient_user_id, shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+VALUES ('Consultation', default, 'NONE', false, '2021-11-11 11:00:00', 30, 5, 1500, null, null, null, 6);
+	
+INSERT INTO public.appointment(dtype, appointment_id, appointment_status, cancelled, date_and_time, 
+duration, points, price, patient_user_id, shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+VALUES ('Consultation', default, 'NONE', false, '2021-11-11 11:30:00', 30, 5, 1500, null, null, null, 6);
+	
+INSERT INTO public.appointment(dtype, appointment_id, appointment_status, cancelled, date_and_time, 
+duration, points, price, patient_user_id, shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+VALUES ('Consultation', default, 'NONE', false, '2021-11-11 12:00:00', 30, 5, 1500, null, null, null, 6);
+	
+INSERT INTO public.appointment(dtype, appointment_id, appointment_status, cancelled, date_and_time, 
+duration, points, price, patient_user_id, shift_shift_id, pharmacist_user_id, dermatologist_user_id)
+VALUES ('Consultation', default, 'NONE', false, '2021-11-11 12:30:00', 30, 5, 1500, null, null, null, 6);
 	
 	
 	
