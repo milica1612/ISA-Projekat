@@ -46,11 +46,17 @@ export default {
       user: {}
   }),
   mounted() {
-    {
-      this.axios
-          .get("http://localhost:8091/users/allpatients")
-          .then((resp) => (this.allpatients = resp.data))
-    }
+
+      if(localStorage.getItem("userType") == "DERMATOLOGIST"
+        || localStorage.getItem("userType") == "PHARMACIST") {
+
+        this.axios
+            .get("http://localhost:8091/users/allpatients")
+            .then((resp) => this.allpatients = resp.data)
+        }
+      else {
+          window.location.href = "http://localhost:8080/logIn";
+        }
   },
   methods: {
     searchPatient() {

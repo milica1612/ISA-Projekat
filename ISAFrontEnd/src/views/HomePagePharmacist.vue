@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style = "background-color: #E0E8F0;; overflow: hidden;">
-      <a href="/allPatients" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Patients</a>
+      <a href="/usersList" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Patients</a>
       <a href="/startCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Start Counseling</a>
       <a href="/workCalendar" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Work Calendar</a>
       <a href="/dispenseMedicine" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Dispense Medicine</a>

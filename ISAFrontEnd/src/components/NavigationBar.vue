@@ -78,7 +78,7 @@ export default {
             ]
         } else if (this.userType === "DERMATOLOGIST"){
           this.items = [
-            { title: 'My Patients', path: '/allPatients'},
+            { title: 'My Patients', path: '/usersList'},
             { title: 'Start Examination', path: '/startExamination'},
             { title: 'Work Calendar', path: '/workCalendar'},
             { title: 'Schedule Vacation', path: '/scheduleVacation'},
@@ -87,7 +87,7 @@ export default {
           ]
         } else if (this.userType === "PHARMACIST") {
           this.items = [
-            {title: 'My Patients', path: '/allPatients'},
+            {title: 'My Patients', path: '/usersList'},
             {title: 'Start Counseling', path: '/startCounseling'},
             {title: 'Work Calendar', path: '/workCalendar'},
             {title: 'Dispense Medicine', path: '/dispenseMedicine'},
