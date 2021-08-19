@@ -57,7 +57,7 @@ public class User implements UserDetails {
 	private UserType userType;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
+	@JoinColumn(name = "address_id", referencedColumnName = "address_id")
 	private Address address;
 
 	@Column(name = "enabled", nullable = false)

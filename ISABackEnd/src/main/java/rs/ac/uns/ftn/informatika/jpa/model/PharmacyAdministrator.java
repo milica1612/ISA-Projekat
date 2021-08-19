@@ -3,13 +3,17 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 
 @Entity
 public class PharmacyAdministrator extends User {
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)      
+	
+	private static final long serialVersionUID = 5204780643546873598L;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)  
+	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id", unique = true, nullable = false)
 	public Pharmacy pharmacy;
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,

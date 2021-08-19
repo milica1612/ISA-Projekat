@@ -13,6 +13,7 @@ public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "address_id", unique = true, nullable = false)
     private Long addressId;
 	
 	@Column(name = "street", nullable = false)
@@ -101,6 +102,4 @@ public class Address {
 		this.latitude = latitude;
 	}
 	   
-	   
-
 }

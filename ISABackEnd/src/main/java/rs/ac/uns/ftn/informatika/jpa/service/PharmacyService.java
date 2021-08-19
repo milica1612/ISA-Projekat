@@ -30,7 +30,7 @@ public class PharmacyService implements IPharmacyService {
 	public PharmacyDTO getPharmacyById(Long pharmacyId) {		
 		Pharmacy p = _pharmacyRepository.findById(pharmacyId).orElse(null);
 		
-		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAdress().getStreet(), p.getAdress().getStreetNumber(), p.getAdress().getCity(), p.getAdress().getCountry(), p.getAdress().getLongitude(), p.getAdress().getLatitude(), p.getRating(), p.getDescription());
+		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getAddress().getCountry(), p.getAddress().getLongitude(), p.getAddress().getLatitude(), p.getRating(), p.getDescription());
 		
 		return result;
 	}
@@ -41,7 +41,6 @@ public class PharmacyService implements IPharmacyService {
 
 	@Override
 	public ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar) {
-		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
 		ArrayList<Pharmacy> result = getPharmacyByName(parametar);
 		if(!result.isEmpty()) {
 			return result;
@@ -70,7 +69,7 @@ public class PharmacyService implements IPharmacyService {
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		String city = address.trim();
 		for (Pharmacy pharmacy : pharmacies) {
-			if(pharmacy.getAdress().getCity().toLowerCase().contains(city.toLowerCase().trim())) {
+			if(pharmacy.getAddress().getCity().toLowerCase().contains(city.toLowerCase().trim())) {
 				result.add(pharmacy);
 			}
 		}		

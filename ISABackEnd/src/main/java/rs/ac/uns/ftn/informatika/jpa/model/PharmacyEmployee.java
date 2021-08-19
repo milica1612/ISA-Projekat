@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 @Entity
 public class PharmacyEmployee extends User {
 	
+	private static final long serialVersionUID = 583030615322985967L;
+	
 	@Column(name = "rating")
 	protected Double rating;
 
