@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/auth/signup",
 							"/auth/login",
 							"/auth/verify",
+							"/auth/confirm_account/*",
 							"/pharmacy",
 							"/pharmacy/getByNameOrAddress/**",
 							"/medicine",
@@ -107,6 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		@Override
 		public void configure(WebSecurity web) throws Exception {
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
+			web.ignoring().antMatchers(HttpMethod.PUT, "/users/confirm_account/*");
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
 					"/pharmacy/getByNameOrAddress/**",

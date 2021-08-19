@@ -68,15 +68,23 @@ export default {
               localStorage.setItem("token", resp.data.accessToken);
               localStorage.setItem("userId", resp.data.user.userId);
               localStorage.setItem("userType", resp.data.user.userType);
-
-              if(resp.data.user.userType == "DERMATOLOGIST"){
-                window.location.href = "http://localhost:8080/homePageDermatologist";
+              localStorage.setItem("first_login", resp.data.user.firstLogin);
+           if(resp.data.user.userType == "PATIENT"){
+              window.location.href = "http://localhost:8080/homePagePatient";
+            }
+           else {
+             if(resp.data.user.firstLogin == false) {
+                window.location.href = "http://localhost:8080/changePasswordFirstLogin";
               }
-              else if(resp.data.user.userType == "PHARMACIST"){
-                window.location.href = "http://localhost:8080/homePagePharmacist";
+              else {
+                if (resp.data.user.userType == "DERMATOLOGIST") {
+                  window.location.href = "http://localhost:8080/homePageDermatologist";
+                } else if (resp.data.user.userType == "PHARMACIST") {
+                  window.location.href = "http://localhost:8080/homePagePharmacist";
+                } else
+                  window.location.href = "http://localhost:8080/NavigationBar";
               }
-              else
-                window.location.href = "http://localhost:8080/NavigationBar";
+           }
 
           } catch(error) {
             alert(error)

@@ -22,6 +22,11 @@ const routes = [{
             import ('../views/Register.vue')
     },
     {
+        path: '/confirmRegistration/:id',
+        name: 'ConfirmRegistration',
+        component: () => import('../views/ConfirmRegistration.vue')
+    },
+    {
         path: '/browsePharmacies',
         name: 'BrowsePharmacies',
         component: () =>
@@ -44,6 +49,12 @@ const routes = [{
         name: 'HomePagePharmacist',
         component: () =>
             import ('../views/HomePagePharmacist.vue')
+    },
+    {
+        path: '/homePagePatient',
+        name: 'HomePagePatient',
+        component: () =>
+            import ('../views/HomePagePatient.vue')
     },
     {
         path: '/patient',
@@ -146,6 +157,12 @@ const routes = [{
         name: 'CreatePharmacy',
         component: () =>
             import ('../views/CreatePharmacy.vue')
+    },
+    {        
+        path: '/changePasswordFirstLogin',
+        name: 'ChangePasswordFirstLogin',
+        component: () =>
+            import ('../views/ChangePasswordFirstLogin.vue')
     }
 
 ]
