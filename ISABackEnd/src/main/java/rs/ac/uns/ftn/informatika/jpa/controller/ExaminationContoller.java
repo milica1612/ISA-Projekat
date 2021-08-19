@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 
@@ -20,7 +21,7 @@ public class ExaminationContoller {
 	ExaminationService _examinationService;
 	
 	@GetMapping(value = "/getByPharmacy/{pharmacyId}")
-	public ArrayList<Examination> getByPharmacy(@PathVariable Long pharmacyId){
+	public ArrayList<ExaminationDTO> getByPharmacy(@PathVariable Long pharmacyId){
 		return _examinationService.getByPharmacy(pharmacyId);
 	}
 }

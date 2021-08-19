@@ -143,7 +143,14 @@ public class Examination{
 	public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
 		this.appointmentStatus = appointmentStatus;
 	}
-   
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
    
 
 }

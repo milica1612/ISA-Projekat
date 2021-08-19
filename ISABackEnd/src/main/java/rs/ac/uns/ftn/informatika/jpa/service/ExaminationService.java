@@ -1,10 +1,12 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
@@ -15,9 +17,19 @@ public class ExaminationService implements IExaminationService{
 	private IExaminationRepository _examinationRepository;
 
 	@Override
-	public ArrayList<Examination> getByPharmacy(Long pharmacyId) {
+	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
-		return allExaminations;
+		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
+		
+		for (Examination examination : allExaminations) { 
+			if(examination.getDateAndTime().after(new Date()) && examination.getPharmacy().getPharmacyId() == pharmacyId) {
+				if(examination.getPatient() == null || examination.getCancelled() == true) {
+			result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
+					examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist()));
+				}
+			}
+		}
+		return result;
 	}
 
 
