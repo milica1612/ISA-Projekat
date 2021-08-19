@@ -1,8 +1,12 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,7 +60,13 @@ public class SystemAdminService implements ISystemAdminService {
 		SystemAdministrator sys_Admin = new SystemAdministrator();
 		
 		sys_Admin.setEmail(request.getEmail());
-		sys_Admin.setPassword(_passwordEncoder.encode(request.getPassword()));
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		sys_Admin.setSalt(encodedSalt);
+		String rawPassword = generatePasswordWithSalt(request.getPassword(), encodedSalt); 
+		String securePassword = hashPassword(rawPassword);
+		sys_Admin.setPassword(securePassword);
+		
 		sys_Admin.setFirstName(request.getFirstName());
 		sys_Admin.setLastName(request.getLastName());
 
@@ -77,6 +87,30 @@ public class SystemAdminService implements ISystemAdminService {
 		return sys_Admin;	
 	}
 
+	private static byte[] generateSalt() {
+		SecureRandom random = new SecureRandom();
+		byte[] genSalt = new byte[16];
+		random.nextBytes(genSalt);
+		return genSalt;
+	}
+	
+	private String generatePasswordWithSalt(String userPassword, String salt) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(userPassword);
+		stringBuilder.append(salt);
+		return stringBuilder.toString();
+	}
+	
+	
+	public String hashPassword(String password) {
+		return BCrypt.hashpw(password, BCrypt.gensalt(12));
+	}
+	
+	public boolean verifyHash(String password, String hash) {
+		return BCrypt.checkpw(password, hash);
+	}
+	
+	
 	@Override
 	public User findByEmail(String email) {
 		return _systemAdminRepository.findByEmail(email);
@@ -103,7 +137,14 @@ public class SystemAdminService implements ISystemAdminService {
 		PharmacyAdministrator ph_admin = new PharmacyAdministrator();
 		
 		ph_admin.setEmail(request.getEmail());
-		ph_admin.setPassword(_passwordEncoder.encode(request.getPassword()));
+
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		ph_admin.setSalt(encodedSalt);
+		String rawPassword = generatePasswordWithSalt(request.getPassword(), encodedSalt); 
+		String securePassword = hashPassword(rawPassword);
+		ph_admin.setPassword(securePassword);
+		
 		ph_admin.setFirstName(request.getFirstName());
 		ph_admin.setLastName(request.getLastName());
 
@@ -131,7 +172,15 @@ public class SystemAdminService implements ISystemAdminService {
 		Dermatologist dermatologist = new Dermatologist();
 		
 		dermatologist.setEmail(request.getEmail());
-		dermatologist.setPassword(_passwordEncoder.encode(request.getPassword()));
+
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		dermatologist.setSalt(encodedSalt);
+		String rawPassword = generatePasswordWithSalt(request.getPassword(), encodedSalt); 
+		String securePassword = hashPassword(rawPassword);
+		dermatologist.setPassword(securePassword);
+		
+		
 		dermatologist.setFirstName(request.getFirstName());
 		dermatologist.setLastName(request.getLastName());
 
@@ -159,7 +208,15 @@ public class SystemAdminService implements ISystemAdminService {
 		Supplier supplier = new Supplier();
 		
 		supplier.setEmail(request.getEmail());
-		supplier.setPassword(_passwordEncoder.encode(request.getPassword()));
+
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		supplier.setSalt(encodedSalt);
+		String rawPassword = generatePasswordWithSalt(request.getPassword(), encodedSalt); 
+		String securePassword = hashPassword(rawPassword);
+		supplier.setPassword(securePassword);
+		
+		
 		supplier.setFirstName(request.getFirstName());
 		supplier.setLastName(request.getLastName());
 

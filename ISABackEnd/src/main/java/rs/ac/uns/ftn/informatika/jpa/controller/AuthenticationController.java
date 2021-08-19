@@ -65,7 +65,7 @@ public class AuthenticationController {
 			StringBuilder passwordWithSalt = new StringBuilder();
 			passwordWithSalt.append(authenticationRequest.getPassword());
 			passwordWithSalt.append(logInUser.getSalt());
-
+			
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					authenticationRequest.getEmail(), passwordWithSalt.toString()));
 
@@ -73,13 +73,14 @@ public class AuthenticationController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			User user = (User) authentication.getPrincipal();
 			if (user.getEnabled()) {
+				
 				// Kreiraj token za tog korisnika
 				String jwt = tokenUtils.generateToken(authenticationRequest.getEmail());
 				int expiresIn = tokenUtils.getExpiredIn();
 				// Vrati token kao odgovor na uspesnu autentifikaciju
 				return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user));
 			}
-		} catch (Exception e) {
+		} catch (Exception e) {			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
