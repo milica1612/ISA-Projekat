@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Pharmacist extends PharmacyEmployee {
+	private static final long serialVersionUID = -5330789200370606931L;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Pharmacy pharmacy;
