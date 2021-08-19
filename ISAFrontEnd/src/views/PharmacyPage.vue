@@ -1,6 +1,7 @@
 <template>
-<div>
-  <h2>{{this.pharmacyName}}</h2>
+<div id = "homePage">
+  <div class = "container">
+  <h3>{{this.pharmacyName}}</h3>
   <br>
   <v-simple-table>
     <template v-slot:default>
@@ -15,31 +16,38 @@
         <th>
           Dermatologist
         </th>
-        <th>
+        <th :class="sortedClass('rating')"
+            @click="sortBy('rating')">
+          Dermatologist Rating
+        </th>
+        <th :class="sortedClass('price')"
+            @click="sortBy('price')">
           Price
         </th>
       </tr>
       </thead>
       <tbody>
       <tr
-          v-for="c in consultations"
+          v-for="c in sortedItems"
           :key="c"
       >
         <td>{{c.dateAndTime}}</td>
-        <td>{{ c.duration}}</td>
-        <td>{{c.dermatologist.firstName}}</td>
-        <td>{{c.price}}</td>
+        <td>{{ c.duration + " minutes"}}</td>
+        <td>{{c.dermatologist.firstName + " " + c.dermatologist.lastName}}</td>
+        <td>{{c.dermatologist.rating}}</td>
+        <td>{{c.price + " rsd"}}</td>
         <td>
           <v-btn
               color="secondary"
               elevation="3"
               x-small
-          >Schedule</v-btn>
+          >Schedule examination</v-btn>
         </td>
       </tr>
       </tbody>
     </template>
   </v-simple-table>
+</div>
 </div>
 </template>
 
@@ -50,7 +58,7 @@ export default {
     return {
       pharmacyId : {},
       pharmacyName : localStorage.getItem("pharmacyName"),
-      consultations : [],
+      examinations : [],
       sort: {
         key: '',
         isAsc: false
@@ -63,12 +71,13 @@ mounted() {
     this.pharmacyName = localStorage.getItem("pharmacyName"),
         this.pharmacyName = localStorage.getItem("pharmacyName"),
         this.axios
-            .get('http://localhost:8091/appointment/getByPharmacy/' + this.pharmacyId, {
+            .get('http://localhost:8091/examination/getByPharmacy/' + this.pharmacyId, {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
               }
             })
-            .then(response => (this.consultations = response.data));
+            .then(response => (this.examinations = response.data));
+
   }
 },
   methods: {
@@ -83,7 +92,7 @@ mounted() {
   },
   computed: {
     sortedItems () {
-      const list = this.consultations.slice();  // ソート時でdataの順序を書き換えないため
+      const list = this.examinations.slice();  // ソート時でdataの順序を書き換えないため
       if (this.sort.key !="") {
         list.sort((a, b) => {
           a = a[this.sort.key]
@@ -101,5 +110,16 @@ mounted() {
 </script>
 
 <style scoped>
-
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>

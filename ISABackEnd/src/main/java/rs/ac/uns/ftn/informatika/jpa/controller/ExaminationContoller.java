@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,20 +9,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.model.Appointment;
-import rs.ac.uns.ftn.informatika.jpa.service.AppointmentService;;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping(value = "/appointment")
-public class AppointmentController {
-
+@RequestMapping(value = "/examination")
+public class ExaminationContoller {
 	@Autowired
-	private AppointmentService _appointmentService ;
+	ExaminationService _examinationService;
 	
-	@GetMapping("/getByPharmacy/{pharmacyId}")
-	public ArrayList<Appointment> getAppointmentsByPharmacy(@PathVariable Long pharmacyId) {
-		return _appointmentService.getAppointmentsByPharmacy(pharmacyId);
-		
+	@GetMapping(value = "/getByPharmacy/{pharmacyId}")
+	public ArrayList<Examination> getByPharmacy(@PathVariable Long pharmacyId){
+		return _examinationService.getByPharmacy(pharmacyId);
 	}
 }

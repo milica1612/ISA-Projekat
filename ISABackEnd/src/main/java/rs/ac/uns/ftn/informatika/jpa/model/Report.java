@@ -17,32 +17,63 @@ public class Report {
 	private Long reportId;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-    public Appointment appointment;
+    public Consultation consultation;
+	@OneToOne(fetch = FetchType.LAZY)
+    public Examination examination;
 	   
-	public Report(Long reportId, Appointment appointment) {
+
+	
+	public Long getReportId() {
+		return reportId;
+	}
+
+
+
+	public void setReportId(Long reportId) {
+		this.reportId = reportId;
+	}
+
+
+
+	public Consultation getConsultation() {
+		return consultation;
+	}
+
+
+
+	public void setConsultation(Consultation consultation) {
+		this.consultation = consultation;
+	}
+
+
+
+	public Examination getExamination() {
+		return examination;
+	}
+
+
+
+	public void setExamination(Examination examination) {
+		this.examination = examination;
+	}
+
+
+
+	public Report(Long reportId, Consultation consultation, Examination examination) {
 		super();
 		this.reportId = reportId;
-		this.appointment = appointment;
+		this.consultation = consultation;
+		this.examination = examination;
 	}
-	
+
+
+
 	public Report()
 	{
 		
 	}
 	
-	public Long getReportId() {
-		return reportId;
-	}
-	public void setReportId(Long reportId) {
-		this.reportId = reportId;
-	}
-	public Appointment getAppointment() {
-		return appointment;
-	}
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
-	}
-	
+
    
    
 }
