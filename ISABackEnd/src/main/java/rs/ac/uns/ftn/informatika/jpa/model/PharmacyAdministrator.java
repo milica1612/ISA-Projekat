@@ -1,10 +1,11 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -12,8 +13,9 @@ public class PharmacyAdministrator extends User {
 	
 	private static final long serialVersionUID = 5204780643546873598L;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)  
-	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id", unique = true, nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"applications", "hibernateEagerInitializer"})
+	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	public Pharmacy pharmacy;
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,

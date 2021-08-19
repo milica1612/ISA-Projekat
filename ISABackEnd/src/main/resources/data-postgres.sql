@@ -112,7 +112,7 @@ INSERT INTO public.user(
 -- password Marko123!	
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', default, 'markovicm@gmail.com', true, false, 'Marko', 'Markovic', '2020-11-11', '$2a$12$bj4hnB7C50TPVVTZMjY0pOhL.3CImLOMztQXKxmqKaQDHvW9TmwRS', 'MaRa1324ZYw2012XxV22aR==', '065/789-41-23', 'null', 'PH_ADMINISTRATOR', null, 0, 2, null, null);
+	VALUES ('PharmacyAdministrator', default, 'markovicm@gmail.com', true, false, 'Marko', 'Markovic', '2020-11-11', '$2a$12$bj4hnB7C50TPVVTZMjY0pOhL.3CImLOMztQXKxmqKaQDHvW9TmwRS', 'MaRa1324ZYw2012XxV22aR==', '065/789-41-23', 'null', 'PH_ADMINISTRATOR', null, 0, 2, 2, null);
 
 -- password Kaca1234!
 INSERT INTO public.user(
@@ -129,10 +129,10 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Pharmacist', default, 'nikola7@gmail.com', true, false, 'Nikola', 'Spasic', '2020-11-11', '$2a$12$0ZQ9aHaXtbFp0c03gRFHNOTMd6BQiNAcjlVK.KSAscOlotnSpXQM.', '62l3V017w2ISV4pJ9uHTIx==', '061/333-66-10', 'nikolaspasic7', 'PHARMACIST', 9.2, null, 6, 2, null);
 
--- password Luka1237!
+-- password Luka3456!
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', default, 'luka31@gmail.com', true, false, 'Luka', 'Petrovic', '2021-02-12', '$2a$12$8tbYtOzZnXqNk6MivUfP3On4bLq61eSzZHvUjk7kyH5pSyV62k7Ge', 'SaRaL2uKa3sB0ZeS4a5iNs==', '064/225-34-49', 'lukait', 'PH_ADMINISTRATOR', null, null, 10, 2, null);
+	VALUES ('PharmacyAdministrator', default, 'lukait@gmail.com', true, false, 'Luka', 'Petrovic', '2020-11-19', '$2a$12$iFtunNf69vM1mAfDfp.zQ.3r9OVZNKvtCf8oUzUiyOyW6ee6Ipa8O', 'BolZV6e7PoImVOpZIxuHi7==', '064/225-34-49', 'lukait', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
 
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)

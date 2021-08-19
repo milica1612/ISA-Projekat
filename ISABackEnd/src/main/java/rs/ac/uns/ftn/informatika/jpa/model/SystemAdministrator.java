@@ -1,14 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
+import java.util.Date;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 
 @Entity
 public class SystemAdministrator extends User {
+	
+	private static final long serialVersionUID = 810387715401362080L;
 	
 	public SystemAdministrator(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled, Date lastResetPasswordDate, Boolean firstLogin) {
