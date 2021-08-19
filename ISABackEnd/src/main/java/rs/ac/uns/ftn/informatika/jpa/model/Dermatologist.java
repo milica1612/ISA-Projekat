@@ -13,7 +13,9 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Dermatologist extends PharmacyEmployee {
 	
-    @ManyToMany(fetch = FetchType.LAZY)
+	private static final long serialVersionUID = -2667848795545490514L;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Pharmacy> pharmacy;
 
 	public Dermatologist(String firstName, String lastName, String userName, String password, String email,
