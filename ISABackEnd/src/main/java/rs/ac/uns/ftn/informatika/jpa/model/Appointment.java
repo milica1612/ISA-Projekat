@@ -40,6 +40,9 @@ public class Appointment {
 	public Patient patient;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	public Pharmacy pharmacy;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Shift shift;
 	
 	@Enumerated(EnumType.STRING)
