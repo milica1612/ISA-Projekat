@@ -14,5 +14,5 @@ public interface IDermatologistService {
 	
 	List<DermatologistDTO> searchDermatologistsByLastName(String lastName);
 	
-	List<DermatologistDTO> filterDermatologistByRaiting(Double minRaiting, Double maxRaiting);
+	List<DermatologistDTO> filterDermatologistByRating(Double minRating, Double maxRating);
 }
