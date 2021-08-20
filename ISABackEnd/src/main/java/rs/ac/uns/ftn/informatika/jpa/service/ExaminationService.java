@@ -26,7 +26,8 @@ public class ExaminationService implements IExaminationService{
 			if(examination.getDateAndTime().after(new Date()) && examination.getPharmacy().getPharmacyId() == pharmacyId) {
 				if(examination.getPatient() == null || examination.getCancelled() == true) {
 			result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
-					examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),null));
+					examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),
+					null, examination.getPharmacy()));
 				}
 			}
 		}
@@ -41,6 +42,23 @@ public class ExaminationService implements IExaminationService{
 		e.setCancelled(false);
 		_examinationRepository.save(e);
 		
+	}
+
+	@Override
+	public ArrayList<ExaminationDTO> getByPatient(Long patientId) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
+		
+		for (Examination examination : allExaminations) { 
+			if(examination.getDateAndTime().after(new Date()) && examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getCancelled() == false) {
+			result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
+					examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),
+					examination.getPatient(), examination.getPharmacy()));
+				}
+			}
+		}
+		return result;
 	}
 
 

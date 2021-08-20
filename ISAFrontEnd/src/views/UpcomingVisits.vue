@@ -14,6 +14,12 @@
               Duration
             </th>
             <th>
+              Pharmacy
+            </th>
+            <th>
+              Address
+            </th>
+            <th>
               Dermatologist
             </th>
             <th :class="sortedClass('rating')"
@@ -33,6 +39,9 @@
           >
             <td>{{c.dateAndTime}}</td>
             <td>{{ c.duration + " minutes"}}</td>
+            <td>{{ c.pharmacy.name}}</td>
+            <td>{{c.pharmacy.address.street + " " + c.pharmacy.address.streetNumber + ", " +
+            c.pharmacy.address.city + ", " + c.pharmacy.address.country}}</td>
             <td>{{c.dermatologist.firstName + " " + c.dermatologist.lastName}}</td>
             <td>{{c.dermatologist.rating}}</td>
             <td>{{c.price + " rsd"}}</td>

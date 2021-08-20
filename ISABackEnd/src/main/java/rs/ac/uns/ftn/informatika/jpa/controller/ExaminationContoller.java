@@ -27,6 +27,11 @@ public class ExaminationContoller {
 		return _examinationService.getByPharmacy(pharmacyId);
 	}
 	
+	@GetMapping(value = "/getByPatientId/{patientId}")
+	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
+		return _examinationService.getByPatient(patientId);
+	}
+	
 	@PutMapping(value = "/schedule")
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
 		_examinationService.scheduleExamination(examination);
