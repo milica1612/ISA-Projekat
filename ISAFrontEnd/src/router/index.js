@@ -63,6 +63,12 @@ const routes = [{
             import ('../views/HomePagePatient.vue')
     },
     {
+        path: '/upcomingVisits',
+        name: 'UpcomingVisits',
+        component: () =>
+            import ('../views/UpcomingVisits.vue')
+    },
+    {
         path: '/patient',
         name: 'Patient',
         component: () =>

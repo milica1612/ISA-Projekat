@@ -4,7 +4,7 @@
       <a href="/browsePharmacies" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Browse Pharmacies</a>
       <a href="/startCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Previous Dermatologist Visits</a>
       <a href="/workCalendar" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Previous Pharmacist Counselings</a>
-      <a href="/dispenseMedicine" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Upcoming Visits</a>
+      <a href="/upcomingVisits" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Upcoming Visits</a>
       <a href="/scheduleVacation" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My ePrescription</a>
       <a href="/pharmacistProfile" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Medicine Reservations</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Penalties</a>
