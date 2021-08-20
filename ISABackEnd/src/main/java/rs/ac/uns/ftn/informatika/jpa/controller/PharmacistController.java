@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacistService;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/pharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PharmacistController {
@@ -46,9 +48,9 @@ public class PharmacistController {
 		return _pharmacistSerivce.findPharmacistsByPharmacy(pharmacyId);
 	}
 	
-	@GetMapping(path = "/filterPharmacistByRaiting/{minRaiting}/{maxRaiting}")
-	public List<PharmacistDTO> filterPharmacistByRaiting(@PathVariable Double minRaiting, @PathVariable Double maxRaiting)
+	@GetMapping(path = "/filterPharmacistByRating/{minRating}/{maxRating}")
+	public List<PharmacistDTO> filterPharmacistByRating(@PathVariable Double minRating, @PathVariable Double maxRating)
 	{
-		return _pharmacistSerivce.filterPharmacistByRaiting(minRaiting, maxRaiting);
+		return _pharmacistSerivce.filterPharmacistByRating(minRating, maxRating);
 	}
 }

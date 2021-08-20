@@ -139,7 +139,13 @@ const routes = [{
         name: 'SearchDermatologist',
         component: () => 
             import ('../views/SearchDermatologist.vue')
-    }
+    },
+    {
+        path: '/searchPharmacist',
+        name: 'SearchPharmacist',
+        component: () =>
+            import ('../views/SearchPharmacist.vue')
+    },
 ]
 
 const router = new VueRouter({

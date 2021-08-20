@@ -89,14 +89,14 @@
             <tr v-for="item in dermatologists" :key="item.firstName">
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
-              <td class="text-center">{{ item.raiting }}</td>
+              <td class="text-center">{{ item.rating }}</td>
             </tr>
           </tbody>
           <tbody v-bind:hidden="!showList">
             <tr v-for="item in dermatologistList" :key="item.firstName">
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
-              <td class="text-center">{{ item.raiting }}</td>
+              <td class="text-center">{{ item.rating }}</td>
             </tr>
           </tbody>
         </template>

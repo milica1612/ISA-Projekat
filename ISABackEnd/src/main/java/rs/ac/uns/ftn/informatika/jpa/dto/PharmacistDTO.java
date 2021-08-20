@@ -4,16 +4,16 @@ public class PharmacistDTO {
 	
 	private String firstName;
 	private String lastName;
-	private double raiting;
+	private double rating;
 	private String pharmacyName;
 	
 	public PharmacistDTO() {}
 
-	public PharmacistDTO(String firstName, String lastName, double reiting, String pharmacyName) {
+	public PharmacistDTO(String firstName, String lastName, double rating, String pharmacyName) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.raiting = reiting;
+		this.rating = rating;
 		this.pharmacyName = pharmacyName;
 	}
 
@@ -33,12 +33,12 @@ public class PharmacistDTO {
 		this.lastName = lastName;
 	}
 
-	public double getRaiting() {
-		return raiting;
+	public double getRating() {
+		return rating;
 	}
 
-	public void setRaiting(double raiting) {
-		this.raiting = raiting;
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 
 	public String getPharmacyName() {
@@ -48,5 +48,7 @@ public class PharmacistDTO {
 	public void setPharmacyName(String pharmacyName) {
 		this.pharmacyName = pharmacyName;
 	}
+
+	
 
 }

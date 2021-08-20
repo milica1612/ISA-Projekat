@@ -90,6 +90,7 @@ export default {
           { title: "Browse Pharmacies", path: "/browsePharmacies" },
           { title: "Browse Medicine", path: "/browseMedicine" },
           { title: "Search Dermatologist", path: "/searchDermatologist" },
+          { title: "Search Pharmacist", path: "/searchPharmacist"},
         ];
       } else if (this.userType === "SUPPLIER") {
         //  USER-TYPE
@@ -120,6 +121,7 @@ export default {
         this.items = [
           { title: "Home", path: "/" },
           { title: "Search Dermatologist", path: "/searchDermatologist" },
+          { title: "Search Pharmacist", path: "/searchPharmacist"},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE

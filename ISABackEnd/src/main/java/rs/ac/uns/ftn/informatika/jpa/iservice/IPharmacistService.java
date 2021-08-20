@@ -16,5 +16,5 @@ public interface IPharmacistService {
 
 	List<PharmacistDTO> searchPharmacistsByFirstName(String firstName);
 
-	List<PharmacistDTO> filterPharmacistByRaiting(Double minRaiting, Double maxRaiting);
+	List<PharmacistDTO> filterPharmacistByRating(Double minRating, Double maxRating);
 }

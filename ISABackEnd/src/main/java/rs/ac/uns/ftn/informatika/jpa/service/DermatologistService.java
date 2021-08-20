@@ -31,7 +31,7 @@ public class DermatologistService implements IDermatologistService {
 				pharmacyNames.add(p.getName());
 			}
 			dermatologistDTO.setPharmacyName(pharmacyNames);
-			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTO.setRating(d.getRating());
 			dermatologistDTOs.add(dermatologistDTO);
 		}
 
@@ -52,7 +52,7 @@ public class DermatologistService implements IDermatologistService {
 				pharmacyNames.add(p.getName());
 			}
 			dermatologistDTO.setPharmacyName(pharmacyNames);
-			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTO.setRating(d.getRating());
 			dermatologistDTOs.add(dermatologistDTO);
 
 		}
@@ -72,7 +72,7 @@ public class DermatologistService implements IDermatologistService {
 				pharmacyNames.add(p.getName());
 			}
 			dermatologistDTO.setPharmacyName(pharmacyNames);
-			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTO.setRating(d.getRating());
 			dermatologistDTOs.add(dermatologistDTO);
 
 		}
@@ -92,7 +92,7 @@ public class DermatologistService implements IDermatologistService {
 				pharmacyNames.add(p.getName());
 			}
 			dermatologistDTO.setPharmacyName(pharmacyNames);
-			dermatologistDTO.setRaiting(d.getRating());
+			dermatologistDTO.setRating(d.getRating());
 			dermatologistDTOs.add(dermatologistDTO);
 
 		}
@@ -114,7 +114,7 @@ public class DermatologistService implements IDermatologistService {
 					pharmacyNames.add(p.getName());
 				}
 				dermatologistDTO.setPharmacyName(pharmacyNames);
-				dermatologistDTO.setRaiting(d.getRating());
+				dermatologistDTO.setRating(d.getRating());
 				dermatologistDTOs.add(dermatologistDTO);
 			}
 
