@@ -36,4 +36,9 @@ public class ExaminationContoller {
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
 		_examinationService.scheduleExamination(examination);
 	}
+	
+	@PutMapping(value = "/cancel")
+	public boolean cancelExamination(@RequestBody ExaminationDTO examination) {
+		return _examinationService.cancelExamination(examination);
+	}
 }

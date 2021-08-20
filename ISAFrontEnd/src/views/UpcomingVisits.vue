@@ -34,7 +34,7 @@
           </thead>
           <tbody>
           <tr
-              v-for="c in sortedItems"
+              v-for="c in examinations"
               :key="c"
           >
             <td>{{c.dateAndTime}}</td>
@@ -94,6 +94,18 @@ export default {
     sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
       this.sort.key = key;
+    },
+    cancelExamination(examination) {
+      this.axios
+          .put('http://localhost:8091/examination/cancel', examination, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(
+              alert("Examination cancelled!"),
+              window.location.href = "http://localhost:8080/upcomingVisits"
+          );
     },
   },
   computed:{

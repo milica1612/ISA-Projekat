@@ -61,5 +61,14 @@ public class ExaminationService implements IExaminationService{
 		return result;
 	}
 
+	@Override
+	public boolean cancelExamination(ExaminationDTO examination) {
+		Optional<Examination> oldExamination = _examinationRepository.findById(examination.getAppointmentId());
+		Examination e = oldExamination.get();
+		e.setCancelled(true);
+		_examinationRepository.save(e);
+		return true;
+	}
+
 
 }
