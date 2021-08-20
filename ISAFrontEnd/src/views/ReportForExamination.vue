@@ -5,7 +5,12 @@
       <template v-slot:default>
         <tr>
           <td align="center"><v-btn color="primary" elevation="2" medium>Start Examination</v-btn></td>
-          <td align="center"><v-btn color="primary" elevation="2" medium>Patient did not come.</v-btn></td>
+          <td align="center"><v-btn
+              color="primary"
+              elevation="2"
+              medium
+              v-on:click="patientDidntCome"
+              >Patient did not come.</v-btn></td>
         </tr>
       </template>
       </v-simple-table>
@@ -179,6 +184,15 @@ export default {
                  })
                 .then(response => (this.medicines = response.data)
                 )));
+  },
+  methods: {
+    patientDidntCome: function() {
+      this.axios
+        .post('http://localhost:8091/users/increasePenalty', this.patient, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem("token")
+          }})
+    }
   }
 }
 </script>

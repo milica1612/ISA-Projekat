@@ -233,5 +233,16 @@ public class UserService implements IUserService {
 
 		return null;
 	}
+	
+	@Override
+	public void increasePenalty(Long id) {
+		
+		User user = findById(id);
+		
+		int penalty = ((Patient) user).getPenalty() + 1;
+		
+		((Patient) user).setPenalty(penalty);
+		update(user);
+	}
 
 }

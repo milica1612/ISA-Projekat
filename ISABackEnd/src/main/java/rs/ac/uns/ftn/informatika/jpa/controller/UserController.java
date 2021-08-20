@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -91,5 +92,10 @@ public class UserController {
 		_userService.update(user);
 		
 	}
-
+	
+	@PostMapping(value = "/increasePenalty")
+	public void increasePenalty(@RequestBody User user) throws Exception {
+		
+		_userService.increasePenalty(user.getUserId());
+	}
 }
