@@ -26,21 +26,21 @@ public class UserController {
 	
 	@Autowired
 	private UserService _userService ;
-
+	
+	@GetMapping(value = "/{id}")
+	public User findUser(@PathVariable Long id) {
+		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//System.out.println(user.getEmail());
+		return (User) _userService.findById(id);
+	}
+	
 	@GetMapping(value = "/currentUser")
 	public User getCurrentLoggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return user;
 	}
-	
-	
-	@GetMapping(value = "/{id}")
-	public User findUser(@PathVariable Long id) {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user.getEmail());
-		return (User) _userService.findById(user.getUserId());
-	}
+
  
 	@GetMapping(value = "/email/{email}")
 	public User findUserByEmail(@PathVariable String email) {
@@ -59,11 +59,16 @@ public class UserController {
 	}	
 	
 
-	@GetMapping(path = "/allpatients")
-	public List<UserDTO> getAllUsers() {
+	@GetMapping(path = "/getAllpatients")
+	public List<UserDTO> getAllPatients() {
 		 return _userService.getAllUsers();
 	}
 	 
+	@GetMapping(path = "/allpatients")
+	public List<User> getAllUsers() {
+		 return _userService.getAllPatients();
+	}
+	
     @PostMapping(value = "/searchUser")
     public List<UserDTO> searchUser(@RequestBody String request) {
     	

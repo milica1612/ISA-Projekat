@@ -34,13 +34,11 @@
           </thead>
           <tbody>
           <tr>
-          <!--<tr
+          <tr
               v-for="m in medicines"
               :key="m"
           >
-
-            <td>{{ m.name }}</td>-->
-            <td>Lijek</td>
+            <td>{{ m.name }}</td>
             <td><v-col cols="auto">
               <v-dialog
                   transition="dialog-top-transition"
@@ -60,9 +58,6 @@
                         color="primary"
                         dark
                     >Medicine specification</v-toolbar>
-                    <v-card-text>
-                      <div class="text-h2 pa-12">Hello world!</div>
-                    </v-card-text>
                     <v-card-actions class="justify-end">
                       <v-btn
                           text
@@ -93,22 +88,51 @@
                         color="primary"
                         dark
                     >Is medicine available?</v-toolbar>
-                    <v-card-text>
-                      <div class="text-h2 pa-12">Hello world!</div>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                      <h4 style="margin-top:20px;">Duration of therapy (in days):</h4>
+                      <h3 align="center">Browse substitute medicine:</h3>
+                      <br>
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <tr>
+                            <th class="text-center" width="250">
+                              Name
+                            </th>
+                            <th class="text-center">
+                             Choose
+                            </th>
+                          </tr>
+                          <tbody>
+                            <tr>
+                              <!--<tr
+                                  v-for="m in medicines"
+                                  :key="m"
+                             >
+
+                              <td>{{ m.name }}</td>-->
+                              <td align="center">Lijek</td>
+                              <td align="center">
+                                <v-btn color="primary" elevation="2" small>Choose</v-btn>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                      <h4 align="center" style="margin-top:20px;">Duration of therapy (in days):</h4>
                       <v-text-field
                           type="number"
                           filled
-                          style="margin-top:10px; font-size:16px;">
+                          style="margin-top:10px; font-size:14px;">
                       </v-text-field>
                       <br>
                       <v-btn
+                          width="300"
+                          text
+                          @click="dialog.value = false"
+                      >Close</v-btn>
+                      <v-btn
+                          width="300"
                           text
                           @click="dialog.value = false"
                       >Recommend</v-btn>
-                    </v-card-actions>
                   </v-card>
                 </template>
               </v-dialog>
@@ -119,14 +143,13 @@
         </template>
       </v-simple-table>
       <br>
-      <v-simple-table>
-      <template v-slot:default>
+      <br>
+      <table>
         <tr>
-          <td align="center"><v-btn color="primary" elevation="2" medium>End Examination</v-btn></td>
-          <td align="center"><v-btn color="primary" elevation="2" medium>Schedule New Examination</v-btn></td>
+          <td align="center" width="650"><v-btn color="primary" elevation="2" large>End Examination</v-btn></td>
+          <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Examination</v-btn></td>
         </tr>
-      </template>
-      </v-simple-table>
+      </table>
     </div>
   </div>
 </template>
@@ -134,9 +157,29 @@
 <script>
 export default {
   name: "ReportForExamination",
-  data: () => ({
-    medicines: []
-  })
+  data: function () {
+    return {
+      medicines: [],
+      patient: null,
+      patient_id: localStorage.getItem("patientId")
+    }
+  },
+  mounted() {
+    this.axios
+        .get('http://localhost:8091/users/' + this.patient_id, {
+            headers: {
+             Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+        .then(response => (this.patient = response.data,
+            this.axios
+                .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
+                  headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                  }
+                 })
+                .then(response => (this.medicines = response.data)
+                )));
+  }
 }
 </script>
 

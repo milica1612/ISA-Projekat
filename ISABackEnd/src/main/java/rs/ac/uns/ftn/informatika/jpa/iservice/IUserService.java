@@ -29,6 +29,8 @@ public interface IUserService {
 
 	List<UserDTO> getAllUsers();
 	
+	List<User> getAllPatients();
+	
 	List<UserDTO> userSearch(UserDTO userDTO);
 	
 	List<UserDTO> findUserByUserType(UserType userType);

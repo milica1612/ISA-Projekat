@@ -139,6 +139,12 @@ const routes = [{
         name: 'ReportForConsultation',
         component: () =>
             import ('../views/ReportForConsultation.vue')
+    },
+    {
+        path: '/dermatologistPatientProfile',
+        name: 'DermatologistPatientProfile',
+        component: () =>
+            import ('../views/DermatologistPatientProfile.vue')
     }
 ]
 
