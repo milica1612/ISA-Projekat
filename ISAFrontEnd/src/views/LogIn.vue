@@ -63,34 +63,34 @@ export default {
         })
         .then((resp) => {
           console.log(resp.data);
-          try{
-              localStorage.setItem("email", this.user.email);
-              localStorage.setItem("token", resp.data.accessToken);
-              localStorage.setItem("userId", resp.data.user.userId);
-              localStorage.setItem("userType", resp.data.user.userType);
-              localStorage.setItem("first_login", resp.data.user.firstLogin);
-           if(resp.data.user.userType == "PATIENT"){
+          try {
+            localStorage.setItem("email", this.user.email);
+            localStorage.setItem("token", resp.data.accessToken);
+            localStorage.setItem("userId", resp.data.user.userId);
+            localStorage.setItem("userType", resp.data.user.userType);
+            localStorage.setItem("first_login", resp.data.user.firstLogin);
+            if (resp.data.user.userType == "PATIENT") {
               window.location.href = "http://localhost:8080/homePagePatient";
-            }
-           else {
-             if(resp.data.user.firstLogin == false) {
-                window.location.href = "http://localhost:8080/changePasswordFirstLogin";
-              }
-              else {
+            } else {
+              if (resp.data.user.firstLogin == false) {
+                window.location.href =
+                  "http://localhost:8080/changePasswordFirstLogin";
+              } else {
                 if (resp.data.user.userType == "DERMATOLOGIST") {
-                  window.location.href = "http://localhost:8080/homePageDermatologist";
+                  window.location.href =
+                    "http://localhost:8080/homePageDermatologist";
                 } else if (resp.data.user.userType == "PHARMACIST") {
-                  window.location.href = "http://localhost:8080/homePagePharmacist";
+                  window.location.href =
+                    "http://localhost:8080/homePagePharmacist";
                 } else
                   window.location.href = "http://localhost:8080/NavigationBar";
               }
-           }
-
-          } catch(error) {
-            alert(error)
-        }
+            }
+          } catch (error) {
+            alert(error);
+          }
         })
-        
+
         .catch((er) => {
           alert("Invalid email and/or password! Please, try again!");
           this.email = "";
