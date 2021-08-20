@@ -55,7 +55,7 @@
           >
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
-            <td>{{p.adress.street + " " + p.adress.streetNumber + ", " + p.adress.city + ", " + p.adress.country}}</td>
+            <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
             <td>
               <v-btn
                   color="secondary"
