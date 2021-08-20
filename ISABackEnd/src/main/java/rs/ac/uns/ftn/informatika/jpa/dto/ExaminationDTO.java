@@ -29,9 +29,12 @@ public class ExaminationDTO {
     private int points;
    
 	public Dermatologist dermatologist;
+	
+	public Patient patient;
+
 
 	public ExaminationDTO(Long appointmentId, String dateAndTime, int duration, Double price, int points,
-			Dermatologist dermatologist) {
+			Dermatologist dermatologist, Patient patient) {
 		super();
 		this.appointmentId = appointmentId;
 		this.dateAndTime = dateAndTime;
@@ -39,6 +42,7 @@ public class ExaminationDTO {
 		this.price = price;
 		this.points = points;
 		this.dermatologist = dermatologist;
+		this.patient = patient;
 	}
 	
 	public ExaminationDTO() {}
@@ -90,4 +94,13 @@ public class ExaminationDTO {
 	public void setDermatologist(Dermatologist dermatologist) {
 		this.dermatologist = dermatologist;
 	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	
 }

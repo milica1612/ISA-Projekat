@@ -41,6 +41,7 @@
               color="secondary"
               elevation="3"
               x-small
+              v-on:click = "scheduleExamination(c)"
           >Schedule examination</v-btn>
         </td>
       </tr>
@@ -59,6 +60,7 @@ export default {
       pharmacyId : {},
       pharmacyName : localStorage.getItem("pharmacyName"),
       examinations : [],
+      patient: null,
       sort: {
         key: '',
         isAsc: false
@@ -70,6 +72,13 @@ mounted() {
     this.pharmacyId = localStorage.getItem("pharmacy"),
     this.pharmacyName = localStorage.getItem("pharmacyName"),
         this.pharmacyName = localStorage.getItem("pharmacyName"),
+        this.axios
+            .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => (this.patient = response.data));
         this.axios
             .get('http://localhost:8091/examination/getByPharmacy/' + this.pharmacyId, {
               headers: {
@@ -89,6 +98,17 @@ mounted() {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
       this.sort.key = key;
     },
+    scheduleExamination(examination){
+      examination.patient = this.patient
+      this.axios
+          .put('http://localhost:8091/examination/schedule', examination, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(alert("Examination scheduled!"));
+    }
+
   },
   computed: {
     sortedItems () {

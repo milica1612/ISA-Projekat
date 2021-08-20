@@ -7,4 +7,5 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 
 public interface IExaminationService {
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId);
+	public void scheduleExamination(ExaminationDTO examination);
 }
