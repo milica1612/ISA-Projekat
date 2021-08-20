@@ -100,12 +100,12 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
-	public List<DermatologistDTO> filterDermatologistByRaiting(Double minRaiting, Double maxRaiting) {
+	public List<DermatologistDTO> filterDermatologistByRating(Double minRating, Double maxRating) {
 		List<Dermatologist> dermatologists = _dermatologistRepository.findAll();
 		List<DermatologistDTO> dermatologistDTOs = new ArrayList<DermatologistDTO>();
 
 		for (Dermatologist d : dermatologists)
-			if (d.getRating() >= minRaiting && d.getRating() <= maxRaiting) {
+			if (d.getRating() >= minRating && d.getRating() <= maxRating) {
 				DermatologistDTO dermatologistDTO = new DermatologistDTO();
 				dermatologistDTO.setFirstName(d.getFirstName());
 				dermatologistDTO.setLastName(d.getLastName());
@@ -116,7 +116,6 @@ public class DermatologistService implements IDermatologistService {
 				dermatologistDTO.setPharmacyName(pharmacyNames);
 				dermatologistDTO.setRaiting(d.getRating());
 				dermatologistDTOs.add(dermatologistDTO);
-
 			}
 
 		return dermatologistDTOs;
