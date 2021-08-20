@@ -127,6 +127,18 @@ const routes = [{
         name: 'ChangePasswordFirstLogin',
         component: () =>
             import ('../views/ChangePasswordFirstLogin.vue')
+    },
+    {
+        path: '/reportForExamination',
+        name: 'ReportForExamination',
+        component: () =>
+            import ('../views/ReportForExamination.vue')
+    },
+    {
+        path: '/reportForConsultation',
+        name: 'ReportForConsultation',
+        component: () =>
+            import ('../views/ReportForConsultation.vue')
     }
 ]
 
