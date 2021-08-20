@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -65,9 +66,24 @@ public class ExaminationService implements IExaminationService{
 	public boolean cancelExamination(ExaminationDTO examination) {
 		Optional<Examination> oldExamination = _examinationRepository.findById(examination.getAppointmentId());
 		Examination e = oldExamination.get();
+		if(isSoonerThan24hours(e)) {
+			return false;
+		}
 		e.setCancelled(true);
 		_examinationRepository.save(e);
 		return true;
+	}
+
+	@Override
+	public boolean isSoonerThan24hours(Examination examination) {
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(new Date());               // sets calendar time/date
+		cal.add(Calendar.HOUR_OF_DAY, 24);      
+		
+		if(examination.getDateAndTime().before(cal.getTime())) {
+			return true;
+		}
+		return false;
 	}
 
 

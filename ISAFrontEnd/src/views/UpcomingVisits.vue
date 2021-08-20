@@ -71,7 +71,8 @@ export default {
         key: '',
         isAsc: false
       },
-      examinations: []
+      examinations: [],
+      result: false
     }
   },
   mounted() {
@@ -102,15 +103,20 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(
-              alert("Examination cancelled!"),
-              window.location.href = "http://localhost:8080/upcomingVisits"
-          );
+          .then(response => {
+            this.result = response.data;
+              if(this.result == false){
+                alert("Unable to cancel examination! Examination is scheduled within next 24h.")
+              }else {
+                alert("Examination cancelled!"),
+                    window.location.href = "http://localhost:8080/upcomingVisits"
+              }
+            });
     },
   },
   computed:{
     sortedItems () {
-      const list = this.examinations.slice();  // ソート時でdataの順序を書き換えないため
+      const list = this.examinations.slice();
       if (this.sort.key !="") {
         list.sort((a, b) => {
           a = a[this.sort.key]

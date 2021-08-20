@@ -10,4 +10,5 @@ public interface IExaminationService {
 	public void scheduleExamination(ExaminationDTO examination);
 	public ArrayList<ExaminationDTO> getByPatient(Long patientId);
 	public boolean cancelExamination(ExaminationDTO examination);
+	public boolean isSoonerThan24hours(Examination examination);
 }

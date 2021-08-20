@@ -206,3 +206,7 @@ VALUES (default, 'NONE', true, '2021-11-11 12:00:00', 30, 5,2000, 6, 1, 1, null)
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id, shift_shift_id)
 VALUES (default, 'NONE', false, '2021-12-12 12:00:00', 30, 5,2100, 6, null, 2, null);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id, shift_shift_id)
+VALUES (default, 'NONE', false, '2021-08-21 12:00:00', 30, 5,2100, 6, 1, 2, null);
