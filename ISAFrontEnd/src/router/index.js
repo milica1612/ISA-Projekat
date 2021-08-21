@@ -152,6 +152,24 @@ const routes = [{
         component: () =>
             import ('../views/SearchPharmacist.vue')
     },
+    {
+        path: '/reportForExamination',
+        name: 'ReportForExamination',
+        component: () =>
+            import ('../views/ReportForExamination.vue')
+    },
+    {
+        path: '/reportForConsultation',
+        name: 'ReportForConsultation',
+        component: () =>
+            import ('../views/ReportForConsultation.vue')
+    },
+    {
+        path: '/dermatologistPatientProfile',
+        name: 'DermatologistPatientProfile',
+        component: () =>
+            import ('../views/DermatologistPatientProfile.vue')
+    }
 ]
 
 const router = new VueRouter({

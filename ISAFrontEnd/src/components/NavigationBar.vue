@@ -85,52 +85,52 @@ export default {
       if (this.userType === "PATIENT") {
         // USER-TYPE
         this.items = [
-          { title: "Home", path: "/homePagePatient" },
-          { title: "My profile", path: "/patient" },
-          { title: "Browse Pharmacies", path: "/browsePharmacies" },
-          { title: "Browse Medicine", path: "/browseMedicine" },
-          { title: "Search Dermatologist", path: "/searchDermatologist" },
-          { title: "Search Pharmacist", path: "/searchPharmacist"},
+          {title: "Home", path: "/homePagePatient"},
+          {title: "My profile", path: "/patient"},
+          {title: "Browse Pharmacies", path: "/browsePharmacies"},
+          {title: "Browse Medicine", path: "/browseMedicine"},
+          {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Search Pharmacist", path: "/searchPharmacist"},
         ];
       } else if (this.userType === "SUPPLIER") {
         //  USER-TYPE
         this.items = [
-          { title: "Offers", path: "/offers" },
-          { title: "Supplier", path: "/supplier" },
+          {title: "Offers", path: "/offers"},
+          {title: "Supplier", path: "/supplier"},
         ];
       } else if (this.userType === "DERMATOLOGIST") {
         this.items = [
-          { title: "My Patients", path: "/allPatients" },
-          { title: "Start Examination", path: "/startExamination" },
-          { title: "Work Calendar", path: "/workCalendar" },
-          { title: "Schedule Vacation", path: "/scheduleVacation" },
-          { title: "My profile", path: "/dermatologistProfile" },
-          { title: "Schedule new Appointment", path: "/scheduleAppointment" },
+          {title: "My Patients", path: "/usersList"},
+          {title: "Start Examination", path: "/startExamination"},
+          {title: "Work Calendar", path: "/workCalendar"},
+          {title: "Schedule Vacation", path: "/scheduleVacation"},
+          {title: "My profile", path: "/dermatologistProfile"},
+          {title: "Schedule new Appointment", path: "/scheduleAppointment"},
         ];
       } else if (this.userType === "PHARMACIST") {
         this.items = [
-          { title: "My Patients", path: "/allPatients" },
-          { title: "Start Counseling", path: "/startCounseling" },
-          { title: "Work Calendar", path: "/workCalendar" },
-          { title: "Dispense Medicine", path: "/dispenseMedicine" },
-          { title: "Schedule Vacation", path: "/scheduleVacation" },
-          { title: "My profile", path: "/pharmacistProfile" },
-          { title: "Schedule new Counseling", path: "/scheduleCounseling" },
+          {title: "My Patients", path: "/usersList"},
+          {title: "Start Counseling", path: "/startCounseling"},
+          {title: "Work Calendar", path: "/workCalendar"},
+          {title: "Dispense Medicine", path: "/dispenseMedicine"},
+          {title: "Schedule Vacation", path: "/scheduleVacation"},
+          {title: "My profile", path: "/pharmacistProfile"},
+          {title: "Schedule new Counseling", path: "/scheduleCounseling"},
         ];
       } else if (this.userType === "PH_ADMINISTRATOR") {
         this.items = [
-          { title: "Home", path: "/" },
-          { title: "Search Dermatologist", path: "/searchDermatologist" },
-          { title: "Search Pharmacist", path: "/searchPharmacist"},
+          {title: "Home", path: "/"},
+          {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Search Pharmacist", path: "/searchPharmacist"},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [{title: "Home", path: "/"}];
       } else {
         // NOT YET REGISTERED
         this.items = [
-          { title: "Browse Pharmacies", path: "/browsePharmacies" },
-          { title: "Browse Medicine", path: "/browseMedicine" },
+          {title: "Browse Pharmacies", path: "/browsePharmacies"},
+          {title: "Browse Medicine", path: "/browseMedicine"},
         ];
       }
     },
@@ -141,9 +141,10 @@ export default {
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
       window.location.href = "http://localhost:8080/logIn";
-    },
-  },
-};
+    }
+
+  }
+}
 </script>
 
 <style scoped>

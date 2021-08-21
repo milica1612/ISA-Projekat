@@ -46,6 +46,15 @@ public class MedicineService implements IMedicineService{
 		
 		return result;
 	}
+	
+	@Override
+	public HashSet<Medicine> findAllSubstituteMedicine(Medicine medicine) {
+		
+		 HashSet<Medicine> substituteMedicines = (HashSet<Medicine>) medicine.getReplacementMedicine();			
+	
+		return substituteMedicines;
+	}
+
 
 	@Override
 	public ArrayList<Medicine> findMedicineByName(String name) {

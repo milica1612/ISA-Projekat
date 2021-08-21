@@ -56,15 +56,40 @@ INSERT INTO public.pharmacy(
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (1, 4);
-	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (2, 3);
-	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (3, 3);
-	
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (4, 1);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (5, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (6, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (7, 1);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (8, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (9, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (10, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (11, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (12, 1);	
+    
 INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
 	VALUES (default, 10, 'Hemofarm', 'TR9NF','PILL', 'brufen', 'nema', 'NO_PRESCRIPTION', 'analgetik', 1, 10);
@@ -77,6 +102,42 @@ INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
 	VALUES (default, 10, 'Galenika', 'G567H', 'PILL', 'kafetin', 'nema', 'NO_PRESCRIPTION', 'analgetik', 3, 9);
 	
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 10, 'Hemofarm', 'M01AB05', 'PILL', 'diklofenak', 'nema', 'NO_PRESCRIPTION', 'analgetik', 4, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'R05CA12', 'SOLUTION', 'prospan', 'nema', 'NO_PRESCRIPTION', 'biljni_lek', 5, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'R65B12', 'PILL', 'febricit', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 6, 7);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 9, 'BENU', 'B94656', 'PILL', 'penicilin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 7, 10);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 4, 'Hemofarm', 'B31P33', 'PILL', 'ampicilin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 8, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'P12M01', 'POWDER', 'azaran', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 9, 9);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Galenika', 'V08O41', 'POWDER', 'lendacin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 10, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Hemofarm', 'C142T4', 'SOLUTION', 'ceftriakson', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 11, 9);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Galenika', 'C16T05', 'SOLUTION', 'longacef', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 12, 10);
+
 INSERT INTO public.allergy(
 	allergy_id)
 	VALUES (default);
@@ -123,7 +184,7 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('SystemAdministrator', default, 'ivanagavric05@gmail.com', true, false, 'Ivana', 'Gavric', '2020-11-11', '$2a$12$qpNRlsMJyGpNSfGkjXNnJOsg2yQiudrpl59DJ6nS.zLp4pxkbQnXu', 'Iv24cA007w2LeVpJ2uHTV2==', '065/789-41-23', 'null', 'SYS_ADMINISTRATOR', null, 0, 2, null, null);
-	
+
 -- password Nikola1234!
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
@@ -210,3 +271,28 @@ VALUES (default, 'NONE', false, '2021-12-12 12:00:00', 30, 5,2100, 6, null, 2, n
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id, shift_shift_id)
 VALUES (default, 'NONE', false, '2021-08-21 12:00:00', 30, 5,2100, 6, 1, 2, null);
+
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (1, 6);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (6, 1);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (7, 8);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (8, 7);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (9, 10);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (10, 9);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (11, 12);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (12, 11);

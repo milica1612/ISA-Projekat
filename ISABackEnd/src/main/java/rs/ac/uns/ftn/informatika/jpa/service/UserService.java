@@ -169,6 +169,18 @@ public class UserService implements IUserService {
 		usersList.stream().forEach(user -> dtos.add(new UserDTO(user.getFirstName(), user.getLastName())));
 		return dtos;
 	}
+	
+	@Override
+	public List<User> getAllPatients() {
+		List<User> users = _userRepository.findAll();
+		List<User> usersList = new ArrayList<>();
+		for (User u : users) {
+			if (u.getUserType() == UserType.PATIENT)
+				usersList.add(u);
+		}
+		
+		return usersList;
+	}
 
 	@Override
 	public ArrayList<UserDTO> userSearch(UserDTO userDTO) {
@@ -220,6 +232,17 @@ public class UserService implements IUserService {
 		}
 
 		return null;
+	}
+	
+	@Override
+	public void increasePenalty(Long id) {
+		
+		User user = findById(id);
+		
+		int penalty = ((Patient) user).getPenalty() + 1;
+		
+		((Patient) user).setPenalty(penalty);
+		update(user);
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -26,21 +27,21 @@ public class UserController {
 	
 	@Autowired
 	private UserService _userService ;
-
+	
+	@GetMapping(value = "/{id}")
+	public User findUser(@PathVariable Long id) {
+		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//System.out.println(user.getEmail());
+		return (User) _userService.findById(id);
+	}
+	
 	@GetMapping(value = "/currentUser")
 	public User getCurrentLoggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return user;
 	}
-	
-	
-	@GetMapping(value = "/{id}")
-	public User findUser(@PathVariable Long id) {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user.getEmail());
-		return (User) _userService.findById(user.getUserId());
-	}
+
  
 	@GetMapping(value = "/email/{email}")
 	public User findUserByEmail(@PathVariable String email) {
@@ -59,20 +60,22 @@ public class UserController {
 	}	
 	
 
-	@GetMapping(path = "/allpatients")
-	public List<UserDTO> getAllUsers() {
+	@GetMapping(path = "/getAllpatients")
+	public List<UserDTO> getAllPatients() {
 		 return _userService.getAllUsers();
 	}
 	 
+	@GetMapping(path = "/allpatients")
+	public List<User> getAllUsers() {
+		 return _userService.getAllPatients();
+	}
+	
     @PostMapping(value = "/searchUser")
     public List<UserDTO> searchUser(@RequestBody String request) {
     	
     	String[] values = request.split("\\+");
     	String[] valueNew = values[1].split("\\=");
-    	/*if (values.length != 2) {
-    		return null;
-    	}
-    	*/
+
     	UserDTO user = new UserDTO(values[0], valueNew[0]);
     	return _userService.userSearch(user);
 	}
@@ -86,5 +89,10 @@ public class UserController {
 		_userService.update(user);
 		
 	}
-
-}
+	
+	@PostMapping(value = "/increasePenalty")
+	public void increasePenalty(@RequestBody User user) throws Exception {
+		
+		_userService.increasePenalty(user.getUserId());
+	}
+}	

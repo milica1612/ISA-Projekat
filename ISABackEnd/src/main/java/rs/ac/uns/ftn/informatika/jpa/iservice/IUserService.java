@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
@@ -29,9 +30,13 @@ public interface IUserService {
 
 	List<UserDTO> getAllUsers();
 	
+	List<User> getAllPatients();
+	
 	List<UserDTO> userSearch(UserDTO userDTO);
 	
 	List<UserDTO> findUserByUserType(UserType userType);
 	
 	void sendConfirmationEmail(User user, ConfirmationToken confirmationToken);
+	
+	void increasePenalty(Long id);
 }
