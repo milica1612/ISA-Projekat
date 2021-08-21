@@ -284,3 +284,47 @@ INSERT INTO public.medicine_replacement_medicine(
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (1, 10, 1);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (2, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (3, 3, 3);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (4, 10, 4);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (5, 20, 5);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (6, 3, 6);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (8, 3, 8);
+    
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 1);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 2);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 3);    
+ INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 8);     
+    
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (1, 6);
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (2, 6);
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (3, 6);   

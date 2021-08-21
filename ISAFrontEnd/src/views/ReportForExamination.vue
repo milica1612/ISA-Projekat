@@ -102,10 +102,10 @@
                         color="primary"
                         dark
                     >Is medicine available?</v-toolbar>
-                      <h3 align="center">Browse substitute medicine:</h3>
-                      <br>
                       <v-simple-table>
                         <template v-slot:default>
+                          <tbody v-if="medicineAvailable == false">
+                          <tr><th colspan="2" class="text-center">Browse substitute medicine:</th></tr>
                           <tr>
                             <th class="text-center" width="250">
                               Name
@@ -114,7 +114,6 @@
                              Choose
                             </th>
                           </tr>
-                          <tbody>
                             <tr>
                               <tr
                                   v-for="sm in substituteMedicines"
@@ -126,6 +125,9 @@
                                 <v-btn color="primary" elevation="2" small>Choose</v-btn>
                               </td>
                             </tr>
+                          </tbody>
+                          <tbody v-else>
+                          <tr><th colspan="2" class="text-center">Medicine is available!</th></tr>
                           </tbody>
                         </template>
                       </v-simple-table>
@@ -183,9 +185,12 @@ export default {
       substituteMedicines: [],
       patient: null,
       mode: '',
+      phId: 1,
       med: [],
       isActive: false,
       isPatientCome: false,
+      available: true,
+      medicineAvailable: false,
       patient_id: localStorage.getItem("patientId")
     }
   },
@@ -226,7 +231,6 @@ export default {
       window.location.href = "http://localhost:8080/homePageDermatologist"
     },
     findSubstituteMedicine: function (sm){
-
       this.med = sm
 
       const swa={
@@ -234,15 +238,33 @@ export default {
         medicinesWithoutAllergy: this.medicines
       }
 
+      const ca={
+        pharmacyId: this.phId,
+        medicineAvailable: this.med
+      }
+
       this.axios
-          .put('http://localhost:8091/medicine/substituteMedicine', swa, {
+          .put('http://localhost:8091/medicine/checkAvailability', ca, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(response => (this.substituteMedicines = response.data))
-    }
-  }
+          .then(response => {
+              this.available = response.data
+              if (this.available == false) {
+                this.medicineAvailable = false
+                this.axios
+                    .put('http://localhost:8091/medicine/substituteMedicine', swa, {
+                      headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token")
+                      }
+                    })
+                    .then(response => (this.substituteMedicines = response.data))
+              } else {
+                this.medicineAvailable = true
+              }
+          })
+    }  }
 }
 </script>
 

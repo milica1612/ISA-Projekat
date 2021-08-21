@@ -60,5 +60,4 @@ public class MedicineService implements IMedicineService{
 		return result;
 	}
 	
-	
 }
