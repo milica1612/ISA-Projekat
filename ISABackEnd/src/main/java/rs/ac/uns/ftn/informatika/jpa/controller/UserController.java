@@ -75,10 +75,7 @@ public class UserController {
     	
     	String[] values = request.split("\\+");
     	String[] valueNew = values[1].split("\\=");
-    	/*if (values.length != 2) {
-    		return null;
-    	}
-    	*/
+
     	UserDTO user = new UserDTO(values[0], valueNew[0]);
     	return _userService.userSearch(user);
 	}
@@ -98,4 +95,4 @@ public class UserController {
 		
 		_userService.increasePenalty(user.getUserId());
 	}
-}
+}	

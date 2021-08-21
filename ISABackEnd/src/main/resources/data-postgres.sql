@@ -48,13 +48,40 @@ INSERT INTO public.pharmacy(
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (1, 4);
-	INSERT INTO public.medicine_specification(
+INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (2, 3);
-	INSERT INTO public.medicine_specification(
+INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
 	VALUES (3, 3);
-	
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (4, 1);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (5, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (6, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (7, 1);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (8, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (9, 2);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (10, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (11, 3);
+INSERT INTO public.medicine_specification(
+	med_spec_id, dosage)
+	VALUES (12, 1);	
+    
 INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
 	VALUES (default, 10, 'Hemofarm', 'TR9NF','PILL', 'brufen', 'nema', 'NO_PRESCRIPTION', 'analgetik', 1, 10);
@@ -67,6 +94,42 @@ INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
 	VALUES (default, 10, 'Galenika', 'G567H', 'PILL', 'kafetin', 'nema', 'NO_PRESCRIPTION', 'analgetik', 3, 9);
 	
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 10, 'Hemofarm', 'M01AB05', 'PILL', 'diklofenak', 'nema', 'NO_PRESCRIPTION', 'analgetik', 4, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'R05CA12', 'SOLUTION', 'prospan', 'nema', 'NO_PRESCRIPTION', 'biljni_lek', 5, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'R65B12', 'PILL', 'febricit', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 6, 7);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 9, 'BENU', 'B94656', 'PILL', 'penicilin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 7, 10);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 4, 'Hemofarm', 'B31P33', 'PILL', 'ampicilin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 8, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'BENU', 'P12M01', 'POWDER', 'azaran', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 9, 9);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Galenika', 'V08O41', 'POWDER', 'lendacin', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 10, 8);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Hemofarm', 'C142T4', 'SOLUTION', 'ceftriakson', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 11, 9);
+
+INSERT INTO public.medicine(
+	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
+	VALUES (default, 6, 'Galenika', 'C16T05', 'SOLUTION', 'longacef', 'nema', 'NO_PRESCRIPTION', 'antibiotik', 12, 10);
+
 INSERT INTO public.allergy(
 	allergy_id)
 	VALUES (default);
@@ -166,7 +229,16 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (5, 4);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (6, 6);	
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (7, 2);
 	
-	
-	
-	
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (1, 6);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (7, 8);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (9, 10);
+INSERT INTO public.medicine_replacement_medicine(
+	medicine_medicine_id, replacement_medicine_medicine_id)
+	VALUES (11, 12);
 	

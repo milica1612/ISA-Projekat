@@ -4,16 +4,24 @@
       <v-simple-table>
       <template v-slot:default>
         <tr>
-          <td align="center"><v-btn color="primary" elevation="2" medium>Start Examination</v-btn></td>
+          <td align="center"><v-btn
+              color="primary"
+              elevation="2"
+              medium
+              v-on:click= "modeChange"
+              :disabled="isActive"
+              >Start Examination</v-btn></td>
           <td align="center"><v-btn
               color="primary"
               elevation="2"
               medium
               v-on:click="patientDidntCome"
+              :disabled="isPatientCome"
               >Patient did not come.</v-btn></td>
         </tr>
       </template>
       </v-simple-table>
+      <div v-if="this.mode == 'BROWSE'">
       <br><br>
       <v-textarea
           background-color="white"
@@ -85,6 +93,7 @@
                       small
                       v-bind="attrs"
                       v-on="on"
+                      v-on:click="findSubstituteMedicine(m)"
                   >Is medicine Available?</v-btn>
                 </template>
                 <template v-slot:default="dialog">
@@ -107,13 +116,12 @@
                           </tr>
                           <tbody>
                             <tr>
-                              <!--<tr
-                                  v-for="m in medicines"
-                                  :key="m"
+                              <tr
+                                  v-for="sm in substituteMedicines"
+                                  :key="sm"
                              >
+                              <td align="center">{{ sm.name }}</td>
 
-                              <td>{{ m.name }}</td>-->
-                              <td align="center">Lijek</td>
                               <td align="center">
                                 <v-btn color="primary" elevation="2" small>Choose</v-btn>
                               </td>
@@ -151,11 +159,18 @@
       <br>
       <table>
         <tr>
-          <td align="center" width="650"><v-btn color="primary" elevation="2" large>End Examination</v-btn></td>
+          <td align="center" width="650">
+            <v-btn
+              color="primary"
+              elevation="2"
+              v-on:click="endExamination"
+              large
+            >End Examination</v-btn></td>
           <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Examination</v-btn></td>
         </tr>
       </table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -165,7 +180,11 @@ export default {
   data: function () {
     return {
       medicines: [],
+      substituteMedicines: [],
       patient: null,
+      mode: '',
+      isActive: false,
+      isPatientCome: false,
       patient_id: localStorage.getItem("patientId")
     }
   },
@@ -183,15 +202,36 @@ export default {
                   }
                  })
                 .then(response => (this.medicines = response.data)
-                )));
+                )))
   },
   methods: {
     patientDidntCome: function() {
+      this.isPatientCome = true
+      this.isActive = true
       this.axios
         .post('http://localhost:8091/users/increasePenalty', this.patient, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem("token")
           }})
+          .then(
+              window.location.href = "http://localhost:8080/homePageDermatologist"
+          )
+    },
+    modeChange: function (){
+      this.mode = 'BROWSE'
+      this.isActive = true
+    },
+    endExamination: function(){
+      window.location.href = "http://localhost:8080/homePageDermatologist"
+    },
+    findSubstituteMedicine: function (m){
+      this.axios
+          .put('http://localhost:8091/medicine/substituteMedicine', m, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.substituteMedicines = response.data))
     }
   }
 }
