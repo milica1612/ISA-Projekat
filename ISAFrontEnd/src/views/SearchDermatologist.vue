@@ -63,13 +63,13 @@
             >Search dermatologist</v-btn
           >
           <v-btn
-            v-on:click="cancelSearch"
+            v-on:click="resetSearch"
             color="info"
             class="mt-2 ml-10 p-5 mb-5"
             x-medium
             width="260px"
             height="40px"
-            >Cancel search</v-btn
+            >Reset search</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -126,8 +126,8 @@ export default {
       this.axios
         .get("http://localhost:8091/dermatologists/all", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
+            Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
         })
         .then(resp => {
           console.log(resp.data);
@@ -143,7 +143,7 @@ export default {
               this.searchFirstName,
             {
               headers: {
-                Authorization: "Bearer" + localStorage.getItem("token"),
+                Authorization: 'Bearer '+ localStorage.getItem("token")
               },
             }
           )
@@ -166,17 +166,17 @@ export default {
               this.searchLastName,
             {
               headers: {
-                Authorization: "Bearer" + localStorage.getItem("token"),
+                Authorization: 'Bearer ' + localStorage.getItem("token")
               },
             }
           )
           .then((response) => {
-            if (response.data.length == 0) {
-              alert("No results");
-              this.clearInputFields();
-            }
             this.dermatologistList = response.data;
             this.showList = true;
+            if (response.data.length == 0) {
+              alert("No results found try another search");
+              this.clearInputFields();
+            }
           });
       } else if (this.searchFirstName != "" && this.searchLastName != "") {
         console.log("Search dermatologist by first and last name");
@@ -188,13 +188,13 @@ export default {
               this.searchLastName,
             {
               headers: {
-                Authorization: "Bearer" + localStorage.getItem("token"),
+                Authorization: 'Bearer ' + localStorage.getItem("token")
               },
             }
           )
           .then((response) => {
             if (response.data.length == 0) {
-              alert("No results");
+              alert("No results found try another search");
               this.clearInputFields();
             }
             this.dermatologistList = response.data;
@@ -202,13 +202,13 @@ export default {
           });
       } else if (this.minRating != "" && this.maxRating != "") {
         if (
-          (Number(this.minRating) < 0 || Number(this.minRating) > 10) &&
-          (Number(this.maxRating) < 0 || Number(this.maxRating) > 10)
+          Number(this.minRating) < 0 || Number(this.minRating) > 10 ||
+          Number(this.maxRating) < 0 || Number(this.maxRating) > 10
         ) {
-          alert("Min and max rating must be in the range 0 to 10");
+          alert("Rating must be in the range 0 to 10");
           this.clearInputFields();
         } else if (Number(this.minRating) > Number(this.maxRating)) {
-          alert("Not valid input for rating");
+          alert("Not valid input for rating, min rating must be less than max rating");
           this.clearInputFields();
         } else {
           console.log("Search dermatologist by rating");
@@ -220,13 +220,13 @@ export default {
                 this.maxRating,
               {
                 headers: {
-                  Authorization: "Bearer" + localStorage.getItem("token"),
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
                 },
               }
             )
             .then((response) => {
               if (response.data.length == 0) {
-                alert("No results");
+                alert("No results found try another search");
                 this.clearInputFields();
               }
               this.dermatologistList = response.data;
@@ -239,8 +239,8 @@ export default {
         );
       }
     },
-    cancelSearch() {
-      console.log("Cancel search");
+    resetSearch() {
+      console.log("Reset search");
       this.showList = false;
       this.clearInputFields();
     },
