@@ -79,10 +79,10 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-center">First name</th>
-              <th class="text-center">Last name</th>
-              <th class="text-center">Raiting of a pharmacist</th>
-              <th class="text-center">Pharmacy name</th>
+              <th :class="sortedClass('firstName')" class="text-center" @click="sortBy('firstName')">First name</th>
+              <th :class="sortedClass('lastName')" class="text-center" @click="sortBy('lastName')">Last name</th>
+              <th :class="sortedClass('rating')" class="text-center" @click="sortBy('rating')">Raiting of a pharmacist</th>
+              <th :class="sortedClass('pharmacyName')" class="text-center" @click="sortBy('pharmacyName')">Pharmacy name</th>
             </tr>
           </thead>
           <tbody v-bind:hidden="showList">
@@ -94,7 +94,7 @@
             </tr>
           </tbody>
           <tbody v-bind:hidden="!showList">
-            <tr v-for="item in pharmacistList" :key="item.firstName">
+            <tr v-for="item in sortedItems" :key="item.firstName">
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
@@ -119,6 +119,10 @@ export default {
     pharmacists: null,
     pharmacistList: null,
     showList: false,
+    sort: {
+      key: '',
+      isAsc: false,
+    }, 
   }),
   mounted() {
     this.init();
@@ -253,7 +257,34 @@ export default {
       this.minRating = "";
       this.maxRating = "";
     },
+    sortedClass(key) { 
+      // sort example : https://jsfiddle.net/bc_rikko/q1k4ooq8/
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';
+    },
+    sortBy (key) { 
+      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
+      this.sort.key = key; 
+    }
   },
+  computed: {
+    sortedItems () {
+      if (!this.showList) {
+        var list = this.pharmacists.slice();
+      } else {
+        list = this.pharmacistList.slice();
+      }
+
+      if (this.sort.key !='') {
+        list.sort((a,b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
+
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
+      }
+      return list;
+    }
+  }
 };
 </script>
 
