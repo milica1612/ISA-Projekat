@@ -103,7 +103,7 @@ export default {
                 { title: 'Add Dermatologist', path: '/createDermatologist' },
                 { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/createPharmacy' },
-                { title: 'Medicines', path: '/' },
+                { title: 'Medicines', path: '/medicineRegistration' },
                 { title: 'Complaints', path: '/' },
                 { title: 'Loyalty Program', path: '/' }
             ]

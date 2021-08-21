@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/pharmacy/getByNameOrAddress/**",
 							"/medicine",
 							"/medicine/getMedicineByName/**",
+							"/medicine/addMedicine/**",
 							"/pharmacy/filtrateByRating/**",
 							"/systemAdmin/createSystemAdmin/**",
 							"/systemAdmin/createSupplier/**",
@@ -112,7 +113,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
 					"/pharmacy/getByNameOrAddress/**",
-					"/medicine","/medicine/getMedicineByName/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**", "/systemAdmin/createDermatologist/**", "/systemAdmin/createSupplier/**", "/systemAdmin/createPhAdmin/**", "/systemAdmin/createPharmacy/**", "/*.html", "/favicon.ico", 
+					"/medicine","/medicine/getMedicineByName/**", "/medicine/addMedicine/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**", "/systemAdmin/createDermatologist/**", "/systemAdmin/createSupplier/**", "/systemAdmin/createPhAdmin/**", "/systemAdmin/createPharmacy/**", "/*.html", "/favicon.ico", 
 					"/**/*.html","/**/*.css", "/**/*.js");
 		}
 }

@@ -47,13 +47,13 @@ INSERT INTO public.pharmacy(
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (1, 4);
+	VALUES (default, 4);
 	INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (2, 3);
+	VALUES (default, 3);
 	INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (3, 3);
+	VALUES (default, 3);
 	
 INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
