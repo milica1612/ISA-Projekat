@@ -40,8 +40,8 @@ public class MedicineController {
 	}
 	
 	static class SubstitutesWithoutAllergy{
-		Medicine oldMedicine;
-		HashSet<Medicine> medicinesWithoutAllergy;
+		public Medicine oldMedicine;
+		public HashSet<Medicine> medicinesWithoutAllergy;
 	}
 	
 	@PutMapping(value = "/substituteMedicine")
@@ -50,8 +50,8 @@ public class MedicineController {
 		HashSet<Medicine> substituteMedicines = new HashSet<Medicine>();
 		HashSet<Medicine> allSubstitutes = (HashSet<Medicine>) swa.oldMedicine.getReplacementMedicine();
 		boolean found = false;
-		for (Medicine m : swa.medicinesWithoutAllergy) {
-			for(Medicine m2: allSubstitutes) {
+		for (Medicine m : allSubstitutes) {
+			for(Medicine m2: swa.medicinesWithoutAllergy) {
 				if (m2.getMedicineId() == m.getMedicineId())
 					found = true;
 				break;

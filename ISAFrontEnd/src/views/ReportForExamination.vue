@@ -183,6 +183,7 @@ export default {
       substituteMedicines: [],
       patient: null,
       mode: '',
+      med: [],
       isActive: false,
       isPatientCome: false,
       patient_id: localStorage.getItem("patientId")
@@ -224,15 +225,17 @@ export default {
     endExamination: function(){
       window.location.href = "http://localhost:8080/homePageDermatologist"
     },
-    findSubstituteMedicine: function (m){
+    findSubstituteMedicine: function (sm){
 
-      const substitutesWithoutAllergy={
-        oldMedicine: m,
+      this.med = sm
+
+      const swa={
+        oldMedicine: this.med,
         medicinesWithoutAllergy: this.medicines
       }
 
       this.axios
-          .put('http://localhost:8091/medicine/substituteMedicine', substitutesWithoutAllergy, {
+          .put('http://localhost:8091/medicine/substituteMedicine', swa, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
