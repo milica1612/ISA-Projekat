@@ -124,11 +124,15 @@ export default {
   methods: {
     init() {
       this.axios
-        .get("http://localhost:8091/dermatologists/all")
-        .then((resp) => {
+        .get("http://localhost:8091/dermatologists/all", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(resp => {
           console.log(resp.data);
           this.dermatologists = resp.data;
-        });
+        }).catch(err => console.log(err));
     },
     searchDermatologist() {
       if (this.searchFirstName != "" && this.searchLastName == "") {
@@ -136,15 +140,20 @@ export default {
         this.axios
           .get(
             "http://localhost:8091/dermatologists/searchDermatologistsByFirstName/" +
-              this.searchFirstName
+              this.searchFirstName,
+            {
+              headers: {
+                Authorization: "Bearer" + localStorage.getItem("token"),
+              },
+            }
           )
           .then((response) => {
-            if (response.data.length == 0) {
-              alert("No results");
-              this.clearInputFields();
-            }
             this.dermatologistList = response.data;
             this.showList = true;
+            if (response.data.length == 0) {
+              alert("No results found try another search");
+              this.clearInputFields();
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -154,7 +163,12 @@ export default {
         this.axios
           .get(
             "http://localhost:8091/dermatologists/searchDermatologistsByLastName/" +
-              this.searchLastName
+              this.searchLastName,
+            {
+              headers: {
+                Authorization: "Bearer" + localStorage.getItem("token"),
+              },
+            }
           )
           .then((response) => {
             if (response.data.length == 0) {
@@ -171,7 +185,12 @@ export default {
             "http://localhost:8091/dermatologists/searchDermatologists/" +
               this.searchFirstName +
               "/" +
-              this.searchLastName
+              this.searchLastName,
+            {
+              headers: {
+                Authorization: "Bearer" + localStorage.getItem("token"),
+              },
+            }
           )
           .then((response) => {
             if (response.data.length == 0) {
@@ -182,23 +201,28 @@ export default {
             this.showList = true;
           });
       } else if (this.minRating != "" && this.maxRating != "") {
-        if ((Number(this.minRating) < 0 || Number(this.minRating) > 10) && (Number(this.maxRating) < 0 || Number(this.maxRating) > 10))
-        {
+        if (
+          (Number(this.minRating) < 0 || Number(this.minRating) > 10) &&
+          (Number(this.maxRating) < 0 || Number(this.maxRating) > 10)
+        ) {
           alert("Min and max rating must be in the range 0 to 10");
           this.clearInputFields();
-        }
-        else if (Number(this.minRating) > Number(this.maxRating)) {
+        } else if (Number(this.minRating) > Number(this.maxRating)) {
           alert("Not valid input for rating");
-          this.clearInputFields(); 
-        }
-        else {
+          this.clearInputFields();
+        } else {
           console.log("Search dermatologist by rating");
           this.axios
             .get(
               "http://localhost:8091/dermatologists/filterDermatologistByRating/" +
                 this.minRating +
                 "/" +
-                this.maxRating
+                this.maxRating,
+              {
+                headers: {
+                  Authorization: "Bearer" + localStorage.getItem("token"),
+                },
+              }
             )
             .then((response) => {
               if (response.data.length == 0) {

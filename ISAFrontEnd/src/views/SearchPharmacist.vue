@@ -90,7 +90,7 @@
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
-              <td class="text-center">{{ item.pharmacyName}} </td>
+              <td class="text-center">{{ item.pharmacyName }}</td>
             </tr>
           </tbody>
           <tbody v-bind:hidden="!showList">
@@ -98,7 +98,7 @@
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
-              <td class="text-center">{{ item.pharmacyName}} </td>
+              <td class="text-center">{{ item.pharmacyName }}</td>
             </tr>
           </tbody>
         </template>
@@ -131,9 +131,45 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
-        .then((response) => (this.pharmacists = response.data));
+        .then((response) => (this.pharmacists = response.data))
+        .catch((err) => console.log(err));
     },
-  },
+    searchPharmacist() {
+      if (this.searchFirstName != "" && this.searchLastName == "") {
+        console.log("Search pharmacists by first name");
+        this.axios
+          .get(
+            "http://localhost:8091/pharmacists/searchPharmacistsByFirstName/" +
+              this.searchFirstName,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+            this.pharmacistList = response.data;
+            this.showList = true;
+            if (response.data.length == 0) {
+              alert("No results found try another search");
+              this.clearInputFields();
+            }
+          })
+          .catch(err => console.log(err));
+      }
+      },
+      cancelSearch() {
+        console.log("Cancel search");
+        this.showList = false;
+        this.clearInputFields();
+      },
+      clearInputFields() {
+         this.searchFirstName = '';
+         this.searchLastName = '';
+         this.minRating = '';
+         this.maxRating = '';
+      },
+    },
 };
 </script>
 

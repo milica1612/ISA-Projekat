@@ -80,9 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/pharmacy/getByNameOrAddress/**",
 							"/medicine",
 							"/medicine/getMedicineByName/**",
-							"/pharmacy/filtrateByRating/**",
-							"/dermatologists/searchDermatologists/**/**",
-							"/dermatologists/**"
+							"/pharmacy/filtrateByRating/**"
 							
 					).permitAll()
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
