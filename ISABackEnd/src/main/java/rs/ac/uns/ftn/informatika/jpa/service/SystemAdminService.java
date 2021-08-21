@@ -125,7 +125,7 @@ public class SystemAdminService implements ISystemAdminService {
 		
 		Address a = new Address();
 		a = pharmacyDTO.getAddress();
-		pharmacy.setAdress(a);
+		pharmacy.setAddress(a);
 		this._addressService.createAddress(pharmacyDTO.getAddress());
 		return _pharmacyRepository.save(pharmacy);
 	}
