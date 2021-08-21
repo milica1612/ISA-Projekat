@@ -55,40 +55,40 @@ INSERT INTO public.pharmacy(
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (1, 4);
+	VALUES (default, 4);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (2, 3);
+	VALUES (default, 3);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (3, 3);
+	VALUES (default, 3);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (4, 1);
+	VALUES (default, 1);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (5, 3);
+	VALUES (default, 3);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (6, 2);
+	VALUES (default, 2);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (7, 1);
+	VALUES (default, 1);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (8, 2);
+	VALUES (default, 2);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (9, 2);
+	VALUES (default, 2);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (10, 3);
+	VALUES (default, 3);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (11, 3);
+	VALUES (default, 3);
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
-	VALUES (12, 1);	
+	VALUES (default, 1);	
     
 INSERT INTO public.medicine(
 	medicine_id, loyalty_points, manufacturer, code, medicine_form, name, precautions, prescription_type, type, medicine_specification_med_spec_id, rating)
@@ -168,7 +168,12 @@ INSERT INTO public.user(
 -- password Llukic123@
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'luka10@gmail.com', true, false, 'Luka', 'Lukovic', '2020-11-11', '$2a$12$MG2navV0F.P58I7lsd05IuMmtJpJl7Ef4RzTFaeb4HpIvclAcG2gq', 'L10Labvsfsw2312fsf22a8==', '061/333-11-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
+	VALUES ('Supplier', default, 'isateam3921@gmail.com', true, false, 'Mirko', 'Mirkovic', '2020-11-11', '$2a$12$OiJS32BGySotXVIb99d3cua6bJ2GdIVEnyMjzgM/RR3KwXObqdYG.', 'BV1010SsRNlpMB1021Og44==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
+-- password Llukic123@
+
+INSERT INTO public.user(
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Supplier', default, 'luka10@gmail.com', true, false, 'Luka', 'Lukovic', '2020-11-11', '$2a$12$OiJS32BGySotXVIb99d3cua6bJ2GdIVEnyMjzgM/RR3KwXObqdYG.', 'L10Labvsfsw2312fsf22a8==', '061/333-11-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
 
 -- password Marko123!	
 INSERT INTO public.user(
@@ -183,7 +188,7 @@ INSERT INTO public.user(
 -- password Ivana123#
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('SystemAdministrator', default, 'ivanagavric05@gmail.com', true, false, 'Ivana', 'Gavric', '2020-11-11', '$2a$12$qpNRlsMJyGpNSfGkjXNnJOsg2yQiudrpl59DJ6nS.zLp4pxkbQnXu', 'Iv24cA007w2LeVpJ2uHTV2==', '065/789-41-23', 'null', 'SYS_ADMINISTRATOR', null, 0, 2, null, null);
+	VALUES ('SystemAdministrator', default, 'ivanagavric05@gmail.com', true, false, 'Ivana', 'Gavric', '2020-11-11', '$2a$12$ocltKx1AFEYKoADsO6oxquNmChMEG1KSf/fajwckT3PZKaiu5exRC', '650dg1MXBhE5yby/44jsRw==', '065/789-41-23', 'null', 'SYS_ADMINISTRATOR', null, 0, 2, null, null);
 
 -- password Nikola1234!
 INSERT INTO public.user(

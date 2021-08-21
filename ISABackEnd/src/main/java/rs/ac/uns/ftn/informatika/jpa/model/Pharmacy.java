@@ -70,7 +70,15 @@ public class Pharmacy {
 		this.phAdministrators = new HashSet<PharmacyAdministrator>();
 		this.medicineItem = new HashSet<MedicineItem>();
 	}
-	
+
+	public Set<PharmacyAdministrator> getPhAdministrators() {
+		return phAdministrators;
+	}
+
+	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
+		this.phAdministrators = phAdministrators;
+	}
+
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}
@@ -126,14 +134,7 @@ public class Pharmacy {
 	public void setDermatologist(Set<Dermatologist> dermatologist) {
 		this.dermatologist = dermatologist;
 	}
-	
-	public Set<PharmacyAdministrator> getPhAdministrators() {
-		return phAdministrators;
-	}
 
-	public void setPhAdministrators(Set<PharmacyAdministrator> phAdministrators) {
-		this.phAdministrators = phAdministrators;
-	}
 
 	public Set<MedicineItem> getMedicineItem() {
 		return medicineItem;

@@ -30,7 +30,8 @@ public class PharmacyService implements IPharmacyService {
 	public PharmacyDTO getPharmacyById(Long pharmacyId) {		
 		Pharmacy p = _pharmacyRepository.findById(pharmacyId).orElse(null);
 		
-		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getAddress().getCountry(), p.getAddress().getLongitude(), p.getAddress().getLatitude(), p.getRating(), p.getDescription());
+		//PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getAddress().getCountry(), p.getAddress().getLongitude(), p.getAddress().getLatitude(), p.getRating(), p.getDescription());
+		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress(), p.getDescription());
 		
 		return result;
 	}

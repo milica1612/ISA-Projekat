@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,10 +39,10 @@ public class Medicine {
 	@Column(name = "loyaltyPoints", nullable = false)
     private int loyaltyPoints;
 
-	@Column(name = "rating", nullable = false)
+	@Column(name = "rating")
     private int rating;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public MedicineSpecification medicineSpecification;
     
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -160,11 +161,11 @@ public class Medicine {
 		this.medicineSpecification = medicineSpecification;
 	}
 	
-	public java.util.Set<Medicine> getReplacementMedicine() {
+	public Set<Medicine> getReplacementMedicine() {
 		return replacementMedicine;
 	}
 	
-	public void setReplacementMedicine(java.util.Set<Medicine> replacementMedicine) {
+	public void setReplacementMedicine(Set<Medicine> replacementMedicine) {
 		this.replacementMedicine = replacementMedicine;
 	}
 	
