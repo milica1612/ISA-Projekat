@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public interface IPharmacyService {
 
 	Pharmacy save(Pharmacy pharmacy);
 	
-	PharmacyRegisterDTO getPharmacyById(Long pharmacyId);
+	PharmacyDTO getPharmacyById(Long pharmacyId);
 	
 	ArrayList<Pharmacy> findAllPharmacy();
 	

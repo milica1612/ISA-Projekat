@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -27,11 +28,10 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	@Override
-	public PharmacyRegisterDTO getPharmacyById(Long pharmacyId) {		
+	public PharmacyDTO getPharmacyById(Long pharmacyId) {		
 		Pharmacy p = _pharmacyRepository.findById(pharmacyId).orElse(null);
 		
-		//PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getAddress().getCountry(), p.getAddress().getLongitude(), p.getAddress().getLatitude(), p.getRating(), p.getDescription());
-		PharmacyRegisterDTO result = new PharmacyRegisterDTO(p.getName(), p.getAddress(), p.getDescription());
+		PharmacyDTO result = new PharmacyDTO(p.getName(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getAddress().getCountry(), p.getAddress().getLongitude(), p.getAddress().getLatitude(), p.getRating(), p.getDescription());
 		
 		return result;
 	}
