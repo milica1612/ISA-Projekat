@@ -75,10 +75,6 @@ export default {
         email: this.email,
         rewritePassword: this.rewritePass
     }
-      
-      
-
-
 
       this.axios
         .post("http://localhost:8091/auth/firstLogin", passwordChanger,{

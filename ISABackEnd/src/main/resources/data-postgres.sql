@@ -277,22 +277,10 @@ INSERT INTO public.medicine_replacement_medicine(
 	VALUES (1, 6);
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
-	VALUES (6, 1);
-INSERT INTO public.medicine_replacement_medicine(
-	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (7, 8);
-INSERT INTO public.medicine_replacement_medicine(
-	medicine_medicine_id, replacement_medicine_medicine_id)
-	VALUES (8, 7);
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (9, 10);
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
-	VALUES (10, 9);
-INSERT INTO public.medicine_replacement_medicine(
-	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
-INSERT INTO public.medicine_replacement_medicine(
-	medicine_medicine_id, replacement_medicine_medicine_id)
-	VALUES (12, 11);

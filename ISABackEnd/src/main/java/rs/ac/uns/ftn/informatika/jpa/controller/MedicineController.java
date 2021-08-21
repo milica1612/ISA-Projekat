@@ -39,8 +39,33 @@ public class MedicineController {
 		return _medicineService.findAllMedicineForAllergies(allergy);
 	}
 	
+	static class SubstitutesWithoutAllergy{
+		Medicine oldMedicine;
+		HashSet<Medicine> medicinesWithoutAllergy;
+	}
+	
 	@PutMapping(value = "/substituteMedicine")
-	public HashSet<Medicine> findAllSubstituteMedicine(@RequestBody Medicine medicine){
-		return _medicineService.findAllSubstituteMedicine(medicine);
+	public HashSet<Medicine> findAllSubstituteMedicine(@RequestBody SubstitutesWithoutAllergy swa){
+		
+		HashSet<Medicine> substituteMedicines = new HashSet<Medicine>();
+		HashSet<Medicine> allSubstitutes = (HashSet<Medicine>) swa.oldMedicine.getReplacementMedicine();
+		boolean found = false;
+		for (Medicine m : swa.medicinesWithoutAllergy) {
+			for(Medicine m2: allSubstitutes) {
+				if (m2.getMedicineId() == m.getMedicineId())
+					found = true;
+				break;
+			}		
+		
+			if(!found)
+			{
+			substituteMedicines.add(m);
+			}
+			found = false;
+			
+		}
+		
+		return substituteMedicines;
+		
 	}
 }

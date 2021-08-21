@@ -225,8 +225,14 @@ export default {
       window.location.href = "http://localhost:8080/homePageDermatologist"
     },
     findSubstituteMedicine: function (m){
+
+      const substitutesWithoutAllergy={
+        oldMedicine: m,
+        medicinesWithoutAllergy: this.medicines
+      }
+
       this.axios
-          .put('http://localhost:8091/medicine/substituteMedicine', m, {
+          .put('http://localhost:8091/medicine/substituteMedicine', substitutesWithoutAllergy, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
