@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.service.SystemAdminService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -69,7 +69,7 @@ public class SystemAdminController {
 	}
 	
 	@PostMapping("/createPharmacy")
-	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyRegisterDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
 		try {
 	
 		  return new ResponseEntity<>(this.systemAdminService.createPharmacy(pharmacyRequest), HttpStatus.CREATED);

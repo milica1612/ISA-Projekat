@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.ISystemAdminService;
@@ -117,7 +117,7 @@ public class SystemAdminService implements ISystemAdminService {
 	}
 
 	@Override
-	public Pharmacy createPharmacy(PharmacyDTO pharmacyDTO) {
+	public Pharmacy createPharmacy(PharmacyRegisterDTO pharmacyDTO) {
 		Pharmacy pharmacy = new Pharmacy();
 		
 		pharmacy.setName(pharmacyDTO.getName());

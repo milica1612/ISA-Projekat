@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
@@ -33,7 +33,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping(path = "/getPharmacyById/{pharmacyId}")
-	public PharmacyDTO getPharmacyById(@PathVariable Long pharmacyId) {
+	public PharmacyRegisterDTO getPharmacyById(@PathVariable Long pharmacyId) {
 		return  _pharmacyService.getPharmacyById(pharmacyId);
 	}
 

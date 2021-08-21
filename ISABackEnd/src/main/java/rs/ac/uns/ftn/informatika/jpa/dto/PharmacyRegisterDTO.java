@@ -2,7 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 
-public class PharmacyDTO {
+public class PharmacyRegisterDTO {
 	
 	private String name;
 	
@@ -10,9 +10,9 @@ public class PharmacyDTO {
 		
 	private String description;
 	
-	public PharmacyDTO() {}
+	public PharmacyRegisterDTO() {}
 	
-	public PharmacyDTO(String name, Address address, String description) {
+	public PharmacyRegisterDTO(String name, Address address, String description) {
 		super();
 		this.name = name;
 		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), null, null);

@@ -2,7 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 
 import java.util.List;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -17,7 +17,7 @@ public interface ISystemAdminService {
 	
 	User findByEmail(String email);
 		
-	Pharmacy createPharmacy(PharmacyDTO pharmacy);
+	Pharmacy createPharmacy(PharmacyRegisterDTO pharmacy);
 	
 	User savePharmacyAdmin(RegistrationRequest request);
 	
