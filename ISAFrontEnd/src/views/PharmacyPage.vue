@@ -106,7 +106,10 @@ mounted() {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(alert("Examination scheduled!"));
+          .then(
+                  alert("Examination scheduled!"),
+              window.location.href = "http://localhost:8080/upcomingVisits"
+          );
     }
 
   },
