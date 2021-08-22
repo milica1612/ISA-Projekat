@@ -46,38 +46,68 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
           <tr
               v-for="m in medicines"
               :key="m"
           >
             <td>{{ m.name }}</td>
             <td><v-col cols="auto">
-              <v-dialog
-                  transition="dialog-top-transition"
-                  max-width="600"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                      color="primary"
-                      small
-                      v-bind="attrs"
-                      v-on="on"
-                  >Medicine specification</v-btn>
-                </template>
-                <template v-slot:default="dialog">
-                  <v-card>
-                    <v-toolbar
+                <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
                         color="primary"
-                        dark
-                    >Medicine specification</v-toolbar>
-                    <v-card-actions class="justify-end">
+                        small
+                        v-bind="attrs"
+                        v-on="on"
+                    >Medicine Specification</v-btn>
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar
+                          color="primary"
+                          dark
+                      >Medicine Specification</v-toolbar>
+                        <v-simple-table>
+                          <template v-slot:default>
+                              <tr>
+                                <td  width="40"></td>
+                                <td class="text-left" >Name:</td>
+                                <td  width="50"></td>
+                                <td class="text-left">{{ m.name }}</td>
+                              </tr>
+                              <br>
+                              <tr>
+                                <td  width="40"></td>
+                                <td class="text-left" width="240">Dosage:</td>
+                                <td  width="50"></td>
+                                <td class="text-left">{{ m.medicineSpecification.dosage }}</td>
+                              </tr>
+                              <br>
+                              <tr>
+                                <td  width="40"></td>
+                                <td class="text-left" width="240">Ingridients:</td>
+                                <td  width="50"></td>
+                                <td class="text-left">{{ m.medicineSpecification.ingridient }}</td>
+                              </tr>
+                              <br>
+                              <tr>
+                                <td  width="40"></td>
+                                <td class="text-left" width="240">Contraindications:</td>
+                                <td  width="50"></td>
+                                <td class="text-left">{{ m.medicineSpecification.contraindication }}</td>
+                              </tr>
+                              <br>
+                          </template>
+                        </v-simple-table>
                       <v-btn
+                          width="300"
                           text
                           @click="dialog.value = false"
                       >Close</v-btn>
-                    </v-card-actions>
-                  </v-card>
+                    </v-card>
                 </template>
               </v-dialog>
             </v-col>
@@ -191,7 +221,10 @@ export default {
       isPatientCome: false,
       available: true,
       medicineAvailable: false,
-      patient_id: localStorage.getItem("patientId")
+      patient_id: localStorage.getItem("patientId"),
+      dosage: "",
+      ingridient: "",
+      contraindication: "",
     }
   },
   mounted() {
