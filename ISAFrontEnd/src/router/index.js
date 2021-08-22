@@ -75,6 +75,12 @@ const routes = [{
             import ('../views/ScheduleConsultation.vue')
     },
     {
+        path: '/scheduleConsultationInPharmacy',
+        name: 'ScheduleConsultationInPharmacy',
+        component: () =>
+            import ('../views/ScheduleConsultationInPharmacy.vue')
+    },
+    {
         path: '/patient',
         name: 'Patient',
         component: () =>

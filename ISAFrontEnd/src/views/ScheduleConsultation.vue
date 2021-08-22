@@ -72,7 +72,7 @@
             ></v-time-picker>
           </v-menu>
         </v-col>
-        <v-spacer></v-spacer>-->
+        <v-spacer></v-spacer>
       </v-row>
 
       <v-row
@@ -119,7 +119,7 @@
                   color="secondary"
                   elevation="3"
                   x-small
-                  v-on:click = "openPharmacyPage(p)"
+                  v-on:click = "pharmacistsForConsultation(p)"
               >See available pharmacits</v-btn>
             </td>
           </tr>
@@ -159,10 +159,12 @@ export default {
     }
   },
   methods: {
-    openPharmacyPage(p){
+    pharmacistsForConsultation(p){
       localStorage.setItem("pharmacy", p.pharmacyId);
       localStorage.setItem("pharmacyName", p.name);
-      window.location.href = "http://localhost:8080/pharmacyPage";
+      localStorage.setItem("date", this.date);
+      localStorage.setItem("time", this.time);
+      window.location.href = "http://localhost:8080/scheduleConsultationInPharmacy";
     },
     sortedClass (key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
@@ -184,6 +186,15 @@ export default {
     }
   },
   computed:{
+    isDateInvalid: function(){
+      var now = new Date()
+      if(this.date.getDate() < now.getDate()){
+        alert("jdnjdn")
+        return true
+      }else{
+        return false
+      }
+    },
     isLogged: function (){
       if (this.token == ""){
         return false
