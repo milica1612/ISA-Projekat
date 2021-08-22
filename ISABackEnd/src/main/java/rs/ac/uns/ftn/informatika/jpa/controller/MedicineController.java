@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
+import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
 @RestController
@@ -30,6 +32,9 @@ public class MedicineController {
 	
 	@Autowired
 	private PharmacyService _pharmacyService;
+	
+	@Autowired
+	private NotificationService _notificationService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
@@ -64,7 +69,12 @@ public class MedicineController {
 				return true;
 			}
 		}
-
+		
+		NotificationDTO n = new NotificationDTO();
+		n.setContent(ca.medicineAvailable.getName() + " is not available.");
+		n.setPharmacyId(pharmacy.getPharmacyId());
+		
+		_notificationService.saveNotification(n);
 		return false;
 	}
 	
