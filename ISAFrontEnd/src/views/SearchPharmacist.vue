@@ -292,7 +292,7 @@ export default {
       }
       return list;
     }
-  }
+  },
 };
 </script>
 

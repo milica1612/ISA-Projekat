@@ -80,9 +80,9 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-center">First name</th>
-              <th class="text-center">Last name</th>
-              <th class="text-center">Raiting of a dermatologist</th>
+              <th :class="sortedClass('firstName')" class="text-center" @click="sortBy('firstName')">First name</th>
+              <th :class="sortedClass('lastName')" class="text-center" @click="sortBy('lastName')">Last name</th>
+              <th :class="sortedClass('rating')" class="text-center" @click="sortBy('rating')">Raiting of a dermatologist</th>
             </tr>
           </thead>
           <tbody v-bind:hidden="showList">
@@ -93,7 +93,7 @@
             </tr>
           </tbody>
           <tbody v-bind:hidden="!showList">
-            <tr v-for="item in dermatologistList" :key="item.firstName">
+            <tr v-for="item in sortedItems" :key="item.firstName">
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
@@ -117,6 +117,10 @@ export default {
     dermatologists: null,
     dermatologistList: null,
     showList: false,
+    sort: {
+      key: '',
+      isAsc: false,
+    }
   }),
   mounted() {
     this.init();
@@ -250,7 +254,33 @@ export default {
       this.minRating = "";
       this.maxRating = "";
     },
+    sortedClass(key) { 
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';
+    },
+    sortBy (key) { 
+      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
+      this.sort.key = key; 
+    }
   },
+  computed: {
+    sortedItems () {
+      if (!this.showList) {
+        var list = this.dermatologists.slice();
+      } else {
+        list = this.dermatologistList.slice();
+      }
+
+      if (this.sort.key !='') {
+        list.sort((a,b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
+
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
+      }
+      return list;
+    }
+  }
 };
 </script>
 
