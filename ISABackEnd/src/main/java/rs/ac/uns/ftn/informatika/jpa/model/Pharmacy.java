@@ -31,7 +31,7 @@ public class Pharmacy {
 	@Column(name = "description")
 	protected String description;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Set<Pharmacist> pharmacist;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
