@@ -16,25 +16,24 @@ public class PharmacyAdministrator extends User {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	public Pharmacy pharmacy;
-
+	
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, UserType userType, Address address, Pharmacy pharmacy) {
+			String phoneNumber, Long userId, UserType userType, Address address, Pharmacy pharmacy, String notification) {
 		super();
 		this.pharmacy = pharmacy;
 	}
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, UserType userType, Address address, Pharmacy pharmacy) {
+			String phoneNumber, UserType userType, Address address, Pharmacy pharmacy, String notification) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userType, address);
 		this.pharmacy = pharmacy;
 	}
-	
-	
+
+
 	public PharmacyAdministrator()
 	{
 		
 	}
-	
 
 	public Pharmacy getPharmacy() {
 		return pharmacy;
