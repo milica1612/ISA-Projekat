@@ -13,18 +13,26 @@
               <v-text-field
                 class="ml-10 mr-10"
                 label="First name"
+                maxlength="25"
+                counter="25"
+                :rules="name"
                 v-model="searchFirstName"
                 color="blue"
                 type="text"
+                :counter-value="v => v.trim().length"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Last name"
+                maxlength="50"
+                counter="50"
+                :rules="name"
                 v-model="searchLastName"
                 color="blue"
                 type="text"
+                :counter-value="v => v.trim().length"
               />
             </v-row>
             <v-row>
