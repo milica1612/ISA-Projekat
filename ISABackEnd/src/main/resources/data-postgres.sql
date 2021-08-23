@@ -323,10 +323,16 @@ INSERT INTO public.medicine_item(
 	VALUES (5, 20, 5);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (6, 3, 6);
+	VALUES (6, 100, 6);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (8, 3, 8);
+	VALUES (8, 100, 8);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (10, 100, 10);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (12, 100, 12);
     
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
@@ -339,7 +345,13 @@ INSERT INTO public.pharmacy_medicine_item(
 	VALUES (1, 3);    
  INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 8);     
+	VALUES (1, 8);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 10);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (1, 12); 
     
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)

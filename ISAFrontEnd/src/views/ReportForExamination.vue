@@ -135,7 +135,7 @@
                     >Is medicine available?</v-toolbar>
                       <v-simple-table>
                         <template v-slot:default>
-                          <tbody v-if="medicineAvailable == false">
+                          <tbody v-if="medicineAvailable == false && notAvailable == false">
                           <tr><th colspan="2" class="text-center">Browse substitute medicine:</th></tr>
                           <tr>
                             <th class="text-center" width="250">
@@ -153,9 +153,18 @@
                               <td align="center">{{ sm.name }}</td>
 
                               <td align="center">
-                                <v-btn color="primary" elevation="2" small>Choose</v-btn>
+                                <v-btn
+                                    color="primary"
+                                    elevation="2"
+                                    small
+                                    v-on:click="chooseSubstitute(sm)">
+                                  Choose
+                                  </v-btn>
                               </td>
                             </tr>
+                          </tbody>
+                          <tbody v-else-if="notAvailable">
+                          <tr><th colspan="2" class="text-center">Medicine is not available and it does not have replacement!</th></tr>
                           </tbody>
                           <tbody v-else>
                           <tr><th colspan="2" class="text-center">Medicine is available!</th></tr>
@@ -165,7 +174,7 @@
                       <h4 align="center" style="margin-top:20px;">Duration of therapy (in days):</h4>
                       <v-text-field
                           v-model= "durRecommend"
-                          type="number"
+                          type="number" min = "1" oninput="validity.valid||(value='');"
                           filled
                           style="margin-top:10px; font-size:14px;">
                       </v-text-field>
@@ -180,6 +189,7 @@
                           text
                           @click="dialog.value = false"
                           v-on:click="recommendMedicine"
+                          :disabled="notAvailable"
                       >Recommend</v-btn>
                   </v-card>
                 </template>
@@ -217,6 +227,7 @@ export default {
       medicines: [],
       substituteMedicines: [],
       patient: null,
+      notAvailable: false,
       mode: '',
       mmm: [],
       phId: 1,
@@ -243,20 +254,26 @@ export default {
     }
   },
   mounted() {
-    this.axios
-        .get('http://localhost:8091/users/' + this.patient_id, {
-            headers: {
-             Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-        .then(response => (this.patient = response.data,
-            this.axios
-                .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
-                  headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem("token")
-                  }
-                 })
-                .then(response => (this.medicines = response.data)
-                )))
+
+    if(localStorage.getItem("userType") == "DERMATOLOGIST"){
+      this.axios
+          .get('http://localhost:8091/users/' + this.patient_id, {
+              headers: {
+               Authorization: 'Bearer ' + localStorage.getItem("token")
+              }})
+          .then(response => (this.patient = response.data,
+              this.axios
+                  .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
+                    headers: {
+                      Authorization: 'Bearer ' + localStorage.getItem("token")
+                    }
+                   })
+                  .then(response => (this.medicines = response.data)
+                  )))
+    }  else {
+      window.location.href = "http://localhost:8080/logIn";
+    }
+
   },
   methods: {
     patientDidntCome: function() {
@@ -314,25 +331,47 @@ export default {
               this.available = response.data
               if (this.available == false) {
                 this.medicineAvailable = false
-                this.mmm = sm
                 this.axios
                     .put('http://localhost:8091/medicine/substituteMedicine', swa, {
                       headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("token")
                       }
                     })
-                    .then(response => (this.substituteMedicines = response.data))
+                    .then(response => {
+                      this.substituteMedicines = response.data
+                      if(!this.substituteMedicines.length){
+                        this.notAvailable = true
+                        alert("Medicine is not available and it does not have replacement.")
+                      }
+                    })
               } else {
                 this.mmm = this.med
+                this.notAvailable = false
                 this.medicineAvailable = true
               }
           })
+    },
+    chooseSubstitute: function(smed){
+      this.mmm = smed
+
+      const ca={
+        pharmacyId: this.phId,
+        medicineAvailable: this.mmm
+      }
+
+      this.axios
+          .put('http://localhost:8091/medicine/checkAvailability', ca, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          }) .then(response => this.available = response.data)
     },
     recommendMedicine: function(){
       this.recommendationDTO={
         medicine: this.mmm,
         duration: this.durRecommend
       }
+      this.notAvailable = false
       this.recommendationsDTO.push(this.recommendationDTO)
     }
   }

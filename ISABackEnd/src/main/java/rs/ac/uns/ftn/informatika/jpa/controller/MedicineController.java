@@ -105,7 +105,6 @@ public class MedicineController {
 		NotificationDTO n = new NotificationDTO();
 		n.setContent(ca.medicineAvailable.getName() + " is not available.");
 		n.setPharmacyId(pharmacy.getPharmacyId());
-		
 		this._notificationService.saveNotification(n);
 		return false;
 	}
