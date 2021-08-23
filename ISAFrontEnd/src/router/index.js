@@ -63,6 +63,18 @@ const routes = [{
             import ('../views/HomePagePatient.vue')
     },
     {
+        path: '/homePagePharmacyAdmin',
+        name: 'HomePagePharmacyAdmin',
+        component: () =>
+            import('../views/HomePagePharmacyAdmin.vue')
+    },
+    {
+        path: '/pharmacyAdmin',
+        name: 'PharmacyAdmin',
+        component: () =>
+            import('../views/PharmacyAdmin.vue')
+    },
+    {
         path: '/upcomingVisits',
         name: 'UpcomingVisits',
         component: () =>
@@ -103,6 +115,12 @@ const routes = [{
         name: 'EditPharmacistInfo',
         component: () =>
             import ('../views/EditPharmacistInfo.vue')
+    },
+    { 
+        path: '/editPharmacyAdminInfo',
+        name: 'EditPharmacyAdminInfo',
+        component: () =>
+            import('../views/EditPharmacyAdminInfo.vue')
     },
     {
         path: '/supplier',
@@ -211,6 +229,12 @@ const routes = [{
         name: 'MedicineRegistration',
         component: () =>
             import ('../views/MedicineRegistration.vue')
+    },
+    {
+        path: '/changePharmacyAdminPassword',
+        name: 'ChangePharmacyAdminPassword',
+        component: () =>
+            import ('../views/ChangePharmacyAdminPassword.vue')
     }
 
 ]

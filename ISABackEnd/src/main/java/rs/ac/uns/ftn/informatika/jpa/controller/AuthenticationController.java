@@ -230,7 +230,7 @@ public class AuthenticationController {
 			oldPasswordWithSalt.append(passwordChanger.oldPassword);
 			oldPasswordWithSalt.append(user.getSalt());
 	
-			//Ovo je razlika, pozivamo metodu za obicno mijenjanje lozinke
+			// Ovo je razlika, pozivamo metodu za obicno mijenjanje lozinke
 			userDetailsService.changeUserPassword(oldPasswordWithSalt.toString(), passwordChanger.newPassword);
 	
 			Map<String, String> result = new HashMap<>();
