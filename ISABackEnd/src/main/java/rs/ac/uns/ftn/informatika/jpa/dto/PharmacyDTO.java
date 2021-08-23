@@ -8,13 +8,13 @@ public class PharmacyDTO {
 	private String country;
 	private Double longitude;
 	private Double latitude;
-	private double raiting;
+	private double rating;
 	private String description;
 	
 	public PharmacyDTO() {}
 	
 	public PharmacyDTO(String name, String street, String streetNumber, String city, String country, Double longitude,
-			Double latitude, double raiting, String description) {
+			Double latitude, double rating, String description) {
 		super();
 		this.name = name;
 		this.street = street;
@@ -23,33 +23,26 @@ public class PharmacyDTO {
 		this.country = country;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.raiting = raiting;
+		this.rating = rating;
 		this.description = description;
 	}
+
+
 
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getStreet() {
 		return street;
 	}
-	public void setStreet(String address) {
-		this.street = address;
-	}
-	public double getRaiting() {
-		return raiting;
-	}
-	public void setRaiting(double raiting) {
-		this.raiting = raiting;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public String getStreetNumber() {
@@ -90,6 +83,29 @@ public class PharmacyDTO {
 
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "PharmacyDTO [name=" + name + ", street=" + street + ", streetNumber=" + streetNumber + ", city=" + city
+				+ ", country=" + country + ", longitude=" + longitude + ", latitude=" + latitude + ", rating=" + rating
+				+ ", description=" + description + "]";
 	}
 	
 }
