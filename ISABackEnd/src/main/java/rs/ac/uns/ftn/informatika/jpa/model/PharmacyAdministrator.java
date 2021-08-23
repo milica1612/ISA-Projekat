@@ -18,13 +18,13 @@ public class PharmacyAdministrator extends User {
 	public Pharmacy pharmacy;
 	
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, Long userId, UserType userType, Address address, Pharmacy pharmacy, String notification) {
+			String phoneNumber, Long userId, UserType userType, Address address, Pharmacy pharmacy) {
 		super();
 		this.pharmacy = pharmacy;
 	}
 
 	public PharmacyAdministrator(String firstName, String lastName, String userName, String password, String email,
-			String phoneNumber, UserType userType, Address address, Pharmacy pharmacy, String notification) {
+			String phoneNumber, UserType userType, Address address, Pharmacy pharmacy) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userType, address);
 		this.pharmacy = pharmacy;
 	}

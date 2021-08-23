@@ -124,27 +124,68 @@ export default {
     searchLastName: "",
     minRating: "",
     maxRating: "",
-    pharmacists: null,
-    pharmacistList: null,
+    pharmacists: [],
+    pharmacistList: [],
+    allPharmacists: null,
     showList: false,
     sort: {
       key: '',
       isAsc: false,
-    }, 
+    },
+    userType: "", 
+    userId: "",
+    pharmacyAdmin: null,
+    pharmacyAdminLogged: false,
   }),
   mounted() {
     this.init();
   },
   methods: {
     init() {
+      this.userType = localStorage.getItem("userType");
+      this.userId = localStorage.getItem("userId");
+
       this.axios
-        .get("http://localhost:8091/pharmacists/all", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => (this.pharmacists = response.data))
-        .catch((err) => console.log(err));
+      .get("http://localhost:8091/pharmacists/all", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        this.allPharmacists = response.data;
+
+        if (this.userType == 'PH_ADMINISTRATOR') {
+            this.pharmacyAdminLogged = true;
+            this.axios
+            .get("http://localhost:8091/pharmacyAdmin/" + this.userId, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              }
+            })
+            .then(resp => {
+              console.log(resp.data);
+              this.pharmacyAdmin = resp.data;
+              alert("Now is logged " + this.pharmacyAdmin.firstName  + " " + this.pharmacyAdmin.lastName + " ( " + this.userType + " ) , who work in " + this.pharmacyAdmin.pharmacyName + " pharmacy.");
+              for(let i = 0; i < this.allPharmacists.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === this.allPharmacists[i].pharmacyName) {
+                  this.pharmacists.push(this.allPharmacists[i]);
+                }
+              }
+            })
+            .catch(err => console.log(err));
+          }
+          else 
+          {
+            alert("Now is logged " + this.userType + ".");
+            this.pharmacyAdminLogged = false;
+            this.pharmacists = this.allPharmacists;
+          }
+      })
+      .catch(err => console.log(err));
+
+     
     },
     searchPharmacist() {
       if (this.searchFirstName != "" && this.searchLastName == "") {
@@ -159,10 +200,25 @@ export default {
               },
             }
           )
-          .then((response) => {
-            this.pharmacistList = response.data;
+          .then(response => {
+            this.pharmacistList = [];
+            console.log(response.data);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
+              }
+            } else 
+            {
+              this.pharmacistList = response.data;
+            }
+
             this.showList = true;
             if (response.data.length == 0) {
+              this.pharmacistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
@@ -181,9 +237,24 @@ export default {
             }
           )
           .then((response) => {
-            this.pharmacistList = response.data;
+            this.pharmacistList = [];
+            console.log(response.data);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
+              }
+            } else 
+            {
+              this.pharmacistList = response.data;
+            }
+
             this.showList = true;
             if (response.data.length == 0) {
+              this.pharmacistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
@@ -203,12 +274,27 @@ export default {
             }
           )
           .then((response) => {
+            this.pharmacistList = [];
+            console.log(response.data);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
+              }
+            } else 
+            {
+              this.pharmacistList = response.data;
+            }
+
+            this.showList = true;
             if (response.data.length == 0) {
+              this.pharmacistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
-            this.pharmacistList = response.data;
-            this.showList = true;
           });
       } else if (this.minRating != "" && this.maxRating != "") {
         if (
@@ -238,12 +324,25 @@ export default {
               }
             )
             .then((response) => {
+              this.pharmacistList = [];
+              console.log(response.data);
+              if (this.pharmacyAdminLogged) {
+                for(var i = 0; i < response.data.length; i++)
+                {
+                  if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                      this.pharmacistList.push(response.data[i]);
+                  }
+                }
+              } else 
+              {
+                this.pharmacistList = response.data;
+              }
+              this.showList = true;
               if (response.data.length == 0) {
+                this.pharmacistList = [];
                 alert("No results found try another search");
                 this.clearInputFields();
               }
-              this.pharmacistList = response.data;
-              this.showList = true;
             });
 
         }
