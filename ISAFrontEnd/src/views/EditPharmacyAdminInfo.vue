@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="myPersonalInformation">My personal information</h1>
+    <h1 id="myPersonalInformation">Edit personal information</h1>
     <div class="pt-1">
       <v-card id="personalInfoCard" v-bind:style="{ opacity: opacity }">
         <v-card-text>
@@ -9,87 +9,70 @@
               <v-text-field
                 class="ml-10 mr-10"
                 label="First name"
-                v-model="firstName"
+                v-model="pharmacyAdmin.firstName"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Last name"
-                v-model="lastName"
+                v-model="pharmacyAdmin.lastName"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Phone number"
-                v-model="phoneNumber"
+                v-model="pharmacyAdmin.phoneNumber"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Street"
-                v-model="street"
+                v-model="pharmacyAdmin.address.street"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Street number"
-                v-model="streetNumber"
+                v-model="pharmacyAdmin.address.streetNumber"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="City"
-                v-model="city"
+                v-model="pharmacyAdmin.address.city"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Country"
-                v-model="country"
+                v-model="pharmacyAdmin.address.country"
                 color="blue"
                 type="text"
-                v-bind:readonly="true"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                class="ml-10 mr-10"
-                label="Pharmacy name"
-                v-model="pharmacyName"
-                color="blue"
-                type="text"
-                v-bind:readonly="true"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="E-mail"
-                v-model="email"
+                v-model="pharmacyAdmin.email"
                 color="blue"
                 type="text"
                 v-bind:readonly="true"
@@ -99,22 +82,22 @@
         </v-card-text>
         <v-card-actions class="justify-center">
           <v-btn
-            v-on:click="editPersonalInfo"
+            v-on:click="save"
             color="info"
             class="mt-2 mr-10 p-5 mb-5"
             x-medium
             width="270px"
             height="40px"
-            >Edit personal information</v-btn
+            >Save</v-btn
           >
           <v-btn
-            v-on:click="changePassword"
+            v-on:click="cancel"
             color="info"
             class="mt-2 ml-10 p-5 mb-5"
             x-medium
             width="240px"
             height="40px"
-            >Change password</v-btn
+            >Cancel</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -125,21 +108,12 @@
 <script>
 export default {
   name: "PharmacyAdmin",
-  data: function () {
-    return {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      street: "",
-      streetNumber: "",
-      city: "",
-      country: "",
-      pharmacyName: "",
-      email: "",
+  data: () => ({
+  
       pharmacyAdmin: null,
       pharmacyAdminId: "",
-    };
-  },
+      user: {},
+  }),
   mounted() {
     this.viewPersonalInfo();
   },
@@ -148,7 +122,7 @@ export default {
       this.pharmacyAdminId = localStorage.getItem("userId");
 
       this.axios
-        .get("http://localhost:8091/pharmacyAdmin/" + this.pharmacyAdminId, {
+        .get("http://localhost:8091/users/" + this.pharmacyAdminId, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -156,19 +130,20 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.pharmacyAdmin = response.data;
-          this.firstName = this.pharmacyAdmin.firstName;
-          this.lastName = this.pharmacyAdmin.lastName;
-          this.phoneNumber = this.pharmacyAdmin.phoneNumber;
-          this.street = this.pharmacyAdmin.street;
-          this.streetNumber = this.pharmacyAdmin.streetNumber;
-          this.city = this.pharmacyAdmin.city;
-          this.country = this.pharmacyAdmin.country;
-          this.pharmacyName = this.pharmacyAdmin.pharmacyName;
-          this.email = this.pharmacyAdmin.email;
         })
         .catch((err) => console.log(err));
-    }, editPersonalInfo() {
-         window.location.href = "http://localhost:8080/editPharmacyAdminInfo";
+    }, save() {
+        this.axios
+        .post("http://localhost:8091/users/update", this.pharmacyAdmin, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+            }
+        });
+        alert("Successfully modified personal information!");
+        window.location.href = "/pharmacyAdmin";
+    }, cancel() {
+        alert("Canceled change personal information!");
+        window.location.href = "/homePagePharmacyAdmin";
     }
   },
 };

@@ -116,6 +116,12 @@ const routes = [{
         component: () =>
             import ('../views/EditPharmacistInfo.vue')
     },
+    { 
+        path: '/editPharmacyAdminInfo',
+        name: 'EditPharmacyAdminInfo',
+        component: () =>
+            import('../views/EditPharmacyAdminInfo.vue')
+    },
     {
         path: '/supplier',
         name: 'Supplier',
