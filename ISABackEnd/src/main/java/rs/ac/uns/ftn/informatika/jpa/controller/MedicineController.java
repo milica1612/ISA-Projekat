@@ -18,14 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
-
+import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
+import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
+import rs.ac.uns.ftn.informatika.jpa.service.ReportDermService;
+import rs.ac.uns.ftn.informatika.jpa.service.ReportPharmService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -40,6 +46,12 @@ public class MedicineController {
 	
 	@Autowired
 	private NotificationService _notificationService;
+	
+	@Autowired
+	private ReportDermService _reportDermService;
+	
+	@Autowired
+	private ReportPharmService _reportPharmService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
@@ -78,9 +90,12 @@ public class MedicineController {
 		Pharmacy pharmacy = _pharmacyService.findById(ca.pharmacyId);
 			
 		Set<MedicineItem> medicineItems =  pharmacy.getMedicineItem();
-		
+	
 		for(MedicineItem m : medicineItems) {
+			int quantity = m.getQuantity() - 1;
 			if (m.getMedicine().getMedicineId() == ca.medicineAvailable.getMedicineId() && m.getQuantity() > 0) {
+				m.setQuantity(quantity);
+				//_medicineItemService.saveMedicineItem(m);
 				return true;
 			}
 		}
@@ -91,6 +106,19 @@ public class MedicineController {
 		
 		_notificationService.saveNotification(n);
 		return false;
+	}
+	
+	@PostMapping(value = "/addReportDerm")
+	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO) {
+	
+		_reportDermService.saveReportDerm(reportDTO);
+		return reportDTO;
+	}
+	
+	@PostMapping(value = "/addReportPharm")
+	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO) {
+		_reportPharmService.saveReportPharm(reportDTO);
+		return reportDTO;
 	}
 	
 	static class SubstitutesWithoutAllergy{

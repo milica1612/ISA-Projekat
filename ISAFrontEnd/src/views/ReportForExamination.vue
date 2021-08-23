@@ -28,6 +28,7 @@
           filled
           name="input-7-4"
           label="Information about examination:"
+          v-model = "infoAppointment"
       ></v-textarea>
       <h3>Browse new medicine for patient:</h3>
       <v-simple-table>
@@ -163,6 +164,7 @@
                       </v-simple-table>
                       <h4 align="center" style="margin-top:20px;">Duration of therapy (in days):</h4>
                       <v-text-field
+                          v-model= "durRecommend"
                           type="number"
                           filled
                           style="margin-top:10px; font-size:14px;">
@@ -177,6 +179,7 @@
                           width="300"
                           text
                           @click="dialog.value = false"
+                          v-on:click="recommendMedicine"
                       >Recommend</v-btn>
                   </v-card>
                 </template>
@@ -215,6 +218,7 @@ export default {
       substituteMedicines: [],
       patient: null,
       mode: '',
+      mmm: [],
       phId: 1,
       med: [],
       isActive: false,
@@ -222,9 +226,20 @@ export default {
       available: true,
       medicineAvailable: false,
       patient_id: localStorage.getItem("patientId"),
-      dosage: "",
-      ingridient: "",
-      contraindication: "",
+      durRecommend: "",
+      infoAppointment: "",
+      recommendationsDTO: [],
+      recommendationDTO: {
+          medicine: [],
+          duration: ''
+      }
+      ,
+      reportDTO: [{
+        info: '',
+        appointmentId: null,
+        recommendations: []
+      }
+      ]
     }
   },
   mounted() {
@@ -261,7 +276,20 @@ export default {
       this.isActive = true
     },
     endExamination: function(){
-      window.location.href = "http://localhost:8080/homePageDermatologist"
+
+      this.reportDTO = {
+      info: this.infoAppointment,
+      appointmentId : 1,
+      recommendations: this.recommendationsDTO
+    }
+      this.axios
+        .post('http://localhost:8091/medicine/addReportDerm', this.reportDTO, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem("token")
+        }})
+          .then(
+            window.location.href = "http://localhost:8080/homePageDermatologist"
+          )
     },
     findSubstituteMedicine: function (sm){
       this.med = sm
@@ -286,6 +314,7 @@ export default {
               this.available = response.data
               if (this.available == false) {
                 this.medicineAvailable = false
+                this.mmm = sm
                 this.axios
                     .put('http://localhost:8091/medicine/substituteMedicine', swa, {
                       headers: {
@@ -294,10 +323,19 @@ export default {
                     })
                     .then(response => (this.substituteMedicines = response.data))
               } else {
+                this.mmm = this.med
                 this.medicineAvailable = true
               }
           })
-    }  }
+    },
+    recommendMedicine: function(){
+      this.recommendationDTO={
+        medicine: this.mmm,
+        duration: this.durRecommend
+      }
+      this.recommendationsDTO.push(this.recommendationDTO)
+    }
+  }
 }
 </script>
 
