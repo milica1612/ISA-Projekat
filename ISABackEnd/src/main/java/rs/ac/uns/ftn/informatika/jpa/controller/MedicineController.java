@@ -27,6 +27,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
 import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
+import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
@@ -40,6 +41,9 @@ public class MedicineController {
 
 	@Autowired
 	private MedicineService _medicineService ;
+	
+	@Autowired 
+	private MedicineItemService _medicineItemService;
 	
 	@Autowired
 	private PharmacyService _pharmacyService;
@@ -92,10 +96,8 @@ public class MedicineController {
 		Set<MedicineItem> medicineItems =  pharmacy.getMedicineItem();
 	
 		for(MedicineItem m : medicineItems) {
-			int quantity = m.getQuantity() - 1;
 			if (m.getMedicine().getMedicineId() == ca.medicineAvailable.getMedicineId() && m.getQuantity() > 0) {
-				m.setQuantity(quantity);
-				//_medicineItemService.saveMedicineItem(m);
+				this._medicineItemService.saveQuantityMedicineItem(m);
 				return true;
 			}
 		}
@@ -104,7 +106,7 @@ public class MedicineController {
 		n.setContent(ca.medicineAvailable.getName() + " is not available.");
 		n.setPharmacyId(pharmacy.getPharmacyId());
 		
-		_notificationService.saveNotification(n);
+		this._notificationService.saveNotification(n);
 		return false;
 	}
 	
