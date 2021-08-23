@@ -111,7 +111,6 @@ public class MedicineController {
 	
 	@PostMapping(value = "/addReportDerm")
 	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO) {
-	
 		_reportDermService.saveReportDerm(reportDTO);
 		return reportDTO;
 	}

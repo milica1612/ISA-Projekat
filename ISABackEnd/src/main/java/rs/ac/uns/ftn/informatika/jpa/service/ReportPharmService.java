@@ -7,10 +7,12 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IReportPharmService;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
 import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
 import rs.ac.uns.ftn.informatika.jpa.model.ReportPharm;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IRecommendationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IReportDermRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IReportPharmRepository;
 
@@ -19,6 +21,9 @@ public class ReportPharmService implements IReportPharmService {
 
 	@Autowired
 	private IReportPharmRepository _reportPharmRepository;
+	
+	@Autowired
+	private IRecommendationRepository _recommendationRepository;
 	
 	@Autowired 
 	private IConsultationRepository _consultationRepository;
@@ -32,6 +37,10 @@ public class ReportPharmService implements IReportPharmService {
 		reportPharm.setConsultation(consultation);
 		reportPharm.setInformation(reportDTO.getInfo());
 		reportPharm.setRecommendation(reportDTO.getRecommendations());
+		
+		for (Recommendation r : reportPharm.getRecommendation()) {
+			this._recommendationRepository.save(r);
+		}
 		
 		this._reportPharmRepository.save(reportPharm);
 		

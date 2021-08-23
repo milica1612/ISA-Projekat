@@ -362,3 +362,8 @@ INSERT INTO public.pharmacy_medicine_item(
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (3, 6);   
+
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (1, 9);
+ 
