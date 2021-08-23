@@ -63,6 +63,18 @@ const routes = [{
             import ('../views/HomePagePatient.vue')
     },
     {
+        path: '/homePagePharmacyAdmin',
+        name: 'HomePagePharmacyAdmin',
+        component: () =>
+            import('../views/HomePagePharmacyAdmin.vue')
+    },
+    {
+        path: '/pharmacyAdmin',
+        name: 'PharmacyAdmin',
+        component: () =>
+            import('../views/PharmacyAdmin.vue')
+    },
+    {
         path: '/upcomingVisits',
         name: 'UpcomingVisits',
         component: () =>
