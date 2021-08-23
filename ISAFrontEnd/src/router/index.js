@@ -229,6 +229,12 @@ const routes = [{
         name: 'MedicineRegistration',
         component: () =>
             import ('../views/MedicineRegistration.vue')
+    },
+    {
+        path: '/changePharmacyAdminPassword',
+        name: 'ChangePharmacyAdminPassword',
+        component: () =>
+            import ('../views/ChangePharmacyAdminPassword.vue')
     }
 
 ]

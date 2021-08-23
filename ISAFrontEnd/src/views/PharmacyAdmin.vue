@@ -125,8 +125,9 @@
 <script>
 export default {
   name: "PharmacyAdmin",
-  data: function () {
-    return {
+  data: () => ({
+
+      opacity: 0.9,
       firstName: "",
       lastName: "",
       phoneNumber: "",
@@ -138,8 +139,8 @@ export default {
       email: "",
       pharmacyAdmin: null,
       pharmacyAdminId: "",
-    };
-  },
+  
+  }),
   mounted() {
     this.viewPersonalInfo();
   },
@@ -168,8 +169,10 @@ export default {
         })
         .catch((err) => console.log(err));
     }, editPersonalInfo() {
-         window.location.href = "http://localhost:8080/editPharmacyAdminInfo";
-    }
+        window.location.href = "http://localhost:8080/editPharmacyAdminInfo";
+    }, changePassword() {
+        window.location.href = "http://localhost:8080/changePharmacyAdminPassword";
+    },
   },
 };
 </script>
