@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 
@@ -25,13 +26,17 @@ public class Vacation {
    
 	@OneToOne(fetch = FetchType.LAZY)
     public PharmacyEmployee pharmacyEmployee;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    public Pharmacy pharmacy;
    
-    public Vacation(Long vacationId, Status status, TimeInterval timeInterval, PharmacyEmployee pharmacyEmployee) {
+    public Vacation(Long vacationId, Status status, TimeInterval timeInterval, PharmacyEmployee pharmacyEmployee, Pharmacy pharmacy) {
 		super();
 		this.vacationId = vacationId;
 		this.status = status;
 		this.timeInterval = timeInterval;
 		this.pharmacyEmployee = pharmacyEmployee;
+		this.pharmacy = pharmacy;
    	}
     
     public Vacation()
@@ -69,6 +74,14 @@ public class Vacation {
 	
 	public void setPharmacyEmployee(PharmacyEmployee pharmacyEmployee) {
 		this.pharmacyEmployee = pharmacyEmployee;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 		
 }

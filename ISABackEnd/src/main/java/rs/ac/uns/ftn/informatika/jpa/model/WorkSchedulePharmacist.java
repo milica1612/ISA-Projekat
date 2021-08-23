@@ -30,6 +30,9 @@ public class WorkSchedulePharmacist {
     
 	@OneToOne(fetch = FetchType.LAZY)
     public Pharmacist pharmacist;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    public Pharmacy pharmacy;
    
    public WorkSchedulePharmacist()
     {
@@ -37,13 +40,14 @@ public class WorkSchedulePharmacist {
     }
 
 	public WorkSchedulePharmacist(Long workScheduleId, TimeInterval validFor, TimeInterval shift,
-			Set<Consultation> scheduledConsultations, Pharmacist pharmacist) {
+			Set<Consultation> scheduledConsultations, Pharmacist pharmacist, Pharmacy pharmacy) {
 		super();
 		this.workScheduleId = workScheduleId;
 		this.validFor = validFor;
 		this.shift = shift;
 		this.scheduledConsultations = scheduledConsultations;
 		this.pharmacist = pharmacist;
+		this.pharmacy = pharmacy;
 	}
 
 	public Long getWorkScheduleId() {
@@ -85,5 +89,14 @@ public class WorkSchedulePharmacist {
 	public void setPharmacist(Pharmacist pharmacist) {
 		this.pharmacist = pharmacist;
 	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+	
 
 }
