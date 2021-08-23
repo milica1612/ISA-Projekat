@@ -203,12 +203,19 @@ export default {
           .then(response => {
             this.pharmacistList = [];
             console.log(response.data);
-            for(var i = 0; i < response.data.length; i++)
-            {
-              if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
-                  this.pharmacistList.push(response.data[i]);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
               }
+            } else 
+            {
+              this.pharmacistList = response.data;
             }
+
             this.showList = true;
             if (response.data.length == 0) {
               this.pharmacistList = [];
@@ -232,12 +239,19 @@ export default {
           .then((response) => {
             this.pharmacistList = [];
             console.log(response.data);
-            for(var i = 0; i < response.data.length; i++)
-            {
-              if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
-                  this.pharmacistList.push(response.data[i]);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
               }
+            } else 
+            {
+              this.pharmacistList = response.data;
             }
+
             this.showList = true;
             if (response.data.length == 0) {
               this.pharmacistList = [];
@@ -262,12 +276,19 @@ export default {
           .then((response) => {
             this.pharmacistList = [];
             console.log(response.data);
-            for(var i = 0; i < response.data.length; i++)
-            {
-              if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
-                  this.pharmacistList.push(response.data[i]);
+
+            if (this.pharmacyAdminLogged) {
+              for(var i = 0; i < response.data.length; i++)
+              {
+                if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                    this.pharmacistList.push(response.data[i]);
+                }
               }
+            } else 
+            {
+              this.pharmacistList = response.data;
             }
+
             this.showList = true;
             if (response.data.length == 0) {
               this.pharmacistList = [];
@@ -304,19 +325,24 @@ export default {
             )
             .then((response) => {
               this.pharmacistList = [];
-            console.log(response.data);
-            for(var i = 0; i < response.data.length; i++)
-            {
-              if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
-                  this.pharmacistList.push(response.data[i]);
+              console.log(response.data);
+              if (this.pharmacyAdminLogged) {
+                for(var i = 0; i < response.data.length; i++)
+                {
+                  if (this.pharmacyAdmin.pharmacyName === response.data[i].pharmacyName) {
+                      this.pharmacistList.push(response.data[i]);
+                  }
+                }
+              } else 
+              {
+                this.pharmacistList = response.data;
               }
-            }
-            this.showList = true;
-            if (response.data.length == 0) {
-              this.pharmacistList = [];
-              alert("No results found try another search");
-              this.clearInputFields();
-            }
+              this.showList = true;
+              if (response.data.length == 0) {
+                this.pharmacistList = [];
+                alert("No results found try another search");
+                this.clearInputFields();
+              }
             });
 
         }
