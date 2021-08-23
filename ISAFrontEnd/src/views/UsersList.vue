@@ -36,9 +36,9 @@
             <v-btn
                 color="primary"
                 elevation="2"
-                v-on:click = "startExamination(p)"
+                v-on:click = "startAppointment(p)"
                 small
-                >Start Examination</v-btn></td>
+                >Start Appointment</v-btn></td>
         </tr>
         </tbody>
       </template>
@@ -85,9 +85,14 @@ export default {
       localStorage.setItem("patientId", p.userId);
       window.location.href = "http://localhost:8080/DermatologistPatientProfile";
     },
-    startExamination: function (p) {
+    startAppointment: function (p) {
       localStorage.setItem("patientId", p.userId);
-      window.location.href = "http://localhost:8080/reportForExamination";
+      if(localStorage.getItem("userType") == "DERMATOLOGIST"){
+        window.location.href = "http://localhost:8080/reportForExamination";
+      }
+      else{
+        window.location.href = "http://localhost:8080/reportForConsultation";
+      }
     }
   }
 };

@@ -10,7 +10,7 @@
                 medium
                 v-on:click= "modeChange"
                 :disabled="isActive"
-            >Start Examination</v-btn></td>
+            >Start Consultation</v-btn></td>
             <td align="center"><v-btn
                 color="primary"
                 elevation="2"
@@ -27,7 +27,7 @@
             background-color="white"
             filled
             name="input-7-4"
-            label="Information about examination:"
+            label="Information about consultation:"
             v-model = "infoAppointment"
         ></v-textarea>
         <h3>Browse new medicine for patient:</h3>
@@ -208,10 +208,10 @@
     <v-btn
         color="primary"
         elevation="2"
-        v-on:click="endExamination"
+        v-on:click="endConsultation"
         large
-    >End Examination</v-btn></td>
-  <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Examination</v-btn></td>
+    >End Consultation</v-btn></td>
+  <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Consultation</v-btn></td>
 </tr>
 </table>
 </div>
@@ -221,7 +221,7 @@
 
 <script>
 export default {
-  name: "ReportForExamination",
+  name: "ReportForConsultation",
   data: function () {
     return {
       medicines: [],
@@ -292,7 +292,7 @@ export default {
       this.mode = 'BROWSE'
       this.isActive = true
     },
-    endExamination: function(){
+    endConsultation: function(){
 
       this.reportDTO = {
         info: this.infoAppointment,
