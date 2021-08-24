@@ -247,6 +247,12 @@ const routes = [{
         name: 'Promotion',
         component: () =>
             import('../views/Promotion.vue')
+    },
+    {
+        path: '/dispensingMedicinePharmacist',
+        name: 'DispensingMedicinePharmacist',
+        component: () =>
+            import('../views/DispensingMedicinePharmacist.vue')
     }
 
 ]

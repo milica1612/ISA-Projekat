@@ -1,0 +1,115 @@
+<template>
+  <div>
+    <br>
+    <br>
+    <v-simple-table>
+      <tr>
+        <td align="center"><input type="text" width="250" v-model = "reservationCode" placeholder="Enter the reservation code:"></td>
+        <td align="center"><v-dialog
+            transition="dialog-top-transition"
+            max-width="600"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                width="250"
+                color="primary"
+                elevation="2"
+                x-large
+                v-on:click="searchResult"
+            >Search</v-btn>
+          </template>
+          <template v-slot:default="dialog">
+            <v-card>
+              <v-toolbar
+                  color="primary"
+                  dark
+              >Search result:</v-toolbar>
+              <v-simple-table>
+                <template>
+                  <tbody v-if="resultTrue == false">
+                  <tr><th colspan="2" class="text-center">RESERVATION CODE IS NOT VALID!</th></tr>
+                  </tbody>
+                  <tbody v-else>
+                  <tr><th colspan="2" class="text-center">MEDICINE IS ISSUED!</th></tr>
+                  <tr>
+                    <td>{{ this.resultReservation.deadlineDate }}</td>
+                    <td>{{ this.resultReservation.reservationCode }}</td>
+                    <td>{{ this.resultReservation.medicine.name}}</td>
+                    <td>{{ this.resultReservation.email }}</td>
+                  </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+              <v-btn
+                  width="300"
+                  text
+                  @click="dialog.value = false"
+              >Close</v-btn>
+            </v-card>
+          </template>
+        </v-dialog>
+        </td>
+      </tr>
+    </v-simple-table>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "DispensingMedicinePharmacist",
+  data: function () {
+    return {
+      pharmId : localStorage.getItem("pharmacyId"),
+      resultTrue: true,
+      reservationCode: '',
+      dateClicked: null,
+      timeClicked: "",
+      year : null,
+      month : null,
+      day : null,
+      hours : null,
+      minutes : null,
+      seconds: null,
+      resultReservation: null
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    searchResult: function(){
+
+      this.dateClicked = new Date()
+      this.year = this.dateClicked.getFullYear()
+      this.month = this.dateClicked.getMonth() + 1
+      this.day = this.dateClicked.getDate()
+      this.hours = this.dateClicked.getHours()
+      this.minutes = this.dateClicked.getMinutes()
+      this.seconds = this.dateClicked.getSeconds()
+
+      this.timeClicked = this.year + "-" + this.month + "-" + this.day +
+          " " + this.hours + ":" + this.minutes + ":" + this.seconds
+
+
+      const resChecker={
+        deadlineDate: this.timeClicked,
+        resCode: this.reservationCode,
+        pharmacyId : this.pharmId
+      }
+
+      this.axios
+          .put('http://localhost:8091/reservation/findReservation', resChecker, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          }).then(response => { this.resultReservation = response.data
+
+        if(this.resultReservation == null){
+          this.resultTrue = false
+        }
+      })
+    }
+  }
+}
+</script>
