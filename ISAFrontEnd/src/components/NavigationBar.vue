@@ -119,13 +119,23 @@ export default {
         ];
       } else if (this.userType === "PH_ADMINISTRATOR") {
         this.items = [
-          {title: "Home", path: "/"},
-          {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Home", path: "/homePagePharmacyAdmin"},
+          {title: "My Profile", path: "/pharmacyAdmin"},
+          {title: "My Pharmacy", path: "/myPharmacy"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
+          {title: "Search Dermatologist", path: "/searchDermatologist"},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
-        this.items = [{title: "Home", path: "/"}];
+        this.items = [{ title: 'My Profile', path: '/systemAdminProfile' },
+                { title: 'Add System Admin', path: '/createSystemAdmin' },
+                { title: 'Add Pharmacy Admin', path: '/createPhAdmin' },
+                { title: 'Add Dermatologist', path: '/createDermatologist' },
+                { title: 'Add Supplier', path: '/createSupplier' },
+                { title: 'Add Pharmacy', path: '/createPharmacy' },
+                { title: 'Medicines', path: '/medicineRegistration' },
+                { title: 'Complaints', path: '/' },
+                { title: 'Loyalty Program', path: '/' }];
       } else {
         // NOT YET REGISTERED
         this.items = [

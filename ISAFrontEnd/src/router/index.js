@@ -63,6 +63,18 @@ const routes = [{
             import ('../views/HomePagePatient.vue')
     },
     {
+        path: '/homePagePharmacyAdmin',
+        name: 'HomePagePharmacyAdmin',
+        component: () =>
+            import('../views/HomePagePharmacyAdmin.vue')
+    },
+    {
+        path: '/pharmacyAdmin',
+        name: 'PharmacyAdmin',
+        component: () =>
+            import('../views/PharmacyAdmin.vue')
+    },
+    {
         path: '/upcomingVisits',
         name: 'UpcomingVisits',
         component: () =>
@@ -116,6 +128,12 @@ const routes = [{
         component: () =>
             import ('../views/EditPharmacistInfo.vue')
     },
+    { 
+        path: '/editPharmacyAdminInfo',
+        name: 'EditPharmacyAdminInfo',
+        component: () =>
+            import('../views/EditPharmacyAdminInfo.vue')
+    },
     {
         path: '/supplier',
         name: 'Supplier',
@@ -147,6 +165,42 @@ const routes = [{
             import ('../views/PharmacistProfile.vue')
     },
     {
+        path: '/systemAdminProfile',
+        name: 'SystemAdminProfile',
+        component: () =>
+            import ('../views/SystemAdminProfile.vue')
+    },
+    {
+        path: '/createSystemAdmin',
+        name: 'CreateSystemAdmin',
+        component: () =>
+            import ('../views/CreateSystemAdmin.vue')
+    },
+    {
+        path: '/createSupplier',
+        name: 'CreateSupplier',
+        component: () =>
+            import ('../views/CreateSupplier.vue')
+    },
+    {
+        path: '/createPhAdmin',
+        name: 'CreatePhAdmin',
+        component: () =>
+            import ('../views/CreatePhAdmin.vue')
+    },
+    {
+        path: '/createDermatologist',
+        name: 'CreateDermatologist',
+        component: () =>
+            import ('../views/CreateDermatologist.vue')
+    },
+    {
+        path: '/createPharmacy',
+        name: 'CreatePharmacy',
+        component: () =>
+            import ('../views/CreatePharmacy.vue')
+    },
+    {        
         path: '/changePasswordFirstLogin',
         name: 'ChangePasswordFirstLogin',
         component: () =>
@@ -181,7 +235,26 @@ const routes = [{
         name: 'DermatologistPatientProfile',
         component: () =>
             import ('../views/DermatologistPatientProfile.vue')
+    },
+    {        
+        path: '/medicineRegistration',
+        name: 'MedicineRegistration',
+        component: () =>
+            import ('../views/MedicineRegistration.vue')
+    },
+    {
+        path: '/changePharmacyAdminPassword',
+        name: 'ChangePharmacyAdminPassword',
+        component: () =>
+            import ('../views/ChangePharmacyAdminPassword.vue')
+    },
+    {
+        path: '/myPharmacy',
+        name: 'MyPharmacy',
+        component: () =>
+            import('../views/MyPharmacy.vue')   
     }
+
 ]
 
 const router = new VueRouter({

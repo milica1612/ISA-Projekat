@@ -69,6 +69,8 @@ export default {
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
             localStorage.setItem("first_login", resp.data.user.firstLogin);
+            localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);
+            
             if (resp.data.user.userType == "PATIENT") {
               window.location.href = "http://localhost:8080/homePagePatient";
             } else {
@@ -82,7 +84,13 @@ export default {
                 } else if (resp.data.user.userType == "PHARMACIST") {
                   window.location.href =
                     "http://localhost:8080/homePagePharmacist";
-                } else
+                } else if (resp.data.user.userType == "PH_ADMINISTRATOR") {
+                  window.location.href =
+                    "http://localhost:8080/homePagePharmacyAdmin";
+                    //Now Nikolina has logged in to the system as an admin
+                  alert("Now " + resp.data.user.firstName + " " + resp.data.user.lastName + " has logged in to the Pharmacy system, as " + localStorage.getItem("userType") + ".");
+                } 
+                else
                   window.location.href = "http://localhost:8080/NavigationBar";
               }
             }

@@ -1,8 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import java.util.ArrayList;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
 public interface IPharmacyService {
