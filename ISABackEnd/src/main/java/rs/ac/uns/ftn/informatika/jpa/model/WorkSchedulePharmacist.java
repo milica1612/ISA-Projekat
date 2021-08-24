@@ -31,7 +31,7 @@ public class WorkSchedulePharmacist {
 	@OneToOne(fetch = FetchType.LAZY)
     public Pharmacist pharmacist;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
     public Pharmacy pharmacy;
    
    public WorkSchedulePharmacist()

@@ -41,7 +41,7 @@ public class WorkSchedulePharmacistController {
 		}  
 		
 	
-		return new ArrayList<Pharmacy>();
+		return _workSchedulePharmacist.getAvailablePharmacies(date);
 		
 	}
 

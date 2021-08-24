@@ -343,20 +343,7 @@ INSERT INTO public.medicine_item(
 	VALUES (6, 3, 6);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (8, 3, 8);
-    
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 1);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 2);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 3);    
- INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 8);     
+	VALUES (8, 3, 8);  
     
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
@@ -369,13 +356,25 @@ INSERT INTO public.pharmacy_medicine_item(
 	VALUES (3, 12);   
 
 INSERT INTO public.time_interval(
-	time_interval_id, end_date, start_date)
+	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-11-11 07:00:00', '2021-11-11 15:00:00');
 
 INSERT INTO public.time_interval(
-	time_interval_id, end_date, start_date)
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-11-11 15:00:00', '2021-11-11 20:00:00');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
 
 INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
-	VALUES (default, 9, 1, 1, 2);
+	VALUES (default, 9, 2, 1, 2);
+
+INSERT INTO public.work_schedule_pharmacist(
+	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 11, 3, 3, 4);
