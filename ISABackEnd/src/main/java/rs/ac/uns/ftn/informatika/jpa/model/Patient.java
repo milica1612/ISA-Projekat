@@ -1,10 +1,15 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Patient extends User {
@@ -13,9 +18,14 @@ public class Patient extends User {
 
 	@Column(name = "penalty")
 	private int penalty;
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
-
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "patients")
+	private List<Pharmacy> pharmacies;
+	
 	public Patient() {
 		super();
 	}
