@@ -1,49 +1,107 @@
 <template>
   <div id = "homePage">
     <div class = "container">
-    <h3>Search Pharmacies:</h3>
-    <input placeholder="Enter name or city" type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>
-    <v-btn
-        color="secondary"
-        elevation="3"
-        small
-        v-on:click = "searchPharmacies"
-        v-if="notFilled"
-    >Search</v-btn>
-    <br>
-    <h3>Filtrate by rating higher than:</h3>
+      <h2>Select date and time for consultation with a pharmacist</h2>
 
+  <!--  Date picker-->
+      <v-row>
+        <v-col
+            cols="12"
+            sm="6"
+            md="4"
+        >
+          <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="date"
+                  label="Pick date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="date"
+                @input="menu = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
 
-    <label>Rating 5</label>
-    <input type="radio" value=5 name="rating" @change = "filtrate(5)">
+      <!--Time picker-->
+        <v-row>
+         <v-col
+          cols="11"
+          sm="5"
+          >
+          <v-menu
+              ref="menu"
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="time"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="290px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="time"
+                  label="Pick time"
+                  prepend-icon="mdi-clock-time-four-outline"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
+                v-if="menu2"
+                v-model="time"
+                full-width
+                @click:minute="$refs.menu.save(time)"
+            ></v-time-picker>
+          </v-menu>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
 
-    <label>Rating4</label>
-    <input type="radio" value=4 name="rating" @change = "filtrate(4)">
-
-    <label>Rating 3</label>
-    <input type="radio" value=3 name="rating" @change = "filtrate(3)">
-
-    <label>Rating 2</label>
-    <input type="radio" value=2 name="rating" @change = "filtrate(2)">
-
-    <label>Rating 1</label>
-    <input type="radio" value=1 name="rating" @change = "filtrate(1)">
-
+      <v-row
+          align="center"
+          justify="space-around">
+        <v-btn
+            color="primary"
+            elevation="3"
+            medium
+            v-if="notFilled"
+        >Find pharmacies with available pharmacists</v-btn>
+      </v-row>
+      <br>
       <v-simple-table>
         <template v-slot:default>
           <thead>
           <tr>
-            <th :class="sortedClass('name')"
-                @click="sortBy('name')">
+            <th>
               Name
             </th>
             <th :class="sortedClass('rating')"
                 @click="sortBy('rating')">
               Rating
             </th>
-            <th :class="sortedClass('adress')"
-                @click="sortBy('adress')">
+            <th>
               Address
+            </th>
+            <th>
+              Consultation Price
             </th>
           </tr>
           </thead>
@@ -55,14 +113,14 @@
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
+            <td>{{ "700" + " rsd" }}</td>
             <td>
               <v-btn
                   color="secondary"
                   elevation="3"
                   x-small
-                  v-on:click = "openPharmacyPage(p)"
-                  v-if="isLogged"
-              >Visit</v-btn>
+                  v-on:click = "pharmacistsForConsultation(p)"
+              >See available pharmacits</v-btn>
             </td>
           </tr>
           </tbody>
@@ -74,11 +132,16 @@
 
 <script>
 export default {
-  name: "BrowsePharmacies",
-
+  name: "ScheduleConsultation",
   data: function () {
     return {
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
       logged: false,
+      time: null,
+      modal2: false,
       pharmacies: [],
       searchField: "",
       token: localStorage.getItem("token"),
@@ -88,18 +151,20 @@ export default {
       }
     }
   },
-mounted() {
-  {
-  this.axios
-      .get('http://localhost:8091/pharmacy')
-      .then(r => (this.pharmacies = r.data))
-  }
-},
+  mounted() {
+    {
+      this.axios
+          .get('http://localhost:8091/pharmacy')
+          .then(r => (this.pharmacies = r.data))
+    }
+  },
   methods: {
-    openPharmacyPage(p){
+    pharmacistsForConsultation(p){
       localStorage.setItem("pharmacy", p.pharmacyId);
       localStorage.setItem("pharmacyName", p.name);
-      window.location.href = "http://localhost:8080/pharmacyPage";
+      localStorage.setItem("date", this.date);
+      localStorage.setItem("time", this.time);
+      window.location.href = "http://localhost:8080/scheduleConsultationInPharmacy";
     },
     sortedClass (key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
@@ -121,6 +186,15 @@ mounted() {
     }
   },
   computed:{
+    isDateInvalid: function(){
+      var now = new Date()
+      if(this.date.getDate() < now.getDate()){
+        alert("jdnjdn")
+        return true
+      }else{
+        return false
+      }
+    },
     isLogged: function (){
       if (this.token == ""){
         return false
@@ -129,7 +203,7 @@ mounted() {
       }
     },
     notFilled: function () {
-      if (this.searchField.trim() == ""){
+      if (this.time == null){
         return false
       }
       else {
@@ -205,6 +279,9 @@ input[type="radio"]:checked:after {
   inset 0 2px 2px hsla(0,0%,100%,.4),
   0 1px 1px hsla(0,0%,100%,.8),
   0 0 2px 2px hsla(0,70%,70%,.4);
+}
+v-datepicker{
+  startDate: '+0d'
 }
 
 </style>

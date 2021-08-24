@@ -134,7 +134,6 @@ export default {
     },
     userType: "", 
     userId: "",
-    pharmacyAdmin: null,
     pharmacyAdminLogged: false,
   }),
   mounted() {

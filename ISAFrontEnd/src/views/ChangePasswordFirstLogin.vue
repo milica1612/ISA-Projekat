@@ -1,8 +1,7 @@
 <template>
   <div>
-
-    <h1 style = "margin:0 auto; text-align:center;">Change Password First Login</h1>
-    <br>
+    <h1 id="changePasswordCaption">Change Password First Login</h1>
+    <br/>
     <div class = "container">
       <v-simple-table>
         <template v-slot:default>
@@ -88,15 +87,26 @@ export default {
             window.location.href = "http://localhost:8080/homePageDermatologist";
           } else if (localStorage.getItem("userType")  == "PHARMACIST") {
             window.location.href = "http://localhost:8080/homePagePharmacist";
+          } else if (localStorage.getItem("userType") == "PH_ADMINISTRATOR") {
+            window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
           } else
             window.location.href = "http://localhost:8080/NavigationBar";
-        })
+        });
     }
   }
 }
 </script>
 
 <style scoped>
+#changePasswordCaption {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+  color: rgb(2, 2, 117);
+  text-align: center;
+  font-weight: bold;
+}
+
 #personal_info{
   text-align: center;
 }
