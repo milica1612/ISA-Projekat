@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -50,7 +51,12 @@ public class Pharmacy {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
 	private Address address;
-
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "promotion_notification", joinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id"),
+	inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "user_id"))
+	private List<Patient> patients;
+	
 	public Pharmacy() {
 	}
 
