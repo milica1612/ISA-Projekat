@@ -69,6 +69,7 @@ export default {
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
             localStorage.setItem("first_login", resp.data.user.firstLogin);
+            localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);
             
             if (resp.data.user.userType == "PATIENT") {
               window.location.href = "http://localhost:8080/homePagePatient";

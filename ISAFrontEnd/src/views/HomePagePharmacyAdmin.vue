@@ -1,6 +1,7 @@
 <template>
     <div id="pharmacyAdminMenu">
       <a class="a_style" href="/pharmacyAdmin">My Profile</a>
+      <a class="a_style" href="/myPharmacy">My Pharmacy</a>
       <a class="a_style" href="/searchDermatologist">Search and filter dermatologists</a>
       <a class="a_style" href="/searchPharmacist">Search and filter pharmacists</a>
     </div> 
