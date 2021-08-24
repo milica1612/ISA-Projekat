@@ -367,3 +367,15 @@ INSERT INTO public.pharmacy_medicine_item(
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (3, 12);   
+
+INSERT INTO public.time_interval(
+	time_interval_id, end_date, start_date)
+	VALUES (default, '2021-11-11 07:00:00', '2021-11-11 15:00:00');
+
+INSERT INTO public.time_interval(
+	time_interval_id, end_date, start_date)
+	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
+
+INSERT INTO public.work_schedule_pharmacist(
+	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 9, 1, 1, 2);
