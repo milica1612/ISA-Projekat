@@ -1,6 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,18 @@ public class WorkSchedulePharmacistController {
 	
 	@PutMapping("/getAvailablePharmacies")
 	public ArrayList<Pharmacy> getAvailablePharmacies(@RequestBody AppointmentDateAndTimeDTO dto) {
-		System.out.println(dto.getDate());
+		String d = dto.getDate() + " " +  dto.getTime() + ":00";
+	    Date date;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d);
+			System.out.println(date.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<Pharmacy>();
+		}  
 		
-		System.out.println(dto.getTime());
+	
 		return new ArrayList<Pharmacy>();
 		
 	}
