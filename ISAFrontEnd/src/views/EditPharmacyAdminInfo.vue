@@ -112,7 +112,7 @@ export default {
   
       pharmacyAdmin: null,
       pharmacyAdminId: "",
-      user: {},
+
   }),
   mounted() {
     this.viewPersonalInfo();
