@@ -2,12 +2,26 @@ package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class PromotionDTO {
 	
+	@Size(min = 1, max = 100, message = "Caption has to have at least 1 character and maximum 100.")
 	private String caption;
+	
+	@Size(min = 2, max = 256, message = "Content has to have at least 2 charachters and maximum 256.")
 	private String content;
+	
+	@FutureOrPresent(message = "The promotion can start today or in the coming day!")
 	private Date startOfPromotion;
+	
+	@Future(message = "The promotion must end in the day in a future!")
 	private Date endOfPromotion;
+	
+	@NotNull
 	private Long pharmacyId;
 	
 	public PromotionDTO() {
