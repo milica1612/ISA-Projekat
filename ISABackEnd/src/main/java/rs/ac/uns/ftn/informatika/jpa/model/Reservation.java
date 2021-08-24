@@ -23,6 +23,8 @@ public class Reservation {
 	@Column(name = "recieved", nullable = false)
     private Boolean recieved;
 	
+	
+	
 	@OneToOne(fetch = FetchType.LAZY)
     public Patient patient;
     
