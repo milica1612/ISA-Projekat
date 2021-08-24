@@ -1,16 +1,20 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
 @Entity
-public class Report {
+public class ReportPharm {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,62 +22,55 @@ public class Report {
 	
 	@OneToOne(fetch = FetchType.LAZY)
     public Consultation consultation;
-	@OneToOne(fetch = FetchType.LAZY)
-    public Examination examination;
-	   
-
+	  
+	@Column(name = "information")
+	public String information;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	public Set<Recommendation> recommendation;
 	
 	public Long getReportId() {
 		return reportId;
 	}
-
-
 
 	public void setReportId(Long reportId) {
 		this.reportId = reportId;
 	}
 
 
-
 	public Consultation getConsultation() {
 		return consultation;
 	}
-
-
 
 	public void setConsultation(Consultation consultation) {
 		this.consultation = consultation;
 	}
 
-
-
-	public Examination getExamination() {
-		return examination;
+	public String getInformation() {
+		return information;
 	}
 
-
-
-	public void setExamination(Examination examination) {
-		this.examination = examination;
+	public void setInformation(String information) {
+		this.information = information;
 	}
 
+	public Set<Recommendation> getRecommendation() {
+		return recommendation;
+	}
 
+	public void setRecommendation(Set<Recommendation> recommendation) {
+		this.recommendation = recommendation;
+	}
 
-	public Report(Long reportId, Consultation consultation, Examination examination) {
+	public ReportPharm(Long reportId, Consultation consultation) {
 		super();
 		this.reportId = reportId;
 		this.consultation = consultation;
-		this.examination = examination;
 	}
 
-
-
-	public Report()
+	public ReportPharm()
 	{
 		
 	}
-	
 
-   
-   
 }
