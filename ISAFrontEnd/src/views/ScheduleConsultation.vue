@@ -83,6 +83,7 @@
             elevation="3"
             medium
             v-if="notFilled"
+            @click="getPharmacies"
         >Find pharmacies with available pharmacists</v-btn>
       </v-row>
       <br>
@@ -151,14 +152,17 @@ export default {
       }
     }
   },
-  mounted() {
-    {
-      this.axios
-          .get('http://localhost:8091/pharmacy')
-          .then(r => (this.pharmacies = r.data))
-    }
-  },
   methods: {
+    getPharmacies(){
+      this.axios
+          .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacies',{date: this.date, time: this.time}, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(r => (this.pharmacies = r.data))
+    },
+
     pharmacistsForConsultation(p){
       localStorage.setItem("pharmacy", p.pharmacyId);
       localStorage.setItem("pharmacyName", p.name);
@@ -174,16 +178,6 @@ export default {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
       this.sort.key = key;
     },
-    searchPharmacies: function() {
-      this.axios
-          .get("http://localhost:8091/pharmacy/getByNameOrAddress/" + this.searchField)
-          .then(response => (this.pharmacies = response.data))
-    },
-    filtrate: function(rating){
-      this.axios
-          .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
-          .then(response => (this.pharmacies = response.data))
-    }
   },
   computed:{
     isDateInvalid: function(){
