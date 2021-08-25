@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -49,5 +51,10 @@ public class DermatologistController {
 	public List<DermatologistDTO> filterDermatologistByRating(@PathVariable Double minRating, @PathVariable Double maxRating)
 	{
 		return _dermatologistService.filterDermatologistByRating(minRating, maxRating);
+	}
+	
+	@GetMapping(path = "/allDermatologistByPharmacyId/{pharmacyId}")
+	public Set<Dermatologist> getAllDermatologistByPharmacyId(@PathVariable Long pharmacyId){
+		return _dermatologistService.getAllDermatologistByPharmacyId(pharmacyId);
 	}
 }
