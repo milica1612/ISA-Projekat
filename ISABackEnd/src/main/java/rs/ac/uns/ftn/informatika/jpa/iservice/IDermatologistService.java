@@ -1,8 +1,10 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
 import java.util.List;
+import java.util.Set;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 
 public interface IDermatologistService {
 	
@@ -15,4 +17,6 @@ public interface IDermatologistService {
 	List<DermatologistDTO> searchDermatologistsByLastName(String lastName);
 	
 	List<DermatologistDTO> filterDermatologistByRating(Double minRating, Double maxRating);
+	
+	Set<Dermatologist> getAllDermatologistByPharmacyId(Long pharmacyId);
 }
