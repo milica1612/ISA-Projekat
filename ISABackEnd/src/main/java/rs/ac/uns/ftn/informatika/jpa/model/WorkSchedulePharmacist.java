@@ -28,7 +28,7 @@ public class WorkSchedulePharmacist {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Consultation> scheduledConsultations;
     
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
     public Pharmacist pharmacist;
 	
 	@OneToOne(fetch = FetchType.EAGER)

@@ -60,32 +60,32 @@ export default {
         key: '',
         isAsc: false
       },
-      requestBody:{
-        pharmacyId: localStorage.getItem("pharmacyId"),
-        date: this.date,
-        time: this.time
-      },
+      pharmacyId: localStorage.getItem("pharmacy"),
       pharmacists: []
     }
   },
   mounted() {
-    this.axios
-        .put('http://localhost:8091/workSchedule', this.requestBody,{
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem("token")
-          }
-        })
-        .then(response => (this.pharmacists = response.data));
+    {
+          this.axios
+              .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacistsInPharmacy' ,{date:this.date,
+              time:this.time, pharmacyId:this.pharmacyId}, {
+                headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }
+              })
+              .then(response => (this.pharmacists = response.data));
+    }
   },
-  methods:{
-    sortedClass (key) {
-      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
+  methods: {
+    sortedClass(key) {
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';
 
     },
-    sortBy (key) {
+    sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
       this.sort.key = key;
-    },
+    }
+  },
     computed:{
       sortedItems () {
         const list = this.pharmacists.slice();  // ソート時でdataの順序を書き換えないため
@@ -101,7 +101,6 @@ export default {
         return list;
       }
     }
-  }
 }
 </script>
 
