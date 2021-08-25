@@ -1,12 +1,11 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
@@ -16,19 +15,19 @@ public class Recommendation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recommendationId;
     
-	@OneToMany(fetch = FetchType.LAZY)
-	public Set<Medicine> medicine;
-	
 	@OneToOne(fetch = FetchType.LAZY)
-    public Consultation consultation;
-   
-    public Recommendation(Long recommendationId, Consultation consultation) {
+	public Medicine medicine;
+	
+	@Column(name = "duration", nullable = false)
+	public Long duration;
+	
+    public Recommendation(Long recommendationId, Medicine medicine, Long duration) {
 		super();
 		this.recommendationId = recommendationId;
-		this.medicine = new HashSet<Medicine>();
-		this.consultation = consultation;
+		this.medicine = medicine;
+		this.duration = duration;
 	}
-    
+     
     public Recommendation()
     {
     	
@@ -42,19 +41,20 @@ public class Recommendation {
 		this.recommendationId = recommendationId;
 	}
 	
-	public Collection<Medicine> getMedicine() {
+	public Medicine getMedicine() {
 		return medicine;
 	}
-	
-	public void setMedicine(Set<Medicine> medicine) {
+
+	public void setMedicine(Medicine medicine) {
 		this.medicine = medicine;
 	}
-	
-	public Consultation getConsultation() {
-		return consultation;
+
+	public Long getDuration() {
+		return duration;
 	}
-	
-	public void setConsultation(Consultation consultation) {
-		this.consultation = consultation;
-	}	   
+
+	public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+
 }

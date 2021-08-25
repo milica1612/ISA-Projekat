@@ -13,18 +13,26 @@
               <v-text-field
                 class="ml-10 mr-10"
                 label="First name"
+                :rules="name"
+                maxlength="25"
+                counter="25"
                 v-model="searchFirstName"
                 color="blue"
                 type="text"
+                :counter-value="v => v.trim().length"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Last name"
+                maxlength="50"
+                counter="50"
+                :rules="name"
                 v-model="searchLastName"
                 color="blue"
                 type="text"
+                :counter-value="v => v.trim().length"
               />
             </v-row>
             <v-row>
@@ -83,6 +91,7 @@
               <th :class="sortedClass('firstName')" class="text-center" @click="sortBy('firstName')">First name</th>
               <th :class="sortedClass('lastName')" class="text-center" @click="sortBy('lastName')">Last name</th>
               <th :class="sortedClass('rating')" class="text-center" @click="sortBy('rating')">Raiting of a dermatologist</th>
+              <th :class="sortedClass('pharmacyNames')" class="text-center" @click="sortBy('pharmacyNames')">Work in pharmacies</th>
             </tr>
           </thead>
           <tbody v-bind:hidden="showList">
@@ -90,6 +99,7 @@
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
+              <td class="text-center">{{ item.pharmacyNames }}</td> 
             </tr>
           </tbody>
           <tbody v-bind:hidden="!showList">
@@ -97,6 +107,7 @@
               <td class="text-center">{{ item.firstName }}</td>
               <td class="text-center">{{ item.lastName }}</td>
               <td class="text-center">{{ item.rating }}</td>
+              <td class="text-center">{{ item.pharmacyNames }}</td> 
             </tr>
           </tbody>
         </template>
@@ -114,29 +125,67 @@ export default {
     searchLastName: "",
     minRating: "",
     maxRating: "",
-    dermatologists: null,
-    dermatologistList: null,
+    dermatologists: [],
+    dermatologistList: [],
+    allDermatologists: null, 
     showList: false,
     sort: {
       key: '',
       isAsc: false,
-    }
+    },
+    userType: "",
+    userId: "",
+    pharmacyAdminLogged: false,
+    pharmacyAdmin: null,
   }),
   mounted() {
     this.init();
   },
   methods: {
     init() {
+      this.userType = localStorage.getItem("userType");
+      this.userId = localStorage.getItem("userId");
+
+
       this.axios
-        .get("http://localhost:8091/dermatologists/all", {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem("token")
+      .get("http://localhost:8091/dermatologists/all", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        this.allDermatologists = response.data;
+
+        if (this.userType == 'PH_ADMINISTRATOR') {
+            this.pharmacyAdminLogged = true;
+            this.axios
+            .get("http://localhost:8091/pharmacyAdmin/" + this.userId, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              }
+            })
+            .then(resp => {
+              console.log(resp.data);
+              this.pharmacyAdmin = resp.data;
+              alert("Now is logged " + this.pharmacyAdmin.firstName  + " " + this.pharmacyAdmin.lastName + " ( " + this.userType + " ) , who work in " + this.pharmacyAdmin.pharmacyName + " pharmacy.");
+              for(let i = 0; i < this.allDermatologists.length; i++)
+              {
+                if (this.allDermatologists[i].pharmacyNames.includes(this.pharmacyAdmin.pharmacyName)) {
+                  this.dermatologists.push(this.allDermatologists[i]);
+                }
+              }
+            })
+            .catch(err => console.log(err));
           }
-        })
-        .then(resp => {
-          console.log(resp.data);
-          this.dermatologists = resp.data;
-        }).catch(err => console.log(err));
+          else 
+          {
+            alert("Now is logged " + this.userType + ".");
+            this.pharmacyAdminLogged = false;
+            this.dermatologists = this.allDermatologists;
+          }
+      })
+      .catch(err => console.log(err));
     },
     searchDermatologist() {
       if (this.searchFirstName != "" && this.searchLastName == "") {
@@ -152,16 +201,30 @@ export default {
             }
           )
           .then((response) => {
-            this.dermatologistList = response.data;
+            console.log(response.data);
+            this.dermatologistList = [];
+
+            if (this.pharmacyAdminLogged) {
+              for(let i = 0; i < response.data.length; i++)
+              {
+                if (response.data[i].pharmacyNames.includes(this.pharmacyAdmin.pharmacyName)) {
+                  this.dermatologistList.push(response.data[i]);
+                }
+              }
+            } else {
+              this.dermatologistList = response.data;
+            }
+
+
             this.showList = true;
             if (response.data.length == 0) {
+              this.dermatologistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch(err => console.log(err));
+
       } else if (this.searchFirstName == "" && this.searchLastName != "") {
         console.log("Search dermatologists by last name");
         this.axios
@@ -175,9 +238,24 @@ export default {
             }
           )
           .then((response) => {
-            this.dermatologistList = response.data;
+            console.log(response.data);
+            this.dermatologistList = [];
+
+            if (this.pharmacyAdminLogged) {
+              for(let i = 0; i < response.data.length; i++)
+              {
+                this.adminPharmacy = this.pharmacyAdmin.pharmacyName;
+                if (response.data[i].pharmacyNames.includes(this.adminPharmacy)) {
+                  this.dermatologistList.push(response.data[i]);
+                }
+              }
+            } else {
+              this.dermatologistList = response.data;
+            }
+
             this.showList = true;
             if (response.data.length == 0) {
+              this.dermatologistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
@@ -197,12 +275,26 @@ export default {
             }
           )
           .then((response) => {
+            console.log(response.data);
+            this.dermatologistList = [];
+
+            if (this.pharmacyAdminLogged) {
+              for(let i = 0; i < response.data.length; i++)
+              {
+                if (response.data[i].pharmacyNames.includes(this.pharmacyAdmin.pharmacyName)) {
+                  this.dermatologistList.push(response.data[i]);
+                }
+              }
+            } else {
+              this.dermatologistList = response.data;
+            }
+
+            this.showList = true;
             if (response.data.length == 0) {
+              this.dermatologistList = [];
               alert("No results found try another search");
               this.clearInputFields();
             }
-            this.dermatologistList = response.data;
-            this.showList = true;
           });
       } else if (this.minRating != "" && this.maxRating != "") {
         if (
@@ -229,12 +321,26 @@ export default {
               }
             )
             .then((response) => {
+              console.log(response.data);
+              this.dermatologistList = [];
+
+              if (this.pharmacyAdminLogged) {
+                for(let i = 0; i < response.data.length; i++)
+                {
+                  if (response.data[i].pharmacyNames.includes(this.pharmacyAdmin.pharmacyName)) {
+                    this.dermatologistList.push(response.data[i]);
+                  }
+                }
+              } else {
+                this.dermatologistList = response.data;
+              }
+
+              this.showList = true;
               if (response.data.length == 0) {
+                this.dermatologistList = [];
                 alert("No results found try another search");
                 this.clearInputFields();
               }
-              this.dermatologistList = response.data;
-              this.showList = true;
             });
         }
       } else {

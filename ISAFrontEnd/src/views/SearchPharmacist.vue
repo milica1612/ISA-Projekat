@@ -90,7 +90,7 @@
               <th :class="sortedClass('firstName')" class="text-center" @click="sortBy('firstName')">First name</th>
               <th :class="sortedClass('lastName')" class="text-center" @click="sortBy('lastName')">Last name</th>
               <th :class="sortedClass('rating')" class="text-center" @click="sortBy('rating')">Raiting of a pharmacist</th>
-              <th :class="sortedClass('pharmacyName')" class="text-center" @click="sortBy('pharmacyName')">Pharmacy name</th>
+              <th :class="sortedClass('pharmacyName')" class="text-center" @click="sortBy('pharmacyName')">Work in pharmacy</th>
             </tr>
           </thead>
           <tbody v-bind:hidden="showList">
