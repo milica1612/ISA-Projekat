@@ -114,7 +114,7 @@
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
-            <td>{{ "700" + " rsd" }}</td>
+            <td>{{p.consultationPrice + " rsd" }}</td>
             <td>
               <v-btn
                   color="secondary"

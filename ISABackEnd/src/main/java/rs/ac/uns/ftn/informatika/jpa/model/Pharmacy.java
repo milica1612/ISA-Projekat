@@ -32,6 +32,9 @@ public class Pharmacy {
 
 	@Column(name = "description")
 	protected String description;
+	
+	@Column(name = "consultation_price")
+	protected Double consultationPrice;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Set<Pharmacist> pharmacist;
@@ -69,6 +72,26 @@ public class Pharmacy {
 		this.dermatologist = new HashSet<Dermatologist>();
 		this.phAdministrators = new HashSet<PharmacyAdministrator>();
 		this.medicineItem = new HashSet<MedicineItem>();
+	}
+	
+
+	public Pharmacy(Long pharmacyId, String name, Double rating, String description, Double consultationPrice,
+			Set<Pharmacist> pharmacist, Set<MedicineItem> medicineItem, Set<Dermatologist> dermatologist,
+			Set<PharmacyAdministrator> phAdministrators, List<Promotion> promotions, Address address,
+			List<Patient> patients) {
+		super();
+		this.pharmacyId = pharmacyId;
+		this.name = name;
+		this.rating = rating;
+		this.description = description;
+		this.consultationPrice = consultationPrice;
+		this.pharmacist = pharmacist;
+		this.medicineItem = medicineItem;
+		this.dermatologist = dermatologist;
+		this.phAdministrators = phAdministrators;
+		this.promotions = promotions;
+		this.address = address;
+		this.patients = patients;
 	}
 
 	public Pharmacy(String name, Double rating) {
@@ -153,5 +176,30 @@ public class Pharmacy {
 	public void setMedicineItem(Set<MedicineItem> medicineItem) {
 		this.medicineItem = medicineItem;
 	}
+
+	public Double getConsultationPrice() {
+		return consultationPrice;
+	}
+
+	public void setConsultationPrice(Double consultationPrice) {
+		this.consultationPrice = consultationPrice;
+	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
+	}
+
+	public List<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
+	}
+	
 
 }
