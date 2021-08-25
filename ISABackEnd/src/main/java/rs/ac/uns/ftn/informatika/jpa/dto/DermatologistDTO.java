@@ -1,21 +1,26 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
-import java.util.List;
-
 public class DermatologistDTO {
 	private String firstName;
 	private String lastName;
 	private double rating;
-	private List<String> pharmacyName;
+	private String pharmacyNames;
 	
 	public DermatologistDTO() {}
 	
-	public DermatologistDTO(String firstName, String lastName, double rating, List<String> pharmacyName) {
+	
+	public DermatologistDTO(String firstName, String lastName, double rating) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.rating = rating;
+	}
+	
+	public DermatologistDTO(String firstName, String lastName, double rating, String pharmacyNames) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.rating = rating;
-		this.pharmacyName = pharmacyName;
+		this.pharmacyNames = pharmacyNames;
 	}
 	
 	public String getFirstName() {
@@ -36,10 +41,13 @@ public class DermatologistDTO {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	public List<String> getPharmacyName() {
-		return pharmacyName;
+
+	public String getPharmacyNames() {
+		return pharmacyNames;
 	}
-	public void setPharmacyName(List<String> pharmacyName) {
-		this.pharmacyName = pharmacyName;
+
+	public void setPharmacyNames(String pharmacyNames) {
+		this.pharmacyNames = pharmacyNames;
 	}
+	
 }

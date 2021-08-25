@@ -379,7 +379,8 @@ INSERT INTO public.pharmacy_medicine_item(
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
 	VALUES (1, 12); 
-    
+
+-- Pharmacies - Dermatologists
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (1, 12);
@@ -389,7 +390,6 @@ INSERT INTO public.pharmacy_medicine_item(
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (3, 12);   
-
 
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
