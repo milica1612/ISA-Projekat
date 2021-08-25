@@ -112,7 +112,7 @@ export default {
           {title: "My Patients", path: "/usersList"},
           {title: "Start Counseling", path: "/startCounseling"},
           {title: "Work Calendar", path: "/workCalendar"},
-          {title: "Dispense Medicine", path: "/dispenseMedicine"},
+          {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},
           {title: "Schedule new Counseling", path: "/scheduleCounseling"},

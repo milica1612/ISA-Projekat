@@ -33,14 +33,8 @@ public class Pharmacy {
 	@Column(name = "description")
 	protected String description;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	public Set<Pharmacist> pharmacist;
-
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public Set<MedicineItem> medicineItem;
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	public Set<Dermatologist> dermatologist;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public Set<PharmacyAdministrator> phAdministrators;
@@ -65,8 +59,6 @@ public class Pharmacy {
 		this.pharmacyId = pharmacyId;
 		this.name = name;
 		this.rating = rating;
-		this.pharmacist = new HashSet<Pharmacist>();
-		this.dermatologist = new HashSet<Dermatologist>();
 		this.phAdministrators = new HashSet<PharmacyAdministrator>();
 		this.medicineItem = new HashSet<MedicineItem>();
 	}
@@ -75,8 +67,6 @@ public class Pharmacy {
 		super();
 		this.name = name;
 		this.rating = rating;
-		this.pharmacist = new HashSet<Pharmacist>();
-		this.dermatologist = new HashSet<Dermatologist>();
 		this.phAdministrators = new HashSet<PharmacyAdministrator>();
 		this.medicineItem = new HashSet<MedicineItem>();
 	}
@@ -128,23 +118,6 @@ public class Pharmacy {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	public Set<Pharmacist> getPharmacist() {
-		return pharmacist;
-	}
-
-	public void setPharmacist(Set<Pharmacist> pharmacist) {
-		this.pharmacist = pharmacist;
-	}
-
-	public Set<Dermatologist> getDermatologist() {
-		return dermatologist;
-	}
-
-	public void setDermatologist(Set<Dermatologist> dermatologist) {
-		this.dermatologist = dermatologist;
-	}
-
 
 	public Set<MedicineItem> getMedicineItem() {
 		return medicineItem;

@@ -333,6 +333,7 @@ INSERT INTO public.medicine_replacement_medicine(
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
+    
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (1, 10, 1);
@@ -380,16 +381,84 @@ INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
 	VALUES (1, 12); 
     
- INSERT INTO public.pharmacy_dermatologist(
+ INSERT INTO public.user_pharmacy(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (1, 12);
- INSERT INTO public.pharmacy_dermatologist(
+ INSERT INTO public.user_pharmacy(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (2, 12);
- INSERT INTO public.pharmacy_dermatologist(
+ INSERT INTO public.user_pharmacy(
 	pharmacy_pharmacy_id, dermatologist_user_id)
-	VALUES (3, 12);   
+	VALUES (3, 12); 
 
+-- DRUGA APOTEKA IMA ISTE LIJEKOVE
 
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (13, 10, 1);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (14, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (15, 3, 3);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (16, 10, 4);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (17, 20, 5);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (18, 100, 6);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (19, 100, 8);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (20, 100, 10);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (21, 100, 12);
+    
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 13);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 14);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 15);    
+ INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 16);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 17);
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	VALUES (2, 18);
+
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/03/05', true, 'M09T12', 2, 1);
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/08/24', false, 'S34W22', 2, 1);
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/09/25', false, 'P10L05', 2, 1);
+    
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/03/05', true, 'M09T13', 13, 1);
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/08/24', false, 'S34W21', 13, 1);
+INSERT INTO public.reservation(
+	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
+	VALUES (default, '2021/09/25', false, 'P10L06', 13, 1);
+ 
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);

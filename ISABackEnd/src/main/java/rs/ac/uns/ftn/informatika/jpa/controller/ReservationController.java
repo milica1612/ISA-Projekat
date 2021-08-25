@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
-import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
+import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 
@@ -31,39 +33,55 @@ public class ReservationController {
 	@Autowired
 	private PharmacyService _pharmacyService;
 	
+	@Autowired
+	private EmailService _emailService;
+	
 	static class ResChecker {
 		public String deadlineDate;
 		public String resCode;
 		public Long pharmacyId;
 	}
 	
-	@PutMapping(value = "/findReservation")
+	@PutMapping("/findReservation")
 	public Reservation findReservationByCode(@RequestBody ResChecker resChecker) throws ParseException {
 		
-		Reservation r = _reservationService.findReservationByCode(resChecker.resCode);
-		System.out.println(r);
 		Boolean reservationInPharmacy = false;
+		Pharmacy pharmacy = new Pharmacy();
+		Reservation r =  _reservationService.findReservationByCode(resChecker.resCode);
+	
 		
-	/*	Pharmacy pharmacy = _pharmacyService.findById(resChecker.pharmacyId);
-		for (MedicineItem m: pharmacy.medicineItem) {
-			if(r.medicineItem.equals(m)) {
-				reservationInPharmacy = true;
-			}
-		}
-		*/
 		Calendar cal = Calendar.getInstance(); // creates calendar
 		cal.setTime(new Date());               // sets calendar time/date
-		cal.add(Calendar.HOUR_OF_DAY, 24);      
+		cal.add(Calendar.HOUR_OF_DAY, 24); 
 		
 		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(resChecker.deadlineDate);
 		
-		
-		if (r == null || date.before(cal.getTime()) || reservationInPharmacy) {
-			//System.out.println(r + "+++++ " + date + " " + pharmacy.getPharmacyId());
-			return null;
+		if(!date.before(cal.getTime())) {
+			reservationInPharmacy = false;	
+		}
+				
+		else {
+			pharmacy = _pharmacyService.findById(resChecker.pharmacyId);
+			for (MedicineItem m: pharmacy.medicineItem) {
+						if(m.equals(r.medicineItem)) {
+							reservationInPharmacy = true;
+						}
+					}
 		}
 		
-		return r;
+		if (r != null && reservationInPharmacy) {
+			System.out.println(r);
+			if(r.getRecieved() != true) {
+				
+				_emailService.sendRecievedMedicineEmail(r.getReservationCode(), pharmacy, r.getPatient());
+				
+				return _reservationService.updateReservation(r);
+			}
+			return new Reservation();
+		}
+		
+		return new Reservation();
+		
 	}
 
 }

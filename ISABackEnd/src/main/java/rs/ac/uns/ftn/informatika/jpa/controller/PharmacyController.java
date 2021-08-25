@@ -63,9 +63,7 @@ public class PharmacyController {
 		
 		_pharmacy.setName(pharmacy.getName());
 		_pharmacy.setRating(pharmacy.getRating());
-		_pharmacy.setDermatologist(pharmacy.getDermatologist());
 		_pharmacy.setMedicineItem(pharmacy.getMedicineItem());
-		_pharmacy.setPharmacist(pharmacy.getPharmacist());
 	
 		_pharmacy = (Pharmacy) _pharmacyService.save(_pharmacy);	
 		return new ResponseEntity<>(HttpStatus.CREATED);

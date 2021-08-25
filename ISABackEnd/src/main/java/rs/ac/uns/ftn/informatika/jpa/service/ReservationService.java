@@ -28,16 +28,15 @@ public class ReservationService implements IReservationService{
 	
 	@Override
 	public Reservation findReservationByCode(String code) {
-		
+		System.out.println("**********************************");
 		List<Reservation> reservations = _reservationRepository.findAll();
 		
 		for (Reservation r: reservations) {
 			if (r.getReservationCode().equals(code)) {
-				
-				return updateReservation(r);
+				System.out.println(code);
+				return r;
 			}
-		}
-		
+		}	
 		return null;
 	}
 }

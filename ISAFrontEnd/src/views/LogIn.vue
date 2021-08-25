@@ -68,8 +68,8 @@ export default {
             localStorage.setItem("token", resp.data.accessToken);
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
-            localStorage.setItem("first_login", resp.data.user.firstLogin);        
-    
+            localStorage.setItem("first_login", resp.data.user.firstLogin);
+
             if (resp.data.user.userType == "PATIENT") {
               window.location.href = "http://localhost:8080/homePagePatient";
             } else {
@@ -81,7 +81,7 @@ export default {
                   window.location.href =
                     "http://localhost:8080/homePageDermatologist";
                 } else if (resp.data.user.userType == "PHARMACIST") {
-                  window.location.href =
+                   window.location.href =
                     "http://localhost:8080/homePagePharmacist";
                 } else if (resp.data.user.userType == "PH_ADMINISTRATOR") {
                   localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);

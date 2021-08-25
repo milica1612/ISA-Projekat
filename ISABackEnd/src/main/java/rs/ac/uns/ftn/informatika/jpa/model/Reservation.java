@@ -25,10 +25,10 @@ public class Reservation {
 	@Column(name = "recieved", nullable = false)
     private Boolean recieved;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
     public Patient patient;
     
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     public MedicineItem medicineItem;
     
 	@Column(name = "deadline", nullable = false)

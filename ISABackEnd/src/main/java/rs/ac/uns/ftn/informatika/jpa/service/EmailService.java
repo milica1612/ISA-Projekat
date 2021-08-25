@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 
 @Service
@@ -68,5 +69,26 @@ public class EmailService {
 		System.out.println("Promotion email successfully sent to subscribed user/patient!");
 	}
 	
-
+	@Async
+	public void sendRecievedMedicineEmail(String code, Pharmacy pharmacy, Patient patient) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(patient.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Dispensed medicine");
+		
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + patient.getFirstName() + ",");
+		text.append("\n\n");
+		text.append("Your reservation is successfully issued.");
+		text.append("\n");
+		text.append("Reservation code:" + code);
+		text.append("\n\nYour pharmacy, " + pharmacy.getName());
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Email for reservation " + code + ", is successfully sent to patient!");
+	}
 }

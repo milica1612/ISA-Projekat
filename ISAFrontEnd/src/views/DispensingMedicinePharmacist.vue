@@ -9,7 +9,8 @@
             transition="dialog-top-transition"
             max-width="600"
         >
-          <template v-slot:activator="{ on, attrs }">
+
+        <template v-slot:activator="{ on, attrs }">
             <v-btn
                 v-bind="attrs"
                 v-on="on"
@@ -27,19 +28,23 @@
                   dark
               >Search result:</v-toolbar>
               <v-simple-table>
-                <template>
-                  <tbody v-if="resultTrue == false">
-                  <tr><th colspan="2" class="text-center">RESERVATION CODE IS NOT VALID!</th></tr>
+                <template v-slot:default>
+                  <tbody v-if="resultTrue">
+                    <tr><th colspan="3" class="text-center">MEDICINE IS ISSUED!</th></tr>
+                    <tr>
+                      <td class="text-center">Code</td>
+                      <td class="text-center">Medicine</td>
+                      <td class="text-center">Patient email</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">{{resultReservation.reservationCode }}</td>
+                      <td class="text-center">{{ resultReservation.medicineItem.medicine.name }}</td>
+                      <td class="text-center">{{ resultReservation.patient.email }} </td>
+                    </tr>
                   </tbody>
                   <tbody v-else>
-                  <tr><th colspan="2" class="text-center">MEDICINE IS ISSUED!</th></tr>
-                  <tr>
-                    <td>{{ this.resultReservation.deadlineDate }}</td>
-                    <td>{{ this.resultReservation.reservationCode }}</td>
-                    <td>{{ this.resultReservation.medicine.name}}</td>
-                    <td>{{ this.resultReservation.email }}</td>
-                  </tr>
-                  </tbody>
+                    <tr><th colspan="2" class="text-center">RESERVATION CODE IS NOT VALID!</th></tr>
+                 </tbody>
                 </template>
               </v-simple-table>
               <v-btn
@@ -53,7 +58,7 @@
         </td>
       </tr>
     </v-simple-table>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -72,10 +77,19 @@ export default {
       hours : null,
       minutes : null,
       seconds: null,
-      resultReservation: null
+      resultReservation: null,
+      pharmacist: null
     }
   },
   mounted() {
+
+    this.axios
+        .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+        })
+        .then(response => (this.pharmacist = response.data));
   },
   methods: {
     searchResult: function(){
@@ -95,7 +109,7 @@ export default {
       const resChecker={
         deadlineDate: this.timeClicked,
         resCode: this.reservationCode,
-        pharmacyId : this.pharmId
+        pharmacyId : this.pharmacist.pharmacy.pharmacyId
       }
 
       this.axios
@@ -103,12 +117,13 @@ export default {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
-          }).then(response => { this.resultReservation = response.data
-
-        if(this.resultReservation == null){
-          this.resultTrue = false
-        }
-      })
+          })
+            .then(response => {
+              this.resultReservation = response.data;
+              if(this.resultReservation.reservationId == null){
+                this.resultTrue = false
+              }
+            })
     }
   }
 }
