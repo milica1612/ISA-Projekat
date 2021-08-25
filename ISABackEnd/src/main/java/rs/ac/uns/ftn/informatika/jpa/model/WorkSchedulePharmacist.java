@@ -75,6 +75,8 @@ public class WorkSchedulePharmacist {
 	}
 
 	public Set<Consultation> getScheduledConsultations() {
+		if (scheduledConsultations == null)
+	         scheduledConsultations = new HashSet<Consultation>();
 		return scheduledConsultations;
 	}
 

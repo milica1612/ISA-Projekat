@@ -378,3 +378,36 @@ INSERT INTO public.work_schedule_pharmacist(
 INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 11, 3, 3, 4);
+
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-11-11 09:00:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-11-11 16:15:00', 30, 5, 700, 1, 11, 3);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-11-11 17:15:00', 30, 5, 700, 1, 11, 3);
+
+INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
+	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
+	VALUES (1, 1);
+
+INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
+	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
+	VALUES (1, 2);
+
+INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
+	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
+	VALUES (2, 3);
+
+INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
+	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
+	VALUES (2, 4);
