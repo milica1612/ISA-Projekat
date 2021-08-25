@@ -109,10 +109,8 @@
 export default {
   name: "PharmacyAdmin",
   data: () => ({
-  
       pharmacyAdmin: null,
       pharmacyAdminId: "",
-
   }),
   mounted() {
     this.viewPersonalInfo();
