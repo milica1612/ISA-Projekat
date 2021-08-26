@@ -15,12 +15,10 @@ import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 @Service
 public class PharmacyAdminService implements IPharmacyAdminService{
 	
-	@Autowired
+
 	private IPharmacyAdminRepository _pharmacyAdminRepository;
 	
-	@Autowired
 	private IAddressRepository _addressRepository;
-	
 	
 	private IPharmacyRepository _pharmacyRepository;
 	

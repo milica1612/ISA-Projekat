@@ -43,22 +43,12 @@ public class Examination{
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Pharmacy pharmacy;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	public Shift shift;
 	
 	@Enumerated(EnumType.STRING)
     public AppointmentStatus appointmentStatus;
    
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Dermatologist dermatologist;
-
-/*    public Examination(Date dateAndTime, int duration, Double price, Long appointmentId, Boolean cancelled, int points,
-			Patient patient, Shift shift, AppointmentStatus appointmentStatus,
-			Dermatologist dermatologist) {
-		super(dateAndTime, duration, price, appointmentId, cancelled, points, patient, shift, appointmentStatus);
-		this.dermatologist = dermatologist;
-	}*/
-	
 	
     public Examination()
     {
@@ -66,7 +56,7 @@ public class Examination{
     }
     
 	public Examination(Long appointmentId, Date dateAndTime, int duration, Double price, Boolean cancelled, int points,
-		Patient patient, Pharmacy pharmacy, Shift shift, AppointmentStatus appointmentStatus,
+		Patient patient, Pharmacy pharmacy, AppointmentStatus appointmentStatus,
 		Dermatologist dermatologist) {
 	super();
 	this.appointmentId = appointmentId;
@@ -77,7 +67,6 @@ public class Examination{
 	this.points = points;
 	this.patient = patient;
 	this.pharmacy = pharmacy;
-	this.shift = shift;
 	this.appointmentStatus = appointmentStatus;
 	this.dermatologist = dermatologist;
 }
@@ -130,12 +119,6 @@ public class Examination{
 	}
 	public void setPatient(Patient patient) {
 		this.patient = patient;
-	}
-	public Shift getShift() {
-		return shift;
-	}
-	public void setShift(Shift shift) {
-		this.shift = shift;
 	}
 	public AppointmentStatus getAppointmentStatus() {
 		return appointmentStatus;

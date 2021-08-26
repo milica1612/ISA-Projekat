@@ -1,6 +1,5 @@
 <template>
   <div id = "homePage">
-    <br>
     <div class = "container">
     <h3>Search Pharmacies:</h3>
     <input placeholder="Enter name or city" type="search" v-model = "searchField" id="searchPharmacies" name="searchPharmacies" required>

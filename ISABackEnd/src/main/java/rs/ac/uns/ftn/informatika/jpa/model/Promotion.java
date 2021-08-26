@@ -40,7 +40,6 @@ public class Promotion {
 	
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	//@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	private Pharmacy pharmacy;
 	
 	
