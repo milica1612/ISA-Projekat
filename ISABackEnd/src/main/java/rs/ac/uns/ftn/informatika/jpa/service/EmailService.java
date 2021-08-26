@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 
 @Service
@@ -93,6 +94,53 @@ public class EmailService {
 		javaMailSender.send(mail);
 		System.out.println("Confirmation email successfully sent to user/patient!");
 	}
-	
 
+
+	public void sendAcceptedVactionEmailAsync(PharmacistVacation pharmacistVacation) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(pharmacistVacation.getPharmacist().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Accepted vacation");
+		
+		String startOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(pharmacistVacation.getStartDate());
+	    String endOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(pharmacistVacation.getEndDate());
+	        
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + pharmacistVacation.getPharmacist().getUserType() + ", " + pharmacistVacation.getPharmacist().getFirstName() + " "  + pharmacistVacation.getPharmacist().getLastName() + ",");
+		text.append("\n\n");
+		text.append("You are on vacation from  " + startOfVacation + " to " + endOfVacation + " .");
+		text.append("\n\n\r\n"
+				+ "All the best");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Accepted vacation email successfully sent!");
+	}
+	
+	public void sendDeclinedVactionEmailAsync(PharmacistVacation pharmacistVacation, String explanation) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(pharmacistVacation.getPharmacist().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Declined vacation");
+		
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + pharmacistVacation.getPharmacist().getUserType() + ", " + pharmacistVacation.getPharmacist().getFirstName() + " "  + pharmacistVacation.getPharmacist().getLastName() + ",");
+		text.append("\n\n");
+		text.append("Unfortunately, we had to decline your vacation request.");
+		text.append("\nReson, " + explanation + ".");
+		text.append("\nOf course, you still have the right to take advantage of your days off, but on another occasion.");
+		text.append("\n\n\r\n"
+				+ "Greeting");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Declined vacation email successfully sent!");
+	}
+	
 }
