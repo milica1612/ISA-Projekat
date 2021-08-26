@@ -181,7 +181,21 @@ export default {
             });
     },
     cancelConsultation(consultation){
-      alert(consultation.pharmacy.name)
+      this.axios
+          .put('http://localhost:8091/consultation/cancel', consultation, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            this.result = response.data;
+            if(this.result == false){
+              alert("Unable to cancel consultation! Consulation is scheduled within next 24h.")
+            }else {
+              alert("Consultation cancelled!"),
+                  window.location.href = "http://localhost:8080/upcomingVisits"
+            }
+          });
     }
   },
   computed:{

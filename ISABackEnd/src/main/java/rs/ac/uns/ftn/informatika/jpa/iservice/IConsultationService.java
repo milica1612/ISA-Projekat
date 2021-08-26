@@ -17,4 +17,6 @@ public interface IConsultationService {
 	 Consultation save(ConsultationDTO dto, Patient p);
 	 ArrayList<Consultation> findAllConsultation();
 	 ArrayList<ConsultationViewDTO> getByPatient(Long patientId);
+	boolean cancelConsultation(ConsultationViewDTO consultation);
+	boolean isSoonerThan24hours(Consultation c);
 }

@@ -1,9 +1,12 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,4 +72,28 @@ public class ConsultationService implements IConsultationService{
 			}
 		}
 		return result;	}
+
+	@Override
+	public boolean cancelConsultation(ConsultationViewDTO consultation) {
+		Optional<Consultation> oldConsultation = _consultationRepository.findById(consultation.getAppointmentId());
+		Consultation c = oldConsultation.get();
+		if(isSoonerThan24hours(c)) {
+			return false;
+		}
+		c.setCancelled(true);
+		_consultationRepository.save(c);
+		return true;
+	}
+	
+	@Override
+	public boolean isSoonerThan24hours(Consultation c) {
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(new Date());               // sets calendar time/date
+		cal.add(Calendar.HOUR_OF_DAY, 24);      
+		
+		if(c.getDateAndTime().before(cal.getTime())) {
+			return true;
+		}
+		return false;
+	}
 }
