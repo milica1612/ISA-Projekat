@@ -113,7 +113,7 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(response => (this.pharmacists = response.data));
+          .then();
     },
     sortedClass(key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';

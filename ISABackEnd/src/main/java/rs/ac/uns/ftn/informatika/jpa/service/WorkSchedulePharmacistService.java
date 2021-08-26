@@ -44,16 +44,20 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 				if(shift.getStartDate().getHours() < date.getHours()) {
 					if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
 						for (Consultation c : consultations) {
+							System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
 							Calendar endCons = Calendar.getInstance(); // creates calendar
 							endCons.setTime(c.getDateAndTime());               // sets calendar time/date
 							endCons.add(Calendar.MINUTE, c.getDuration());
 
 							if(c.getCancelled() == true) {
+								System.out.println("cancelled");
 								break;
-							}else if(date.before(c.getDateAndTime())&& date.before(endCons.getTime())) {
+							}else if(date.before(c.getDateAndTime()) && cal.before(endCons.getTime())) {
+								System.out.println("notAvailable");
 								notAvailable = true;
 								break;
-							}else if(cal.after(c.getDateAndTime()) && cal.before(endCons.getTime())){
+							}else if(date.after(c.getDateAndTime()) && cal.after(endCons.getTime())){
+								System.out.println("notAVailable");
 								notAvailable = true;
 								break;
 							}
@@ -61,6 +65,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 						if(notAvailable) {
 							notAvailable = false;
 						}else if (!pharmacies.contains(workSchedule.getPharmacy())){
+							System.out.println("dodaj");
 							pharmacies.add(workSchedule.getPharmacy());
 						}
 					
