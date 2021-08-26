@@ -105,7 +105,6 @@ public class OfferService implements IOfferService{
 			offer.setSupplier(supplier);
 			offer.setOrder(order);
 		}
-		
 		_offerRepository.save(offer);
 	}
 
@@ -116,10 +115,10 @@ public class OfferService implements IOfferService{
 		
 		Set<MedicineItem> supplierMedItem = supplier.getMedicineItem();
 		
-		/*if(supplier.getMedicineItem().isEmpty()) {
+		if(supplier.getMedicineItem().isEmpty()) {
 			System.out.println("empty");
 			throw new IllegalArgumentException("There is no available medicine for order!");
-		}*/
+		}
 		
 		List<MedicineItem> medicineForOrder = new ArrayList<>();
 		
@@ -133,13 +132,9 @@ public class OfferService implements IOfferService{
 
 	@Override
 	public Boolean checkOffer(OfferDTO offerDTO, Supplier supplier) {
-		System.out.println("check offer");
 		
-		System.out.println(offerDTO.getId());
-		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);
-		
+		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);	
 
-		System.out.println("aaa");
 		if(!checkMedicineAvailable(order, supplier)) {
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}

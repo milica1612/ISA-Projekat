@@ -320,3 +320,8 @@ INSERT INTO public.pharmacy_medicine_item(pharmacy_pharmacy_id, medicine_item_me
 
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id) values (1, 1);
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id) values (2, 2);
+
+INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 2);
+INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 1);
+INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 3);
+INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 4);

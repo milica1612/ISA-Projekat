@@ -71,4 +71,14 @@ public class OfferController {
 			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	/*@PostMapping(value = "/changeOffer/{offer_id}")
+	public ResponseEntity<?> changeOffer(@PathVariable Long offer_id, @RequestBody OfferDTO offerDTO){
+		try {
+			_offerService.createOffer(order_id, offerDTO);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}*/
 }

@@ -53,6 +53,69 @@
             <td>{{ m.name }}</td>
             <td>{{ m.type }}</td>
             <td>{{ m.rating }}</td>
+            <td>
+                    <v-row justify="center">
+                  <v-dialog
+                  v-model="dialog"
+                  persistent
+                  max-width="600px"
+                  >
+                  <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      >
+                      Medicine Specification
+                      </v-btn>
+                  </template>
+                  <v-card>
+                      <v-card-title>
+                      <span class="text-h5">Medicine Specification</span>
+                      </v-card-title>
+                      <v-card-text>
+                      <v-container>
+                          <v-row>
+                          <v-col cols="12">
+                              <v-text-field
+                              label="Dosage*"
+                              v-model= "m.medicineSpecification.dosage"
+                              required
+                              ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                              <v-text-field
+                              label="Ingridients*"
+                              v-model = "m.medicineSpecification.ingridient.name"
+                              required
+                              ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                              <v-text-field
+                              label="Contraindication*"
+                              v-model = "m.medicineSpecification.contraindication.description"
+                              required
+                              ></v-text-field>
+                          </v-col>
+                          </v-row>
+                      </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="dialog = false"
+                      >
+                          Close
+                      </v-btn>
+                      </v-card-actions>
+                  </v-card>
+                  </v-dialog>
+              </v-row>
+              
+            </td>
           </tr>
           </tbody>
         </template>
@@ -82,68 +145,6 @@
           >
             <td>{{ a.name }}</td>
             <td>{{ a.price }}</td>
-            <td>
-        <v-row justify="center">
-            <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
-            >
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                color="primary"
-                dark
-                v-bind="attrs"
-                v-on="on"
-                >
-                Medicine Specification
-                </v-btn>
-            </template>
-            <v-card>
-                <v-card-title>
-                <span class="text-h5">Medicine Specification</span>
-                </v-card-title>
-                <v-card-text>
-                <v-container>
-                    <v-row>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Dosage*"
-                        v-model= "dosage"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Ingridients*"
-                        v-model = "ingridient"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Contraindication*"
-                        v-model = "contraindication"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    </v-row>
-                </v-container>
-                </v-card-text>
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                >
-                    Close
-                </v-btn>
-                </v-card-actions>
-            </v-card>
-            </v-dialog>
-        </v-row>
-        </td>
           </tr>
           </tbody>
         </template>
@@ -159,6 +160,15 @@ export default {
     return {
       dialog: false,
       medicines: [],
+      medicineSpecification: {
+          dosage: "",
+          contraindication: {
+              description: ""
+          },
+          ingridient: {
+              name: ""
+          },
+      },
       availableInPharmacies: [],
       searchMedicine: ""
     }
