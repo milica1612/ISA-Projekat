@@ -18,19 +18,16 @@ public class Pharmacist extends PharmacyEmployee {
 	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	public Pharmacy pharmacy;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	public Set<Dermatologist> dermatologist;
 	
 	public Pharmacist(){}
 	
 	
 	public Pharmacist(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled,
-			Date lastResetPasswordDate, Boolean firstLogin, Pharmacy pharmacy, Set<Dermatologist> dermatologist) {
+			Date lastResetPasswordDate, Boolean firstLogin, Pharmacy pharmacy) {
 		super(firstName, lastName, userName, password, email, phoneNumber, userId, userType, address, enabled,
 				lastResetPasswordDate, firstLogin);
 		this.pharmacy = pharmacy;
-		this.dermatologist = dermatologist;
 	}
 
 
@@ -40,16 +37,6 @@ public class Pharmacist extends PharmacyEmployee {
 
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
-	}
-
-
-	public Set<Dermatologist> getDermatologist() {
-		return dermatologist;
-	}
-
-
-	public void setDermatologist(Set<Dermatologist> dermatologist) {
-		this.dermatologist = dermatologist;
 	}
 	
     

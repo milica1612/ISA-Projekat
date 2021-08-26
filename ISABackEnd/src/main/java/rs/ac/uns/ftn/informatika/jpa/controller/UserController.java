@@ -71,10 +71,7 @@ public class UserController {
 	
     @PutMapping(value = "/searchUser")
     public List<Patient> searchUser(@RequestBody NameAndEmployee ne) {
-    	if(ne.fullName.length() > 0)
-    		return _userService.getPatientsByName(ne.fullName.substring(0, ne.fullName.length() -1), ne.employeeId);
-    	else
-    		return _userService.getPatientsByName(ne.fullName, ne.employeeId);
+    	return _userService.getPatientsByName(ne.fullName, ne.employeeId);
 	}
 	
 
