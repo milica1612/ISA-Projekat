@@ -21,7 +21,7 @@ public class ConsultationService implements IConsultationService{
 	private IConsultationRepository _conConsultationRepository;
 
 	@Override
-	public void save(ConsultationDTO dto, Patient p) {
+	public Consultation save(ConsultationDTO dto, Patient p) {
 		String d = dto.getDate() + " " +  dto.getTime() + ":00";
 	    Date date = new Date();
 		try {
@@ -40,7 +40,7 @@ public class ConsultationService implements IConsultationService{
 		consultation.setPrice(dto.getPharmacist().getPharmacy().getConsultationPrice());
 		consultation.setPharmacy(dto.getPharmacist().getPharmacy());
 		consultation.setDuration(30);
-		this._conConsultationRepository.save(consultation);
+		return this._conConsultationRepository.save(consultation);
 		
 	}
 }

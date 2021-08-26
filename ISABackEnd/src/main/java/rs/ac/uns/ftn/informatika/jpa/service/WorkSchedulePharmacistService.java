@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IWorkSchedulePharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
@@ -115,5 +116,44 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		
 	}
 		return pharmacists;
+	}
+	
+	public WorkSchedulePharmacist findWorkScheduleForPharmacistInPeriod(Consultation c) {
+		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
+
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(c.getDateAndTime());               // sets calendar time/date
+		cal.add(Calendar.MINUTE, c.getDuration());
+		for (WorkSchedulePharmacist workSchedule : all) {
+			if(workSchedule.getPharmacist().getUserId() == c.getPharmacist().getUserId()) {
+				System.out.println("Pronasao je za farmaceuta");
+				TimeInterval valid = workSchedule.getValidFor();
+				TimeInterval shift = workSchedule.getShift();
+				if(valid.getStartDate().before(c.getDateAndTime()) && valid.getEndDate().after(c.getDateAndTime())) {
+					System.out.println("Pronasao je period");
+				if(shift.getStartDate().getHours() < c.getDateAndTime().getHours()) {
+					System.out.println("Pronasao je smjenu ");
+					if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
+						return workSchedule;
+					}
+				}
+			}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void addNewConsultationToWorkSchedule(Consultation c) {
+		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c);
+		if(workSchedule == null) {
+			System.out.println("Null je +++++++++++++++++++++++++++++");
+			return;
+		}
+		System.out.println("Proslo do dodavanja");
+		workSchedule.getScheduledConsultations().add(c);
+		System.out.println("Nece da sacuva");
+		_workScheduleRepository.save(workSchedule);
+		
 	}
 }

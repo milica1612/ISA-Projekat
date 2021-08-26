@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.AppointmentDateAndTimeDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;

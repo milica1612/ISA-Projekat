@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
+import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -35,7 +36,7 @@ public class ConsultationController {
 	private UserService _userService;
 	
 	@Autowired
-	private WorkSchedulePharmacistController _workSchedulePharmacist;
+	private WorkSchedulePharmacistService _workSchedulePharmacist;
 	
 	static class Request{
 		public ConsultationDTO dto;
@@ -44,11 +45,9 @@ public class ConsultationController {
 	
 	@PostMapping("/create")
 	public void createNewConsultation(@RequestBody Request r) {
-		//Patient user = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = _userService.findById(r.patientId);
-		System.out.println(r.dto.getPharmacist().getFirstName() + " +++++++++++++++++++++++++");
-		
-		this._consultationService.save(r.dto, (Patient) user);
+		Consultation c = this._consultationService.save(r.dto, (Patient) user);
+		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 	}
 	
 	
