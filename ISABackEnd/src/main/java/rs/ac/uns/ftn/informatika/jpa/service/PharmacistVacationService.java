@@ -54,7 +54,7 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 
 	private boolean sendAcceptedVacationEmail(PharmacistVacation pharmacistVacation) {
 		try {
-			_emailService.sendAcceptedVactionEmailAsync(pharmacistVacation);
+			_emailService.sendAcceptedVactionEmailForPharmacistAsync(pharmacistVacation);
 			return true;
 		} catch (Exception e) {
 			System.out.print(e);
@@ -68,12 +68,12 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 		if(sendDeclinedVacationEmail(pharmacistVacation, requestDeclineDTO.getExplanation()))
 			return _pharmacistVacationRepository.save(pharmacistVacation);
 		
-		return _pharmacistVacationRepository.save(pharmacistVacation);
+		return null;
 	}
 
-	private boolean sendDeclinedVacationEmail(PharmacistVacation pharmacistVacation, String explantaion) {
+	private boolean sendDeclinedVacationEmail(PharmacistVacation pharmacistVacation, String explanation) {
 		try {
-			_emailService.sendDeclinedVactionEmailAsync(pharmacistVacation, explantaion);
+			_emailService.sendDeclinedVactionEmailForPharmacistAsync(pharmacistVacation, explanation);
 			return true;
 		} catch (Exception e) {
 			System.out.print(e);
