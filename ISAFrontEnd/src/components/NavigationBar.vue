@@ -125,6 +125,7 @@ export default {
           {title: "Define promotion", path: "/promotion"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Vacation Requests", path: '/requestsVacationPharmacists'},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE

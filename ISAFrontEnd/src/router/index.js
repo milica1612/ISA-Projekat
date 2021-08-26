@@ -259,6 +259,12 @@ const routes = [{
         name: 'Promotion',
         component: () =>
             import('../views/Promotion.vue')
+    },
+    {
+        path: '/requestsVacationPharmacists',
+        name: 'RequestsVacationPharmacists',
+        component: () =>
+            import('../views/RequestsVacationPharmacists.vue')
     }
 
 ]
