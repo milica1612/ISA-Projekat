@@ -20,6 +20,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
+import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 
@@ -36,6 +37,9 @@ public class ConsultationController {
 	private UserService _userService;
 	
 	@Autowired
+	private EmailService _emailService;
+	
+	@Autowired
 	private WorkSchedulePharmacistService _workSchedulePharmacist;
 	
 	static class Request{
@@ -48,6 +52,7 @@ public class ConsultationController {
 		User user = _userService.findById(r.patientId);
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
+		this._emailService.sendConsultationConfirmation(c);
 	}
 	
 	

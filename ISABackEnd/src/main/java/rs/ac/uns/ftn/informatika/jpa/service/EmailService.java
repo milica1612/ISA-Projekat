@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 
@@ -66,6 +67,31 @@ public class EmailService {
 		
 		javaMailSender.send(mail);
 		System.out.println("Promotion email successfully sent to subscribed user/patient!");
+	}
+	
+	public void sendConsultationConfirmation(Consultation consultation) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(consultation.getPatient().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Consultation confirmation");
+		
+		String date = new SimpleDateFormat("dd.MM.yyyy. hh:mm:ss").format(consultation.getDateAndTime());
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + consultation.getPatient().getFirstName() + " "  + consultation.getPatient().getLastName() + ",");
+		text.append("\n\n");
+		text.append("\nYou have successfully scheduled a consultation.");
+		text.append("\nConsultation information:");
+		text.append("\nPHARMACY: " + consultation.getPharmacy().getName());
+		text.append("\nDATE AND TIME: " + date);
+		text.append("\nPHARMACIST: " + consultation.getPharmacist().getFirstName() + " " + consultation.getPharmacist().getLastName());
+		text.append("\n\nYour pharmacy, " + consultation.getPharmacy().getName());
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Confirmation email successfully sent to user/patient!");
 	}
 	
 

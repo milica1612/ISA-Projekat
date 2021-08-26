@@ -147,12 +147,9 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 	public void addNewConsultationToWorkSchedule(Consultation c) {
 		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c);
 		if(workSchedule == null) {
-			System.out.println("Null je +++++++++++++++++++++++++++++");
 			return;
 		}
-		System.out.println("Proslo do dodavanja");
 		workSchedule.getScheduledConsultations().add(c);
-		System.out.println("Nece da sacuva");
 		_workScheduleRepository.save(workSchedule);
 		
 	}
