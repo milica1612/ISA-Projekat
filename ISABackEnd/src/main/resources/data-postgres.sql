@@ -165,7 +165,7 @@ INSERT INTO public.allergy_medicine(
 -- password Milica123! 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Patient', default, 'laziczorana998@gmail.com', true, false, 'Milica', 'Lukic', '2020-11-11', '$2a$12$npxcTCqr.HeAJL6YaFDfruts5K9VCYusMwk3XFL0IwE0qGSiMe51G', 'ML896k0z0oWyHZC5i5v761==', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
+	VALUES ('Patient', default, 'milica98@gmail.com', true, false, 'Milica', 'Lukic', '2020-11-11', '$2a$12$npxcTCqr.HeAJL6YaFDfruts5K9VCYusMwk3XFL0IwE0qGSiMe51G', 'ML896k0z0oWyHZC5i5v761==', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
 	
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
@@ -226,10 +226,10 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Dermatologist', default, 'sara20@gmail.com', true, false, 'Sara', 'Jovanovic', '2020-11-11', '$2a$12$ZJyJxPRFZGgw6t5nKDDsqOboD/H2pfLmoKADcu7LbVozp6WZ3UCMS', 'aB5ScB102w2XpVr3SIzpOl==', '061/444-01-99', 'sara20', 'DERMATOLOGIST', 8.9, null, 9, null, null);		
 
--- password Branko12! - branko12
+-- password Branko12!
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Branko', 'Sudic', '2020-11-11', '$2a$12$QSz8Nyp6jzwWbR0Rxlp/bOyp/PAcCw200HIYp7nOz0NC1R823M42e', 'rB5acN122w2XOVr3sIDpx1==', '064/333-66-39', 'branko12', 'DERMATOLOGIST', 9.8, null, 13, null, null);		
+	VALUES ('Dermatologist', default, 'branko12@gmail.com', true, false, 'Branko', 'Sudic', '2020-11-11', '$2a$12$QSz8Nyp6jzwWbR0Rxlp/bOyp/PAcCw200HIYp7nOz0NC1R823M42e', 'rB5acN122w2XOVr3sIDpx1==', '064/333-66-39', 'branko12', 'DERMATOLOGIST', 9.8, null, 13, null, null);		
 
 -- password Milan123!
 INSERT INTO public.user(
@@ -346,10 +346,6 @@ insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_us
 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 
--- DERMATOLOGIST-VACATION - TEST DATA
-insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 13, 2); 
-
-
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-01-01 11:00:00', 30, 5,1500, 12, null, 1);
@@ -370,6 +366,10 @@ INSERT INTO public.examination(appointment_id, appointment_status, cancelled, da
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-08-21 12:00:00', 30, 5,2100, 13, 1, 2);
 
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (1, 6);
@@ -382,7 +382,6 @@ INSERT INTO public.medicine_replacement_medicine(
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
-    
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (1, 10, 1);
@@ -468,83 +467,3 @@ INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
 	VALUES (2, 4);
-    
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 3);    
- INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (1, 8);
-
--- DRUGA APOTEKA IMA ISTE LIJEKOVE
-
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (13, 10, 1);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (14, 20, 2);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (15, 3, 3);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (16, 10, 4);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (17, 20, 5);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (18, 100, 6);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (19, 100, 8);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (20, 100, 10);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (21, 100, 12);
-    
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 13);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 14);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 15);    
- INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 16);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 17);
-INSERT INTO public.pharmacy_medicine_item(
-	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
-	VALUES (2, 18);
-
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/03/05', true, 'M09T12', 2, 1);
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/08/24', false, 'S34W22', 2, 1);
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/09/25', false, 'P10L05', 2, 1);
-    
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/03/05', true, 'M09T13', 13, 1);
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/08/24', false, 'S34W21', 13, 1);
-INSERT INTO public.reservation(
-	reservation_id, deadline, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id)
-	VALUES (default, '2021/09/25', false, 'P10L06', 13, 1);
- 
--- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
-INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
-

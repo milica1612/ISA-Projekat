@@ -113,7 +113,7 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then();
+          .then(window.location.href = "http://localhost:8080/upcomingVisits");
     },
     sortedClass(key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';

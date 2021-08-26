@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -53,6 +57,10 @@ public class ConsultationController {
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 		this._emailService.sendConsultationConfirmation(c);
+	}
+	@GetMapping(value = "/getByPatientId/{patientId}")
+	public ArrayList<ConsultationViewDTO> getByPatient(@PathVariable Long patientId){
+		return _consultationService.getByPatient(patientId);
 	}
 	
 	

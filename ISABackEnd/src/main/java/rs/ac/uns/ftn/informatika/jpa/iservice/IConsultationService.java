@@ -7,6 +7,8 @@ import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 
@@ -14,4 +16,5 @@ import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 public interface IConsultationService {
 	 Consultation save(ConsultationDTO dto, Patient p);
 	 ArrayList<Consultation> findAllConsultation();
+	 ArrayList<ConsultationViewDTO> getByPatient(Long patientId);
 }

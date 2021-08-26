@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 
@@ -49,4 +52,21 @@ public class ConsultationService implements IConsultationService{
 		return this._consultationRepository.save(consultation);
 		
 	}
+
+
+	@Override
+	public ArrayList<ConsultationViewDTO> getByPatient(Long patientId) {
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		ArrayList<ConsultationViewDTO> result = new ArrayList<ConsultationViewDTO>();
+		
+		for (Consultation consultation : allConsultations) { 
+			if(consultation.getDateAndTime().after(new Date()) && consultation.getPatient() != null) {
+				if(consultation.getPatient().getUserId() == patientId && consultation.getCancelled() == false) {
+			result.add(new ConsultationViewDTO(consultation.getAppointmentId(),consultation.getDateAndTime().toString(),
+					consultation.getDuration(),consultation.getPrice(),consultation.getPoints(),consultation.getPharmacist(),
+					consultation.getPatient(), consultation.getPharmacy()));
+				}
+			}
+		}
+		return result;	}
 }

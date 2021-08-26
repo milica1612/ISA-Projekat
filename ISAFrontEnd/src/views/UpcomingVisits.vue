@@ -1,6 +1,7 @@
 <template>
   <div id = "homePage">
     <div class = "container">
+      <br>
       <h3>Upcoming examinations</h3>
       <br>
       <v-simple-table>
@@ -34,7 +35,7 @@
           </thead>
           <tbody>
           <tr
-              v-for="c in examinations"
+              v-for="c in sortedItems"
               :key="c"
           >
             <td>{{c.dateAndTime}}</td>
@@ -57,6 +58,63 @@
           </tbody>
         </template>
       </v-simple-table>
+        <br>
+      <h3>Upcoming consultations</h3>
+      <br>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th>
+              Date and Time
+            </th>
+            <th>
+              Duration
+            </th>
+            <th>
+              Pharmacy
+            </th>
+            <th>
+              Address
+            </th>
+            <th>
+              Pharmacist
+            </th>
+            <th :class="sortedClass('rating')"
+                @click="sortBy('rating')">
+              Pharmacist Rating
+            </th>
+            <th :class="sortedClass('price')"
+                @click="sortBy('price')">
+              Price
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="c in sortedItemsCons"
+              :key="c"
+          >
+            <td>{{c.dateAndTime}}</td>
+            <td>{{ c.duration + " minutes"}}</td>
+            <td>{{ c.pharmacy.name}}</td>
+            <td>{{c.pharmacy.address.street + " " + c.pharmacy.address.streetNumber + ", " +
+            c.pharmacy.address.city + ", " + c.pharmacy.address.country}}</td>
+            <td>{{c.pharmacist.firstName + " " + c.pharmacist.lastName}}</td>
+            <td>{{c.pharmacist.rating}}</td>
+            <td>{{c.price + " rsd"}}</td>
+            <td>
+              <v-btn
+                  color="secondary"
+                  elevation="3"
+                  x-small
+                  v-on:click = "cancelConsultation(c)"
+              >Cancel consultation</v-btn>
+            </td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </div>
   </div>
 </template>
@@ -72,6 +130,7 @@ export default {
         isAsc: false
       },
       examinations: [],
+      consultations:[],
       result: false
     }
   },
@@ -84,6 +143,14 @@ export default {
             }
           })
           .then(response => (this.examinations = response.data));
+
+      this.axios
+          .get('http://localhost:8091/consultation/getByPatientId/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.consultations = response.data));
 
     }
   },
@@ -113,10 +180,26 @@ export default {
               }
             });
     },
+    cancelConsultation(consultation){
+      alert(consultation.pharmacy.name)
+    }
   },
   computed:{
     sortedItems () {
       const list = this.examinations.slice();
+      if (this.sort.key !="") {
+        list.sort((a, b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
+
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
+      }
+
+      return list;
+    },
+    sortedItemsCons () {
+      const list = this.consultations.slice();
       if (this.sort.key !="") {
         list.sort((a, b) => {
           a = a[this.sort.key]
