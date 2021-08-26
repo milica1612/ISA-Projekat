@@ -65,8 +65,19 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 	public PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO) {
 		PharmacistVacation pharmacistVacation = _pharmacistVacationRepository.getOne(requestDeclineDTO.getVacationId());
 		pharmacistVacation.setStatus(Status.DECLINED);
-		// without mail sent 
+		if(sendDeclinedVacationEmail(pharmacistVacation, requestDeclineDTO.getExplanation()))
+			return _pharmacistVacationRepository.save(pharmacistVacation);
+		
 		return _pharmacistVacationRepository.save(pharmacistVacation);
 	}
 
+	private boolean sendDeclinedVacationEmail(PharmacistVacation pharmacistVacation, String explantaion) {
+		try {
+			_emailService.sendDeclinedVactionEmailAsync(pharmacistVacation, explantaion);
+			return true;
+		} catch (Exception e) {
+			System.out.print(e);
+			return false;
+		}
+	}
 }
