@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-
 @Entity
-public class PharmacistVacation {
+public class DermatologistVacation {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "vacation_id", unique = true, nullable = false)
@@ -25,22 +25,23 @@ public class PharmacistVacation {
 	private Date endDate;
    
 	@Column(name = "status", nullable = false)
-	private Status status;
+    private Status status;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-    public Pharmacist pharmacist;
+    public Dermatologist dermatologist;
 	
-	public PharmacistVacation() {
+	public DermatologistVacation() {
 		
 	}
 
-	public PharmacistVacation(Long vacationId, Date startDate, Date endDate, Status status, Pharmacist pharmacist) {
+	public DermatologistVacation(Long vacationId, Date startDate, Date endDate, Status status,
+			Dermatologist dermatologist) {
 		super();
 		this.vacationId = vacationId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
-		this.pharmacist = pharmacist;
+		this.dermatologist = dermatologist;
 	}
 
 	public Long getVacationId() {
@@ -75,18 +76,18 @@ public class PharmacistVacation {
 		this.status = status;
 	}
 
-	public Pharmacist getPharmacist() {
-		return pharmacist;
+	public Dermatologist getDermatologist() {
+		return dermatologist;
 	}
 
-	public void setPharmacist(Pharmacist pharmacist) {
-		this.pharmacist = pharmacist;
+	public void setDermatologist(Dermatologist dermatologist) {
+		this.dermatologist = dermatologist;
 	}
 
 	@Override
 	public String toString() {
-		return "PharmacistVacation [vacationId=" + vacationId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", status=" + status + ", pharmacist=" + pharmacist + "]";
+		return "DermatologistVacation [vacationId=" + vacationId + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", status=" + status + ", dermatologist=" + dermatologist + "]";
 	}
-	
+
 }
