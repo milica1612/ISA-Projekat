@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.AppointmentDateAndTimeDTO;
-import rs.ac.uns.ftn.informatika.jpa.dto.AvailablePharmacistsDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -48,7 +48,7 @@ public class WorkSchedulePharmacistController {
 	}
 	
 	@PutMapping("/getAvailablePharmacistsInPharmacy")
-	public ArrayList<Pharmacist> getAvalibalePharmacistsInPharmacy(@RequestBody AvailablePharmacistsDTO dto){
+	public ArrayList<Pharmacist> getAvalibalePharmacistsInPharmacy(@RequestBody ConsultationDTO dto){
 		String d = dto.getDate() + " " +  dto.getTime() + ":00";
 	    Date date;
 		try {

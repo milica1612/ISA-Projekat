@@ -24,18 +24,18 @@
           </thead>
           <tbody>
           <tr
-              v-for="d in sortedItems"
-              :key="d"
+              v-for="p in sortedItems"
+              :key="p"
           >
-            <td>{{ d.firstName }}</td>
-            <td>{{ d.lastName }}</td>
-            <td>{{d.rating}}</td>
+            <td>{{ p.firstName }}</td>
+            <td>{{ p.lastName }}</td>
+            <td>{{p.rating}}</td>
             <td>
               <v-btn
                   color="secondary"
                   elevation="3"
                   x-small
-                  v-on:click = "scheduleConsultation(d)"
+                  v-on:click = "scheduleConsultation(p)"
               >Schedule Consultation</v-btn>
             </td>
           </tr>
@@ -61,7 +61,14 @@ export default {
         isAsc: false
       },
       pharmacyId: localStorage.getItem("pharmacy"),
-      pharmacists: []
+      pharmacists: [],
+      conDTO : [{
+        date: '',
+        time: '',
+        pharmacyId : '',
+        pharmacist: []
+      }],
+      pharm : []
     }
   },
   mounted() {
@@ -74,9 +81,40 @@ export default {
                 }
               })
               .then(response => (this.pharmacists = response.data));
+
+
+      this.axios
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.patient = response.data));
     }
   },
   methods: {
+    scheduleConsultation(ph){
+      this.pharm = ph
+
+      this.conDTO = {
+        date:this.date,
+        time:this.time,
+        pharmacyId:this.pharmacyId,
+        pharmacist: this.pharm
+      }
+      const request={
+        dto : this.conDTO,
+        patientId : this.patient.userId
+      }
+
+      this.axios
+          .post('http://localhost:8091/consultation/create' , request, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.pharmacists = response.data));
+    },
     sortedClass(key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';
 
@@ -105,5 +143,16 @@ export default {
 </script>
 
 <style scoped>
-
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>

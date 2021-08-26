@@ -41,13 +41,13 @@ public class Consultation{
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Patient patient;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	public Pharmacy pharmacy;
 	
 	@Enumerated(EnumType.STRING)
     public AppointmentStatus appointmentStatus;
    
-   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
    public Pharmacist pharmacist;
 
  /*  public Consultation(Date dateAndTime, int duration, Double price, Long appointmentId, Boolean cancelled, int points,
@@ -131,6 +131,14 @@ public class Consultation{
 	}
 	public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
 		this.appointmentStatus = appointmentStatus;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
    
     
