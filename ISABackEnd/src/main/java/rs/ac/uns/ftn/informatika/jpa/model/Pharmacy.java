@@ -34,7 +34,7 @@ public class Pharmacy {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Set<Pharmacist> pharmacist;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public Set<MedicineItem> medicineItem;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

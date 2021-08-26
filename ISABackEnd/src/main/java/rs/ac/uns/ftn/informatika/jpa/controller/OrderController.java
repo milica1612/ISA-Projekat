@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,8 @@ public class OrderController {
 	
 	@GetMapping(value = "/allOrders")
 	public List<Order> findAll() {
+		System.out.println("Orders " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
 		return _orderService.findAll();
 	}
 	

@@ -14,20 +14,20 @@
     <br>
     <h3>Filtrate by rating higher than:</h3>
 
-    <label>Rating 5</label>
-    <input type="radio" value=5 name="rating" @change = "filtrate(5)">
+    <label>Rating 10</label>
+    <input type="radio" value=5 name="rating" @change = "filtrate(10)">
 
-    <label>Rating4</label>
-    <input type="radio" value=4 name="rating" @change = "filtrate(4)">
+    <label>Rating 9</label>
+    <input type="radio" value=4 name="rating" @change = "filtrate(9)">
 
-    <label>Rating 3</label>
-    <input type="radio" value=3 name="rating" @change = "filtrate(3)">
+    <label>Rating 8</label>
+    <input type="radio" value=3 name="rating" @change = "filtrate(8)">
 
-    <label>Rating 2</label>
-    <input type="radio" value=2 name="rating" @change = "filtrate(2)">
+    <label>Rating 7</label>
+    <input type="radio" value=2 name="rating" @change = "filtrate(7)">
 
-    <label>Rating 1</label>
-    <input type="radio" value=1 name="rating" @change = "filtrate(1)">
+    <label>Rating 6</label>
+    <input type="radio" value=1 name="rating" @change = "filtrate(6)">
 
 
       <v-simple-table>
@@ -69,10 +69,10 @@
               Name
             </th>
             <th class="text-left">
-              Type
+              Price
             </th>
             <th class="text-left">
-              Price
+              Medicine Specification
             </th>
           </tr>
           </thead>
@@ -82,6 +82,68 @@
           >
             <td>{{ a.name }}</td>
             <td>{{ a.price }}</td>
+            <td>
+        <v-row justify="center">
+            <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="600px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                >
+                Medicine Specification
+                </v-btn>
+            </template>
+            <v-card>
+                <v-card-title>
+                <span class="text-h5">Medicine Specification</span>
+                </v-card-title>
+                <v-card-text>
+                <v-container>
+                    <v-row>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Dosage*"
+                        v-model= "dosage"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Ingridients*"
+                        v-model = "ingridient"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Contraindication*"
+                        v-model = "contraindication"
+                        required
+                        ></v-text-field>
+                    </v-col>
+                    </v-row>
+                </v-container>
+                </v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="dialog = false"
+                >
+                    Close
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+        </v-row>
+        </td>
           </tr>
           </tbody>
         </template>
@@ -95,6 +157,7 @@ export default {
   name: "BrowseMedicine",
   data: function () {
     return {
+      dialog: false,
       medicines: [],
       availableInPharmacies: [],
       searchMedicine: ""
@@ -104,16 +167,21 @@ export default {
     this.axios
         .get('http://localhost:8091/medicine')
         .then(response => (this.medicines = response.data));
-    this.axios
-        .get('http://localhost:8091/pharmacy')
-        .then(response => (this.availableInPharmacies = response.data));
   },
   methods: {
     searchMedicines: function() {
       this.axios
           .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
-    }
+       this.axios
+          .get("http://localhost:8091/medicine/checkMedicineInPharmacy/" + this.searchMedicine)
+          .then(r => (this.availableInPharmacies = r.data));
+    },
+    filtrate: function(rating) {
+      this.axios  
+          .get("http://localhost:8091/medicine/filtrate/" + rating)
+          .then(response => (this.medicines = response.data));
+    },
   },
 
   computed:{

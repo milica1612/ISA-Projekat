@@ -30,8 +30,8 @@ public class UserController {
 	
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
-		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//System.out.println(user.getEmail());
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
 		return (User) _userService.findById(id);
 	}
 	
