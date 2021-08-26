@@ -74,7 +74,6 @@ public class ReservationController {
 			if(r.getRecieved() != true) {
 				
 				_emailService.sendRecievedMedicineEmail(r.getReservationCode(), pharmacy, r.getPatient());
-				
 				return _reservationService.updateReservation(r);
 			}
 			return new Reservation();

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
@@ -35,6 +38,12 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private AddressService _addressService;
+	
+	@Autowired
+	private ConsultationService _consultationService;
+	
+	@Autowired
+	private ExaminationService _examinationService;
 
 	@Autowired
 	private EmailService _emailService;
@@ -183,6 +192,46 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+	public List<Patient> getPatientsByName(String name, Long employeeId){
+		if(name.trim().equals("")) {
+			return findPatientsByAppointment(employeeId);
+		}
+		List<Patient> patients = findPatientsByAppointment(employeeId);
+		List<Patient> result = new ArrayList<Patient>();
+		
+		for(Patient p: patients) {
+			String fullName = p.getFirstName() + " " + p.getLastName();
+			if(fullName.toLowerCase().contains(name.toLowerCase().trim())) {
+				result.add(p);
+			}
+		}
+		return result;
+	}	
+	
+	@Override
+	public List<Patient> findPatientsByAppointment(Long employeeId){
+		
+		List<Patient> result = new ArrayList<Patient>();
+		User employee = findById(employeeId);
+		
+		for(Examination e : _examinationService.findAllExamination()) {
+			if(employee.equals(e.getDermatologist())) {
+				if(e.getPatient() != null && !result.contains(e.getPatient()))
+					result.add(e.getPatient());
+			}
+		}
+		
+		for(Consultation c : _consultationService.findAllConsultation()) {
+			if(c.getPharmacist().equals(employee)) {
+				if(c.getPatient() != null && !result.contains(c.getPatient()))
+					result.add(c.getPatient());
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
 	public ArrayList<UserDTO> userSearch(UserDTO userDTO) {
 		ArrayList<UserDTO> users = new ArrayList<>();
 		for (UserDTO user : getAllUsers()) {
@@ -244,5 +293,5 @@ public class UserService implements IUserService {
 		((Patient) user).setPenalty(penalty);
 		update(user);
 	}
-
+	
 }

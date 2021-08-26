@@ -1,11 +1,23 @@
 <template>
   <div>
-    <table >
+    <v-table>
       <tr>
-        <td><input type="text" v-model = "datas" placeholder="Enter name"></td>
-        <td><button v-on:click = "searchPatient" style = "background-color:SlateBlue; padding: 10px; border: none; cursor: pointer; opacity: 0.9;" type="button" v-bind:disabled = "mode != 'BROWSE'">Search</button></td>
+        <v-text-field
+            label="Enter Patient Name"
+             hide-details="auto"
+            v-model="fName"
+            background-color="white"
+        ></v-text-field>
+         <td align="center"><v-btn
+          color="primary"
+          elevation="2"
+          medium
+          v-on:click= "searchPatient"
+      >Search Patients</v-btn></td>
       </tr>
-    </table>
+    </v-table>
+    <br>
+    <br>
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -50,12 +62,13 @@
 export default {
   name: "UsersList",
   data: () => ({
-      allpatients: null,
+      allpatients: [],
       mode: 'BROWSE',
       backup: [],
       patient: {},
+      employee : {},
       user: {},
-      datas: null,
+      fName: '',
 
   }),
   mounted() {
@@ -64,12 +77,26 @@ export default {
         || localStorage.getItem("userType") == "PHARMACIST") {
 
         this.axios
-            .get("http://localhost:8091/users/allpatients", {
+            .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
               }
             })
-            .then((resp) => this.allpatients = resp.data)
+           .then(response => {
+              this.employee = response.data
+
+             const ne={
+               fullName : '',
+               employeeId : this.employee.userId
+             }
+              this.axios
+                  .put("http://localhost:8091/users/searchUser", ne, {
+                    headers: {
+                      Authorization: 'Bearer ' + localStorage.getItem("token")
+                    }
+                  })
+                  .then((resp) => this.allpatients = resp.data)
+              })
         }
       else {
           window.location.href = "http://localhost:8080/logIn";
@@ -77,8 +104,18 @@ export default {
   },
   methods: {
     searchPatient: function () {
-      this.$http
-          .post("http://localhost:8091/users/searchUser", this.datas)
+
+      const ne={
+        fullName : this.fName,
+        employeeId : this.employee.userId
+      }
+
+      this.axios
+          .put("http://localhost:8091/users/searchUser", ne, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
           .then((resp) => (this.allpatients = resp.data))
     },
     seeProfile: function(p) {

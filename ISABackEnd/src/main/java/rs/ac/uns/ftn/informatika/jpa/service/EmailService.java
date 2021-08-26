@@ -69,7 +69,6 @@ public class EmailService {
 		System.out.println("Promotion email successfully sent to subscribed user/patient!");
 	}
 	
-	@Async
 	public void sendRecievedMedicineEmail(String code, Pharmacy pharmacy, Patient patient) {
 		System.out.println(env.getProperty("spring.mail.username"));
 		SimpleMailMessage mail = new SimpleMailMessage();
