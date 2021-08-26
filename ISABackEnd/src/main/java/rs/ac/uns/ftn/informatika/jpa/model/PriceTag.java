@@ -23,7 +23,7 @@ public class PriceTag {
 	@Column(name = "price", nullable = false)
 	private Double price;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)    
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)    
 	public TimeInterval timeInterval;
    
    public PriceTag(Double price, TimeInterval timeInterval) {

@@ -325,3 +325,11 @@ INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_i
 INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 1);
 INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 3);
 INSERT INTO public.user_medicine_item(supplier_user_id, medicine_item_medicine_item_id) values (2, 4);
+
+ INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-11-11 07:00:00', '2021-11-11 15:00:00');
+	
+INSERT INTO public.price_tag(price_tag_id, price, time_interval_time_interval_id) values (1, 400, 1);
+
+INSERT INTO public.medicine_price_tag(medicine_medicine_id, price_tag_price_tag_id) values(1, 1);

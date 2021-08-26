@@ -149,7 +149,16 @@
               v-for="a in availableInPharmacies" :key="a"
           >
             <td>{{ a.name }}</td>
-            <td>{{ a.price }}</td>
+            <th    
+                      v-for="med in a.medicineItem"
+                          :key="med"
+            ><td
+             v-for="p in med.medicine.priceTag"
+                          :key="p"
+            >
+            {{ p.price }}
+            </td>
+            </th>
           </tr>
           </tbody>
         </template>

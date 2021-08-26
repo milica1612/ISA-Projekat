@@ -1,5 +1,4 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
-
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -48,7 +47,7 @@ public class Medicine {
 	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Medicine> replacementMedicine;
     
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Set<PriceTag> priceTag;
     
 	@Enumerated(EnumType.STRING)
