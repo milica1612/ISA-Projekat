@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 
 @Service
@@ -66,6 +67,30 @@ public class EmailService {
 		
 		javaMailSender.send(mail);
 		System.out.println("Promotion email successfully sent to subscribed user/patient!");
+	}
+
+	public void sendAcceptedVactionEmailAsync(PharmacistVacation pharmacistVacation) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(pharmacistVacation.getPharmacist().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Accepted vacation");
+		
+		String startOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(pharmacistVacation.getStartDate());
+	    String endOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(pharmacistVacation.getEndDate());
+	        
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + pharmacistVacation.getPharmacist().getUserType() + ", " + pharmacistVacation.getPharmacist().getFirstName() + " "  + pharmacistVacation.getPharmacist().getLastName() + ",");
+		text.append("\n\n");
+		text.append("You are on vacation  " + startOfVacation + " to " + endOfVacation + " .");
+		text.append("\n\n\r\n"
+				+ "All the best");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Accepted vacation email successfully sent!");
 	}
 	
 

@@ -52,6 +52,10 @@ INSERT INTO public.address(
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
 	VALUES (default, 'Backi Jarak','Srbija', 48, 44, 'Nikole Tesle', 10);
+	
+INSERT INTO public.address(
+	address_id, city, country, latitude, longitude, street, street_number)
+	VALUES (default, 'Kikinda','Srbija', 48, 44, 'Generala Drapsina', 31);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
@@ -236,6 +240,12 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'lukatomic', 'PATIENT', null, 0, 14, null, null);	
+
+-- password Luka678!
+INSERT INTO public.user(
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Lolic', '2020-11-11', '$2a$12$PMWEMnAEXIKiojFMHl2Lj.e/hh1a9Mcp4JkG6Up0vEBFSKBTk9KiK', '10l3i01XCw2ISV4Ju1D31x==', '064/336-23-77', '', 'PHARMACIST', 8.6, null, 15, 2, null);
+
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
@@ -299,9 +309,9 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (12, 6)
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (13, 6);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (14, 6);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (15, 1);
+INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (16, 5);
 
 --- Pharmacies - Dermatologists - TABLE INSERT DATA ---
-
 -- Sara dermatologist
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
@@ -332,9 +342,9 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (15, 1)
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
 
 -- PHARMACIST-VACATION - TEST DATA
-insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 9, 2); 
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 11, 2); 
 
-insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210826 07:00:00 AM','20210905 07:00:00 PM', 9, 1); 
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)

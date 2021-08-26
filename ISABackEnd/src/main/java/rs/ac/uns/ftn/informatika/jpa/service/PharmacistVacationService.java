@@ -16,10 +16,11 @@ import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacistVacationRepository;
 public class PharmacistVacationService implements IPharmacistVacationService {
 	   
 	private IPharmacistVacationRepository _pharmacistVacationRepository;
-	
+	private EmailService _emailService;
 	@Autowired
-	public PharmacistVacationService(IPharmacistVacationRepository pharmacistVacationRepository) {
+	public PharmacistVacationService(IPharmacistVacationRepository pharmacistVacationRepository, EmailService emailService) {
 		this._pharmacistVacationRepository = pharmacistVacationRepository;
+		this._emailService = emailService;
 	}
 	
 	@Override
@@ -45,8 +46,20 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 		
 		PharmacistVacation pharmacistVacation = _pharmacistVacationRepository.getOne(vacationId);
 		pharmacistVacation.setStatus(Status.ACCEPTED);
-		// without mail sent 
-		return _pharmacistVacationRepository.save(pharmacistVacation);
+		if(sendAcceptedVacationEmail(pharmacistVacation))
+			return _pharmacistVacationRepository.save(pharmacistVacation);
+		
+		return null;
+	}
+
+	private boolean sendAcceptedVacationEmail(PharmacistVacation pharmacistVacation) {
+		try {
+			_emailService.sendAcceptedVactionEmailAsync(pharmacistVacation);
+			return true;
+		} catch (Exception e) {
+			System.out.print(e);
+			return false;
+		}
 	}
 
 	public PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO) {
