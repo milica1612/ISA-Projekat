@@ -41,16 +41,19 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 		return list;
 	}
 
-	public Boolean accept(Long vacationId) {
-		// TODO Auto-generated method stub
-		return true;
+	public PharmacistVacation accept(Long vacationId) {
+		
+		PharmacistVacation pharmacistVacation = _pharmacistVacationRepository.getOne(vacationId);
+		pharmacistVacation.setStatus(Status.ACCEPTED);
+		// without mail sent 
+		return _pharmacistVacationRepository.save(pharmacistVacation);
 	}
 
-	public Boolean decline(RequestDeclineDTO requestDeclineDTO) {
-		// TODO Auto-generated method stub
-		return false;
+	public PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO) {
+		PharmacistVacation pharmacistVacation = _pharmacistVacationRepository.getOne(requestDeclineDTO.getVacationId());
+		pharmacistVacation.setStatus(Status.DECLINED);
+		// without mail sent 
+		return _pharmacistVacationRepository.save(pharmacistVacation);
 	}
-
-	
 
 }

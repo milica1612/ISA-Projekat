@@ -45,25 +45,23 @@ public class PharmacistVacationController {
 		return new ResponseEntity<List<PharmacistVacation>>(listVacationDTO, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("('ROLE_PH_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value = "/accept/{vacationId}") 
-	public ResponseEntity<Boolean> accept(@PathVariable Long vacationId) {
+	public ResponseEntity<PharmacistVacation> accept(@PathVariable Long vacationId) {
 		try {
-			Boolean value = _pharmacistVacationService.accept(vacationId);
-			return new ResponseEntity<Boolean>(value, HttpStatus.OK);
+			return new ResponseEntity<PharmacistVacation>(_pharmacistVacationService.accept(vacationId), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<PharmacistVacation>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value = "/decline") 
-	public ResponseEntity<Boolean> decline(@RequestBody RequestDeclineDTO requestDeclineDTO) { 
+	public ResponseEntity<PharmacistVacation> decline(@RequestBody RequestDeclineDTO requestDeclineDTO) { 
 		try {
-			Boolean value = _pharmacistVacationService.decline(requestDeclineDTO);
-			return new ResponseEntity<Boolean>(value, HttpStatus.OK);
+			return new ResponseEntity<PharmacistVacation>(_pharmacistVacationService.decline(requestDeclineDTO), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<PharmacistVacation>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

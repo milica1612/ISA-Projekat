@@ -11,7 +11,7 @@ public interface IPharmacistVacationService {
 	
 	List<PharmacistVacation> findAllPharmacistVacationWithStatusWaiting();
 	
-	Boolean accept(Long vacationId);
+	PharmacistVacation accept(Long vacationId);
 	
-	Boolean decline(RequestDeclineDTO requestDeclineDTO);
+	PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO);
 }
