@@ -255,6 +255,10 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Pavkov', '2020-11-11', '$2a$12$pxBaiz4IN6MjRcVAblBJA.8cfpv0pU7G6TGqNnqLIjyvkotAu3.JS', '0QWE1XACxxWsSV4Ju1D31x==', '061/300-23-77', '', 'PHARMACIST', 7.6, null, 16, 2, null);
 
+-- password Luka333!
+INSERT INTO public.user(
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
@@ -320,6 +324,7 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (14, 6)
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (15, 1);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (16, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (17, 5);
+INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (18, 6);
 
 --- Pharmacies - Dermatologists - TABLE INSERT DATA ---
 -- Sara dermatologist
@@ -347,7 +352,14 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (17, 5)
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
 	VALUES (3, 14);
- 
+-- Luka dermatologist
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (3, 18);
+ INSERT INTO public.pharmacy_dermatologist(
+	pharmacy_pharmacy_id, dermatologist_user_id)
+	VALUES (2, 18);
+
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
 
@@ -355,6 +367,10 @@ INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 16, 2); 
 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 17, 2); 
+
+-- DERMATOLOGIST-VACATION - TEST DATA
+insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211012 07:00:00 AM','20211022 07:00:00 PM', 18, 2); 
+insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211020 07:00:00 AM','20211030 07:00:00 PM', 18, 2); 
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)

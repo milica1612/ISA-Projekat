@@ -274,10 +274,22 @@ const routes = [{
             import('../views/RequestsVacationPharmacists.vue')
     },
     {
-        path: '/allVacationRequests',
-        name: 'AllVacationRequests',
+        path: '/allVacationRequestsPharmacists',
+        name: 'AllVacationRequestsPharmacists',
         component: () =>
-            import('../views/AllVacationRequests.vue')
+            import('../views/AllVacationRequestsPharmacists.vue')
+    },
+    {
+        path: '/requestsVacationDermatologists',
+        name: 'RequestsVacationDermatologists',
+        component: () =>
+            import('../views/RequestsVacationDermatologists.vue')
+    },
+    {
+        path: '/allVacationRequestsDermatologists',
+        name: 'AllVacationRequestsDermatologists',
+        component: () =>
+            import('../views/AllVacationRequestsDermatologists.vue')
     }
 
 ]

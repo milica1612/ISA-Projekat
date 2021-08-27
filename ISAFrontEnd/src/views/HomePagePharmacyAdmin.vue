@@ -6,7 +6,7 @@
       <a class="a_style" href="/searchPharmacist">Search and filter pharmacists</a>
       <a class="a_style" href="/promotion">Define a promotion</a>
       <a class="a_style" href="/requestsVacationPharmacists">Pending vacation requests from pharmacists</a>
-      <a class="a_style" href="/allVacationRequests">All vacation requests from pharmacists</a>
+      <a class="a_style" href="/allVacationRequestsPharmacists">All vacation requests from pharmacists</a>
     </div> 
 </template>
 
