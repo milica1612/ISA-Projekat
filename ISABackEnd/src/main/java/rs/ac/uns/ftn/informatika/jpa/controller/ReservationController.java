@@ -58,8 +58,9 @@ public class ReservationController {
 	@PostMapping("create")
 	public void createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
-		_reservationService.createReservation(dto,(Patient) user);
+		Reservation reservation = _reservationService.createReservation(dto,(Patient) user);
 		_medicineItemService.findMedicineItmeAndChangeQuantity(dto.getDto());
+		_emailService.sendReservationMadeEmail(reservation);
 	}
 	
 	@PutMapping("/findReservation")

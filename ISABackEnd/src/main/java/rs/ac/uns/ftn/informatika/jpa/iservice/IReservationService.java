@@ -11,5 +11,5 @@ public interface IReservationService {
 
 	public Reservation updateReservation(Reservation r);
 
-	void createReservation(ReservationDTO dto, Patient user);
+	Reservation createReservation(ReservationDTO dto, Patient user);
 }

@@ -55,7 +55,7 @@ public class ReservationService implements IReservationService{
 	}
 
 	@Override
-	public void createReservation(ReservationDTO dto, Patient p) {
+	public Reservation createReservation(ReservationDTO dto, Patient p) {
 		String d = dto.getDate();
 	    Date date = new Date();
 		try {
@@ -67,10 +67,13 @@ public class ReservationService implements IReservationService{
 		}  
 	    String generatedString = givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
 	    MedicineItem item = new MedicineItem(1, dto.getDto().getPriceTag().getMedicine());
-		Reservation reservation = new Reservation(date, generatedString, false, p, item);
+		Reservation reservation = new Reservation(date, generatedString, false, p, item, dto.getDto().getPharmacy());
 		System.out.println(generatedString + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
 		_medicineItemRepository.save(item);
-		_reservationRepository.save(reservation);
+	
+		
+		return _reservationRepository.save(reservation);
+	
 		
 	}
 	

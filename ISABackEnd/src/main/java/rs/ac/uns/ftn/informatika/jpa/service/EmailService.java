@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
+import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 
 @Service
 public class EmailService {
@@ -92,6 +93,29 @@ public class EmailService {
 		
 		javaMailSender.send(mail);
 		System.out.println("Medicine reveived mail sent!");
+	}
+	
+	public void sendReservationMadeEmail(Reservation reservation) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(reservation.getPatient().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Medicine reservation");
+		
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + reservation.getPatient().getFirstName() + ",");
+		text.append("\n\n");
+		text.append("Your have successfully made a reservation .");
+		text.append("\n");
+		text.append("Medicine:" + reservation.getMedicineItem().getMedicine().getName());
+		text.append("Reservation code:" + reservation.getReservationCode());
+		text.append("\n\nYour pharmacy, " + reservation.getPharmacy().getName());
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Reservation mail sent!");
 	}
 	
 	public void sendConsultationConfirmation(Consultation consultation) {
