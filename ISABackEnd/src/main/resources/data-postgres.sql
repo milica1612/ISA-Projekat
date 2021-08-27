@@ -262,15 +262,15 @@ INSERT INTO public.user(
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/04', 'PROCESSED', 2, 5);
+	VALUES (default, '2021/04/04', 'PROCESSED', 2, 10);
 
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/11', 'PROCESSED', 2, 5);
+	VALUES (default, '2021/04/11', 'PROCESSED', 2, 10);
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/21', 'PROCESSED', 2, 5);
+	VALUES (default, '2021/04/21', 'PROCESSED', 2, 10);
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
@@ -299,6 +299,7 @@ INSERT INTO public.offer(
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/02/01', 54000, 'DECLINED', 1, 2);
+	
 	
 INSERT INTO public.authority(name) VALUES ('ROLE_PATIENT');	
 INSERT INTO public.authority(name) VALUES ('ROLE_SYS_ADMIN');	
