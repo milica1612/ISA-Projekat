@@ -110,6 +110,8 @@ public class EmailService {
 		text.append("\n");
 		text.append("Medicine:" + reservation.getMedicineItem().getMedicine().getName());
 		text.append("Reservation code:" + reservation.getReservationCode());
+		text.append("Reserved until:" + reservation.getDeadline().toString());
+		
 		text.append("\n\nYour pharmacy, " + reservation.getPharmacy().getName());
 		
 		mail.setText(text.toString());
