@@ -154,11 +154,39 @@
             <td>{{ a.pharmacy.name }}</td>
             <td>{{a.priceTag.medicine.name}}</td>
             <td>{{a.priceTag.price}}</td>
-            <v-btn
-                color="primary"
-                small
-                v-if="isLogged"
-            >Make a reservation</v-btn>
+            <td>
+              <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="primary"
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Make a reservation</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Reservation until:</v-toolbar>
+                    <template>
+                      <v-row justify="center">
+                        <v-date-picker v-model="picker"></v-date-picker>
+                      </v-row>
+                    </template>
+    <v-btn
+        width="300"
+        text
+        @click="makeReservation(a, dialog)"
+    >Make a reservation</v-btn>
+    </v-card>
+    </template>
+    </v-dialog>
+            </td>
           </tr>
           </tbody>
         </template>
@@ -173,6 +201,7 @@ export default {
   data: function () {
     return {
       dialog: false,
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       medicines: [],
       medicineSpecification: {
           dosage: "",
@@ -206,6 +235,14 @@ export default {
           .get("http://localhost:8091/medicine/filtrate/" + rating)
           .then(response => (this.medicines = response.data));
     },
+    makeReservation: function(a, dialog){
+      dialog.value = false
+      this.axios
+          .put("http://localhost:8091/reservation/create",{dto:a, date:this.picker},{headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then();
+    }
   },
 
   computed:{
