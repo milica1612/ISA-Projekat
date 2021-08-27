@@ -34,6 +34,23 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 	}
 	
 	@Override
+	public List<PharmacistVacationDTO> findAllPharmacistVacationInMyPharmacy() {
+		List<PharmacistVacation> allVacation = _pharmacistVacationRepository.findAll();
+		List<PharmacistVacationDTO> list = new ArrayList<PharmacistVacationDTO>();
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		for (PharmacistVacation pVacation : allVacation) {
+			if(pVacation.getPharmacist().getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+				String startDate = new SimpleDateFormat("dd.MM.yyyy.").format(pVacation.getStartDate());
+				String endDate = new SimpleDateFormat("dd.MM.yyyy.").format(pVacation.getEndDate());
+				PharmacistVacationDTO pVacationDTO = new PharmacistVacationDTO(pVacation.getVacationId(), pVacation.getPharmacist().getUserId(), pVacation.getPharmacist().getFirstName(), pVacation.getPharmacist().getLastName(), pVacation.getPharmacist().getEmail(), startDate, endDate, pVacation.getStatus());
+				list.add(pVacationDTO);
+			}
+		}
+		return list;
+	}
+	
+	@Override
 	public List<PharmacistVacationDTO> findAllPharmacistVacationWithStatusWaiting() {
 		List<PharmacistVacation> allVacation = _pharmacistVacationRepository.findAll();
 		List<PharmacistVacationDTO> list = new ArrayList<PharmacistVacationDTO>();
@@ -88,4 +105,5 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 			return false;
 		}
 	}
+	
 }

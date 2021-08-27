@@ -10,6 +10,8 @@ public interface IPharmacistVacationService {
 	
 	List<PharmacistVacation> findAllPharmacistVacation();
 	
+	List<PharmacistVacationDTO> findAllPharmacistVacationInMyPharmacy();
+	
 	List<PharmacistVacationDTO> findAllPharmacistVacationWithStatusWaiting();
 	
 	PharmacistVacation accept(Long vacationId);

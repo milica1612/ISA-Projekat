@@ -40,6 +40,13 @@ public class PharmacistVacationController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path = "/allInMyPharmacy")
+	public ResponseEntity<List<PharmacistVacationDTO>> findAllPharmacistVacationInMyPharmacy() {
+		List<PharmacistVacationDTO> listVacationDTO = _pharmacistVacationService.findAllPharmacistVacationInMyPharmacy();
+		return new ResponseEntity<List<PharmacistVacationDTO>>(listVacationDTO, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path = "/allWithStatusWaiting")
 	public ResponseEntity<List<PharmacistVacationDTO>> findAllPharmacistVacationWithStatusWaiting() {
 		List<PharmacistVacationDTO> listVacationDTO = _pharmacistVacationService.findAllPharmacistVacationWithStatusWaiting();
