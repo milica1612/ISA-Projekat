@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.service.OrderService;
 
@@ -38,7 +39,7 @@ public class OrderController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path="/forPharmacy")
-	public List<Order> findAllOrdersForPharmacy() {
+	public List<OrderDTO> findAllOrdersForPharmacy() {
 		return _orderService.findAllOrdersForPharmacy();
 	}
 	

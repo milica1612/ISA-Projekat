@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOrderService;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
@@ -38,14 +40,18 @@ public class OrderService implements IOrderService{
 	}
 	
 	@Override
-	public List<Order> findAllOrdersForPharmacy() {
+	public List<OrderDTO> findAllOrdersForPharmacy() {
 		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		List<Order> allOrders = _orderRepository.findAll();
-		List<Order> list = new ArrayList<Order>();
-		for (Order order : allOrders) 
-			if (order.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId())
-				list.add(order);
-			
+		List<OrderDTO> list = new ArrayList<OrderDTO>();
+		for (Order order : allOrders) {
+			if (order.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+				
+				String deadline = new SimpleDateFormat("dd.MM.yyyy.").format(order.getOfferDeadline());
+				OrderDTO orderDTO = new OrderDTO(order.getOrderId(), deadline, order.getPharmacyAdministrator().getFirstName() + " " + order.getPharmacyAdministrator().getLastName(), order.getOrderStatus());
+				list.add(orderDTO);
+			}
+		}
 		return list;
 	}
 
