@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
@@ -174,7 +175,7 @@ public class MedicineController {
 	}
 	
 	@GetMapping(path = "/checkMedicineInPharmacy/{name}")
-	public List<Pharmacy> findAvailableMedicineInPharmacy(@PathVariable String name){	
+	public List<MedicineAvailableInPharmacyDTO> findAvailableMedicineInPharmacy(@PathVariable String name){	
 		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
 }

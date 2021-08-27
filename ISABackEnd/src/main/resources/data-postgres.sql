@@ -411,6 +411,7 @@ INSERT INTO public.medicine_replacement_medicine(
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
+
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (1, 10, 1);
@@ -432,6 +433,16 @@ INSERT INTO public.medicine_item(
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (8, 3, 8);  
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (9, 10, 1);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (10, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (11, 20, 2);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -497,17 +508,13 @@ INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
 	VALUES (2, 4);
 
-INSERT INTO public.price_tag(
-	price_tag_id, price, time_interval_time_interval_id) 
-	values (1, 400, 1);
-
-INSERT INTO public.medicine_price_tag(
-	medicine_medicine_id, price_tag_price_tag_id) 
-	values(1, 1);
-
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
 	 values(1, 1);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	 values(1, 10);
 
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
@@ -516,6 +523,14 @@ INSERT INTO public.pharmacy_medicine_item(
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
 	values(2, 4);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 9);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 11);
 
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
@@ -544,3 +559,43 @@ INSERT INTO public.user_medicine_item(
 INSERT INTO public.user_medicine_item(
 	supplier_user_id, medicine_item_medicine_item_id)
 	 values (2, 4);
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 400, 1, 7);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 500, 2, 7);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 350, 1, 8);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 580, 2, 8);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (1, 1);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (1, 2);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 3);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 4);

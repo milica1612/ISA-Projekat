@@ -140,6 +140,9 @@
               Name
             </th>
             <th class="text-left">
+              Medicine
+            </th>
+            <th class="text-left">
               Price
             </th>
           </tr>
@@ -148,17 +151,14 @@
           <tr
               v-for="a in availableInPharmacies" :key="a"
           >
-            <td>{{ a.name }}</td>
-            <th    
-                      v-for="med in a.medicineItem"
-                          :key="med"
-            ><td
-             v-for="p in med.medicine.priceTag"
-                          :key="p"
-            >
-            {{ p.price }}
-            </td>
-            </th>
+            <td>{{ a.pharmacy.name }}</td>
+            <td>{{a.priceTag.medicine.name}}</td>
+            <td>{{a.priceTag.price}}</td>
+            <v-btn
+                color="primary"
+                small
+                v-if="isLogged"
+            >Make a reservation</v-btn>
           </tr>
           </tbody>
         </template>
@@ -209,6 +209,13 @@ export default {
   },
 
   computed:{
+    isLogged: function (){
+      if (this.token == ""){
+        return false
+      }else{
+        return true
+      }
+    },
     notFilled: function () {
       if (this.searchMedicine.trim() == ""){
         return false

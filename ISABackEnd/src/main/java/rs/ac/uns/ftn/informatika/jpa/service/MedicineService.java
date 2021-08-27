@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
@@ -15,6 +18,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineSpecification;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PriceTag;
 import rs.ac.uns.ftn.informatika.jpa.repository.IAllergyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
@@ -101,14 +105,14 @@ public class MedicineService implements IMedicineService{
 	}
 	
 	@Override
-	public List<Pharmacy> findPharmacyForMedicineItem(String name) {
+	public List<MedicineAvailableInPharmacyDTO> findPharmacyForMedicineItem(String name) {
 		System.out.println("service");
 		
 		List<Pharmacy> pharmacies = _pharmacyRepository.findAll();
 		List<MedicineItem> medicineItems = _medicineItemRepository.findAll();
+		List<MedicineAvailableInPharmacyDTO> result = new ArrayList<MedicineAvailableInPharmacyDTO>();
 		
 		HashSet<MedicineItem> items = new HashSet<>();
-		List<Pharmacy> pharmacy = new ArrayList<>();
 		
 		for(MedicineItem m: medicineItems) {
 			if(m.getMedicine().getName().equals(name)) {
@@ -125,11 +129,26 @@ public class MedicineService implements IMedicineService{
 		for(Pharmacy p: pharmacies) {
 			for(MedicineItem m: items) {
 				if(p.getMedicineItem().contains(m) && m.getQuantity() > 0) {
-					pharmacy.add(p);
+					if(getCurrentPriceForMedicine(p, name)!=null) {
+					result.add(new MedicineAvailableInPharmacyDTO(p, getCurrentPriceForMedicine(p, name)));
+					}
 				}
 			}
 		}
-		System.out.println(pharmacy.size());
-		return pharmacy;
+		return result;
+	}
+	
+	@Override
+	public PriceTag getCurrentPriceForMedicine(Pharmacy p, String med) {
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(new Date());               // sets calendar time/date   
+		for (PriceTag price : p.getPriceTags()) {
+			if(price.getMedicine().getName().equals(med)) {
+				if(price.getTimeInterval().getStartDate().before(cal.getTime()) && price.getTimeInterval().getEndDate().after(cal.getTime())) {
+					return price;
+				}
+			}
+		}
+		return null;
 	}
 }
