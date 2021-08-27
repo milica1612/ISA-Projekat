@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "RequestsVacationPharmacists",
+  name: "AllVacationRequestsPharmacists",
   data: () => ({
     vacatoionList: [],
     headers: [
