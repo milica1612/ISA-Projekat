@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.AppointmentDateAndTimeDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 
@@ -43,6 +46,23 @@ public class WorkSchedulePharmacistController {
 	
 		return _workSchedulePharmacist.getAvailablePharmacies(date);
 		
+	}
+	
+	@PutMapping("/getAvailablePharmacistsInPharmacy")
+	public ArrayList<Pharmacist> getAvalibalePharmacistsInPharmacy(@RequestBody ConsultationDTO dto){
+		String d = dto.getDate() + " " +  dto.getTime() + ":00";
+	    Date date;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d);
+			System.out.println(date.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<Pharmacist>();
+		}  
+		long id = Long.parseLong(dto.getPharmacyId());
+		
+		return _workSchedulePharmacist.getAvailablePharmacistsInPharmacy(date, id);
 	}
 
 }

@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -60,20 +63,15 @@ public class UserController {
 	public List<UserDTO> getAllPatients() {
 		 return _userService.getAllUsers();
 	}
-	 
-	@GetMapping(path = "/allpatients")
-	public List<User> getAllUsers() {
-		 return _userService.getAllPatients();
+	
+	static class NameAndEmployee{
+		public String fullName;
+		public Long employeeId;
 	}
 	
-    @PostMapping(value = "/searchUser")
-    public List<UserDTO> searchUser(@RequestBody String request) {
-    	
-    	String[] values = request.split("\\+");
-    	String[] valueNew = values[1].split("\\=");
-
-    	UserDTO user = new UserDTO(values[0], valueNew[0]);
-    	return _userService.userSearch(user);
+    @PutMapping(value = "/searchUser")
+    public List<Patient> searchUser(@RequestBody NameAndEmployee ne) {
+    	return _userService.getPatientsByName(ne.fullName, ne.employeeId);
 	}
 	
 

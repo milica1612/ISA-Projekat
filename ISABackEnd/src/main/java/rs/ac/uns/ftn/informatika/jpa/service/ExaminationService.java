@@ -86,5 +86,8 @@ public class ExaminationService implements IExaminationService{
 		return false;
 	}
 
-
+	@Override
+	public ArrayList<Examination> findAllExamination(){
+		return (ArrayList<Examination>) _examinationRepository.findAll();
+	}
 }

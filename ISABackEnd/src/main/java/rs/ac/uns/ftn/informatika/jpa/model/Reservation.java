@@ -8,34 +8,37 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
 @Entity
 public class Reservation {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 	
+	@Column(name = "reservationCode", nullable = false)
+    private String reservationCode;
+	
 	@Column(name = "recieved", nullable = false)
     private Boolean recieved;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
     public Patient patient;
     
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     public MedicineItem medicineItem;
     
 	@Column(name = "deadline", nullable = false)
     private Date deadline;
    
-    public Reservation(Date deadline, Long reservationId, Boolean recieved, Patient patient, MedicineItem item) {
+    public Reservation(Date deadline, Long reservationId, String reservationCode, Boolean recieved, Patient patient, MedicineItem item) {
 		super();
 		this.deadline = deadline;
 		this.reservationId = reservationId;
+		this.reservationCode = reservationCode;
 		this.recieved = recieved;
 		this.patient = patient;
 		this.medicineItem = item;
@@ -48,9 +51,9 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		   return "Reservation [deadline=" + deadline + ", reservationId=" + reservationId + ", recieved=" + recieved
-				+ ", patient=" + patient + ", medicineItem=" + medicineItem + "]";
-	   }
+		return "Reservation [reservationId=" + reservationId + ", reservationCode=" + reservationCode + ", recieved="
+				+ recieved + ", patient=" + patient + ", medicineItem=" + medicineItem + ", deadline=" + deadline + "]";
+	}
 
 	public Date getDeadline() {
 		return deadline;
@@ -91,6 +94,13 @@ public class Reservation {
 	public void setMedicineItem(MedicineItem medicineItem) {
 		this.medicineItem = medicineItem;
 	}
-	
-	
+
+	public String getReservationCode() {
+		return reservationCode;
+	}
+
+	public void setReservationCode(String reservationCode) {
+		this.reservationCode = reservationCode;
+	}
+		
 }

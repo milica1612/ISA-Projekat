@@ -24,18 +24,18 @@
           </thead>
           <tbody>
           <tr
-              v-for="d in sortedItems"
-              :key="d"
+              v-for="p in sortedItems"
+              :key="p"
           >
-            <td>{{ d.firstName }}</td>
-            <td>{{ d.lastName }}</td>
-            <td>{{d.rating}}</td>
+            <td>{{ p.firstName }}</td>
+            <td>{{ p.lastName }}</td>
+            <td>{{p.rating}}</td>
             <td>
               <v-btn
                   color="secondary"
                   elevation="3"
                   x-small
-                  v-on:click = "scheduleConsultation(d)"
+                  v-on:click = "scheduleConsultation(p)"
               >Schedule Consultation</v-btn>
             </td>
           </tr>
@@ -60,32 +60,70 @@ export default {
         key: '',
         isAsc: false
       },
-      requestBody:{
-        pharmacyId: localStorage.getItem("pharmacyId"),
-        date: this.date,
-        time: this.time
-      },
-      pharmacists: []
+      pharmacyId: localStorage.getItem("pharmacy"),
+      pharmacists: [],
+      conDTO : [{
+        date: '',
+        time: '',
+        pharmacyId : '',
+        pharmacist: []
+      }],
+      pharm : []
     }
   },
   mounted() {
-    this.axios
-        .put('http://localhost:8091/workSchedule', this.requestBody,{
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem("token")
-          }
-        })
-        .then(response => (this.pharmacists = response.data));
+    {
+          this.axios
+              .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacistsInPharmacy' ,{date:this.date,
+              time:this.time, pharmacyId:this.pharmacyId}, {
+                headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }
+              })
+              .then(response => (this.pharmacists = response.data));
+
+
+      this.axios
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => (this.patient = response.data));
+    }
   },
-  methods:{
-    sortedClass (key) {
-      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
+  methods: {
+    scheduleConsultation(ph){
+      this.pharm = ph
+
+      this.conDTO = {
+        date:this.date,
+        time:this.time,
+        pharmacyId:this.pharmacyId,
+        pharmacist: this.pharm
+      }
+      const request={
+        dto : this.conDTO,
+        patientId : this.patient.userId
+      }
+
+      this.axios
+          .post('http://localhost:8091/consultation/create' , request, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(window.location.href = "http://localhost:8080/upcomingVisits");
+    },
+    sortedClass(key) {
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';
 
     },
-    sortBy (key) {
+    sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
       this.sort.key = key;
-    },
+    }
+  },
     computed:{
       sortedItems () {
         const list = this.pharmacists.slice();  // ソート時でdataの順序を書き換えないため
@@ -101,10 +139,20 @@ export default {
         return list;
       }
     }
-  }
 }
 </script>
 
 <style scoped>
-
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>
