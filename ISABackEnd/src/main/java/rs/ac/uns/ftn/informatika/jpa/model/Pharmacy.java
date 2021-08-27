@@ -37,11 +37,14 @@ public class Pharmacy {
 	protected Double consultationPrice;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	public Set<Dermatologist> dermatologist;
-	
+	public Set<Pharmacist> pharmacist;
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	public Set<MedicineItem> medicineItem;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public Set<Dermatologist> dermatologist;
+	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public Set<PharmacyAdministrator> phAdministrators;
 	

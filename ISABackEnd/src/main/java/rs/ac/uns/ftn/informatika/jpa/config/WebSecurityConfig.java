@@ -80,7 +80,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							"/pharmacy/getByNameOrAddress/**",
 							"/medicine",
 							"/medicine/getMedicineByName/**",
+							"/medicine/filtrate/**",
 							"/medicine/addMedicine/**",
+							"/medicine/checkMedicineInPharmacy/**",
 							"/pharmacy/filtrateByRating/**",
 							"/systemAdmin/createSystemAdmin/**",
 							"/systemAdmin/createSupplier/**",
@@ -111,9 +113,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 			web.ignoring().antMatchers(HttpMethod.PUT, "/users/confirm_account/*");
 			web.ignoring().antMatchers(HttpMethod.POST,  "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify" );
-			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy",
+			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**","/pharmacy", 
 					"/pharmacy/getByNameOrAddress/**",
-					"/medicine","/medicine/getMedicineByName/**", "/medicine/addMedicine/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**", "/systemAdmin/createDermatologist/**", "/systemAdmin/createSupplier/**", "/systemAdmin/createPhAdmin/**", "/systemAdmin/createPharmacy/**", "/*.html", "/favicon.ico", 
+					"/medicine","/medicine/getMedicineByName/**", "/medicine/addMedicine/**", "/systemAdmin", "/systemAdmin/createSystemAdmin/**", "/systemAdmin/createDermatologist/**", "/systemAdmin/createSupplier/**", "/systemAdmin/createPhAdmin/**", "/systemAdmin/createPharmacy/**","/medicine/filtrate/**", "/medicine/checkMedicineInPharmacy/**", "/*.html", "/favicon.ico", 
 					"/**/*.html","/**/*.css", "/**/*.js");
 		}
 }

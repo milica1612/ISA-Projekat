@@ -3,10 +3,12 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,10 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
 import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
+import rs.ac.uns.ftn.informatika.jpa.model.Offer;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Status;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
@@ -75,6 +81,7 @@ public class MedicineController {
 	@PostMapping("/addMedicine")
     public ResponseEntity<?> addNewMedicine(@RequestBody MedicineRegistrationDTO medicineRegistration)
     {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		try {
 			  return new ResponseEntity<>(this._medicineService.addNewMedicine(medicineRegistration), HttpStatus.CREATED);
 			} catch (Exception e) { 
@@ -149,5 +156,25 @@ public class MedicineController {
 		
 		return substituteMedicines;
 		
+	}
+	
+	@GetMapping(path = "/filtrate/{rating}")
+	public List<Medicine> filtrateMedicine(@PathVariable int rating){
+		
+		List<Medicine> medicines = findAllMedicine();
+		
+		List<Medicine> filtrateMedicines = new ArrayList<>();
+
+		for(Medicine m : medicines) {
+			if(m.getRating() == rating) {
+				filtrateMedicines.add(m);				}
+		}
+		
+		return filtrateMedicines; 
+	}
+	
+	@GetMapping(path = "/checkMedicineInPharmacy/{name}")
+	public List<Pharmacy> findAvailableMedicineInPharmacy(@PathVariable String name){	
+		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
 }

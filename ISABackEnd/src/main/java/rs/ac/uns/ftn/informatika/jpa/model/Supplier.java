@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 
@@ -15,7 +16,7 @@ public class Supplier extends User {
 
 	private static final long serialVersionUID = -546832308000747395L;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<MedicineItem> medicineItem;
 	
 	public Supplier() {

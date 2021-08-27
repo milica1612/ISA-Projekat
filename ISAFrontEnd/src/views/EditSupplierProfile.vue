@@ -4,7 +4,7 @@
   <div class = "container">
     <h1 style = "text-align:center">Edit supplier profile</h1>
     <br/>
-    <v-simple-table style = "margin:0 auto; padding: 20px; width:50%">
+    <v-simple-table style = "margin:0 auto; padding: 20px; width: 100%">
     <template v-slot:default>
       <tr>
         <th><h3>Personal information</h3></th>
@@ -55,12 +55,12 @@
     align="center"
     justify="space-around">
           <v-btn
+
               color="primary"
               elevation="3"
               medium
               v-on:click = "saveInformation"
-          >
-           <router-link to="/supplier" tag="button">SAVE</router-link></v-btn>
+          >SAVE</v-btn>
   </v-row>
   </div>
 </template>
@@ -77,13 +77,23 @@ export default {
   },
   mounted(){
     this.axios
-        .get('http://localhost:8091/users/3')
+        .get('http://localhost:8091/users/' + localStorage.getItem("userId"),{ 
+          headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")}
+          
+        })      
         .then(response => (this.supplier = response.data));
   },
   methods: {
     saveInformation : function(){
       this.axios
-          .post("http://localhost:8091/users/update", this.supplier);
+          .post("http://localhost:8091/users/update", this.supplier, 
+          { 
+          headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")}
+         })
+         .then(
+                  window.location.href = "http://localhost:8080/supplier");
     }
   }
 }

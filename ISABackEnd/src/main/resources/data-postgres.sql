@@ -352,8 +352,10 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (17, 5)
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
 
 -- PHARMACIST-VACATION - TEST DATA
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 11, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 16, 2); 
 
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 17, 2); 
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
@@ -477,3 +479,51 @@ INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
 	VALUES (2, 4);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, time_interval_time_interval_id) 
+	values (1, 400, 1);
+
+INSERT INTO public.medicine_price_tag(
+	medicine_medicine_id, price_tag_price_tag_id) 
+	values(1, 1);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	 values(1, 1);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(3, 2);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 4);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(1, 3);
+
+INSERT INTO public.order_medicine_item(
+	order_order_id, medicine_item_medicine_item_id)
+	 values (1, 1);
+
+INSERT INTO public.order_medicine_item(
+	order_order_id, medicine_item_medicine_item_id) 
+	values (2, 2);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 2);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 1);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 3);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id)
+	 values (2, 4);
