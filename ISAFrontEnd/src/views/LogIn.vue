@@ -87,7 +87,6 @@ export default {
                   localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);
                   window.location.href =
                     "http://localhost:8080/homePagePharmacyAdmin";
-                    //Now Nikolina has logged in to the system as an admin
                   alert("Now " + resp.data.user.firstName + " " + resp.data.user.lastName + " has logged in to the Pharmacy system, as " + localStorage.getItem("userType") + ".");
                 } 
                 else
