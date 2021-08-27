@@ -15,4 +15,6 @@ public interface IOrderService {
 
 	Order save(Order order);
 	
+	List<Order> findAllOrdersForPharmacy();
+	
 }
