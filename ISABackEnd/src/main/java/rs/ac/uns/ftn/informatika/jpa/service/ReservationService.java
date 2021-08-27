@@ -65,14 +65,27 @@ public class ReservationService implements IReservationService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
-		byte[] array = new byte[6];
-	    new Random().nextBytes(array);
-	    String generatedString = new String(array, Charset.forName("UTF-8"));
+	    String generatedString = givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
 	    MedicineItem item = new MedicineItem(1, dto.getDto().getPriceTag().getMedicine());
 		Reservation reservation = new Reservation(date, generatedString, false, p, item);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+		System.out.println(generatedString + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
 		_medicineItemRepository.save(item);
 		_reservationRepository.save(reservation);
 		
+	}
+	
+	public String givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect() {
+	    int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = 10;
+	    Random random = new Random();
+
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+
+	    return generatedString;
 	}
 }
