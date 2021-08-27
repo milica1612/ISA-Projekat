@@ -1,11 +1,13 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
@@ -30,13 +32,16 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 	}
 	
 	@Override
-	public List<PharmacistVacation> findAllPharmacistVacationWithStatusWaiting() {
+	public List<PharmacistVacationDTO> findAllPharmacistVacationWithStatusWaiting() {
 		List<PharmacistVacation> allVacation = _pharmacistVacationRepository.findAll();
-		List<PharmacistVacation> list = new ArrayList<PharmacistVacation>();
+		List<PharmacistVacationDTO> list = new ArrayList<PharmacistVacationDTO>();
 		
 		for (PharmacistVacation pVacation : allVacation) {
 			if(pVacation.getStatus() == Status.WAITING) {
-				list.add(pVacation);
+				String startDate = new SimpleDateFormat("dd.MM.yyyy.").format(pVacation.getStartDate());
+				String endDate = new SimpleDateFormat("dd.MM.yyyy.").format(pVacation.getEndDate());
+				PharmacistVacationDTO pVacationDTO = new PharmacistVacationDTO(pVacation.getVacationId(), pVacation.getPharmacist().getUserId(), pVacation.getPharmacist().getFirstName(), pVacation.getPharmacist().getLastName(), pVacation.getPharmacist().getEmail(), startDate, endDate, pVacation.getStatus());
+				list.add(pVacationDTO);
 			}
 		}
 		return list;

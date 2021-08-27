@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacistVacationService;
@@ -40,9 +41,9 @@ public class PharmacistVacationController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path = "/allWithStatusWaiting")
-	public ResponseEntity<List<PharmacistVacation>> findAllPharmacistVacationWithStatusWaiting() {
-		List<PharmacistVacation> listVacationDTO = _pharmacistVacationService.findAllPharmacistVacationWithStatusWaiting();
-		return new ResponseEntity<List<PharmacistVacation>>(listVacationDTO, HttpStatus.OK);
+	public ResponseEntity<List<PharmacistVacationDTO>> findAllPharmacistVacationWithStatusWaiting() {
+		List<PharmacistVacationDTO> listVacationDTO = _pharmacistVacationService.findAllPharmacistVacationWithStatusWaiting();
+		return new ResponseEntity<List<PharmacistVacationDTO>>(listVacationDTO, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")

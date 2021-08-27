@@ -21,8 +21,8 @@
               <v-card>
                 <v-spacer></v-spacer>
                 <v-card-title class="text-h4 justify-center"
-                  >Are you sure you want to accept this vacation
-                  request ?</v-card-title
+                  >Are you sure you want to accept this vacation request
+                  ?</v-card-title
                 >
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -131,38 +131,16 @@ export default {
   },
   methods: {
     initialize() {
-      this.vacatoionList = [
-        {
-          vacationId: "1",
-          pharmacistId: "12",
-          firstName: "Branko",
-          lastName: "Sudic",
-          email: "mail",
-          startDate: "2021-09-10",
-          endDate: "2021-09-20",
-          status: "waiting",
-        },
-        {
-          vacationId: "2",
-          pharmacistId: "6",
-          firstName: "Nikola",
-          lastName: "Spasic",
-          email: "mail",
-          startDate: "2021-10-10",
-          endDate: "2021-10-20",
-          status: "waiting",
-        },
-        {
-          vacationId: "3",
-          pharmacistId: "9",
-          firstName: "Maja",
-          lastName: "Lakic",
-          email: "mail",
-          startDate: "2021-09-20",
-          endDate: "2021-09-30",
-          status: "waiting",
-        },
-      ];
+      this.axios
+        .get("http://localhost:8091/pharmacistVacation/allWithStatusWaiting", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.vacatoionList = response.data;
+        });
     },
 
     decline(item) {
