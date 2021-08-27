@@ -29,8 +29,8 @@
     <v-card-actions>
       <v-btn
         class="mx-auto mb-5; color:white"
-        color="accent"
-        elevation="2"
+        color="primary"
+        elevation="3"
         x-large
         raised
         v-on:click="logIn"

@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import rs.ac.uns.ftn.informatika.jpa.model.OrderStatus;
-import rs.ac.uns.ftn.informatika.jpa.model.Status;
 
 public class OrderDTO {
 	

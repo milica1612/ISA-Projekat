@@ -8,7 +8,7 @@
           <v-toolbar dense dark color="light-blue darken-2">
             <v-spacer></v-spacer>
             <v-toolbar-title class="text-center">
-              Pharmacy orders
+              Orders
             </v-toolbar-title>
             <v-spacer></v-spacer>
 

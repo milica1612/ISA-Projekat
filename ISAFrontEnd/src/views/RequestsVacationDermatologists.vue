@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="requestVacationCaption">Vacation requests from pharmacists</h1>
+    <h1 id="requestVacationCaption">Vacation requests from dermatologists</h1>
 
     <div class="table">
       <v-data-table
