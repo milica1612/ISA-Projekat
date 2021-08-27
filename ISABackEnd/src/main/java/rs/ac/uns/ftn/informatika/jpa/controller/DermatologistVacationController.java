@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.RequestAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
@@ -33,23 +34,23 @@ public class DermatologistVacationController {
 	
 	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	@GetMapping(path = "/all")
-	public ResponseEntity<List<DermatologistVacation>> findAllPharmacistVacation() {
-		List<DermatologistVacation> listVacationDTO = _dermatologistVacationService.findAllDermatologistVacation();
-		return new ResponseEntity<List<DermatologistVacation>>(listVacationDTO, HttpStatus.OK);
+	public ResponseEntity<List<DermatologistVacationDTO>> findAllPharmacistVacation() {
+		List<DermatologistVacationDTO> listVacationDTO = _dermatologistVacationService.findAllDermatologistVacation();
+		return new ResponseEntity<List<DermatologistVacationDTO>>(listVacationDTO, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	@GetMapping(path = "/allWithStatusWaiting")
-	public ResponseEntity<List<DermatologistVacation>> findAllPharmacistVacationWithStatusWaiting() {
-		List<DermatologistVacation> listVacationDTO = _dermatologistVacationService.findAllDermatologistVacationWithStatusWaiting();
-		return new ResponseEntity<List<DermatologistVacation>>(listVacationDTO, HttpStatus.OK);
+	public ResponseEntity<List<DermatologistVacationDTO>> findAllPharmacistVacationWithStatusWaiting() {
+		List<DermatologistVacationDTO> listVacationDTO = _dermatologistVacationService.findAllDermatologistVacationWithStatusWaiting();
+		return new ResponseEntity<List<DermatologistVacationDTO>>(listVacationDTO, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
-	@PostMapping(value = "/accept/{vacationId}") 
-	public ResponseEntity<DermatologistVacation> accept(@PathVariable Long vacationId) {
+	@PostMapping(value = "/accept") 
+	public ResponseEntity<DermatologistVacation> accept(@RequestBody RequestAcceptDTO requestAcceptDTO) {
 		try {
-			return new ResponseEntity<DermatologistVacation>(_dermatologistVacationService.accept(vacationId), HttpStatus.OK);
+			return new ResponseEntity<DermatologistVacation>(_dermatologistVacationService.accept(requestAcceptDTO.getVacationId()), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<DermatologistVacation>(HttpStatus.BAD_REQUEST);
 		}

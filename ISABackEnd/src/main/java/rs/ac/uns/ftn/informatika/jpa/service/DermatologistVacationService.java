@@ -1,11 +1,13 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
@@ -25,19 +27,32 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 	}
 
 	@Override
-	public List<DermatologistVacation> findAllDermatologistVacation() {
-		List<DermatologistVacation> list = _dermatologistVacationRepository.findAll();
+	public List<DermatologistVacationDTO> findAllDermatologistVacation() {
+		List<DermatologistVacation> allVacation = _dermatologistVacationRepository.findAll();
+		List<DermatologistVacationDTO> list = new ArrayList<DermatologistVacationDTO>();
+		
+		for (DermatologistVacation dVacation : allVacation) {
+			String startDate = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getStartDate());
+			String endDate = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getEndDate());
+			DermatologistVacationDTO dVacationDTO = new DermatologistVacationDTO(dVacation.getVacationId(), dVacation.getDermatologist().getUserId(), dVacation.getDermatologist().getFirstName(), 
+					dVacation.getDermatologist().getLastName(), dVacation.getDermatologist().getEmail(), startDate, endDate, dVacation.getStatus());
+			list.add(dVacationDTO);
+		}
 		return list;
 	}
 
 	@Override
-	public List<DermatologistVacation> findAllDermatologistVacationWithStatusWaiting() {
+	public List<DermatologistVacationDTO> findAllDermatologistVacationWithStatusWaiting() {
 		List<DermatologistVacation> allVacation = _dermatologistVacationRepository.findAll();
-		List<DermatologistVacation> list = new ArrayList<DermatologistVacation>();
+		List<DermatologistVacationDTO> list = new ArrayList<DermatologistVacationDTO>();
 		
 		for (DermatologistVacation dVacation : allVacation) {
 			if(dVacation.getStatus() == Status.WAITING) {
-				list.add(dVacation);
+				String startDate = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getStartDate());
+				String endDate = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getEndDate());
+				DermatologistVacationDTO dVacationDTO = new DermatologistVacationDTO(dVacation.getVacationId(), dVacation.getDermatologist().getUserId(), dVacation.getDermatologist().getFirstName(), 
+						dVacation.getDermatologist().getLastName(), dVacation.getDermatologist().getEmail(), startDate, endDate, dVacation.getStatus());
+				list.add(dVacationDTO);
 			}
 		}
 		return list;
