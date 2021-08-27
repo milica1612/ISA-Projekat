@@ -1,7 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
-import java.util.Date;
-
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 
 public class PharmacistVacationDTO {

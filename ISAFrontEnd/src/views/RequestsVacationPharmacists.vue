@@ -82,9 +82,9 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green" text @click="accept(item)"> ACCEPT </v-btn>
+            <v-btn color="green" text @click="acceptVacation(item)"> ACCEPT </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red" text @click="decline(item)"> DECLINE </v-btn>
+            <v-btn color="red" text @click="declineVacation(item)"> DECLINE </v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </template>
@@ -100,7 +100,8 @@ export default {
     vacatoionList: [],
     dialogDeclineRequest: false,
     dialogAcceptRequest: false,
-    explanation: "",
+    editedItem: null,
+    explanation: null,
     headers: [
       {
         text: "Vacation ID",
@@ -117,6 +118,7 @@ export default {
       { text: "Status", value: "status", align: "center", sortable: false },
       { text: "Actions", value: "actions", align: "center", sortable: false },
     ],
+    vacationId: null,
   }),
   watch: {
     dialogDeclineRequest(val) {
@@ -143,25 +145,62 @@ export default {
         });
     },
 
-    decline(item) {
+    declineVacation(item) {
       this.editedIndex = this.vacatoionList.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDeclineRequest = true;
+      this.vacatoionId = this.editedItem.vacationId;
     },
 
-    accept(item) {
+    acceptVacation(item) {
       this.editedIndex = this.vacatoionList.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogAcceptRequest = true;
+      this.vacatoionId = this.editedItem.vacationId;
     },
 
     acceptRequest() {
       this.vacatoionList.splice(this.editedIndex, 1);
+      this.axios
+        .post(
+          "http://localhost:8091/pharmacistVacation/accept",
+          {
+            vacationId: this.vacatoionId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(response => 
+        {
+          console.log(response.data);
+          alert("The vacation request was successfully accepted!");
+        });
       this.closeAcceptRequest();
     },
 
     declineRequest() {
       this.vacatoionList.splice(this.editedIndex, 1);
+      this.axios
+        .post(
+          "http://localhost:8091/pharmacistVacation/decline",
+          {
+            vacationId: this.vacatoionId,
+            explanation: this.explanation,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(response => 
+        {
+          console.log(response.data);
+          alert("The vacation request was declined!");
+        });
       this.closeDeclineRequest();
     },
 
