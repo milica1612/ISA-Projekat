@@ -1,7 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
-import java.util.Date;
-
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 
 public class PharmacistVacationDTO {
@@ -11,8 +9,8 @@ public class PharmacistVacationDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private Status status;
 	
 	public PharmacistVacationDTO() {
@@ -20,7 +18,7 @@ public class PharmacistVacationDTO {
 	}
 
 	public PharmacistVacationDTO(Long vacationId, Long pharmacistId, String firstName, String lastName, String email,
-			Date startDate, Date endDate, Status status) {
+			String startDate, String endDate, Status status) {
 		super();
 		this.vacationId = vacationId;
 		this.pharmacistId = pharmacistId;
@@ -72,19 +70,19 @@ public class PharmacistVacationDTO {
 		this.email = email;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

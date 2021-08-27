@@ -261,10 +261,23 @@ const routes = [{
             import('../views/Promotion.vue')
     },
     {
+
         path: '/dispensingMedicinePharmacist',
         name: 'DispensingMedicinePharmacist',
         component: () =>
             import('../views/DispensingMedicinePharmacist.vue')
+    },
+    {
+        path: '/requestsVacationPharmacists',
+        name: 'RequestsVacationPharmacists',
+        component: () =>
+            import('../views/RequestsVacationPharmacists.vue')
+    },
+    {
+        path: '/allVacationRequests',
+        name: 'AllVacationRequests',
+        component: () =>
+            import('../views/AllVacationRequests.vue')
     }
 
 ]
