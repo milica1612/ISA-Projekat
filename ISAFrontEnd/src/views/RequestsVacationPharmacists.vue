@@ -22,7 +22,7 @@
                 <v-spacer></v-spacer>
                 <v-card-title class="text-h4 justify-center"
                   >Are you sure you want to accept this vacation
-                  request?</v-card-title
+                  request ?</v-card-title
                 >
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -45,9 +45,22 @@
               <v-card>
                 <v-spacer></v-spacer>
                 <v-card-title class="text-h4 justify-center"
-                  >Are you sure you want to decline this vacation
-                  request?</v-card-title
+                  >Enter an explanation</v-card-title
                 >
+                <v-card-text>
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    class="ml-5 mr-5"
+                    label="Explanation"
+                    v-model="explanation"
+                    color="blue"
+                    type="text"
+                  />
+                  <v-spacer></v-spacer>
+                </v-card-text>
+
+                <v-spacer></v-spacer>
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
@@ -64,7 +77,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
@@ -88,21 +100,22 @@ export default {
     vacatoionList: [],
     dialogDeclineRequest: false,
     dialogAcceptRequest: false,
+    explanation: "",
     headers: [
       {
         text: "Vacation ID",
         value: "vacationId",
         align: "center",
-        sortable: true 
+        sortable: true,
       },
       { text: "Pharmacist ID", value: "pharmacistId", align: "center" },
       { text: "First name", value: "firstName", align: "center" },
-      { text: "Last name", value: "lastName", align: "center"  },
+      { text: "Last name", value: "lastName", align: "center" },
       { text: "E-mail", value: "email", align: "center" },
       { text: "Start date", value: "startDate", align: "center" },
-      { text: "End date", value: "endDate", align: "center"  },
-      { text: "Status", value: "status", align: "center", sortable: false},
-      { text: "Actions", value: "actions", align: "center" , sortable: false},
+      { text: "End date", value: "endDate", align: "center" },
+      { text: "Status", value: "status", align: "center", sortable: false },
+      { text: "Actions", value: "actions", align: "center", sortable: false },
     ],
   }),
   watch: {
@@ -175,6 +188,7 @@ export default {
     },
 
     closeDeclineRequest() {
+      this.explanation = "";
       this.dialogDeclineRequest = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -189,7 +203,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
   },
 };
 </script>
