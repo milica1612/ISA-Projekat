@@ -3,7 +3,9 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +41,9 @@ public class OrderController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path="/forPharmacy")
-	public List<OrderDTO> findAllOrdersForPharmacy() {
-		return _orderService.findAllOrdersForPharmacy();
+	public ResponseEntity<List<OrderDTO>> findAllOrdersForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllOrdersForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
 	}
 	
 }

@@ -3,13 +3,11 @@
     <h1 id="pharmacyOrdersCaption">All pharmacy orders</h1>
 
     <div>
-      <v-data-table :headers="headers" :items="orderList" sort-by="orderId">
+      <v-data-table :headers="headers1" :items="orderList" sort-by="orderId">
         <template v-slot:top>
           <v-toolbar dense dark color="light-blue darken-2">
             <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center">
-              Orders
-            </v-toolbar-title>
+            <v-toolbar-title class="text-center"> Orders </v-toolbar-title>
             <v-spacer></v-spacer>
 
             <v-dialog v-model="dialogShowOffer" max-width="60%">
@@ -18,17 +16,25 @@
                 <v-card-title class="text-h4 justify-center"
                   >Offers</v-card-title
                 >
+                <v-data-table
+                  :headers="headers2"
+                  :items="offerList"
+                  sort-by="offerId"
+                >
+                  <template v-slot:[`item.actionAcceptOffer`]="{ item }">
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="green" text @click="acceptOffer(item)"
+                        >Accept</v-btn
+                      >
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
+                  </template>
+                </v-data-table>
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn color="green" text @click="acceptOffer"
-                    >Accept</v-btn
-                  >
-                  <v-spacer></v-spacer>
-
-                  <v-btn color="red" text @click="closeShowOffer"
-                    >Cancel</v-btn
-                  >
+                  <v-btn color="red" text @click="closeShowOffer">Close</v-btn>
 
                   <v-spacer></v-spacer>
                 </v-card-actions>
@@ -57,7 +63,8 @@ export default {
   data: () => ({
     dialogShowOffer: false,
     orderList: [],
-    headers: [
+    offerList: [],
+    headers1: [
       {
         text: "Order ID",
         value: "orderId",
@@ -84,8 +91,46 @@ export default {
       },
       { text: "Action", value: "action", align: "center", sortable: false },
     ],
-    orderId: null,
+    headers2: [
+      {
+        text: "Offer ID",
+        value: "offerId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Supplier name",
+        value: "supplierName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Supplier email",
+        value: "supplierEmail",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Offer price",
+        value: "offerPrice",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Delivery deadline",
+        value: "deliveryDeadline",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Action",
+        value: "actionAcceptOffer",
+        align: "center",
+        sortable: false,
+      },
+    ],
     orderItem: null,
+    index: null,
   }),
   watch: {
     dialogShowOffer(val) {
@@ -109,17 +154,33 @@ export default {
         });
     },
     showOffer(item) {
-      this.orderId = this.orderList.indexOf(item);
+      this.index = this.orderList.indexOf(item);
+      this.orderItem = Object.assign({}, item);
       this.dialogShowOffer = true;
-    },
-    acceptOffer() {
+      
+      console.log(this.orderId);
 
+      this.axios
+      .get("http://localhost:8091/offers/findOffersByOrderId/" + this.orderItem.orderId,
+      {
+          headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+      })
+      .then(resp => {
+          console.log(resp.data);
+          this.offerList = resp.data;
+      });
+    },
+    acceptOffer(offer) 
+    {
+        console.log(offer);
     },
     closeShowOffer() {
       this.dialogShowOffer = false;
       this.$nextTick(() => {
         this.orderItem = Object.assign({}, this.defaultItem);
-        this.orderId = -1;
+        this.index = -1;
       });
     },
   },

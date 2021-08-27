@@ -1,18 +1,16 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.OfferForOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOfferService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
@@ -23,8 +21,13 @@ import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 @Service
 public class OfferService implements IOfferService{
 
-	@Autowired
 	private IOfferRepository _offerRepository;
+	
+	// Example Of Constructor Dependency Injection in Spring
+	@Autowired
+	public OfferService(IOfferRepository offerRepository) {
+		this._offerRepository = offerRepository;
+	}
 	
 	@Override
 	public Offer findById(Long id) {
@@ -35,6 +38,21 @@ public class OfferService implements IOfferService{
 	public List<Offer> findAll() {		
 		List<Offer> listOffer = _offerRepository.findAll();
 		return listOffer;
+	}
+	
+	@Override
+	public List<OfferForOrderDTO> findOffersByOrderId(Long orderId) {
+		List<Offer> allOffers = _offerRepository.findAll();
+		List<OfferForOrderDTO> list = new ArrayList<OfferForOrderDTO>();
+		
+		for (Offer offer : allOffers) {
+			if (offer.getOrder().getOrderId() == orderId) {
+				String deliveryDeadline = new SimpleDateFormat("dd.MM.yyyy.").format(offer.getDeliveryDeadline());
+				OfferForOrderDTO offerForOrderDTO = new OfferForOrderDTO(offer.getOfferId(), offer.getSupplier().getFirstName() + " " + offer.getSupplier().getLastName(), offer.getSupplier().getEmail(), offer.getPrice(), deliveryDeadline);
+				list.add(offerForOrderDTO);
+			}
+		}
+		return list;
 	}
 	
 	@Override
