@@ -34,10 +34,9 @@ public class Reservation {
 	@Column(name = "deadline", nullable = false)
     private Date deadline;
    
-    public Reservation(Date deadline, Long reservationId, String reservationCode, Boolean recieved, Patient patient, MedicineItem item) {
+    public Reservation(Date deadline, String reservationCode, Boolean recieved, Patient patient, MedicineItem item) {
 		super();
 		this.deadline = deadline;
-		this.reservationId = reservationId;
 		this.reservationCode = reservationCode;
 		this.recieved = recieved;
 		this.patient = patient;

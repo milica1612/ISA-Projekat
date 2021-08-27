@@ -1,14 +1,25 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IReservationService;
+import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IReservationRepository;
 
 @Service
@@ -16,6 +27,9 @@ public class ReservationService implements IReservationService{
 
 	@Autowired
 	private IReservationRepository _reservationRepository;
+	
+	@Autowired
+	private IMedicineItemRepository _medicineItemRepository;
 	
 	@Override
 	public Reservation updateReservation(@Valid Reservation r) {
@@ -38,5 +52,27 @@ public class ReservationService implements IReservationService{
 			}
 		}	
 		return null;
+	}
+
+	@Override
+	public void createReservation(ReservationDTO dto, Patient p) {
+		String d = dto.getDate();
+	    Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+			System.out.println(date.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		byte[] array = new byte[6];
+	    new Random().nextBytes(array);
+	    String generatedString = new String(array, Charset.forName("UTF-8"));
+	    MedicineItem item = new MedicineItem(1, dto.getDto().getPriceTag().getMedicine());
+		Reservation reservation = new Reservation(date, generatedString, false, p, item);
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+		_medicineItemRepository.save(item);
+		_reservationRepository.save(reservation);
+		
 	}
 }

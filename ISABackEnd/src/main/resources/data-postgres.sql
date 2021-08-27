@@ -414,35 +414,40 @@ INSERT INTO public.medicine_replacement_medicine(
 
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (1, 10, 1);
+	VALUES (default, 10, 1);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (2, 20, 2);
+	VALUES (default, 20, 2);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (3, 3, 3);
+	VALUES (default, 3, 3);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (4, 10, 4);
+	VALUES (default, 10, 4);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (5, 20, 5);
+	VALUES (default, 20, 5);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (6, 3, 6);
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (8, 3, 8);  
+	VALUES (default, 3, 6);
 
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (9, 10, 1);
+	VALUES (default, 3, 6);
+
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (10, 20, 2);
+	VALUES (default, 3, 8);  
+
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (11, 20, 2);
+	VALUES (default, 10, 1);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 20, 2);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)

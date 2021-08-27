@@ -238,7 +238,8 @@ export default {
     makeReservation: function(a, dialog){
       dialog.value = false
       this.axios
-          .put("http://localhost:8091/reservation/create",{dto:a, date:this.picker},{headers: {
+          .post("http://localhost:8091/reservation/create",{dto:a, date:this.picker,
+                userId: localStorage.getItem("userId")}, {headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
           .then();
