@@ -96,6 +96,7 @@ public class EmailService {
 	}
 	
 	public void sendReservationMadeEmail(Reservation reservation) {
+		String d = new SimpleDateFormat("dd.MM.yyyy.").format(reservation.getDeadline());
 		System.out.println(env.getProperty("spring.mail.username"));
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(reservation.getPatient().getEmail());
@@ -108,9 +109,9 @@ public class EmailService {
 		text.append("\n\n");
 		text.append("Your have successfully made a reservation .");
 		text.append("\n");
-		text.append("Medicine:" + reservation.getMedicineItem().getMedicine().getName());
-		text.append("Reservation code:" + reservation.getReservationCode());
-		text.append("Reserved until:" + reservation.getDeadline().toString());
+		text.append("Medicine: " + reservation.getMedicineItem().getMedicine().getName());
+		text.append("Reservation code: " + reservation.getReservationCode());
+		text.append("Reserved until: " + d.toString());
 		
 		text.append("\n\nYour pharmacy, " + reservation.getPharmacy().getName());
 		
