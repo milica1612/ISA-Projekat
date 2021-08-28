@@ -2,8 +2,8 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,18 +23,10 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
-import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
-import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
-import rs.ac.uns.ftn.informatika.jpa.model.Offer;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.Status;
-import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
@@ -178,4 +170,5 @@ public class MedicineController {
 	public List<MedicineAvailableInPharmacyDTO> findAvailableMedicineInPharmacy(@PathVariable String name){	
 		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
+	
 }
