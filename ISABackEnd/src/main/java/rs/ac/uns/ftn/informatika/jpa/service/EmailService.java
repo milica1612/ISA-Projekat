@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 
@@ -140,6 +141,29 @@ public class EmailService {
 		text.append("\nDATE AND TIME: " + date);
 		text.append("\nPHARMACIST: " + consultation.getPharmacist().getFirstName() + " " + consultation.getPharmacist().getLastName());
 		text.append("\n\nYour pharmacy, " + consultation.getPharmacy().getName());
+		mail.setText(text.toString());
+		javaMailSender.send(mail);
+		System.out.println("Confirmation email successfully sent to user/patient!");
+	}
+
+	public void sendExaminationConfirmation(Examination examination) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(examination.getPatient().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Examination confirmation");
+		
+		String date = new SimpleDateFormat("dd.MM.yyyy. hh:mm:ss").format(examination.getDateAndTime());
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + examination.getPatient().getFirstName() + " "  + examination.getPatient().getLastName() + ",");
+		text.append("\n\n");
+		text.append("\nYou have successfully scheduled a consultation.");
+		text.append("\nConsultation information:");
+		text.append("\nPHARMACY: " + examination.getPharmacy().getName());
+		text.append("\nDATE AND TIME: " + date);
+		text.append("\nPHARMACIST: " + examination.getDermatologist().getFirstName() + " " + examination.getDermatologist().getLastName());
+		text.append("\n\nYour pharmacy, " + examination.getPharmacy().getName());
 		mail.setText(text.toString());
 		javaMailSender.send(mail);
 		System.out.println("Confirmation email successfully sent to user/patient!");

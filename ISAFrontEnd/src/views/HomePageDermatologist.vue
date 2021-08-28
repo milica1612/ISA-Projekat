@@ -6,7 +6,7 @@
       <a href="/workCalendar" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Work Calendar</a>
       <a href="/scheduleVacation" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Schedule Vacation</a>
       <a href="/dermatologistProfile" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">My Profile</a>
-      <a href="/scheduleAppointment" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Schedule new Appointment</a>
+      <a href="/scheduleExaminationDermatologist" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Schedule new Appointment</a>
     </div>
     <h2 style = "text-align:center">Home page for dermatologist</h2>
   </div>

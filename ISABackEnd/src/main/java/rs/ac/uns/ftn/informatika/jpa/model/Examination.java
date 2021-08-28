@@ -37,17 +37,17 @@ public class Examination{
 	@Column(name = "points", nullable = false)
     private int points;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Patient patient;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Pharmacy pharmacy;
 	
 	
 	@Enumerated(EnumType.STRING)
     public AppointmentStatus appointmentStatus;
    
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Dermatologist dermatologist;
 	
     public Examination()

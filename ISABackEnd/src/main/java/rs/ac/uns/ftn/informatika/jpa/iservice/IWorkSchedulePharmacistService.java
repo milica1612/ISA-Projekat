@@ -12,4 +12,5 @@ public interface IWorkSchedulePharmacistService {
 	ArrayList<Pharmacy> getAvailablePharmacies(Date date);
 	ArrayList<Pharmacist> getAvailablePharmacistsInPharmacy(Date date, Long pharmacyId);
 	void addNewConsultationToWorkSchedule(Consultation c);
+	Boolean addConsToWorkSchedule(Consultation c);
 }
