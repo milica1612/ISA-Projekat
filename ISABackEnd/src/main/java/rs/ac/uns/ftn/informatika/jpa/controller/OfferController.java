@@ -42,9 +42,7 @@ public class OfferController {
 	}
 	
 	@GetMapping(path = "/seeOffers/{id}")
-	public List<Offer> findOffers(@PathVariable Long id) {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
+	public List<Offer> findOffers(@PathVariable Long id) {		
 		return  _offerService.findOffersBySupplier(id);
 	}
 
@@ -66,7 +64,8 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
-	@PutMapping(value = "createOffer/{id}/{order_id}")
+	
+	/*@PutMapping(value = "createOffer/{id}/{order_id}")
 	public ResponseEntity<?> createOffer(@RequestBody OfferDTO offerDTO, Order order) {
 		try {
 			_offerService.createOffer(order_id, offerDTO);
@@ -74,7 +73,7 @@ public class OfferController {
 		} catch (Exception e) {
 			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-	}
+	}*/
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path="/findOffersByOrderId/{orderId}")
