@@ -46,4 +46,19 @@ public class OrderController {
 		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/waitingOfferForPharmacy")
+	public ResponseEntity<List<OrderDTO>> findAllOrdersWaitingOfferForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllOrdersWaitingOfferForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/finishedOrdersForPharmacy")
+	public ResponseEntity<List<OrderDTO>> findAllFinishedOrdersForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllFinishedOrdersForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
+	
+
 }

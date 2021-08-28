@@ -18,4 +18,7 @@ public interface IOrderService {
 	
 	List<OrderDTO> findAllOrdersForPharmacy();
 	
+	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();
+	
+	List<OrderDTO> findAllFinishedOrdersForPharmacy();
 }

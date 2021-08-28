@@ -369,7 +369,7 @@ INSERT INTO public.offer(
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/08/26', 'PROCESSED', 2, 10);
+	VALUES (default, '2021/08/26', 'FINISHED', 2, 10);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
@@ -381,7 +381,7 @@ INSERT INTO public.offer(
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/08/20', 'PROCESSED', 3, 6);
+	VALUES (default, '2021/08/20', 'FINISHED', 3, 6);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
@@ -396,11 +396,11 @@ INSERT INTO public.offer(
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/09/20', 'WAITING_OFFER', 2, 10);
+	VALUES (default, '2021/09/30', 'WAITING_OFFER', 2, 10);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/10/05', 12000, 'WAITING', 5, 2);	
+	VALUES (default, '2021/10/10', 12000, 'WAITING', 5, 2);	
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
