@@ -15,6 +15,8 @@ import rs.ac.uns.ftn.informatika.jpa.iservice.IOfferService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 
@@ -23,10 +25,13 @@ public class OfferService implements IOfferService{
 
 	private IOfferRepository _offerRepository;
 	
+	private EmailService _emailService;
+	
 	// Example Of Constructor Dependency Injection in Spring
 	@Autowired
-	public OfferService(IOfferRepository offerRepository) {
+	public OfferService(IOfferRepository offerRepository, EmailService emailService) {
 		this._offerRepository = offerRepository;
+		this._emailService = emailService;
 	}
 	
 	@Override
@@ -38,6 +43,15 @@ public class OfferService implements IOfferService{
 	public List<Offer> findAll() {		
 		List<Offer> listOffer = _offerRepository.findAll();
 		return listOffer;
+	}
+	
+	@Override
+	public Offer accept(Long offerId) {
+		Offer offer = _offerRepository.getOne(offerId);
+		offer.setStatus(Status.ACCEPTED);
+	 
+		
+		return _offerRepository.save(offer);
 	}
 	
 	@Override
@@ -116,5 +130,6 @@ public class OfferService implements IOfferService{
 		return true;
 
 	}
+
 
 }

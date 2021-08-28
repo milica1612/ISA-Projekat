@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.OfferForOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
+import rs.ac.uns.ftn.informatika.jpa.model.OfferAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -78,5 +80,16 @@ public class OfferController {
 		List<OfferForOrderDTO> offers = _offerService.findOffersByOrderId(orderId);
 		return new ResponseEntity<List<OfferForOrderDTO>>(offers, HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value="/acceptOffer")
+	public ResponseEntity<Offer> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
+		try {
+			return new ResponseEntity<Offer>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Offer>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 
 }

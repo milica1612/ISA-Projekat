@@ -17,6 +17,8 @@ public interface IOfferService {
 	
 	List<OfferForOrderDTO> findOffersByOrderId(Long orderId);
 	
+	Offer accept(Long offerId);
+	
 	Offer save(Offer offer);
 
 	List<Offer> findOffersBySupplier(Long id);

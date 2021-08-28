@@ -111,7 +111,7 @@ export default {
         sortable: true,
       },
       {
-        text: "Offer price",
+        text: "Offer price ( RSD )",
         value: "offerPrice",
         align: "center",
         sortable: true,
