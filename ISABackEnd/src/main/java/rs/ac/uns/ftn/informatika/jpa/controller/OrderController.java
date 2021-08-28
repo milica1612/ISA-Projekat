@@ -3,8 +3,9 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.service.OrderService;
 
@@ -35,15 +37,29 @@ public class OrderController {
 	
 	@GetMapping(value = "/allOrders")
 	public List<Order> findAll() {
-		System.out.println("Orders " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
 		return _orderService.findAll();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path="/forPharmacy")
-	public List<Order> findAllOrdersForPharmacy() {
-		return _orderService.findAllOrdersForPharmacy();
+	public ResponseEntity<List<OrderDTO>> findAllOrdersForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllOrdersForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/waitingOfferForPharmacy")
+	public ResponseEntity<List<OrderDTO>> findAllOrdersWaitingOfferForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllOrdersWaitingOfferForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/finishedOrdersForPharmacy")
+	public ResponseEntity<List<OrderDTO>> findAllFinishedOrdersForPharmacy() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllFinishedOrdersForPharmacy();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
+	
+
 }

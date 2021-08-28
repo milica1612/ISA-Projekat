@@ -127,6 +127,7 @@ export default {
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Pending Vacation Requests", path: '/requestsVacationPharmacists'},
           {title: "All Vacation Requests", path: '/allVacationRequestsPharmacists'},
+          {title: "All Pharmacy Orders", path: '/pharmacyOrders'},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
@@ -155,6 +156,7 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
+      localStorage.setItem("pharmacyId", "");
       window.location.href = "http://localhost:8080/logIn";
     }
 
