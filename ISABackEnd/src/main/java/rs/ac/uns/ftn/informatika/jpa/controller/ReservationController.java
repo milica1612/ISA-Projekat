@@ -83,11 +83,9 @@ public class ReservationController {
 				
 		else {
 			pharmacy = _pharmacyService.findById(resChecker.pharmacyId);
-			for (MedicineItem m: pharmacy.medicineItem) {
-						if(m.equals(r.medicineItem)) {
-							reservationInPharmacy = true;
-						}
-					}
+			if(r.getPharmacy().getPharmacyId().equals(pharmacy.getPharmacyId())) {
+				reservationInPharmacy = true;				
+			}
 		}
 		
 		if (r != null && reservationInPharmacy) {
