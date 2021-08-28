@@ -46,4 +46,12 @@ public class Patient extends User {
 		this.allergy = allergy;
 	}
 
+	public List<Pharmacy> getPharmacies() {
+		return pharmacies;
+	}
+
+	public void setPharmacies(List<Pharmacy> pharmacies) {
+		this.pharmacies = pharmacies;
+	}
+
 }

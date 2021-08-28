@@ -1,14 +1,24 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPatientRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class PharmacyService implements IPharmacyService {
@@ -16,6 +26,9 @@ public class PharmacyService implements IPharmacyService {
 	@Autowired
 	private IPharmacyRepository _pharmacyRepository;
 
+	@Autowired
+	private IPatientRepository _patientRepository;
+	
 	@Override
 	public Pharmacy findById(Long id) {
 		return _pharmacyRepository.findById(id).orElse(null);
@@ -25,7 +38,7 @@ public class PharmacyService implements IPharmacyService {
 	public Pharmacy save(Pharmacy pharmacy) {
 		return _pharmacyRepository.save(pharmacy);
 	}
-
+	
 	@Override
 	public PharmacyDTO getPharmacyById(Long pharmacyId) {		
 		Pharmacy p = _pharmacyRepository.findById(pharmacyId).orElse(null);
@@ -85,6 +98,28 @@ public class PharmacyService implements IPharmacyService {
 				result.add(pharmacy);
 		}
 		return result;
+	}
+
+	@Override
+	public List<PharmacyRegisterDTO> getSubscribedPharmacyForPatient(Long patient_id) {
+		
+		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
+	
+		List<Pharmacy> pharmacies = _pharmacyRepository.findAll();
+		List<PharmacyRegisterDTO> ph_list = new ArrayList<>();		
+		
+		
+		for(Pharmacy pharmacy: patient.getPharmacies()) {
+			for(Pharmacy pharm: pharmacies) {
+				if(pharmacy.getPharmacyId() == pharm.getPharmacyId()) {
+					PharmacyRegisterDTO pharmacyDTO = new PharmacyRegisterDTO(pharm.getName(), pharm.getRating(), pharm.getAddress(), pharm.getDescription());
+					ph_list.add(pharmacyDTO);
+				}
+			}
+		}
+		
+		return ph_list;
 	}
 	
 }

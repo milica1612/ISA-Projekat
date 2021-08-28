@@ -57,8 +57,7 @@ public class Pharmacy {
 	inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "user_id"))
 	private List<Patient> patients;
 	
-	public Pharmacy() {
-	}
+	public Pharmacy() {}
 
 	public Pharmacy(Long pharmacyId, String name, Double rating) {
 		super();

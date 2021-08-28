@@ -9,7 +9,7 @@
       <a href="/pharmacistProfile" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Medicine Reservations</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Penalties</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Issued Medicine</a>
-      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Pharmacy Subscriptions</a>
+      <a href="/pharmacySubscription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Pharmacy Subscriptions</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Write Complaints</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Get Medicine</a>
       <a href="/scheduleConsultation" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Consultation</a>

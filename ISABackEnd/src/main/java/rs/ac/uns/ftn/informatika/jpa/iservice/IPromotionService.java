@@ -9,4 +9,5 @@ public interface IPromotionService {
 	void subscribeToPharmacy(Long pharmacyId) throws Exception;
 	
 	void unsubscribeToPharmacy(Long pharmacyId) throws Exception;
+
 }

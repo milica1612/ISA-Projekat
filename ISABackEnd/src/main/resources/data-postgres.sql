@@ -405,6 +405,9 @@ INSERT INTO public.offer(
 
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
+INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 2);
+INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 1);
+
 
 -- PHARMACIST-VACATION - TEST DATA
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 16, 2); 
