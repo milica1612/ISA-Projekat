@@ -21,4 +21,6 @@ public interface IOrderService {
 	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();
 	
 	List<OrderDTO> findAllFinishedOrdersForPharmacy();
+	
+	List<Long> findMedicineItemIdsByOrderId(Long orderId);
 }
