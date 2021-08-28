@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.informatika.jpa.iservice.IOfferService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
+import rs.ac.uns.ftn.informatika.jpa.model.OrderStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -87,6 +88,9 @@ public class OfferService implements IOfferService {
 			offer.setStatus(Status.ACCEPTED);
 			if (sendAcceptedOfferEmail(offer))	
 				_offerRepository.save(offer);	
+			
+			order.setOrderStatus(OrderStatus.FINISHED);
+			_orderRepository.save(order);
 			
 			return true;
 		} catch (Exception e) {

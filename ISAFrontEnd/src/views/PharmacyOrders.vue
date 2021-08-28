@@ -285,6 +285,7 @@ export default {
         {
           console.log(response.data);
           alert("The offer was accepted!");
+          location.reload();
         });
       this.closeShowOffer();
 
