@@ -156,6 +156,7 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
+      localStorage.setItem("pharmacyId", "");
       window.location.href = "http://localhost:8080/logIn";
     }
 
