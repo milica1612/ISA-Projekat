@@ -242,7 +242,7 @@ export default {
                 userId: localStorage.getItem("userId")}, {headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
-          .then();
+          .then(window.location.href = "http://localhost:8080/medicineReservations");
     }
   },
 

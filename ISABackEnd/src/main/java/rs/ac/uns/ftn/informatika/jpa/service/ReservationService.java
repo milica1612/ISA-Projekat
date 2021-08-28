@@ -13,8 +13,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IReservationService;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -90,5 +93,18 @@ public class ReservationService implements IReservationService{
 	      .toString();
 
 	    return generatedString;
+	}
+
+	@Override
+	public ArrayList<ReservationViewDTO> getByPatient(Long patientId) {
+		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		ArrayList<ReservationViewDTO> result = new ArrayList<ReservationViewDTO>();
+		
+		for (Reservation r : allReservations) { 
+			if(r.getDeadline().after(new Date()) && r.getPatient().getUserId() == patientId && r.getRecieved() == false) {
+				result.add(new ReservationViewDTO(r.getMedicineItem(), r.getPharmacy(), r.getDeadline().toString()));
+			}
+		}
+		return result;	
 	}
 }

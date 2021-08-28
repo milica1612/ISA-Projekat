@@ -11,13 +11,17 @@ import javax.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -61,6 +65,11 @@ public class ReservationController {
 		Reservation reservation = _reservationService.createReservation(dto,(Patient) user);
 		_medicineItemService.findMedicineItmeAndChangeQuantity(dto.getDto());
 		_emailService.sendReservationMadeEmail(reservation);
+	}
+	
+	@GetMapping(value = "/getByPatientId/{patientId}")
+	public ArrayList<ReservationViewDTO> getByPatient(@PathVariable Long patientId){
+		return _reservationService.getByPatient(patientId);
 	}
 	
 	@PutMapping("/findReservation")
