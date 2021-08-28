@@ -7,22 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import rs.ac.uns.ftn.informatika.jpa.controller.ConsultationController.Request;
-import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
-import rs.ac.uns.ftn.informatika.jpa.model.Patient;
-import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
-import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 
 @RestController
@@ -35,10 +27,7 @@ public class ExaminationContoller {
 	
 	@Autowired
 	private EmailService _emailService;
-	
-	@Autowired
-	private UserService _userService;
-	
+
 	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
 	
@@ -137,7 +126,9 @@ public class ExaminationContoller {
 		}
 		if(available) {
 			Examination e = this._examinationService.saveExamination(examination);
-			this._workScheduleDermatologist.addNewExaminationToWorkSchedule(e);
+			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(e)) {
+				return false;
+			}
 			this._emailService.sendExaminationConfirmation(e);
 			return true;
 		}else {

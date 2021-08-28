@@ -45,13 +45,13 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 	}
 
 	@Override
-	public void addNewExaminationToWorkSchedule(Examination e) {
+	public Boolean addNewExaminationToWorkSchedule(Examination e) {
 		WorkScheduleDermatologist workSchedule = findWorkScheduleForDermatologistInPeriod(e);
 		if(workSchedule == null) {
-			return;
+			return false;
 		}
 		workSchedule.getScheduledExaminations().add(e);
 		_workScheduleRepository.save(workSchedule);
-		
+		return true;
 	}
 }

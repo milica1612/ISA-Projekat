@@ -4,6 +4,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 
 public interface IWorkScheduleDermatologistService {
 
-	void addNewExaminationToWorkSchedule(Examination e);
+	Boolean addNewExaminationToWorkSchedule(Examination e);
 
 }
