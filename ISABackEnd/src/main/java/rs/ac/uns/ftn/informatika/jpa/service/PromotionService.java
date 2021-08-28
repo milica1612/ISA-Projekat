@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPromotionService;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPatientRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPromotionRepository;
 
 @Service
@@ -18,12 +21,17 @@ public class PromotionService implements IPromotionService {
 	private EmailService _emailService;
 	private IPromotionRepository _promotionRepository;
 	private PatientService _patientService;
+	private IPatientRepository _patientRepository;
+	private IPharmacyRepository _pharmacyRepository;
+	
 	
 	@Autowired
-	public PromotionService(EmailService emailService, IPromotionRepository iPromotionRepository, PatientService patientService) {
+	public PromotionService(EmailService emailService, IPromotionRepository iPromotionRepository, PatientService patientService, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository) {
 		this._emailService = emailService;
 		this._promotionRepository = iPromotionRepository;
-		this._patientService = patientService;	
+		this._patientService = patientService;
+		this._patientRepository = patientRepository;
+		this._pharmacyRepository = pharmacyRepository;
 	}
 
 	@Override
@@ -56,9 +64,22 @@ public class PromotionService implements IPromotionService {
 	}
 
 	@Override
-	public void subscribeToPharmacy(Long pharmacyId) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public Pharmacy subscribeToPharmacy(Long pharmacyId) throws Exception {
+
+		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
+	
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
+	
+		for(Pharmacy p: patient.getPharmacies()) {
+			if(p.getPharmacyId() == pharmacy.getPharmacyId()) {
+	    		throw new IllegalArgumentException("Already subscribed!");
+			}else {
+				pharmacy.getPatients().add(patient);
+				return _pharmacyRepository.save(pharmacy);
+			}
+		}
+		return null;
 	}
 
 	@Override

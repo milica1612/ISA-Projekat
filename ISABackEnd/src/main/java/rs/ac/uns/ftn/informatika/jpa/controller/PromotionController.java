@@ -40,11 +40,6 @@ public class PromotionController {
 		this._pharmacyService = pharmacyService;
 	}
 	
-	@GetMapping(value = "/getPharmacyForPatient/{user_id}")
-	public List<PharmacyRegisterDTO> getPharmacyForPatient(@PathVariable Long user_id){
-		return _pharmacyService.getSubscribedPharmacyForPatient(user_id);
-	}
-	
 	@PostMapping(value = "/savePromotionAndSendEmail")
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	public ResponseEntity<Promotion> savePromotionAndSendEmail(@RequestBody @Valid PromotionDTO promotionDTO) {
@@ -72,13 +67,12 @@ public class PromotionController {
 	
 	//subscribeToPharmacy - Role : patient
 	@PostMapping(path = "/subscribeToPharmacy/{pharmacyId}")
-	@PreAuthorize("hasRole('ROLE_PATIENT')")
-	public ResponseEntity<Boolean> subscribeToPharmacy(@PathVariable Long pharmacyId) {
+//	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<?> subscribeToPharmacy(@PathVariable Long pharmacyId) {
     	try {
-    		_promotionService.subscribeToPharmacy(pharmacyId);
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return new ResponseEntity<>(this._promotionService.subscribeToPharmacy(pharmacyId), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 	

@@ -65,7 +65,7 @@ export default {
 mounted() {
   {
   this.axios
-      .get('http://localhost:8091/promotions/getPharmacyForPatient/' + localStorage.getItem("userId"), {
+      .get('http://localhost:8091/pharmacy/getPharmacyForPatient/' + localStorage.getItem("userId"), {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
             }
