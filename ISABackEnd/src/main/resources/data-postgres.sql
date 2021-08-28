@@ -301,7 +301,7 @@ INSERT INTO public.medicine_item(
 	VALUES (103, 3, 3);
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default,'2021/08/27', 'PROCESSED', 2, 10);
+	VALUES (default,'2021/08/28', 'WAITING_OFFER', 2, 10);
 
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
 	VALUES (1, 101);
