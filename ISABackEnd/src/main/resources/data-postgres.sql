@@ -259,7 +259,11 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
-	
+
+-- password Sara3456!
+INSERT INTO public.user(
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('PharmacyAdministrator', default, 'admin7@gmail.com', true, false, 'Sara', 'Petrovic', '2020-11-11', '$2a$12$MIVjrgnhb9.m.ctkLly5oOA995IsCazjk6JWYUVUUVoMOR4YyRnOm', 'S342a3rar20PoIm12pZIi7==', '061/333-23-71', '', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
 	
 INSERT INTO public.authority(name) VALUES ('ROLE_PATIENT');	
 INSERT INTO public.authority(name) VALUES ('ROLE_SYS_ADMIN');	
@@ -286,7 +290,7 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (15, 1)
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (16, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (17, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (18, 6);
-
+INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (19, 4);
 
 -- ORDER - OFFER TEST DATA
 
@@ -325,50 +329,83 @@ INSERT INTO public.offer(
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/09/06', 4800, 'WAITING', 1, 3);
+	
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (104, 10, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (105, 5, 3);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (106, 3, 4);
 
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/08/27', 'PROCESSED', 2, 19);
 
--- OLD TEST
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 104);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 105);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 106);
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/05', 6000, 'WAITING', 2, 2);
+	
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/09', 5300, 'WAITING', 2, 4);
+	
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/06', 5600, 'WAITING', 2, 3);
+
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/04', 'PROCESSED', 2, 10);
-
-INSERT INTO public.order(
-	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/11', 'PROCESSED', 2, 10);
+	VALUES (default, '2021/08/26', 'PROCESSED', 2, 10);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/31', 52000, 'ACCEPTED', 3, 2);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/30', 54000, 'DECLINED', 3, 2);
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/21', 'PROCESSED', 2, 10);
-
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/05/05', 22000, 'ACCEPTED', 2, 2);
+	VALUES (default, '2021/08/20', 'PROCESSED', 3, 6);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/06', 8000, 'ACCEPTED', 3, 2);
-
+	VALUES (default, '2021/08/23', 8000, 'ACCEPTED', 4, 2);
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/05', 12000, 'DECLINED', 4, 2);	
+	VALUES (default, '2021/08/21', 15000, 'WAITING', 4, 2);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/03/05', 15000, 'WAITING', 3, 2);
+	VALUES (default, '2021/08/25', 10000, 'DECLINED', 4, 2);	
+	
+INSERT INTO public.order(
+	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default, '2021/09/20', 'WAITING_OFFER', 2, 10);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/03', 100000, 'DECLINED', 3, 2);
-
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/15', 2000, 'WAITING', 4, 2);
+	VALUES (default, '2021/10/05', 12000, 'WAITING', 5, 2);	
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/01', 54000, 'DECLINED', 2, 2);
-
+	VALUES (default, '2021/10/15', 14000, 'WAITING', 5, 2);
+	
 --- Pharmacies - Dermatologists - TABLE INSERT DATA ---
 -- Sara dermatologist
  INSERT INTO public.pharmacy_dermatologist(

@@ -21,11 +21,14 @@
                   :items="offerList"
                   sort-by="offerId"
                 >
-                  <template v-slot:[`item.actionAcceptOffer`]="{ item }">
+                  <template v-slot:[`item.actionAcceptOffer`]="{ item }" >
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="green" text @click="acceptOffer(item)"
+                      <v-btn v-if="item.adminId == pharmacyAdminId" color="green" text @click="acceptOffer(item)"
                         >Accept</v-btn
+                      >
+                      <v-btn v-else color="blue" text @click="seeNote(item)"
+                        >See note</v-btn
                       >
                       <v-spacer></v-spacer>
                     </v-card-actions>
@@ -64,6 +67,7 @@ export default {
     dialogShowOffer: false,
     orderList: [],
     offerList: [],
+    isMyOrder: true,
     headers1: [
       {
         text: "Order ID",
@@ -132,6 +136,8 @@ export default {
     orderItem: null,
     index: null,
     id: null,
+    pharmacyAdminId: null,
+    pharmacyAdminNote: null,
   }),
   watch: {
     dialogShowOffer(val) {
@@ -143,6 +149,7 @@ export default {
   },
   methods: {
     initialize() {
+      this.pharmacyAdminId = localStorage.getItem("userId");
       this.axios
         .get("http://localhost:8091/orders/forPharmacy", {
           headers: {
@@ -203,6 +210,20 @@ export default {
         this.index = -1;
       });
     },
+    seeNote(item) {
+      console.log(item);
+       this.axios
+        .get("http://localhost:8091/pharmacyAdmin/" + item.adminId, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.pharmacyAdminNote = response.data;
+          alert("This order was placed by another pharmacy administrator, " + this.pharmacyAdminNote.firstName + " " + this.pharmacyAdminNote.lastName + " email " + this.pharmacyAdminNote.email + " , you can't select an offer.");
+        });
+    }
   },
 };
 </script>

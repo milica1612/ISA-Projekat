@@ -56,7 +56,7 @@ public class OrderService implements IOrderService{
 					_orderRepository.save(order);
 				}
 				String deadline = new SimpleDateFormat("dd.MM.yyyy.").format(order.getOfferDeadline());
-				OrderDTO orderDTO = new OrderDTO(order.getOrderId(), deadline, order.getPharmacyAdministrator().getFirstName() + " " + order.getPharmacyAdministrator().getLastName(), order.getOrderStatus());
+				OrderDTO orderDTO = new OrderDTO(order.getOrderId(), deadline, order.getPharmacyAdministrator().getUserId(), order.getPharmacyAdministrator().getFirstName() + " " + order.getPharmacyAdministrator().getLastName(), order.getOrderStatus());
 				list.add(orderDTO);
 			}
 		}

@@ -106,7 +106,7 @@ public class OfferService implements IOfferService {
 				String deliveryDeadline = new SimpleDateFormat("dd.MM.yyyy.").format(offer.getDeliveryDeadline());
 				OfferForOrderDTO offerForOrderDTO = new OfferForOrderDTO(offer.getOfferId(),
 						offer.getSupplier().getFirstName() + " " + offer.getSupplier().getLastName(),
-						offer.getSupplier().getEmail(), offer.getPrice(), deliveryDeadline);
+						offer.getSupplier().getEmail(), offer.getPrice(), deliveryDeadline, offer.getOrder().getPharmacyAdministrator().getUserId());
 				list.add(offerForOrderDTO);
 			}
 		}

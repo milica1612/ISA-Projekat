@@ -6,6 +6,7 @@ public class OrderDTO {
 	
 	private Long orderId;
 	private String offerDeadline;
+	private Long adminId;
 	private String adminName;
 	private OrderStatus orderStatus;
 	
@@ -13,10 +14,11 @@ public class OrderDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderDTO(Long orderId, String offerDeadline, String adminName, OrderStatus orderStatus) {
+	public OrderDTO(Long orderId, String offerDeadline, Long adminId, String adminName, OrderStatus orderStatus) {
 		super();
 		this.orderId = orderId;
 		this.offerDeadline = offerDeadline;
+		this.adminId = adminId;
 		this.adminName = adminName;
 		this.orderStatus = orderStatus;
 	}
@@ -35,6 +37,14 @@ public class OrderDTO {
 
 	public void setOfferDeadline(String offerDeadline) {
 		this.offerDeadline = offerDeadline;
+	}
+
+	public Long getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(Long adminId) {
+		this.adminId = adminId;
 	}
 
 	public String getAdminName() {

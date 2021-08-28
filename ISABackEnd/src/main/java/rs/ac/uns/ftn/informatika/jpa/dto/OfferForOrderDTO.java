@@ -7,19 +7,24 @@ public class OfferForOrderDTO {
 	private String supplierEmail;
 	private Double offerPrice;
 	private String deliveryDeadline;
+	private Long adminId;
 	
 	public OfferForOrderDTO() {
 		// TODO Auto-generated constructor stub
 	}
+		
 	
-	public OfferForOrderDTO(Long offerId, String supplierName, String supplierEmail, Double offerPrice, String deliveryDeadline) {
+	public OfferForOrderDTO(Long offerId, String supplierName, String supplierEmail, Double offerPrice,
+			String deliveryDeadline, Long adminId) {
 		super();
 		this.offerId = offerId;
 		this.supplierName = supplierName;
 		this.supplierEmail = supplierEmail;
 		this.offerPrice = offerPrice;
 		this.deliveryDeadline = deliveryDeadline;
+		this.adminId = adminId;
 	}
+
 
 	public Long getOfferId() {
 		return offerId;
@@ -35,6 +40,14 @@ public class OfferForOrderDTO {
 
 	public void setSupplierName(String supplierName) {
 		this.supplierName = supplierName;
+	}
+
+	public String getSupplierEmail() {
+		return supplierEmail;
+	}
+
+	public void setSupplierEmail(String supplierEmail) {
+		this.supplierEmail = supplierEmail;
 	}
 
 	public Double getOfferPrice() {
@@ -53,13 +66,14 @@ public class OfferForOrderDTO {
 		this.deliveryDeadline = deliveryDeadline;
 	}
 
-	public String getSupplierEmail() {
-		return supplierEmail;
+	public Long getAdminId() {
+		return adminId;
 	}
 
-	public void setSupplierEmail(String supplierEmail) {
-		this.supplierEmail = supplierEmail;
+	public void setAdminId(Long adminId) {
+		this.adminId = adminId;
 	}
-
+	
+	
 	
 }
