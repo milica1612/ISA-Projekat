@@ -269,6 +269,7 @@ export default {
     acceptOffer(offer) 
     {
       console.log(offer);
+      alert("Be patient and the action will be successfully completed in a few moments.");
       this.axios
         .post(
           "http://localhost:8091/offers/acceptOffer",
