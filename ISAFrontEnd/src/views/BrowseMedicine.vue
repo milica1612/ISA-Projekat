@@ -14,20 +14,20 @@
     <br>
     <h3>Filtrate by rating higher than:</h3>
 
-    <label>Rating 5</label>
-    <input type="radio" value=5 name="rating" @change = "filtrate(5)">
+    <label>Rating 10</label>
+    <input type="radio" value=5 name="rating" @change = "filtrate(10)">
 
-    <label>Rating4</label>
-    <input type="radio" value=4 name="rating" @change = "filtrate(4)">
+    <label>Rating 9</label>
+    <input type="radio" value=4 name="rating" @change = "filtrate(9)">
 
-    <label>Rating 3</label>
-    <input type="radio" value=3 name="rating" @change = "filtrate(3)">
+    <label>Rating 8</label>
+    <input type="radio" value=3 name="rating" @change = "filtrate(8)">
 
-    <label>Rating 2</label>
-    <input type="radio" value=2 name="rating" @change = "filtrate(2)">
+    <label>Rating 7</label>
+    <input type="radio" value=2 name="rating" @change = "filtrate(7)">
 
-    <label>Rating 1</label>
-    <input type="radio" value=1 name="rating" @change = "filtrate(1)">
+    <label>Rating 6</label>
+    <input type="radio" value=1 name="rating" @change = "filtrate(6)">
 
 
       <v-simple-table>
@@ -43,6 +43,9 @@
             <th class="text-left">
               Rating
             </th>
+            <th class="text-left">
+              Medicine Specification
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -53,6 +56,74 @@
             <td>{{ m.name }}</td>
             <td>{{ m.type }}</td>
             <td>{{ m.rating }}</td>
+            
+                <td><v-col cols="auto">
+                        <v-dialog
+                            transition="dialog-top-transition"
+                            max-width="600"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                color="primary"
+                                small
+                                v-bind="attrs"
+                                v-on="on"
+                            >Medicine Specification</v-btn>
+                          </template>
+                          <template v-slot:default="dialog">
+                            <v-card>
+                              <v-toolbar
+                                  color="primary"
+                                  dark
+                              >Medicine Specification</v-toolbar>
+                              <v-simple-table>
+                                <template v-slot:default>
+                    <tr>
+                      <td  width="40"></td>
+                      <td class="text-left" >Name:</td>
+                      <td  width="50"></td>
+                      <td class="text-left">{{ m.name }}</td>
+                    </tr>
+                    <br>
+                    <tr>
+                      <td  width="40"></td>
+                      <td class="text-left" width="240">Dosage:</td>
+                      <td  width="50"></td>
+                      <td class="text-left">{{ m.medicineSpecification.dosage }}</td>
+                    </tr>
+                    <br>
+                    <tr 
+                          v-for="i in m.medicineSpecification.ingridient"
+                          :key="i"
+                    >
+                      <td  width="40"></td>
+                      <td class="text-left" width="240">Ingridients:</td>
+                      <td  width="50"></td>
+                      <td class="text-left">{{ i.name }}</td>
+                    </tr>
+                    <br>
+                    <tr           
+                          v-for="c in m.medicineSpecification.contraindication"
+                          :key="c"
+                    >
+                      <td  width="40"></td>
+                      <td class="text-left" width="240">Contraindications:</td>
+                      <td  width="50"></td>
+                      <td class="text-left">{{ c.description }}</td>
+                    </tr>
+                    <br>
+                  </template>
+                </v-simple-table>
+                <v-btn
+                    width="300"
+                    text
+                    @click="dialog.value = false"
+                >Close</v-btn>
+                </v-card>
+                </template>
+                </v-dialog>
+                </v-col>
+        </td>
           </tr>
           </tbody>
         </template>
@@ -69,7 +140,7 @@
               Name
             </th>
             <th class="text-left">
-              Type
+              Medicine
             </th>
             <th class="text-left">
               Price
@@ -80,8 +151,42 @@
           <tr
               v-for="a in availableInPharmacies" :key="a"
           >
-            <td>{{ a.name }}</td>
-            <td>{{ a.price }}</td>
+            <td>{{ a.pharmacy.name }}</td>
+            <td>{{a.priceTag.medicine.name}}</td>
+            <td>{{a.priceTag.price}}</td>
+            <td>
+              <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="primary"
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Make a reservation</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Reservation until:</v-toolbar>
+                    <template>
+                      <v-row justify="center">
+                        <v-date-picker v-model="picker"></v-date-picker>
+                      </v-row>
+                    </template>
+    <v-btn
+        width="300"
+        text
+        @click="makeReservation(a, dialog)"
+    >Make a reservation</v-btn>
+    </v-card>
+    </template>
+    </v-dialog>
+            </td>
           </tr>
           </tbody>
         </template>
@@ -95,7 +200,18 @@ export default {
   name: "BrowseMedicine",
   data: function () {
     return {
+      dialog: false,
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       medicines: [],
+      medicineSpecification: {
+          dosage: "",
+          contraindication: {
+              description: ""
+          },
+          ingridient: {
+              name: ""
+          },
+      },
       availableInPharmacies: [],
       searchMedicine: ""
     }
@@ -104,19 +220,40 @@ export default {
     this.axios
         .get('http://localhost:8091/medicine')
         .then(response => (this.medicines = response.data));
-    this.axios
-        .get('http://localhost:8091/pharmacy')
-        .then(response => (this.availableInPharmacies = response.data));
   },
   methods: {
     searchMedicines: function() {
       this.axios
           .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
+       this.axios
+          .get("http://localhost:8091/medicine/checkMedicineInPharmacy/" + this.searchMedicine)
+          .then(r => (this.availableInPharmacies = r.data));
+    },
+    filtrate: function(rating) {
+      this.axios  
+          .get("http://localhost:8091/medicine/filtrate/" + rating)
+          .then(response => (this.medicines = response.data));
+    },
+    makeReservation: function(a, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/reservation/create",{dto:a, date:this.picker,
+                userId: localStorage.getItem("userId")}, {headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then();
     }
   },
 
   computed:{
+    isLogged: function (){
+      if (this.token == ""){
+        return false
+      }else{
+        return true
+      }
+    },
     notFilled: function () {
       if (this.searchMedicine.trim() == ""){
         return false

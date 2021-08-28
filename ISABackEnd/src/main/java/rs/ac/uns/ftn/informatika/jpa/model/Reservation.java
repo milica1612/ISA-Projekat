@@ -2,12 +2,14 @@ package rs.ac.uns.ftn.informatika.jpa.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -33,15 +35,20 @@ public class Reservation {
     
 	@Column(name = "deadline", nullable = false)
     private Date deadline;
+	
+	@ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
+	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
+	public Pharmacy pharmacy;
    
-    public Reservation(Date deadline, Long reservationId, String reservationCode, Boolean recieved, Patient patient, MedicineItem item) {
+    public Reservation(Date deadline, String reservationCode, Boolean recieved, Patient patient,
+    		MedicineItem item, Pharmacy pharmacy) {
 		super();
 		this.deadline = deadline;
-		this.reservationId = reservationId;
 		this.reservationCode = reservationCode;
 		this.recieved = recieved;
 		this.patient = patient;
 		this.medicineItem = item;
+		this.pharmacy = pharmacy;
 	}
     
     public Reservation() 
@@ -97,6 +104,16 @@ public class Reservation {
 
 	public String getReservationCode() {
 		return reservationCode;
+	}
+	
+	
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 
 	public void setReservationCode(String reservationCode) {

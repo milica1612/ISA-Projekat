@@ -4,35 +4,57 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import rs.ac.uns.ftn.informatika.jpa.model.Offer;
+import rs.ac.uns.ftn.informatika.jpa.model.Order;
+import rs.ac.uns.ftn.informatika.jpa.model.Status;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 
 public class OfferDTO {
 
-	private Double finalPrice;
+	private Long id;
+	
+	private Double price;
 	
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryDeadline;
 	    
     private Boolean isApproved;
-
-    public OfferDTO(Offer offer) {
-    	this.finalPrice = offer.getPrice();
-    	this.deliveryDeadline = offer.getDeliveryDeadline();
-    }
     
-	public OfferDTO(Double finalPrice, Date deliveryDeadline, Boolean isApproved) {
+    private Status status;
+    
+    private Supplier supplier;
+    
+    private Order order;
+    
+    public OfferDTO() {}
+
+	public OfferDTO(Long id, Double price, Date deliveryDeadline, Boolean isApproved, Status status, Supplier supplier,
+			Order order) {
 		super();
-		this.finalPrice = finalPrice;
+		this.id = id;
+		this.price = price;
 		this.deliveryDeadline = deliveryDeadline;
 		this.isApproved = isApproved;
+		this.status = status;
+		this.supplier = supplier;
+		this.order = order;
+	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Double getFinalPrice() {
-		return finalPrice;
+		return price;
 	}
 
 	public void setFinalPrice(Double finalPrice) {
-		this.finalPrice = finalPrice;
+		this.price = finalPrice;
 	}
 
 	public Date getDeliveryDeadline() {
@@ -50,7 +72,36 @@ public class OfferDTO {
 	public void setIsApproved(Boolean isApproved) {
 		this.isApproved = isApproved;
 	}
-    
-    
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 }

@@ -20,7 +20,10 @@ public interface IOfferService {
 	
 	Offer findById(Long id);
 	
-	Boolean checkOffer(Order order, Supplier supplier);
+	Boolean checkMedicineAvailable(Order order, Supplier supplier);
 
-	void createOffer(OfferDTO offerDTO, Order order);
+	Boolean checkOffer(OfferDTO offerDTO, Supplier supplier);
+	
+	void createOffer(Long order_id, OfferDTO offerDTO);
+	
 }

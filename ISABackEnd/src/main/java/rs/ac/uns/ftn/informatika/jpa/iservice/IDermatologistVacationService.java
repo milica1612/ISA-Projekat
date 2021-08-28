@@ -2,14 +2,15 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 
 import java.util.List;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 
 public interface IDermatologistVacationService {
 	
-	List<DermatologistVacation> findAllDermatologistVacation();
+	List<DermatologistVacationDTO> findAllDermatologistVacation();
 	
-	List<DermatologistVacation> findAllDermatologistVacationWithStatusWaiting();
+	List<DermatologistVacationDTO> findAllDermatologistVacationWithStatusWaiting();
 	
 	DermatologistVacation accept(Long vacationId);
 	

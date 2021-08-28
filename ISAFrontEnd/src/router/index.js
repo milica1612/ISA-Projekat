@@ -255,6 +255,7 @@ const routes = [{
             import('../views/Promotion.vue')
     },
     {
+
         path: '/dispensingMedicinePharmacist',
         name: 'DispensingMedicinePharmacist',
         component: () =>
@@ -271,6 +272,30 @@ const routes = [{
         name: 'ScheduleConsultationPharmacist',
         component: () =>
             import('../views/ScheduleConsultationPharmacist.vue')
+    },
+    {
+        path: '/requestsVacationPharmacists',
+        name: 'RequestsVacationPharmacists',
+        component: () =>
+            import('../views/RequestsVacationPharmacists.vue')
+    },
+    {
+        path: '/allVacationRequestsPharmacists',
+        name: 'AllVacationRequestsPharmacists',
+        component: () =>
+            import('../views/AllVacationRequestsPharmacists.vue')
+    },
+    {
+        path: '/requestsVacationDermatologists',
+        name: 'RequestsVacationDermatologists',
+        component: () =>
+            import('../views/RequestsVacationDermatologists.vue')
+    },
+    {
+        path: '/allVacationRequestsDermatologists',
+        name: 'AllVacationRequestsDermatologists',
+        component: () =>
+            import('../views/AllVacationRequestsDermatologists.vue')
     }
 ]
 

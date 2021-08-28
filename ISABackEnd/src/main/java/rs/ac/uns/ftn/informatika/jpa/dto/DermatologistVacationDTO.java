@@ -2,26 +2,27 @@ package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 
-public class PharmacistVacationDTO {
-	
+public class DermatologistVacationDTO {
+
 	private Long vacationId;
-	private Long pharmacistId;
+	private Long dermatologistId;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String startDate;
 	private String endDate;
 	private Status status;
-	
-	public PharmacistVacationDTO() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public PharmacistVacationDTO(Long vacationId, Long pharmacistId, String firstName, String lastName, String email,
-			String startDate, String endDate, Status status) {
+	public DermatologistVacationDTO() {
+	}
+	
+	
+
+	public DermatologistVacationDTO(Long vacationId, Long dermatologistId, String firstName, String lastName,
+			String email, String startDate, String endDate, Status status) {
 		super();
 		this.vacationId = vacationId;
-		this.pharmacistId = pharmacistId;
+		this.dermatologistId = dermatologistId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -29,6 +30,8 @@ public class PharmacistVacationDTO {
 		this.endDate = endDate;
 		this.status = status;
 	}
+
+
 
 	public Long getVacationId() {
 		return vacationId;
@@ -38,12 +41,12 @@ public class PharmacistVacationDTO {
 		this.vacationId = vacationId;
 	}
 
-	public Long getPharmacistId() {
-		return pharmacistId;
+	public Long getDermatologistId() {
+		return dermatologistId;
 	}
 
-	public void setPharmacistId(Long pharmacistId) {
-		this.pharmacistId = pharmacistId;
+	public void setDermatologistId(Long dermatologistId) {
+		this.dermatologistId = dermatologistId;
 	}
 
 	public String getFirstName() {
@@ -93,5 +96,6 @@ public class PharmacistVacationDTO {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
+	
+	
 }

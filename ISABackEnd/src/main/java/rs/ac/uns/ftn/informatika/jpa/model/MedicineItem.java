@@ -1,7 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
-import java.util.*;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +20,7 @@ public class MedicineItem {
 	@Column(name = "quantity", nullable = false)
     private int quantity;
    
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     public Medicine medicine;
   
     public MedicineItem(int quantity, Medicine medicine) {

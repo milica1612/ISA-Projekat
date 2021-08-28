@@ -12,7 +12,7 @@
         <template v-for="(item, index) in items">
           <v-list-tile :key="index">
             <v-list-tile-content>
-              <v-card height="35px" class="ma-1 text-sm-button text-center">
+              <v-card height="40px" class="ma-1 pt-2 text-m-button btn-block text-center">
                 <router-link class="router" :to="item.path">{{
                   item.title
                 }}</router-link>
@@ -122,9 +122,11 @@ export default {
           {title: "Home", path: "/homePagePharmacyAdmin"},
           {title: "My Profile", path: "/pharmacyAdmin"},
           {title: "My Pharmacy", path: "/myPharmacy"},
-          {title: "Define promotion", path: "/promotion"},
+          {title: "Define Promotion", path: "/promotion"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Pending Vacation Requests", path: '/requestsVacationPharmacists'},
+          {title: "All Vacation Requests", path: '/allVacationRequestsPharmacists'},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
@@ -135,6 +137,8 @@ export default {
                 { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/createPharmacy' },
                 { title: 'Medicines', path: '/medicineRegistration' },
+                { title: "Pending Vacation Requests", path: '/requestsVacationDermatologists'},
+                { title: "All Vacation Requests", path: '/allVacationRequestsDermatologists'},
                 { title: 'Complaints', path: '/' },
                 { title: 'Loyalty Program', path: '/' }];
       } else {
