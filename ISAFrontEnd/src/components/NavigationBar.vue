@@ -105,7 +105,7 @@ export default {
           {title: "Work Calendar", path: "/workCalendar"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/dermatologistProfile"},
-          {title: "Schedule new Appointment", path: "/scheduleAppointment"},
+          {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
         ];
       } else if (this.userType === "PHARMACIST") {
         this.items = [
