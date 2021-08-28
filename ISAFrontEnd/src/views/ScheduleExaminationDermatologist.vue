@@ -142,8 +142,7 @@ export default {
       pharmacy_id: 1, // bice localStorage.getItem("pharmacyId") posto uzima iz reporta
       pharmacyy: null,
       patient: null,
-      available : false,
-      realtime : null
+      available : false
     }
   },
   mounted() {
@@ -233,10 +232,8 @@ export default {
     },
     createNewDateTerm: function() {
 
-      this.realtime = this.time
-
       this.exam = {
-        dateAndTime: this.date + "T" + this.realtime + ".00",
+        dateAndTime: this.date + "T" + this.time + ".00",
         duration: 30,
         price: 3000,
         cancelled: false,

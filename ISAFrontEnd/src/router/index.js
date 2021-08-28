@@ -265,6 +265,12 @@ const routes = [{
         name: 'ScheduleExaminationDermatologist',
         component: () =>
             import('../views/ScheduleExaminationDermatologist.vue')
+    },
+    {
+        path: '/scheduleConsultationPharmacist',
+        name: 'ScheduleConsultationPharmacist',
+        component: () =>
+            import('../views/ScheduleConsultationPharmacist.vue')
     }
 ]
 

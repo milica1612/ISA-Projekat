@@ -25,6 +25,20 @@ public class ConsultationService implements IConsultationService{
 		return (ArrayList<Consultation>) _consultationRepository.findAll();
 	}
 
+	@Override
+	public ArrayList<Consultation> getConsultationsByPatient(Long patientId) {
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		ArrayList<Consultation> result = new ArrayList<Consultation>();
+		
+		for (Consultation consultation : allConsultations) { 
+			if(consultation.getDateAndTime().after(new Date()) && consultation.getPatient() != null) {
+				if(consultation.getPatient().getUserId() == patientId && consultation.getCancelled() == false) {
+			result.add(consultation);
+				}
+			}
+		}
+		return result;
+	}
 
 	@Override
 	public Consultation save(ConsultationDTO dto, Patient p) {
@@ -45,6 +59,22 @@ public class ConsultationService implements IConsultationService{
 		consultation.setPatient(p);
 		consultation.setPrice(dto.getPharmacist().getPharmacy().getConsultationPrice());
 		consultation.setPharmacy(dto.getPharmacist().getPharmacy());
+		consultation.setDuration(30);
+		return this._consultationRepository.save(consultation);
+		
+	}
+	
+	@Override
+	public Consultation saveConsultation(Consultation c) {
+		
+		Consultation consultation = new Consultation();
+		consultation.setAppointmentStatus(AppointmentStatus.NONE);
+		consultation.setCancelled(false);
+		consultation.setDateAndTime(c.getDateAndTime());
+		consultation.setPharmacist(c.getPharmacist());
+		consultation.setPatient(c.getPatient());
+		consultation.setPrice(c.getPharmacist().getPharmacy().getConsultationPrice());
+		consultation.setPharmacy(c.getPharmacist().getPharmacy());
 		consultation.setDuration(30);
 		return this._consultationRepository.save(consultation);
 		

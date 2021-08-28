@@ -115,7 +115,7 @@ export default {
           {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},
-          {title: "Schedule new Counseling", path: "/scheduleCounseling"},
+          {title: "Schedule new Counseling", path: "/scheduleConsultationPharmacist"},
         ];
       } else if (this.userType === "PH_ADMINISTRATOR") {
         this.items = [
@@ -151,6 +151,8 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
+      localStorage.setItem("pharmacyId", "");
+      localStorage.setItem("patientId", "");
       window.location.href = "http://localhost:8080/logIn";
     }
 

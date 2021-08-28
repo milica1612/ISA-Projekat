@@ -14,4 +14,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 public interface IConsultationService {
 	 Consultation save(ConsultationDTO dto, Patient p);
 	 ArrayList<Consultation> findAllConsultation();
+	 Consultation saveConsultation(Consultation consultation);
+	 ArrayList<Consultation> getConsultationsByPatient(Long patientId);
 }

@@ -123,22 +123,50 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		return pharmacists;
 	}
 	
-	public WorkSchedulePharmacist findWorkScheduleForPharmacistInPeriod(Consultation c) {
+	public WorkSchedulePharmacist findWorkScheduleForPharmacistInPeriod(Consultation consultation) {
 		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
 
-		Calendar cal = Calendar.getInstance(); // creates calendar
-		cal.setTime(c.getDateAndTime());               // sets calendar time/date
-		cal.add(Calendar.MINUTE, c.getDuration());
+		Calendar examS = Calendar.getInstance();
+		examS.setTime(consultation.getDateAndTime());
+		examS.add(Calendar.HOUR, -1);
+		
+		Calendar endExam = Calendar.getInstance(); // creates calendar
+		endExam.setTime(examS.getTime());               // sets calendar time/date
+		endExam.add(Calendar.MINUTE, 30);
+		
+		Long examStart = examS.getTimeInMillis();
+		Long examEnd = endExam.getTimeInMillis(); 
+		System.out.println(examStart + " " + examEnd);
+			
 		for (WorkSchedulePharmacist workSchedule : all) {
-			if(workSchedule.getPharmacist().getUserId() == c.getPharmacist().getUserId()) {
+			if(workSchedule.getPharmacist().getUserId() == consultation.getPharmacist().getUserId()) {
 				System.out.println("Pronasao je za farmaceuta");
-				TimeInterval valid = workSchedule.getValidFor();
-				TimeInterval shift = workSchedule.getShift();
-				if(valid.getStartDate().before(c.getDateAndTime()) && valid.getEndDate().after(c.getDateAndTime())) {
+				
+				Calendar validS = Calendar.getInstance();
+				validS.setTime(workSchedule.getValidFor().getStartDate());
+				
+				Calendar validE = Calendar.getInstance(); // creates calendar
+				validE.setTime(workSchedule.getValidFor().getEndDate());               // sets calendar time/date
+				
+				Calendar shiftS = Calendar.getInstance();
+				shiftS.setTime(workSchedule.getShift().getStartDate());
+				
+				Calendar shiftE = Calendar.getInstance(); // creates calendar
+				shiftE.setTime(workSchedule.getShift().getEndDate());               // sets calendar time/date
+			
+				Long validStart = validS.getTimeInMillis();
+				Long validEnd = validE.getTimeInMillis(); 		
+				
+				Long shiftStart = shiftS.getTimeInMillis();
+				Long shiftEnd = shiftE.getTimeInMillis(); 		
+				System.out.println(shiftStart + " " + shiftEnd);
+				
+				if(validStart <= examStart && validEnd >= examStart) {
 					System.out.println("Pronasao je period");
-				if(shift.getStartDate().getHours() < c.getDateAndTime().getHours()) {
+				if(shiftStart <= examStart) {
 					System.out.println("Pronasao je smjenu ");
-					if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
+					if(shiftEnd > examEnd ) {
+						System.out.println("Nije");
 						return workSchedule;
 					}
 				}
@@ -157,5 +185,16 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		workSchedule.getScheduledConsultations().add(c);
 		_workScheduleRepository.save(workSchedule);
 		
+	}
+	
+	@Override
+	public Boolean addConsToWorkSchedule(Consultation c) {
+		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c);
+		if(workSchedule == null) {
+			return false;
+		}
+		workSchedule.getScheduledConsultations().add(c);
+		_workScheduleRepository.save(workSchedule);
+		return true;
 	}
 }
