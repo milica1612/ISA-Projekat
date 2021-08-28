@@ -175,17 +175,19 @@ INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
 	VALUES (default, 'GOLD', 40, 1);
 	
--- password Ivana1234! - ivanagavric@gmail.com
+-- password Ivana1234! - ivanagavric@gmail.com - TEST - lukait31@gmail.com
+-- My trial email address is lukait31@gmail.com, put a trial email at the supplier so you can receive messages from the pharmacy for 3.26 task
+-- At Pera, Mirko and Luna put your test email
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'ivanagavric@gmail.com', true, false, 'Pera', 'Peric', '2020-11-11', '$2a$12$oI9p3iPsjtJ3y.0DEGo2T.zWkB8RKdtHRrzMyvSDx2JN8q3jYekGS', 'AN777Ivx9owXayu67jL012==', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
 
--- password Dobavljac17! - isateam3921@gmail.com
+-- password Dobavljac17! - isateam3921@gmail.com - TEST - lukait31@gmail.com
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'isateam3921@gmail.com', true, false, 'Mirko', 'Mirkovic', '2020-11-11', '$2a$12$pdxtJczjkp.hLRLosRub/eYxQ.VZE8D/BhhmHbcqw7BYePkUVqAO.', 'BV1010SsRNlpMB1021Og44==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
 
--- password Luna123! - lukait31@gmail.com - TEST 
+-- password Luna123! - luna21@gmail.com - TEST  - lukait31@gmail.com  
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'luna21@gmail.com', true, false, 'Luna', 'Lukovic', '2020-11-11', '$2a$12$6//4tJzqynBMvPO0CrIhwOiRucoj3wGMm49k9pX0eVgrO14Pls1di', 'Lxw2ena1sRNlpMB10oO456==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
@@ -299,7 +301,7 @@ INSERT INTO public.medicine_item(
 	VALUES (101, 10, 1);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (102, 5, 2);
+	VALUES (102, 5, 4);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (103, 3, 3);
@@ -330,6 +332,18 @@ INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/09/06', 4800, 'WAITING', 1, 3);
 	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 101);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 102);
+	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 103);
+	
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (104, 10, 2);
@@ -339,6 +353,7 @@ INSERT INTO public.medicine_item(
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (106, 3, 4);
+	
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
 	VALUES (default,'2021/08/27', 'PROCESSED', 2, 19);
@@ -366,7 +381,18 @@ INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/09/06', 5600, 'WAITING', 2, 3);
 
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 104);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 105);
 	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 106);
+
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
 	VALUES (default, '2021/08/26', 'FINISHED', 2, 10);
@@ -644,22 +670,6 @@ INSERT INTO public.pharmacy_medicine_item(
 INSERT INTO public.pharmacy_medicine_item(
 	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
 	values(1, 3);
-
-INSERT INTO public.order_medicine_item(
-	order_order_id, medicine_item_medicine_item_id)
-	 values (1, 1);
-
-INSERT INTO public.order_medicine_item(
-	order_order_id, medicine_item_medicine_item_id) 
-	values (2, 2);
-
-INSERT INTO public.user_medicine_item(
-	supplier_user_id, medicine_item_medicine_item_id) 
-	values (2, 2);
-
-INSERT INTO public.user_medicine_item(
-	supplier_user_id, medicine_item_medicine_item_id) 
-	values (2, 1);
 
 INSERT INTO public.user_medicine_item(
 	supplier_user_id, medicine_item_medicine_item_id) 

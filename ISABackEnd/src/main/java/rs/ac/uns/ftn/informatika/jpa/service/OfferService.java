@@ -21,7 +21,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
-import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
