@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
@@ -211,6 +212,54 @@ public class EmailService {
 		
 		javaMailSender.send(mail);
 		System.out.println("Declined vacation email successfully sent!");
+	}
+
+	public void sendAcceptedOfferEmailAsync(Offer o) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(o.getSupplier().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Accepted offer");
+		
+		String deliveryDeadline = new SimpleDateFormat("dd.MM.yyyy.").format(o.getDeliveryDeadline());	        
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + o.getSupplier().getUserType() + ", " + o.getSupplier().getFirstName() + " "  + o.getSupplier().getLastName() + ",");
+		text.append("\n\n");
+		text.append("Your offer " + o.getOfferId() + " has been accepted.");
+		text.append("\nWe will pay the amount of " + o.getPrice() + " RSD to your account.");
+		text.append("\nDelivery deadline is " + deliveryDeadline + ", we hope you will respect that as you have so far.");
+		
+		text.append("\n\n\r\n"
+				+ "All the best");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Accepted offer email successfully sent!");
+		
+	}
+
+	public void sendDeclinedOfferEmailAsync(Offer o) {
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(o.getSupplier().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Declined offer");
+		      
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + o.getSupplier().getUserType() + ", " + o.getSupplier().getFirstName() + " "  + o.getSupplier().getLastName() + ",");
+		text.append("\n\n");
+		text.append("We are sorry to have to let you know but your offer " + o.getOfferId() + " has been declined.");
+		text.append("\nGood luck next time.");
+		text.append("\n\n\r\n"
+				+ "Greeting");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Declined offer email successfully sent!");
 	}
 	
 }

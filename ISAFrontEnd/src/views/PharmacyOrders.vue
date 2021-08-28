@@ -131,6 +131,7 @@ export default {
     ],
     orderItem: null,
     index: null,
+    id: null,
   }),
   watch: {
     dialogShowOffer(val) {
@@ -174,7 +175,26 @@ export default {
     },
     acceptOffer(offer) 
     {
-        console.log(offer);
+      console.log(offer);
+      this.axios
+        .post(
+          "http://localhost:8091/offers/acceptOffer",
+          {
+            offerId: offer.offerId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(response => 
+        {
+          console.log(response.data);
+          alert("The offer was accepted!");
+        });
+      this.closeShowOffer();
+
     },
     closeShowOffer() {
       this.dialogShowOffer = false;

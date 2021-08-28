@@ -83,11 +83,11 @@ public class OfferController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value="/acceptOffer")
-	public ResponseEntity<Offer> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
+	public ResponseEntity<Boolean> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
 		try {
-			return new ResponseEntity<Offer>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);
+			return new ResponseEntity<Boolean>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Offer>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
