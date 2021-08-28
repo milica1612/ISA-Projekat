@@ -113,5 +113,10 @@ public class OrderService implements IOrderService{
 		}
 		return list;
 	}
-
+	
+	@Override
+	public List<Long> findMedicineItemIdsByOrderId(Long orderId) {
+		return _orderRepository.findMedicineItemIdsByOrderId(orderId);
+	}
+	
 }

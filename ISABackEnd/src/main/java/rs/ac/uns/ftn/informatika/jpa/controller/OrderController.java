@@ -61,5 +61,11 @@ public class OrderController {
 		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
 	}
 	
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/findMedicineItemIdsByOrderId/{orderId}")
+	public List<Long> findMedicineItemIdsByOrderId(@PathVariable Long orderId) {
+		return _orderService.findMedicineItemIdsByOrderId(orderId);
+	}
 
 }

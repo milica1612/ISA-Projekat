@@ -17,11 +17,13 @@ import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.OrderStatus;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
@@ -34,14 +36,17 @@ public class OfferService implements IOfferService {
 	private IUserRepository _userRepository;
 
 	private EmailService _emailService;
+	
+	private IPharmacyRepository _pharmacyRepository;
 
 	// Example Of Constructor Dependency Injection in Spring
 	@Autowired
-	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository) {
+	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository) {
 		this._offerRepository = offerRepository;
 		this._orderRepository = orderRepository;
 		this._userRepository = userRepository;
 		this._emailService = emailService;
+		this._pharmacyRepository = pharmacyRepository;
 	}
 
 
@@ -92,12 +97,46 @@ public class OfferService implements IOfferService {
 			order.setOrderStatus(OrderStatus.FINISHED);
 			_orderRepository.save(order);
 			
+			addMedicineItemsToPharmacy(order);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println(e);
 			return false;
 		}
 	}
+
+	private void addMedicineItemsToPharmacy(Order order) {
+		Pharmacy pharmacy = order.getPharmacy();
+		
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		
+		Set<MedicineItem> pharmacyMedicineItems = pharmacy.getMedicineItem();
+		
+		List<MedicineItem> newMedicineItemsForPharmacy = new ArrayList<MedicineItem>();
+		
+		boolean isPharmacyHasMedicine;
+		for (MedicineItem oMedicineItem : orderMedicineItems) {
+			isPharmacyHasMedicine = false;
+			for (MedicineItem pMedicineItem : pharmacyMedicineItems) {
+				if(pMedicineItem.getMedicine().getMedicineId() == oMedicineItem.getMedicine().getMedicineId()) {
+					isPharmacyHasMedicine = true;
+					pMedicineItem.setQuantity(pMedicineItem.getQuantity() + oMedicineItem.getQuantity());
+				}
+			}
+			if (!isPharmacyHasMedicine) {
+				newMedicineItemsForPharmacy.add(oMedicineItem);
+			}
+		}
+		
+		for (MedicineItem m : newMedicineItemsForPharmacy) {
+			pharmacyMedicineItems.add(m);
+		}
+		
+		pharmacy.setMedicineItem(pharmacyMedicineItems);
+		_pharmacyRepository.save(pharmacy);
+	}
+
 
 	private boolean sendAcceptedOfferEmail(Offer o) {
 		try {
