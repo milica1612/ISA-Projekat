@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.validation.Valid;
