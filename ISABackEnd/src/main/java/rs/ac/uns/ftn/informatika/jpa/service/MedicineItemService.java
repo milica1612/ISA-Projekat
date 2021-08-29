@@ -64,7 +64,7 @@ public class MedicineItemService implements IMedicineItemService{
 		// manual convert Set to List
 		for (MedicineItem medicineItem : pharmacy.getMedicineItem()) {
 			Medicine m = medicineItem.getMedicine();
-			MedicineItemDTO medicineDTO = new MedicineItemDTO(m.getName(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), medicineItem.getQuantity());
+			MedicineItemDTO medicineDTO = new MedicineItemDTO(m.getName(), m.getMedicineId(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), medicineItem.getQuantity());
 			medicineItems.add(medicineDTO);			
 		}
 		

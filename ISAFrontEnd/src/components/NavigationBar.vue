@@ -129,6 +129,7 @@ export default {
           {title: "All Vacation Requests", path: '/allVacationRequestsPharmacists'},
           {title: "All Pharmacy Orders", path: '/pharmacyOrders'},
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
+          {title: "Make An Order", path: '/makeAnOrder'},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
