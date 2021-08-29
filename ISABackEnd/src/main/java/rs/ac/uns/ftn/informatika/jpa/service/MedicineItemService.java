@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -10,13 +12,22 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 
 @Service
 public class MedicineItemService implements IMedicineItemService{
+
+	private IMedicineItemRepository _medicineItemRepository;
+
+	private IPharmacyRepository _pharmacyRepository;
 	
 	@Autowired
-	private IMedicineItemRepository _medicineItemRepository;
+	public MedicineItemService(IMedicineItemRepository medicineItemRepository, IPharmacyRepository pharmacyRepository) {
+		this._medicineItemRepository = medicineItemRepository;
+		this._pharmacyRepository = pharmacyRepository;
+	}
 	
 	@Override
 	public MedicineItem saveQuantityMedicineItem(@Valid MedicineItem mi) {
@@ -42,5 +53,18 @@ public class MedicineItemService implements IMedicineItemService{
 		}
 	
 		}
+
+	@Override
+	public List<MedicineItem> findMedicineItemsByPharmacy(Long pharmacyId) {
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
+		List<MedicineItem> medicineItems = new ArrayList<MedicineItem>();
+		
+		// manual convert Set to List
+		for (MedicineItem medicineItem : pharmacy.getMedicineItem()) {
+			medicineItems.add(medicineItem);			
+		}
+		
+		return medicineItems;
+	}
 
 }
