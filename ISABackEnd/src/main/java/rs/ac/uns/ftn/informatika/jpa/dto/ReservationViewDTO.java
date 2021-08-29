@@ -5,15 +5,17 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
 public class ReservationViewDTO {
 
+	private Long reservationId;
 	private MedicineItem medicineItem;
 	private Pharmacy pharmacy;
 	private String date;
 	
-	public ReservationViewDTO(MedicineItem medicineItem, Pharmacy pharmacy, String date) {
+	public ReservationViewDTO(MedicineItem medicineItem, Pharmacy pharmacy, String date, Long reservationId) {
 		super();
 		this.medicineItem = medicineItem;
 		this.pharmacy = pharmacy;
 		this.date = date;
+		this.reservationId = reservationId;
 	}
 	
 	public ReservationViewDTO() {
@@ -43,6 +45,13 @@ public class ReservationViewDTO {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
+	public Long getReservationId() {
+		return reservationId;
+	}
+
+	public void setReservationId(Long reservationId) {
+		this.reservationId = reservationId;
+	}
 	
 }

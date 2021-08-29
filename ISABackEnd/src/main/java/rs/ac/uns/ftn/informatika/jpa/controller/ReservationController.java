@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
@@ -111,6 +112,10 @@ public class ReservationController {
 		
 		return new Reservation();
 		
+	}
+	@PutMapping(value = "/cancel")
+	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
+		return _reservationService.cancelReservation(reservation);
 	}
 
 }

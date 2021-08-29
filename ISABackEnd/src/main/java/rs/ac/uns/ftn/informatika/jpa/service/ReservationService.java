@@ -4,8 +4,10 @@ import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.validation.Valid;
@@ -18,6 +20,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IReservationService;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -70,8 +73,7 @@ public class ReservationService implements IReservationService{
 		}  
 	    String generatedString = givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
 	    MedicineItem item = new MedicineItem(1, dto.getDto().getPriceTag().getMedicine());
-		Reservation reservation = new Reservation(date, generatedString, false, p, item, dto.getDto().getPharmacy());
-		System.out.println(generatedString + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+		Reservation reservation = new Reservation(date, generatedString, false, p, item, dto.getDto().getPharmacy(), false);
 		_medicineItemRepository.save(item);
 	
 		
@@ -101,10 +103,34 @@ public class ReservationService implements IReservationService{
 		ArrayList<ReservationViewDTO> result = new ArrayList<ReservationViewDTO>();
 		
 		for (Reservation r : allReservations) { 
-			if(r.getDeadline().after(new Date()) && r.getPatient().getUserId() == patientId && r.getRecieved() == false) {
-				result.add(new ReservationViewDTO(r.getMedicineItem(), r.getPharmacy(), r.getDeadline().toString()));
+			if(r.getDeadline().after(new Date()) && r.getPatient().getUserId() == patientId && r.getRecieved() == false && r.getCancelled() == false) {
+				result.add(new ReservationViewDTO(r.getMedicineItem(), r.getPharmacy(), r.getDeadline().toString(), r.getReservationId()));
 			}
 		}
 		return result;	
+	}
+	
+	@Override
+	public boolean cancelReservation(ReservationViewDTO reservation) {
+		Optional<Reservation> oldReservation = _reservationRepository.findById(reservation.getReservationId());
+		Reservation r = oldReservation.get();
+		if(isSoonerThan24hours(r)) {
+			return false;
+		}
+		r.setCancelled(true);
+		_reservationRepository.save(r);
+		return true;
+	}
+	
+	@Override
+	public boolean isSoonerThan24hours(Reservation r) {
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(new Date());               // sets calendar time/date
+		cal.add(Calendar.HOUR_OF_DAY, 24);      
+		
+		if(r.getDeadline().before(cal.getTime())) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -36,12 +36,15 @@ public class Reservation {
 	@Column(name = "deadline", nullable = false)
     private Date deadline;
 	
+	@Column(name = "cancelled", nullable = false)
+    private Boolean cancelled;
+	
 	@ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
 	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	public Pharmacy pharmacy;
    
     public Reservation(Date deadline, String reservationCode, Boolean recieved, Patient patient,
-    		MedicineItem item, Pharmacy pharmacy) {
+    		MedicineItem item, Pharmacy pharmacy, Boolean cancelled) {
 		super();
 		this.deadline = deadline;
 		this.reservationCode = reservationCode;
@@ -49,17 +52,12 @@ public class Reservation {
 		this.patient = patient;
 		this.medicineItem = item;
 		this.pharmacy = pharmacy;
+		this.cancelled = cancelled;
 	}
     
     public Reservation() 
     {
 
-	}
-
-	@Override
-	public String toString() {
-		return "Reservation [reservationId=" + reservationId + ", reservationCode=" + reservationCode + ", recieved="
-				+ recieved + ", patient=" + patient + ", medicineItem=" + medicineItem + ", deadline=" + deadline + "]";
 	}
 
 	public Date getDeadline() {
@@ -118,6 +116,14 @@ public class Reservation {
 
 	public void setReservationCode(String reservationCode) {
 		this.reservationCode = reservationCode;
+	}
+
+	public Boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(Boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 		
 }

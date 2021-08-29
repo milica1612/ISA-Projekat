@@ -18,4 +18,8 @@ public interface IReservationService {
 	Reservation createReservation(ReservationDTO dto, Patient user);
 
 	ArrayList<ReservationViewDTO> getByPatient(Long patientId);
+
+	boolean cancelReservation(ReservationViewDTO reservation);
+
+	boolean isSoonerThan24hours(Reservation r);
 }

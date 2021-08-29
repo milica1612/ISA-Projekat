@@ -30,7 +30,8 @@
               <v-btn
                   color="secondary"
                   elevation="3"
-                  x-small>
+                  x-small
+                  v-on:click="cancelReservation(r)">
                 Cancel</v-btn>
             </td>
           </tr>
@@ -46,7 +47,8 @@ export default {
   name: "MedicineReservations",
   data: function () {
     return {
-      reservations: []
+      reservations: [],
+      result: false
     }
   },
   mounted() {
@@ -60,6 +62,25 @@ export default {
           .then(r => (this.reservations = r.data))
     }
   },
+  methods: {
+    cancelReservation(reservation){
+      this.axios
+          .put('http://localhost:8091/reservation/cancel', reservation, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            this.result = response.data;
+            if(this.result == false){
+              alert("Unable to cancel reservation! Reservation deadline is within next 24h.")
+            }else {
+              alert("Reservation cancelled!"),
+                  window.location.href = "http://localhost:8080/medicineReservations"
+            }
+          });
+    }
+  }
 }
 </script>
 
