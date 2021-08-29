@@ -17,4 +17,6 @@ public interface IMedicineItemService {
 	
 	List<MedicineItemDTO> findMedicineItemsByPharmacy(Long pharmacyId);
 
+	List<MedicineItemDTO> findPotentiallyNewMedicineItemsForPharmacy(Long pharmacyId);
+
 }

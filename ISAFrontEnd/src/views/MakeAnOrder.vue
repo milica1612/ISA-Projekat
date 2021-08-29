@@ -1,24 +1,192 @@
 <template>
-<div>
-    <h1 id="makeAnOrderCaption">Make an order</h1>
-   <div>
-   </div> 
-</div>
+  <div>
+    <h1 id="makeAnOrderCaption">Make an order for a pharmacy</h1>
+    <div>
+      <v-data-table
+        :headers="headers"
+        :items="medicineItemsPharmacy"
+      >
+        <template v-slot:top>
+          <v-toolbar dense dark color="light-blue darken-2">
+            <v-spacer></v-spacer>
+            <v-toolbar-title class="text-center">
+              Medicines that exist in the {{ pharmacyName }} pharmacy
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+        </template>
+        <template v-slot:item="row">
+          <tr>
+            <td>
+              {{row.item.medicineId}}
+            </td>
+            <td>
+              {{row.item.medicineCode}}
+            </td>
+            <td>
+              {{row.item.name}}
+            </td>
+            <td>
+              {{row.item.type}}
+            </td>
+            <td>
+              {{row.item.medicineForm}}
+            </td>
+            <td>
+              <v-text-field type="number" min=0 v-model="row.item.newQuantity">
+                {{row.item.newQuantity}}
+              </v-text-field>
+            </td> 
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
+    <div>
+      <v-data-table class = "mt-5"
+        :headers="headers"
+        :items="potentiallyNewMedicineItems"
+      >
+        <template v-slot:top>
+          <v-toolbar dense dark color="light-blue darken-2">
+            <v-spacer></v-spacer>
+            <v-toolbar-title class="text-center">
+              New medicines that the pharmacy has not ordered so far
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+        </template>
+        <template v-slot:item="row">
+          <tr>
+            <td>
+              {{row.item.medicineId}}
+            </td>
+            <td>
+              {{row.item.medicineCode}}
+            </td>
+            <td>
+              {{row.item.name}}
+            </td>
+            <td>
+              {{row.item.type}}
+            </td>
+            <td>
+              {{row.item.medicineForm}}
+            </td>
+            <td>
+              <v-text-field type="number" min=0 v-model="row.item.newQuantity">
+                {{row.item.newQuantity}}
+              </v-text-field>
+            </td> 
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
+  </div>
 </template>
 
 <script>
-export default({
-    name: "MakeAnOrder",
-    data:() => ({
+export default {
+  name: "MakeAnOrder",
+  data: () => ({
+    medicineItemsPharmacy: [],
+    potentiallyNewMedicineItems: [],
+    headers: [
+      {
+        text: "Medicine ID",
+        value: "medicineId",
+        align: "left",
+        sortable: true,
+      },
+      {
+        text: "Medicine code",
+        value: "medicineCode",
+        align: "left",
+        sortable: true,
+      },
+      {
+        text: "Medicine name",
+        value: "name",
+        align: "left",
+        sortable: true,
+      },
+      {
+        text: "Medicine type",
+        value: "type",
+        align: "left",
+        sortable: true,
+      },
+      {
+        text: "Medicine form",
+        value: "medicineForm",
+        align: "left",
+        sortable: true,
+      },
+      {
+        text: "New quantity",
+        value: "newQuantity",
+        align: "left",
+        sortable: false,
+        width: "16%",
+      },
+    ],
+    pharmacy: null,
+    pharmacyName: "",
+    pharmacyId: "",
+  }),
+  mounted() {
+    this.initialize();
+  },
+  methods: {
+    initialize() {
+      this.axios
+        .get(
+          "http://localhost:8091/pharmacy/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.pharmacy = resp.data;
+          this.pharmacyName = this.pharmacy.name;
+        });
 
-    }),
-    mounted() {
+      this.axios
+        .get(
+          "http://localhost:8091/medicineItem/findMedicineItemsByPharmacy/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.medicineItemsPharmacy = response.data;
+        });
 
+
+        this.axios
+        .get(
+          "http://localhost:8091/medicineItem/findPotentiallyNewMedicineItemsForPharmacy/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.potentiallyNewMedicineItems = response.data;
+        });
     },
-    methods: {
-
-    }
-})
+  },
+};
 </script>
 
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="medicinesInPharmacyCaption">Medicines in pharmacy</h1>
+    <h1 id="medicinesInPharmacyCaption">Medicines in {{pharmacyName}} pharmacy</h1>
     <div>
       <v-data-table
         :headers="headers"
@@ -11,7 +11,7 @@
           <v-toolbar dense dark color="light-blue darken-2">
             <v-spacer></v-spacer>
             <v-toolbar-title class="text-center">
-              All medicines in pharmacy
+              All medicine items
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -65,12 +65,30 @@ export default {
         sortable: true,
       },
     ],
+    pharmacy: null,
+    pharmacyName: "",
   }),
   mounted() {
     this.initialize();
   },
   methods: {
     initialize() {
+      this.axios
+        .get(
+          "http://localhost:8091/pharmacy/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.pharmacy = resp.data;
+          this.pharmacyName = this.pharmacy.name;
+        });
+
       this.axios
         .get(
           "http://localhost:8091/medicineItem/findMedicineItemsByPharmacy/" +
