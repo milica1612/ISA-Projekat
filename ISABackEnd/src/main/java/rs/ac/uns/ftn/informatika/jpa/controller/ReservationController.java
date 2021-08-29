@@ -117,5 +117,13 @@ public class ReservationController {
 	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
 		return _reservationService.cancelReservation(reservation);
 	}
+	
+	@PutMapping(value = "/checkForPenalties/{patientId}")
+	public void checkForPenalties(@PathVariable Long patientId) {
+		int penatlties = _reservationService.checkForPenatlies(patientId);
+		for (int i = 0; i < penatlties; i++) {
+			_userService.increasePenalty(patientId);
+		}
+	}
 
 }

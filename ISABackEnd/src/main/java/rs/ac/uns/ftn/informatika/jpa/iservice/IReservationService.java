@@ -22,4 +22,6 @@ public interface IReservationService {
 	boolean cancelReservation(ReservationViewDTO reservation);
 
 	boolean isSoonerThan24hours(Reservation r);
+
+	int checkForPenatlies(Long patientId);
 }

@@ -133,4 +133,21 @@ public class ReservationService implements IReservationService{
 		}
 		return false;
 	}
+
+	@Override
+	public int checkForPenatlies(Long patientId) {
+		int penalty = 0;
+		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		for (Reservation reservation : allReservations) {
+			if(reservation.getPatient().getUserId() == patientId && reservation.getCancelled() == false
+					&& reservation.getPenalty() == false && reservation.getRecieved() == false
+					&& reservation.getDeadline().before(new Date())) {
+				reservation.setPenalty(true);
+				_reservationRepository.save(reservation);
+				penalty ++;
+			}
+		}
+		
+		return penalty;
+	}
 }

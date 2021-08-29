@@ -21,7 +21,16 @@
 
 <script>
 export default {
-  name: "HomePagePatient"
+  name: "HomePagePatient",
+  mounted() {
+    this.axios
+        .put('http://localhost:8091/reservation/checkForPenalties/' + localStorage.getItem("userId"),{},
+            {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }})
+           .then()
+  }
 }
 </script>
 

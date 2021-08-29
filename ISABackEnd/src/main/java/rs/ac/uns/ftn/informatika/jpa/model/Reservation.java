@@ -39,6 +39,9 @@ public class Reservation {
 	@Column(name = "cancelled", nullable = false)
     private Boolean cancelled;
 	
+	@Column(name = "penalty", nullable = false)
+    private Boolean penalty;
+	
 	@ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
 	@JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
 	public Pharmacy pharmacy;
@@ -53,6 +56,7 @@ public class Reservation {
 		this.medicineItem = item;
 		this.pharmacy = pharmacy;
 		this.cancelled = cancelled;
+		this.penalty = false;
 	}
     
     public Reservation() 
@@ -104,7 +108,6 @@ public class Reservation {
 		return reservationCode;
 	}
 	
-	
 
 	public Pharmacy getPharmacy() {
 		return pharmacy;
@@ -125,5 +128,13 @@ public class Reservation {
 	public void setCancelled(Boolean cancelled) {
 		this.cancelled = cancelled;
 	}
-		
+
+	public Boolean getPenalty() {
+		return penalty;
+	}
+
+	public void setPenalty(Boolean penalty) {
+		this.penalty = penalty;
+	}
+	
 }
