@@ -302,6 +302,12 @@ const routes = [{
         name: 'PharmacyOrders',
         component: () =>
             import('../views/PharmacyOrders.vue')
+    }, 
+    {
+        path: '/medicinesInPharmacy',
+        name: 'MedicinesInPharmacy',
+        component: () =>
+            import('../views/MedicinesInPharmacy.vue')
     }
 ]
 

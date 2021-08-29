@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineItemDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineItemService;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
@@ -55,13 +57,15 @@ public class MedicineItemService implements IMedicineItemService{
 		}
 
 	@Override
-	public List<MedicineItem> findMedicineItemsByPharmacy(Long pharmacyId) {
+	public List<MedicineItemDTO> findMedicineItemsByPharmacy(Long pharmacyId) {
 		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
-		List<MedicineItem> medicineItems = new ArrayList<MedicineItem>();
+		List<MedicineItemDTO> medicineItems = new ArrayList<MedicineItemDTO>();
 		
 		// manual convert Set to List
 		for (MedicineItem medicineItem : pharmacy.getMedicineItem()) {
-			medicineItems.add(medicineItem);			
+			Medicine m = medicineItem.getMedicine();
+			MedicineItemDTO medicineDTO = new MedicineItemDTO(m.getName(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), medicineItem.getQuantity());
+			medicineItems.add(medicineDTO);			
 		}
 		
 		return medicineItems;

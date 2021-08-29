@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineItemDTO;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 
 @RestController
@@ -30,9 +30,9 @@ public class MedicineItemController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(value = "/findMedicineItemsByPharmacy/{pharmacyId}")
-	public ResponseEntity<List<MedicineItem>> findMedicineItemsByPharmacy(@PathVariable Long pharmacyId) {
-		List<MedicineItem> medicineItems = _medicineItemService.findMedicineItemsByPharmacy(pharmacyId);
-		return new ResponseEntity<List<MedicineItem>>(medicineItems, HttpStatus.OK);
+	public ResponseEntity<List<MedicineItemDTO>> findMedicineItemsByPharmacy(@PathVariable Long pharmacyId) {
+		List<MedicineItemDTO> medicineItemDTOs = _medicineItemService.findMedicineItemsByPharmacy(pharmacyId);
+		return new ResponseEntity<List<MedicineItemDTO>>(medicineItemDTOs, HttpStatus.OK);
 	}
 	
 }

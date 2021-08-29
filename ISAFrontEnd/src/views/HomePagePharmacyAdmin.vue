@@ -8,6 +8,7 @@
       <a class="a_style" href="/pharmacyOrders">All pharmacy orders</a>
       <a class="a_style" href="/requestsVacationPharmacists">Pending vacation requests from pharmacists</a>
       <a class="a_style" href="/allVacationRequestsPharmacists">All vacation requests from pharmacists</a>
+      <a class="a_style" href="/medicinesInPharmacy">Medicines in pharmacy</a>
     </div> 
 </template>
 
