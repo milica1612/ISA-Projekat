@@ -1,86 +1,95 @@
 <template>
   <div>
     <h1 id="makeAnOrderCaption">Make an order for a pharmacy</h1>
-    <div>
-      <v-data-table
-        :headers="headers"
-        :items="medicineItemsPharmacy"
-      >
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center">
-              Medicines that exist in the {{ pharmacyName }} pharmacy
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </template>
-        <template v-slot:item="row">
-          <tr>
-            <td>
-              {{row.item.medicineId}}
-            </td>
-            <td>
-              {{row.item.medicineCode}}
-            </td>
-            <td>
-              {{row.item.name}}
-            </td>
-            <td>
-              {{row.item.type}}
-            </td>
-            <td>
-              {{row.item.medicineForm}}
-            </td>
-            <td>
-              <v-text-field type="number" min=0 v-model="row.item.newQuantity">
-                {{row.item.newQuantity}}
-              </v-text-field>
-            </td> 
-          </tr>
-        </template>
-      </v-data-table>
-    </div>
-    <div>
-      <v-data-table class = "mt-5"
-        :headers="headers"
-        :items="potentiallyNewMedicineItems"
-      >
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center">
-              New medicines that the pharmacy has not ordered so far
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </template>
-        <template v-slot:item="row">
-          <tr>
-            <td>
-              {{row.item.medicineId}}
-            </td>
-            <td>
-              {{row.item.medicineCode}}
-            </td>
-            <td>
-              {{row.item.name}}
-            </td>
-            <td>
-              {{row.item.type}}
-            </td>
-            <td>
-              {{row.item.medicineForm}}
-            </td>
-            <td>
-              <v-text-field type="number" min=0 v-model="row.item.newQuantity">
-                {{row.item.newQuantity}}
-              </v-text-field>
-            </td> 
-          </tr>
-        </template>
-      </v-data-table>
-    </div>
+    <v-card id="makeAnOrderCard" elevation="10" justify-center>
+      <div>
+        <v-data-table :headers="headers" :items="medicineItemsPharmacy" :items-per-page="5">
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Medicines that exist in the {{ pharmacyName }} pharmacy
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+          <template v-slot:item="row">
+            <tr>
+              <td>
+                {{ row.item.medicineId }}
+              </td>
+              <td>
+                {{ row.item.medicineCode }}
+              </td>
+              <td>
+                {{ row.item.name }}
+              </td>
+              <td>
+                {{ row.item.type }}
+              </td>
+              <td>
+                {{ row.item.medicineForm }}
+              </td>
+              <td>
+                <v-text-field
+                  type="number"
+                  min="0"
+                  v-model="row.item.newQuantity"
+                >
+                  {{ row.item.newQuantity }}
+                </v-text-field>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </div>
+      <div>
+        <v-data-table
+          class="mt-5 elevation-1"
+          :headers="headers"
+          :items="potentiallyNewMedicineItems"
+          :items-per-page="10"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                New medicines that the pharmacy has not ordered so far
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+          <template v-slot:item="row">
+            <tr>
+              <td>
+                {{ row.item.medicineId }}
+              </td>
+              <td>
+                {{ row.item.medicineCode }}
+              </td>
+              <td>
+                {{ row.item.name }}
+              </td>
+              <td>
+                {{ row.item.type }}
+              </td>
+              <td>
+                {{ row.item.medicineForm }}
+              </td>
+              <td>
+                <v-text-field
+                  type="number"
+                  min="0"
+                  v-model="row.item.newQuantity"
+                >
+                  {{ row.item.newQuantity }}
+                </v-text-field>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -136,6 +145,11 @@ export default {
   mounted() {
     this.initialize();
   },
+  computed:{
+    pageTxt(){
+      return this.$vuetify.dataFooter.pageText
+    }
+  },
   methods: {
     initialize() {
       this.axios
@@ -169,8 +183,7 @@ export default {
           this.medicineItemsPharmacy = response.data;
         });
 
-
-        this.axios
+      this.axios
         .get(
           "http://localhost:8091/medicineItem/findPotentiallyNewMedicineItemsForPharmacy/" +
             localStorage.getItem("pharmacyId"),
@@ -197,5 +210,10 @@ export default {
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
+}
+#makeAnOrderCard {
+  width: 80%;
+  text-align: center;
+  margin: auto;
 }
 </style>

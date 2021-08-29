@@ -1,24 +1,27 @@
 <template>
   <div>
-    <h1 id="medicinesInPharmacyCaption">Medicines in {{pharmacyName}} pharmacy</h1>
-    <div>
-      <v-data-table
-        :headers="headers"
-        :items="medicinesInPharmacy"
-        sort-by="quantity"
-      >
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center">
-              All medicine items
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </template>
-
-      </v-data-table>
-    </div>
+    <h1 id="medicinesInPharmacyCaption">
+      Medicines in {{ pharmacyName }} pharmacy
+    </h1>
+    <v-card id="medicinesInPharmacyCard">
+      <div>
+        <v-data-table
+          :headers="headers"
+          :items="medicinesInPharmacy"
+          sort-by="quantity"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                All medicine items
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -100,8 +103,8 @@ export default {
           }
         )
         .then((response) => {
-            console.log(response.data);
-            this.medicinesInPharmacy = response.data;
+          console.log(response.data);
+          this.medicinesInPharmacy = response.data;
         });
     },
   },
@@ -116,5 +119,10 @@ export default {
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
+}
+#medicinesInPharmacyCard {
+  width: 80%;
+  text-align: center;
+  margin: auto;
 }
 </style>
