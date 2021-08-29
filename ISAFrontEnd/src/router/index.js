@@ -111,12 +111,6 @@ const routes = [{
             import ('../views/Offers.vue')
     },
     {
-        path: '/scheduleAppointment',
-        name: 'ScheduleAppointment',
-        component: () =>
-            import ('../views/ScheduleAppointment.vue')
-    },
-    {
         path: '/editPatientInfo',
         name: 'EditPatientInfo',
         component: () =>
@@ -274,6 +268,18 @@ const routes = [{
             import('../views/DispensingMedicinePharmacist.vue')
     },
     {
+        path: '/scheduleExaminationDermatologist',
+        name: 'ScheduleExaminationDermatologist',
+        component: () =>
+            import('../views/ScheduleExaminationDermatologist.vue')
+    },
+    {
+        path: '/scheduleConsultationPharmacist',
+        name: 'ScheduleConsultationPharmacist',
+        component: () =>
+            import('../views/ScheduleConsultationPharmacist.vue')
+    },
+    {
         path: '/requestsVacationPharmacists',
         name: 'RequestsVacationPharmacists',
         component: () =>
@@ -296,8 +302,13 @@ const routes = [{
         name: 'AllVacationRequestsDermatologists',
         component: () =>
             import('../views/AllVacationRequestsDermatologists.vue')
+    },
+    {
+        path: '/pharmacyOrders',
+        name: 'PharmacyOrders',
+        component: () =>
+            import('../views/PharmacyOrders.vue')
     }
-
 ]
 
 const router = new VueRouter({

@@ -29,8 +29,8 @@
     <v-card-actions>
       <v-btn
         class="mx-auto mb-5; color:white"
-        color="accent"
-        elevation="2"
+        color="primary"
+        elevation="3"
         x-large
         raised
         v-on:click="logIn"
@@ -74,8 +74,14 @@ export default {
               window.location.href = "http://localhost:8080/homePagePatient";
             } else {
               if (resp.data.user.firstLogin == false) {
+                try {
+                  localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);
+                } catch (error) {
+                  console.error(error);
+                }
                 window.location.href =
                   "http://localhost:8080/changePasswordFirstLogin";
+           
               } else {
                 if (resp.data.user.userType == "DERMATOLOGIST") {
                   window.location.href =
@@ -85,8 +91,7 @@ export default {
                     "http://localhost:8080/homePagePharmacist";
                 } else if (resp.data.user.userType == "PH_ADMINISTRATOR") {
                   localStorage.setItem("pharmacyId", resp.data.user.pharmacy.pharmacyId);
-                  window.location.href =
-                    "http://localhost:8080/homePagePharmacyAdmin";
+                  window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
                   alert("Now " + resp.data.user.firstName + " " + resp.data.user.lastName + " has logged in to the Pharmacy system, as " + localStorage.getItem("userType") + ".");
                 } 
                 else

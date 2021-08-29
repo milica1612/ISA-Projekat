@@ -12,4 +12,8 @@ public interface IExaminationService {
 	public boolean cancelExamination(ExaminationDTO examination);
 	public boolean isSoonerThan24hours(Examination examination);
 	ArrayList<Examination> findAllExamination();
+	ArrayList<ExaminationDTO> getByDermatologist(Long dermatologistId);
+	Examination save(ExaminationDTO dto);
+	ArrayList<Examination> getExaminationsByPatient(Long patientId);
+	Examination saveExamination(Examination e);
 }

@@ -1,79 +1,195 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.OfferForOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOfferService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
+import rs.ac.uns.ftn.informatika.jpa.model.OrderStatus;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
-public class OfferService implements IOfferService{
+public class OfferService implements IOfferService {
 
-	@Autowired
 	private IOfferRepository _offerRepository;
 
-	@Autowired
 	private IOrderRepository _orderRepository;
 
-	@Autowired
 	private IUserRepository _userRepository;
+
+	private EmailService _emailService;
 	
+	private IPharmacyRepository _pharmacyRepository;
+
+	// Example Of Constructor Dependency Injection in Spring
+	@Autowired
+	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository) {
+		this._offerRepository = offerRepository;
+		this._orderRepository = orderRepository;
+		this._userRepository = userRepository;
+		this._emailService = emailService;
+		this._pharmacyRepository = pharmacyRepository;
+	}
+
+
 	@Override
 	public Offer findById(Long id) {
 		
 		return _offerRepository.findById(id).orElse(null);
 	}
-	
+
 	@Override
-	public List<Offer> findAll() {		
-		System.out.println(SecurityContextHolder.getContext().getAuthentication());
-		
+	public List<Offer> findAll() {
 		List<Offer> listOffer = _offerRepository.findAll();
 		return listOffer;
 	}
-	
+
 	@Override
 	public Offer save(Offer offer) {
 		return _offerRepository.save(offer);
 	}
 
 	@Override
+	public Boolean accept(Long offerId) {
+		Offer offer = _offerRepository.getOne(offerId);
+		Order order = offer.getOrder();
+
+		List<Offer> allOffers = _offerRepository.findAll();
+		List<Offer> declinedOffers = new ArrayList<Offer>();
+		
+		for (Offer o : allOffers) {
+			if (order.getOrderId() == o.getOrder().getOrderId()) {
+					if (o.getOfferId() != offer.getOfferId()) {
+						o.setStatus(Status.DECLINED);
+						_offerRepository.save(o);
+						declinedOffers.add(o);							
+					} 
+				}
+			}
+		try {
+			
+			for(Offer dOffer : declinedOffers) {
+				sendDeclinedOfferEmail(dOffer);
+			}
+			
+			offer.setStatus(Status.ACCEPTED);
+			if (sendAcceptedOfferEmail(offer))	
+				_offerRepository.save(offer);	
+			
+			order.setOrderStatus(OrderStatus.FINISHED);
+			_orderRepository.save(order);
+			
+			addMedicineItemsToPharmacy(order);
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+	}
+
+	private void addMedicineItemsToPharmacy(Order order) {
+		Pharmacy pharmacy = order.getPharmacy();
+		
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		
+		Set<MedicineItem> pharmacyMedicineItems = pharmacy.getMedicineItem();
+		
+		List<MedicineItem> newMedicineItemsForPharmacy = new ArrayList<MedicineItem>();
+		
+		boolean isPharmacyHasMedicine;
+		for (MedicineItem oMedicineItem : orderMedicineItems) {
+			isPharmacyHasMedicine = false;
+			for (MedicineItem pMedicineItem : pharmacyMedicineItems) {
+				if(pMedicineItem.getMedicine().getMedicineId() == oMedicineItem.getMedicine().getMedicineId()) {
+					isPharmacyHasMedicine = true;
+					pMedicineItem.setQuantity(pMedicineItem.getQuantity() + oMedicineItem.getQuantity());
+				}
+			}
+			if (!isPharmacyHasMedicine) {
+				newMedicineItemsForPharmacy.add(oMedicineItem);
+			}
+		}
+		
+		for (MedicineItem m : newMedicineItemsForPharmacy) {
+			pharmacyMedicineItems.add(m);
+		}
+		
+		pharmacy.setMedicineItem(pharmacyMedicineItems);
+		_pharmacyRepository.save(pharmacy);
+	}
+
+
+	private boolean sendAcceptedOfferEmail(Offer o) {
+		try {
+			_emailService.sendAcceptedOfferEmailAsync(o);
+			return true;
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+	}
+
+	private void sendDeclinedOfferEmail(Offer o) {
+		try {
+			_emailService.sendDeclinedOfferEmailAsync(o);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
+	public List<OfferForOrderDTO> findOffersByOrderId(Long orderId) {
+		List<Offer> allOffers = _offerRepository.findAll();
+		List<OfferForOrderDTO> list = new ArrayList<OfferForOrderDTO>();
+
+		for (Offer offer : allOffers) {
+			if (offer.getOrder().getOrderId() == orderId) {
+				String deliveryDeadline = new SimpleDateFormat("dd.MM.yyyy.").format(offer.getDeliveryDeadline());
+				OfferForOrderDTO offerForOrderDTO = new OfferForOrderDTO(offer.getOfferId(),
+						offer.getSupplier().getFirstName() + " " + offer.getSupplier().getLastName(),
+						offer.getSupplier().getEmail(), offer.getPrice(), deliveryDeadline, offer.getOrder().getPharmacyAdministrator().getUserId(), offer.getOrder().getOrderStatus());
+				list.add(offerForOrderDTO);
+			}
+		}
+		return list;
+	}
+
+
+	@Override
 	public List<Offer> findOffersBySupplier(Long id) {
 
 		List<Offer> offers = _offerRepository.findAll();
 		Supplier supplier = new Supplier();
-		
+
 		List<Offer> offersBySupplier = new ArrayList<Offer>();
-	
-		for(Offer o : offers) {
+
+		for (Offer o : offers) {
 			supplier.setUserId(o.getSupplier().getUserId());
-			
-			if(supplier.getUserId() == id) {
+
+			if (supplier.getUserId() == id) {
 				offersBySupplier.add(o);
 			}
 		}
-		return offersBySupplier;		
+		return offersBySupplier;
 	}
 
 	public User getCurrentLoggedUser() {

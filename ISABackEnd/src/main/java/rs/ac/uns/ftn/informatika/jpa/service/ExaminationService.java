@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
 
 @Service
@@ -61,6 +65,40 @@ public class ExaminationService implements IExaminationService{
 		}
 		return result;
 	}
+	
+	@Override
+	public ArrayList<Examination> getExaminationsByPatient(Long patientId) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<Examination> result = new ArrayList<Examination>();
+		
+		for (Examination examination : allExaminations) { 
+			if(examination.getDateAndTime().after(new Date()) && examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getCancelled() == false) {
+			result.add(examination);
+				}
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public ArrayList<ExaminationDTO> getByDermatologist(Long dermatologistId){
+		
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
+		
+		for (Examination examination : allExaminations) { 
+			if(examination.getDateAndTime().after(new Date()) &&
+			   examination.getDermatologist().getUserId().equals(dermatologistId)) {
+				if(examination.getPatient() == null || examination.getCancelled() == true) {
+					result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
+							examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),
+							null, examination.getPharmacy()));
+				}
+			}
+		}
+		return result;	
+	}
 
 	@Override
 	public boolean cancelExamination(ExaminationDTO examination) {
@@ -90,4 +128,46 @@ public class ExaminationService implements IExaminationService{
 	public ArrayList<Examination> findAllExamination(){
 		return (ArrayList<Examination>) _examinationRepository.findAll();
 	}
+	
+	
+	@Override
+	public Examination save(ExaminationDTO dto) {
+		String d = dto.getDateAndTime() + ":00";
+	    Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d);
+			System.out.println(date.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		Examination examination = new Examination();
+		examination.setAppointmentStatus(AppointmentStatus.NONE);
+		examination.setCancelled(false);
+		examination.setDateAndTime(date);
+		examination.setDermatologist(dto.getDermatologist());
+		examination.setPatient(dto.getPatient());
+		examination.setPrice(dto.getPrice());
+		examination.setPharmacy(dto.getPharmacy());
+		examination.setDuration(30);
+		return this._examinationRepository.save(examination);
+		
+	}
+	
+	@Override
+	public Examination saveExamination(Examination e) {
+		
+		Examination examination = new Examination();
+		examination.setAppointmentStatus(AppointmentStatus.NONE);
+		examination.setCancelled(false);
+		examination.setDateAndTime(e.getDateAndTime());
+		examination.setDermatologist(e.getDermatologist());
+		examination.setPatient(e.getPatient());
+		examination.setPrice(e.getPrice());
+		examination.setPharmacy(e.getPharmacy());
+		examination.setDuration(30);
+		return this._examinationRepository.save(examination);
+		
+	}
+	
 }
