@@ -15,4 +15,6 @@ public interface IDermatologistVacationService {
 	DermatologistVacation accept(Long vacationId);
 	
 	DermatologistVacation decline(RequestDeclineDTO requestDeclineDTO);
+
+	DermatologistVacation requestForVacationDermatologist(DermatologistVacation dv);
 }

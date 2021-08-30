@@ -18,6 +18,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -65,5 +66,12 @@ public class DermatologistVacationController {
 			return new ResponseEntity<DermatologistVacation>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	@PostMapping(value = "/requestVacationDermatologist")
+	public Boolean requestForVacationDermatologist(@RequestBody DermatologistVacation dv) {
+		if(_dermatologistVacationService.requestForVacationDermatologist(dv) != null)
+			return true;
+		else
+			return false;
+	}
 }

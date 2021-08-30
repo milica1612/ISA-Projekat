@@ -17,4 +17,6 @@ public interface IPharmacistVacationService {
 	PharmacistVacation accept(Long vacationId);
 	
 	PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO);
+
+	PharmacistVacation requestForVacationPharmacist(PharmacistVacation pv);
 }

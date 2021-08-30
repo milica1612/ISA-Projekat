@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style = "background-color: #E0E8F0;; overflow: hidden;">
-      <a href="/workCalendar" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Work Calendar</a>
+      <a href="/workSchedulePharmacist" style = "float: left; color: #333; text-align:center; padding: 14px 48px; text-decoration:none; font-size: 17px;">Work Calendar</a>
     </div>
     <h1 style = "margin:0 auto; text-align:center;">Pharmacist profile</h1>
     <br>

@@ -302,6 +302,24 @@ const routes = [{
         name: 'PharmacyOrders',
         component: () =>
             import('../views/PharmacyOrders.vue')
+    },
+    {
+        path: '/workSchedulePharmacist',
+        name: 'WorkSchedulePharmacist',
+        component: () =>
+            import('../views/WorkSchedulePharmacist.vue')
+    },
+    {
+        path: '/vacationPharmacist',
+        name: 'VacationPharmacist',
+        component: () =>
+            import('../views/VacationPharmacist.vue')
+    },
+    {
+        path: '/vacationDermatologist',
+        name: 'VacationDermatologist',
+        component: () =>
+            import('../views/VacationDermatologist.vue')
     }
 ]
 
