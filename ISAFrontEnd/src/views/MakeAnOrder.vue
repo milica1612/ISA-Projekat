@@ -195,19 +195,6 @@ export default {
     keys2: [],
     values2: [],
   }),
-  computed: {
-    newOrder() {
-      return {
-        pharmacyAdminId: localStorage.getItem("userId"),
-        pharmacyId: this.pharmacy.pharmacyId,
-        offerDeadline: this.offerDeadline,
-        keys1: this.keys1,
-        values1: this.values1,
-        keys2: this.keys2,
-        values2: this.values2,
-      };
-    },
-  },
   mounted() {
     this.initialize();
   },
@@ -301,15 +288,24 @@ export default {
           }
         }
 
-        console.log(this.newOrder);
-
         this.axios
           .post(
-            "http://localhost:8091/orders/createOrder/", this.newOrder,
+            "http://localhost:8091/orders/createOrder",
+             { 
+              
+                pharmacyAdminId: localStorage.getItem("userId"),
+                pharmacyId:  this.pharmacy.pharmacyId,
+                offerDeadline: this.offerDeadline,
+                keys1: this.keys1,
+                values1: this.values1,
+                keys2: this.keys2,
+                values2: this.values2
+        
+            },
             {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              }
+               headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+               },
             }
           )
           .then((response) => {
