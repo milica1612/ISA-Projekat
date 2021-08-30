@@ -308,6 +308,12 @@ const routes = [{
         name: 'PharmacyOrders',
         component: () =>
             import('../views/PharmacyOrders.vue')
+    },
+    {
+        path: '/rateAndReport',
+        name: 'RateAndReport',
+        component: () =>
+            import('../views/RateAndReport.vue')
     }
 ]
 

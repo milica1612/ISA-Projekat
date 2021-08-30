@@ -195,21 +195,21 @@ public class ExaminationService implements IExaminationService{
 	}
 	
 	@Override
-	public ArrayList<Dermatologist> getAllDermatologistByPatient() {
+	public ArrayList<Dermatologist> getAllDermatologistByPatient(Long patientId) {
 		
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
 		ArrayList<Dermatologist> result = new ArrayList<Dermatologist>();
 		
-		Patient currentUser = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Patient patient = (Patient) _userRepository.findById(currentUser.getUserId()).orElse(null);
-		
 		for(Examination examination: allExaminations) {
-			if(examination.getPatient().getUserId() == patient.getUserId() && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
-				if(result.contains(examination.getDermatologist())) {
-					throw new IllegalArgumentException("Dermatologist is already added!");
-				}else {
-					result.add(examination.getDermatologist());
-				}	
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(result.contains(examination.getDermatologist())) {
+						throw new IllegalArgumentException("Dermatologist is already added!");
+					}else {
+						result.add(examination.getDermatologist());
+					}	
+				}
+		
 			}
 		}
 		return result;

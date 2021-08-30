@@ -121,9 +121,9 @@ public class ConsultationController {
 		}
 	}
 	
-	@GetMapping(value = "/getAllPharmacistByPatient")
-	public ArrayList<Pharmacist> getAllPharmacistByPatient(){
-		return _consultationService.getAllPharmacistForPatient();
+	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
+	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
+		return _consultationService.getAllPharmacistForPatient(patientId);
 	}
 
 }

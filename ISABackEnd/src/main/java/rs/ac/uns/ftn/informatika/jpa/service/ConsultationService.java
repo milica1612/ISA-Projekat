@@ -147,21 +147,20 @@ public class ConsultationService implements IConsultationService{
 	}
 	
 	@Override	
-	public ArrayList<Pharmacist> getAllPharmacistForPatient() {
+	public ArrayList<Pharmacist> getAllPharmacistForPatient(Long patientId) {
 
 		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
 		ArrayList<Pharmacist> result = new ArrayList<Pharmacist>();
-		
-		Patient currentUser = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Patient patient = (Patient) _userRepository.findById(currentUser.getUserId()).orElse(null);
-		
+
 		for(Consultation consultation: allConsultations) {
-			if(consultation.getPatient().getUserId() == patient.getUserId() && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
-				if(result.contains(consultation.getPharmacist())) {
-					throw new IllegalArgumentException("Pharmacist is already added!");
-				}else {
-					result.add(consultation.getPharmacist());
-				}	
+			if(consultation.getPharmacist() != null) {
+				if(consultation.getPatient().getUserId() == patientId && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(result.contains(consultation.getPharmacist())) {
+						throw new IllegalArgumentException("Pharmacist is already added!");
+					}else {
+						result.add(consultation.getPharmacist());
+					}	
+				}
 			}
 		}
 		return result;

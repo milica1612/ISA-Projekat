@@ -20,5 +20,5 @@ public interface IExaminationService {
 	ArrayList<Examination> getExaminationsByPatient(Long patientId);
 	Examination saveExamination(Examination e);
 	void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result);
-	ArrayList<Dermatologist> getAllDermatologistByPatient();
+	ArrayList<Dermatologist> getAllDermatologistByPatient(Long patientId);
 }

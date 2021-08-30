@@ -138,9 +138,9 @@ public class ExaminationContoller {
 		}
 	}
 	
-	@GetMapping(value = "/getAllDermatologistByPatient")
-	public ArrayList<Dermatologist> getAllDermatologistByPatient(){
-		return _examinationService.getAllDermatologistByPatient();
+	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
+	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
+		return _examinationService.getAllDermatologistByPatient(patientId);
 	}
 	
 }
