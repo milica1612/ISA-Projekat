@@ -24,7 +24,7 @@ public class RatePharmacyService implements IRatePharmacyService{
 			if(ratePharmacy.getPatient().getUserId() == rate.getPatient().getUserId()
 					&& ratePharmacy.getPharmacy().getPharmacyId() == rate.getPharmacy().getPharmacyId()) {
 				ratePharmacy.setRating(rate.getRating());
-				_ratePharmacyRepository.save(rate);
+				_ratePharmacyRepository.save(ratePharmacy);
 				found = true;
 				break;
 			}
@@ -39,15 +39,16 @@ public class RatePharmacyService implements IRatePharmacyService{
 	@Override
 	public Double calculateRatingForPharmacy(RatePharmacy rate) {
 		ArrayList<RatePharmacy> ratings = (ArrayList<RatePharmacy>) _ratePharmacyRepository.findAll();
-		int numberOfRatings = 0;
-		int rateSum = 0;
+		double numberOfRatings = 0;
+		double rateSum = 0;
 		for (RatePharmacy ratePharmacy : ratings) {
 			if(ratePharmacy.getPharmacy().getPharmacyId() == rate.getPharmacy().getPharmacyId()) {
 				numberOfRatings++;
 				rateSum += ratePharmacy.getRating();
 			}
 		}
-		Double rating = (double) (rateSum/numberOfRatings);
+		
+		Double rating = rateSum/numberOfRatings;
 		return rating;
 	}
 	
