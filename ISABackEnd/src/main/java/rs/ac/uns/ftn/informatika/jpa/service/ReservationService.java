@@ -150,4 +150,16 @@ public class ReservationService implements IReservationService{
 		
 		return penalty;
 	}
+
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		for (Reservation reservation : allReservations) {
+			if(reservation.getPatient().getUserId() == patientId && reservation.getRecieved() == false) {
+				if(!result.contains(reservation.getPharmacy())) {
+					result.add(reservation.getPharmacy());
+				}
+			}
+		}
+	}
 }

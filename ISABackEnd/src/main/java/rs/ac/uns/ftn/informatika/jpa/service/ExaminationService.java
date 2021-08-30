@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
-import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -180,6 +182,18 @@ public class ExaminationService implements IExaminationService{
 		
 	}
 
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		for (Examination examination : allExaminations) {
+			if(examination.getPatient().getUserId() == patientId) {
+				if(!result.contains(examination.getPharmacy())) {
+					result.add(examination.getPharmacy());
+				}
+			}
+		}
+	}
+	
 	@Override
 	public ArrayList<Dermatologist> getAllDermatologistByPatient() {
 		
