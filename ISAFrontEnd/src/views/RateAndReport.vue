@@ -69,7 +69,7 @@
                       width="300"
                       color="primary"
                       small
-                      @click="submit(p, dialog)"
+                      @click="submitPharmacist(p, dialog)"
                   >Submit</v-btn>
                   <v-btn
                       width="300"
@@ -137,6 +137,7 @@
                         dark
                     >Rate dermatologist:</v-toolbar>
                     <template>
+                      <br>
                       <label>Rating 10</label>
                       <input type="radio" value=10 name="rating" @change = "setRating(10)">
 
@@ -151,12 +152,21 @@
 
                       <label>Rating 6</label>
                       <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                      <br>
+                      <br>
                     </template>
                     <v-btn
                         width="300"
-                        text
-                        @click="submit(p, dialog)"
+                        color="primary"
+                        small
+                        @click="submitDermatologist(d, dialog)"
                     >Submit</v-btn>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="dialog.value=false"
+                    >Cancel</v-btn>
                   </v-card>
                 </template>
               </v-dialog>
@@ -387,13 +397,25 @@ mounted() {
     setRating: function (rating){
         this.rating = rating
     },
-    submit: function(e, dialog){
+    submitPharmacist: function(e, dialog){
       dialog.value = false
       this.axios
           .post("http://localhost:8091/rateEmployee/ratePharmacist",{rating: this.rating, pharmacyEmployee: e},
               {headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
+          .then(
+              window.location.href = "http://localhost:8080/rateAndReport"
+          );
+    },
+
+    submitDermatologist: function(e, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/rateEmployee/rateDermatologist",{rating: this.rating, pharmacyEmployee: e},
+              {headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }})
           .then(
               window.location.href = "http://localhost:8080/rateAndReport"
           );

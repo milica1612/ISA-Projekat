@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.RateEmployee;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.service.DermatologistService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.service.RateEmployeeService;
 
@@ -26,13 +27,30 @@ public class RateEmployeeController {
 	@Autowired
 	private PharmacistService _pharmacistService;
 	
+	@Autowired
+	private DermatologistService _dermatologistService;
+	
 	@PostMapping(value = "/ratePharmacist")
-	public void rateEmployee(@RequestBody RateEmployee rate) {
-		System.out.println("Controller");
+	public void rateEmployeePharmacist(@RequestBody RateEmployee rate) {
+		if(rate.getRating()<6 || rate.getRating()>10) {
+			return;
+		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		rate.setPatient((Patient) user);
 		Double newRating = _rateEmployeeService.rateEmployee(rate);
 		_pharmacistService.updateRating(rate.getPharmacyEmployee().getUserId(), newRating);
+		
+	}
+	
+	@PostMapping(value = "/rateDermatologist")
+	public void rateEmployeeDermatologist(@RequestBody RateEmployee rate) {
+		if(rate.getRating()<6 || rate.getRating()>10) {
+			return;
+		}
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		rate.setPatient((Patient) user);
+		Double newRating = _rateEmployeeService.rateEmployee(rate);
+		_dermatologistService.updateRating(rate.getPharmacyEmployee().getUserId(), newRating);
 		
 	}
 }
