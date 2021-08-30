@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 
@@ -23,4 +24,6 @@ public interface IOrderService {
 	List<OrderDTO> findAllFinishedOrdersForPharmacy();
 	
 	List<Long> findMedicineItemIdsByOrderId(Long orderId);
+	
+	public void createOrder(CreateOrderDTO createOrderDTO);
 }

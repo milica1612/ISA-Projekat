@@ -308,7 +308,19 @@ const routes = [{
         name: 'PharmacyOrders',
         component: () =>
             import('../views/PharmacyOrders.vue')
-    }
+    }, 
+    {
+        path: '/medicinesInPharmacy',
+        name: 'MedicinesInPharmacy',
+        component: () =>
+            import('../views/MedicinesInPharmacy.vue')
+    },
+    {
+        path: '/makeAnOrder',
+        name: 'MakeAnOrder',
+        component: () =>
+            import('../views/MakeAnOrder.vue')
+    },
 ]
 
 const router = new VueRouter({
