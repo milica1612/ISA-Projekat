@@ -11,9 +11,6 @@ public class ComplaintPharmacyDTO {
 		public ComplaintPharmacyDTO() {}
 		
 
-
-
-
 		public ComplaintPharmacyDTO(String textEmp, Long pharmacyId, Long patientId) {
 			super();
 			this.textEmp = textEmp;

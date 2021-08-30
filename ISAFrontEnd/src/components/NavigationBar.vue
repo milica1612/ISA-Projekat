@@ -141,7 +141,7 @@ export default {
                 { title: 'Medicines', path: '/medicineRegistration' },
                 { title: "Pending Vacation Requests", path: '/requestsVacationDermatologists'},
                 { title: "All Vacation Requests", path: '/allVacationRequestsDermatologists'},
-                { title: 'Complaints', path: '/' },
+                { title: 'Complaints', path: '/complaints' },
                 { title: 'Loyalty Program', path: '/' }];
       } else {
         // NOT YET REGISTERED
