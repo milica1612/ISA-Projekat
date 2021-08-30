@@ -76,16 +76,24 @@ public class PromotionService implements IPromotionService {
 	    		throw new IllegalArgumentException("Already subscribed!");
 			}else {
 				pharmacy.getPatients().add(patient);
-				return _pharmacyRepository.save(pharmacy);
 			}
 		}
-		return null;
+		return _pharmacyRepository.save(pharmacy);
 	}
 
 	@Override
 	public void unsubscribeToPharmacy(Long pharmacyId) throws Exception {
-		// TODO Auto-generated method stub
-		
+		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
+	
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
+	
+		for(Pharmacy p: patient.getPharmacies()) {
+			if(p.getPharmacyId() == pharmacy.getPharmacyId()) {
+				pharmacy.getPatients().remove(patient);
+				_pharmacyRepository.save(pharmacy);
+			}
+		}
 	}
 
 }

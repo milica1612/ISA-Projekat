@@ -38,6 +38,52 @@
                   v-if="isLogged"
               >Visit</v-btn>
             </td>
+            <td>              
+                    <v-row justify="center">
+                        <v-dialog
+                        v-model="dialog"
+                        persistent
+                        max-width="290"
+                        >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            color="primary"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            v-on:click="setPharmacyId()"
+                            >
+                            Unsubscribe
+                            </v-btn>
+                        </template>
+                        <v-card>
+                            <v-card-title class="text-h5">
+                            Unsubscribe  {{p.name}}
+                            </v-card-title>
+                        
+                            <v-card-text>If unsubscribe, you won't get notifications about new promotions in selected pharmacy. Are you sure?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="green darken-1"
+                                text
+                                @click="dialog = false"
+                            >
+                                Disagree
+                            </v-btn>
+                            <v-btn
+                                color="green darken-1"
+                                text
+                                @click="dialog = false"
+                                v-on:click = "unsubscribeToSalesAndPromotion(p.pharmacyId)"
+                            >
+                                Agree
+                            </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-dialog>
+                    </v-row>
+            </td>
           </tr>
           </tbody>
         </template>
@@ -49,10 +95,10 @@
 <script>
 export default {
   name: "PharmacySubscription",
-  
   data: function () {
     return {
       logged: false,
+      dialog: false,
       pharmacies: [],
       searchField: "",
       token: localStorage.getItem("token"),
@@ -96,8 +142,28 @@ mounted() {
       this.axios
           .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
           .then(response => (this.pharmacies = response.data))
+    },
+    unsubscribeToSalesAndPromotion(pharmacyId){
+      
+      this.axios
+        .post('http://localhost:8091/promotions/unsubscribeToPharmacy/' + pharmacyId, {}, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(r => {
+                  this.pharmacy = r.data
+                  alert("Successfully unsubscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
+          })
+          .catch(() => {
+                  alert("Successful unsubscription!")
+          })
+    },
+    setPharmacyId(){
+        localStorage.setItem("pharmacy")
     }
   },
+  
   computed:{
     isLogged: function (){
       if (this.token == ""){

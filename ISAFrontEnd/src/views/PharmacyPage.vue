@@ -138,7 +138,7 @@ mounted() {
                   alert("Successfully subscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
           })
           .catch(() => {
-                  alert("Unsuccessful subscription!")
+                  alert("You are already subscribed!")
           });
     }
   },
