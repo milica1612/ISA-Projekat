@@ -115,7 +115,7 @@
               v-for="p in pharmacies"
               :key="p"
           >
-            <td>{{ p.firstName + " " + p.lastName}}</td>
+            <td>{{ p.name}}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
             <td>
@@ -176,7 +176,15 @@ mounted() {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
               }
             })
-      .then(r => (this.pharmacists = r.data));
+      .then(r => (this.pharmacists = r.data))
+  ,
+  this.axios
+      .get('http://localhost:8091/pharmacy/getPharmaciesForPatient/' + localStorage.getItem("userId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+      .then(r => (this.pharmacies = r.data));
 },
   methods: {
   },
