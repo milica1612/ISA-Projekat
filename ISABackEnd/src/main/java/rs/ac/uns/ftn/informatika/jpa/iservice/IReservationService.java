@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 
 public interface IReservationService {
@@ -24,4 +26,8 @@ public interface IReservationService {
 	boolean isSoonerThan24hours(Reservation r);
 
 	int checkForPenatlies(Long patientId);
+
+	void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result);
+
+	void getMedicineForRating(Long patientId, ArrayList<Medicine> result);
 }

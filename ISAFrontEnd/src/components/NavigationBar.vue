@@ -91,6 +91,7 @@ export default {
           {title: "Browse Medicine", path: "/browseMedicine"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
+          {title: "Rate And Report ", path: "/rateAndReport"},
         ];
       } else if (this.userType === "SUPPLIER") {
         //  USER-TYPE

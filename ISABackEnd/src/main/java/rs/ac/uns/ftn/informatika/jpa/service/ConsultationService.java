@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
@@ -16,9 +17,13 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class ConsultationService implements IConsultationService{
@@ -26,6 +31,9 @@ public class ConsultationService implements IConsultationService{
 	@Autowired 
 	private IConsultationRepository _consultationRepository;
 
+	@Autowired 
+	private IUserRepository _userRepository;
+	
 	@Override
 	public ArrayList<Consultation> findAllConsultation() {
 		return (ArrayList<Consultation>) _consultationRepository.findAll();
@@ -124,5 +132,35 @@ public class ConsultationService implements IConsultationService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		for (Consultation consultation : allConsultations) {
+			if(consultation.getPatient().getUserId() == patientId && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+				if(!result.contains(consultation.getPharmacy())) {
+					result.add(consultation.getPharmacy());
+				}
+			}
+		}
+	}
+	
+	@Override	
+	public ArrayList<Pharmacist> getAllPharmacistForPatient(Long patientId) {
+
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		ArrayList<Pharmacist> result = new ArrayList<Pharmacist>();
+
+		for(Consultation consultation: allConsultations) {
+			if(consultation.getPharmacist() != null) {
+				if(consultation.getPatient().getUserId() == patientId && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(!result.contains(consultation.getPharmacist())) {
+						result.add(consultation.getPharmacist());
+					}	
+				}
+			}
+		}
+		return result;
 	}
 }

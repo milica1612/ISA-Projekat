@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 
@@ -25,11 +27,20 @@ public class EPrescription {
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Medicine> medicine;
    
-   public EPrescription(Long prescriptionId, Date date) {
+   @ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
+   @JoinColumn(name = "pharmacy_pharmacy_id", referencedColumnName = "pharmacy_id")
+   private Pharmacy pharmacy;
+   
+   @OneToOne(fetch = FetchType.EAGER)
+   private Patient patient;
+   
+   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient) {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.date = date;
 	this.medicine = new HashSet<Medicine>();
+	this.pharmacy = pharmacy;
+	this.patient = patient;
 }
    public EPrescription() 
    {
@@ -91,5 +102,22 @@ public class EPrescription {
 	      if (medicine != null)
 	         medicine.clear();
 	   }
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+	public Patient getPatient() {
+		return patient;
+	}
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	public void setMedicine(Set<Medicine> medicine) {
+		this.medicine = medicine;
+	}
+	   
+	   
 
 }

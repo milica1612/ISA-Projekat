@@ -19,6 +19,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
@@ -120,4 +121,9 @@ public class ConsultationController {
 		}
 	}
 	
+	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
+	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
+		return _consultationService.getAllPharmacistForPatient(patientId);
+	}
+
 }

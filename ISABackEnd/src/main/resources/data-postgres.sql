@@ -63,15 +63,15 @@ INSERT INTO public.address(
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'BENU', 3.4, 'First Pharmacy',700, 7);
+	VALUES (default, 'BENU', 8.4, 'First Pharmacy',700, 7);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Jankovic', 4.6, 'Second Pharmacy',1000, 8);
+	VALUES (default, 'Jankovic', 9.6, 'Second Pharmacy',1000, 8);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Higija', 5.0, 'Third Pharmacy',600, 11);
+	VALUES (default, 'Higija', 10.0, 'Third Pharmacy',600, 11);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
@@ -246,6 +246,10 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'lukatomic', 'PATIENT', null, 0, 14, null, null);	
+
+INSERT INTO public.loyalty_card(
+	card_id, loyalty_category, points, patient_user_id) 
+	VALUES (default, 'GOLD', 40, 15);
 
 -- password Luka678!
 INSERT INTO public.user(
@@ -569,6 +573,9 @@ INSERT INTO public.medicine_item(
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (default, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 3);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -718,3 +725,17 @@ INSERT INTO public.pharmacy_price_tags(
 INSERT INTO public.pharmacy_price_tags(
 	pharmacy_pharmacy_id, price_tags_price_tag_id)
 	VALUES (2, 4);
+	
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'FINISHED', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'FINISHED', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, true, 'ghgy32uu1', 12, 1, 1);
+
+	

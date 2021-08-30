@@ -23,15 +23,18 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReportDermService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReportPharmService;
+import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -55,6 +58,12 @@ public class MedicineController {
 	
 	@Autowired
 	private ReportPharmService _reportPharmService;
+	
+	@Autowired
+	private ReservationService _reservationService;
+	
+	@Autowired
+	private EPrescriptionService _ePrescriptionService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
@@ -169,6 +178,14 @@ public class MedicineController {
 	@GetMapping(path = "/checkMedicineInPharmacy/{name}")
 	public List<MedicineAvailableInPharmacyDTO> findAvailableMedicineInPharmacy(@PathVariable String name){	
 		return _medicineService.findPharmacyForMedicineItem(name); 
+	}
+	
+	@GetMapping(path = "/getMedicineForRating/{patientId}")
+	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
+		ArrayList<Medicine> result = new ArrayList<Medicine>();
+		_reservationService.getMedicineForRating(patientId, result);
+		//_ePrescriptionService.getMedicineForRating(patientId, result);
+		return result;
 	}
 	
 }

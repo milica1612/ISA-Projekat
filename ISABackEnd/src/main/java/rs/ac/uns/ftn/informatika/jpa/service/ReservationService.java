@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IReservationService;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
@@ -149,5 +150,30 @@ public class ReservationService implements IReservationService{
 		}
 		
 		return penalty;
+	}
+
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		for (Reservation reservation : allReservations) {
+			if(reservation.getPatient().getUserId() == patientId && reservation.getRecieved() == true) {
+				if(!result.contains(reservation.getPharmacy())) {
+					result.add(reservation.getPharmacy());
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void getMedicineForRating(Long patientId, ArrayList<Medicine> result) {
+		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		for (Reservation reservation : allReservations) {
+			if(reservation.getPatient().getUserId() == patientId && reservation.getRecieved() == true) {
+				if(!result.contains(reservation.getMedicineItem().getMedicine())) {
+					result.add(reservation.getMedicineItem().getMedicine());
+				}
+			}
+		}
+		
 	}
 }
