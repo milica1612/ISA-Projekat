@@ -157,9 +157,7 @@ public class ConsultationService implements IConsultationService{
 		
 		for(Consultation consultation: allConsultations) {
 			if(consultation.getPatient().getUserId() == patient.getUserId() && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
-				if(result.contains(consultation.getPharmacist())) {
-					throw new IllegalArgumentException("Pharmacist is already added!");
-				}else {
+				if(!result.contains(consultation.getPharmacist())) {
 					result.add(consultation.getPharmacist());
 				}	
 			}

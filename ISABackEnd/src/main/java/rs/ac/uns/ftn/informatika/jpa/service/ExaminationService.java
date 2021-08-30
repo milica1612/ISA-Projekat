@@ -205,9 +205,7 @@ public class ExaminationService implements IExaminationService{
 		
 		for(Examination examination: allExaminations) {
 			if(examination.getPatient().getUserId() == patient.getUserId() && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
-				if(result.contains(examination.getDermatologist())) {
-					throw new IllegalArgumentException("Dermatologist is already added!");
-				}else {
+				if(!result.contains(examination.getDermatologist())) {
 					result.add(examination.getDermatologist());
 				}	
 			}
