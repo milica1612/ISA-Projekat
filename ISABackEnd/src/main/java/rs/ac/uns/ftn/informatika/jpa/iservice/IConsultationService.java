@@ -8,6 +8,8 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+
 
 @Service
 public interface IConsultationService {
@@ -19,4 +21,6 @@ public interface IConsultationService {
 	boolean cancelConsultation(ConsultationViewDTO consultation);
 	boolean isSoonerThan24hours(Consultation c);
 	void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result);
+	 ArrayList<Pharmacist> getAllPharmacistForPatient();
+
 }

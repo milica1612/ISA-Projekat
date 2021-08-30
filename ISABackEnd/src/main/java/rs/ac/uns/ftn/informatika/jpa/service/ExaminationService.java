@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
@@ -17,13 +19,21 @@ import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class ExaminationService implements IExaminationService{
 	@Autowired
 	private IExaminationRepository _examinationRepository;
 
+	@Autowired
+	private IUserRepository _userRepository;
+	
 	@Override
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
@@ -182,7 +192,27 @@ public class ExaminationService implements IExaminationService{
 				}
 			}
 		}
+	}
+	
+	@Override
+	public ArrayList<Dermatologist> getAllDermatologistByPatient() {
 		
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<Dermatologist> result = new ArrayList<Dermatologist>();
+		
+		Patient currentUser = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Patient patient = (Patient) _userRepository.findById(currentUser.getUserId()).orElse(null);
+		
+		for(Examination examination: allExaminations) {
+			if(examination.getPatient().getUserId() == patient.getUserId() && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+				if(result.contains(examination.getDermatologist())) {
+					throw new IllegalArgumentException("Dermatologist is already added!");
+				}else {
+					result.add(examination.getDermatologist());
+				}	
+			}
+		}
+		return result;
 	}
 	
 }
