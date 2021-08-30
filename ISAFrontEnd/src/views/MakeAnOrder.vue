@@ -89,6 +89,46 @@
           </template>
         </v-data-table>
       </div>
+      <v-card-text>
+          <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
+            <v-row>
+              <v-text-field
+                class="ml-10 mr-10 mt-10  text-center"
+                color="blue"
+                type="text"
+                v-bind:readonly="true"
+                value="Please select below an offer deadline date"
+              > </v-text-field>
+              <v-date-picker
+                width="100%"
+                class="ml-10 mr-10 mt-4"
+                v-model="offerDeadline"
+                :allowed-dates="disablePastDates"
+                :format="datePickerFormat"
+                color="green lighten-1"
+                header-color="primary"
+              ></v-date-picker>
+            </v-row>
+          </v-form>
+      </v-card-text>
+      <v-card-actions class="justify-center">
+          <v-btn
+            v-on:click="createOreder"
+            color="primary"
+            class="btnCreate"
+            x-large
+            width="30%"
+            >Create</v-btn
+          >
+          <v-btn
+            v-on:click="cancel"
+            color="primary"
+            class="btnCancel"
+            x-large
+            width="30%"
+            >Cancel</v-btn
+          >
+        </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -103,37 +143,37 @@ export default {
       {
         text: "Medicine ID",
         value: "medicineId",
-        align: "left",
+        align: "center",
         sortable: true,
       },
       {
         text: "Medicine code",
         value: "medicineCode",
-        align: "left",
+        align: "center",
         sortable: true,
       },
       {
         text: "Medicine name",
         value: "name",
-        align: "left",
+        align: "center",
         sortable: true,
       },
       {
         text: "Medicine type",
         value: "type",
-        align: "left",
+        align: "center",
         sortable: true,
       },
       {
         text: "Medicine form",
         value: "medicineForm",
-        align: "left",
+        align: "center",
         sortable: true,
       },
       {
         text: "New quantity",
         value: "newQuantity",
-        align: "left",
+        align: "center",
         sortable: false,
         width: "16%",
       },
@@ -141,6 +181,8 @@ export default {
     pharmacy: null,
     pharmacyName: "",
     pharmacyId: "",
+    offerDeadline: "",
+    datePickerFormat: "dd.MM.yyyy.",
   }),
   mounted() {
     this.initialize();
@@ -151,6 +193,9 @@ export default {
     }
   },
   methods: {
+    disablePastDates(val) {
+      return val >= new Date().toISOString().substr(0, 10);
+    },
     initialize() {
       this.axios
         .get(
@@ -198,6 +243,13 @@ export default {
           this.potentiallyNewMedicineItems = response.data;
         });
     },
+    createOreder(){
+
+    },
+    cancel() {
+      alert("Canceled making order!");
+      window.location.href = "/homePagePharmacyAdmin";
+    },
   },
 };
 </script>
@@ -215,5 +267,15 @@ export default {
   width: 80%;
   text-align: center;
   margin: auto;
+}
+.btnCreate{
+  margin: 5%;
+  padding-top: 10%;
+}
+.btnCancel{
+  margin-top: 5%;
+  margin-left: 25% ;
+  margin-bottom: 5%;
+  padding-top: 10%;
 }
 </style>
