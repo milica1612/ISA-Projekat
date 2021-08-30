@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
@@ -134,6 +136,11 @@ public class ExaminationContoller {
 		}else {
 			return false;
 		}
+	}
+	
+	@GetMapping(value = "/getAllDermatologistByPatient")
+	public ArrayList<Dermatologist> getAllDermatologistByPatient(){
+		return _examinationService.getAllDermatologistByPatient();
 	}
 	
 }
