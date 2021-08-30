@@ -194,8 +194,8 @@ export default {
     this.initialize();
   },
   computed: {
-    orderList() {
-      return { order: this.myOrder };
+    order() {
+      return { 'order': this.myOrder };
     },
   },
   methods: {
