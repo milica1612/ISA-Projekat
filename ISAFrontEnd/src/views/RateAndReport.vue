@@ -83,12 +83,45 @@
             </td>
 
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Report</v-btn>
+              <v-btn>   
+                  <v-col cols="auto">
+                <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="secondary"
+                        elevation="3"
+                        x-small
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="isLogged"
+                    >Write Complaint</v-btn>
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar
+                          color="primary"
+                          dark
+                      >Write Complaint for {{p.firstName + " " + p.lastName}}</v-toolbar>
+                        <v-textarea
+                                background-color="white"
+                                filled
+                                name="input-7-4"
+                                label="Write Complaint:"
+                                v-model = "textEmp"
+                          ></v-textarea>
+                    <v-btn
+                          width="300"
+                          text
+                          @click="createComplaintForPharmacist(p, dialog)"
+                      >Send</v-btn>
+                    </v-card>
+                </template>
+              </v-dialog>
+            </v-col>
+              </v-btn>
             </td>
           </tr>
           </tbody>
@@ -172,12 +205,45 @@
               </v-dialog>
             </td>
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Report</v-btn>
+              <v-btn>   
+                  <v-col cols="auto">
+                <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="secondary"
+                        elevation="3"
+                        x-small
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="isLogged"
+                    >Write Complaint</v-btn>
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar
+                          color="primary"
+                          dark
+                      >Write Complaint for {{d.firstName + " " + d.lastName}}</v-toolbar>
+                        <v-textarea
+                                background-color="white"
+                                filled
+                                name="input-7-4"
+                                label="Write Complaint:"
+                                v-model = "textEmp"
+                          ></v-textarea>
+                    <v-btn
+                          width="300"
+                          text
+                          @click="createComplaintForDermatologist(d, dialog)"
+                      >Send</v-btn>
+                    </v-card>
+                </template>
+              </v-dialog>
+            </v-col>
+              </v-btn>
             </td>
           </tr>
           </tbody>
@@ -203,12 +269,12 @@
           </thead>
           <tbody>
           <tr
-              v-for="p in pharmacies"
-              :key="p"
+              v-for="ph in pharmacies"
+              :key="ph"
           >
-            <td>{{ p.name}}</td>
-            <td>{{ p.rating }}</td>
-            <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
+            <td>{{ ph.name}}</td>
+            <td>{{ ph.rating }}</td>
+            <td>{{ph.address.street + " " + ph.address.streetNumber + ", " + ph.address.city + ", " + ph.address.country}}</td>
             <td>
               <v-dialog
                   transition="dialog-top-transition"
@@ -265,12 +331,45 @@
               </v-dialog>
             </td>
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Report</v-btn>
+              <v-btn>   
+                  <v-col cols="auto">
+                <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="secondary"
+                        elevation="3"
+                        x-small
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="isLogged"
+                    >Write Complaint</v-btn>
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar
+                          color="primary"
+                          dark
+                      >Write Complaint for {{ph.name}}</v-toolbar>
+                        <v-textarea
+                                background-color="white"
+                                filled
+                                name="input-7-4"
+                                label="Write Complaint:"
+                                v-model = "textEmp"
+                          ></v-textarea>
+                    <v-btn
+                          width="300"
+                          text
+                          @click="createComplaintForPharmacy(ph, dialog)"
+                      >Send</v-btn>
+                    </v-card>
+                </template>
+              </v-dialog>
+            </v-col>
+              </v-btn>
             </td>
           </tr>
           </tbody>
@@ -373,6 +472,9 @@ export default {
       medicine: [],
       rating: 10,
       searchField: "",
+      pharmacist: "",
+      dialog: false,
+      textEmp: "",
       token: localStorage.getItem("token"),
       sort: {
         key: '',
@@ -414,6 +516,72 @@ mounted() {
       .then(r => (this.medicine = r.data));
 },
   methods: {
+      createComplaintForPharmacist: function(p, dialog){
+            dialog.value = false
+            this.axios
+                .post("http://localhost:8091/complaint/createComplaint",  {
+                            textEmp: this.textEmp,
+                            patientId: localStorage.getItem("userId"),
+                            pharmacyEmployeeId: p.userId,
+                        },
+                        {
+                             headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem("token")
+                        }
+                        })
+                     .then(() => {
+                        alert("Successfully sent complaint!");
+                        })
+                    .catch((er) => {
+                        alert("Try later!");
+                        this.textComplaint = "";
+                        console.log(er.response.data);
+                        });
+      },
+      createComplaintForDermatologist: function(d, dialog){
+            dialog.value = false
+            this.axios
+                .post("http://localhost:8091/complaint/createComplaint",  {
+                            textEmp: this.textEmp,
+                            patientId: localStorage.getItem("userId"),
+                            pharmacyEmployeeId: d.userId,
+                        },
+                        {
+                             headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem("token")
+                        }
+                        })
+                     .then(() => {
+                        alert("Successfully sent complaint!");
+                        })
+                    .catch((er) => {
+                        alert("Try later!");
+                        this.textComplaint = "";
+                        console.log(er.response.data);
+                        });
+      },
+      createComplaintForPharmacy: function(ph, dialog){
+            dialog.value = false
+            this.axios
+                .post("http://localhost:8091/complaint/createComplaintForPharmacy",  {
+                            textEmp: this.textEmp,
+                            patientId: localStorage.getItem("userId"),
+                            pharmacyId: ph.pharmacyId,
+                        },
+                        {
+                             headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem("token")
+                        }
+                        })
+                     .then(() => {
+                        alert("Successfully sent complaint!");
+                        })
+                    .catch((er) => {
+                        alert("Try later!");
+                        this.textComplaint = "";
+                        console.log(er.response.data);
+                        });
+      },
     setRating: function (rating){
         this.rating = rating
     },
