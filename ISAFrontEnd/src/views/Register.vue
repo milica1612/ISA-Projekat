@@ -143,6 +143,7 @@ export default {
           password: this.password,
           firstName: this.firstName,
           lastName: this.lastName,
+
           address: {
             street: this.streetName,
             streetNumber: this.streetNumber,

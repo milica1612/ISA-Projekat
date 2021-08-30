@@ -1,9 +1,11 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineData;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 
@@ -18,4 +20,12 @@ public interface IOrderService {
 	
 	List<OrderDTO> findAllOrdersForPharmacy();
 	
+	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();
+	
+	List<OrderDTO> findAllFinishedOrdersForPharmacy();
+	
+	List<Long> findMedicineItemIdsByOrderId(Long orderId);
+	
+	Order createOrder(List<MedicineData> medicineItemData, List<MedicineData> newMedicineItemData, Long pharmacyAdminId,
+			Long pharmacyId, Date offerDeadline);
 }

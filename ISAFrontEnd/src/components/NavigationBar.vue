@@ -91,6 +91,7 @@ export default {
           {title: "Browse Medicine", path: "/browseMedicine"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
+          {title: "Rate And Report ", path: "/rateAndReport"},
         ];
       } else if (this.userType === "SUPPLIER") {
         //  USER-TYPE
@@ -105,7 +106,7 @@ export default {
           {title: "Work Calendar", path: "/workCalendar"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/dermatologistProfile"},
-          {title: "Schedule new Appointment", path: "/scheduleAppointment"},
+          {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
         ];
       } else if (this.userType === "PHARMACIST") {
         this.items = [
@@ -115,7 +116,7 @@ export default {
           {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},
-          {title: "Schedule new Counseling", path: "/scheduleCounseling"},
+          {title: "Schedule new Counseling", path: "/scheduleConsultationPharmacist"},
         ];
       } else if (this.userType === "PH_ADMINISTRATOR") {
         this.items = [
@@ -128,6 +129,8 @@ export default {
           {title: "Pending Vacation Requests", path: '/requestsVacationPharmacists'},
           {title: "All Vacation Requests", path: '/allVacationRequestsPharmacists'},
           {title: "All Pharmacy Orders", path: '/pharmacyOrders'},
+          {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
+          {title: "Make An Order", path: '/makeAnOrder'},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
@@ -140,7 +143,7 @@ export default {
                 { title: 'Medicines', path: '/medicineRegistration' },
                 { title: "Pending Vacation Requests", path: '/requestsVacationDermatologists'},
                 { title: "All Vacation Requests", path: '/allVacationRequestsDermatologists'},
-                { title: 'Complaints', path: '/' },
+                { title: 'Complaints', path: '/complaints' },
                 { title: 'Loyalty Program', path: '/' }];
       } else {
         // NOT YET REGISTERED
@@ -156,7 +159,7 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
-      localStorage.setItem("pharmacyId", "");
+      localStorage.setItem("patientId", "");
       window.location.href = "http://localhost:8080/logIn";
     }
 

@@ -1,5 +1,4 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
-
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -40,16 +39,13 @@ public class Medicine {
     private int loyaltyPoints;
 
 	@Column(name = "rating")
-    private int rating;
+    private Double rating;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public MedicineSpecification medicineSpecification;
     
 	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Medicine> replacementMedicine;
-    
-	@ManyToMany(fetch = FetchType.LAZY)
-	public Set<PriceTag> priceTag;
     
 	@Enumerated(EnumType.STRING)
 	public MedicineForm medicineForm;
@@ -59,7 +55,7 @@ public class Medicine {
 	   
 	public Medicine(Long medicineId, String name, String medicineCode, String type, String manufacturer, String precautions, int loyaltyPoints,
 			MedicineSpecification medicineSpecification, MedicineForm medicineForm, 
-			PrescriptionType prescriptionType, int rating) {
+			PrescriptionType prescriptionType, Double rating) {
 		super();
 		this.medicineId = medicineId;
 		this.name = name;
@@ -69,7 +65,6 @@ public class Medicine {
 		this.loyaltyPoints = loyaltyPoints;
 		this.medicineSpecification = medicineSpecification;
 		this.replacementMedicine = new HashSet<Medicine>();
-		this.priceTag = new HashSet<PriceTag>();
 		this.medicineForm = medicineForm;
 		this.prescriptionType = prescriptionType;
 		this.medicineCode = medicineCode;
@@ -81,12 +76,12 @@ public class Medicine {
 		
 	}
 
-	public int getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setRating(Double newRating) {
+		this.rating = newRating;
 	}
 
 	public String getMedicineCode() {
@@ -109,14 +104,6 @@ public class Medicine {
 		return name;
 	}
 	
-	public Set<PriceTag> getPriceTag() {
-		return priceTag;
-	}
-
-	public void setPriceTag(Set<PriceTag> priceTag) {
-		this.priceTag = priceTag;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}

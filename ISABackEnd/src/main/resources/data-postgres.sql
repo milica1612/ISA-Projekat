@@ -63,15 +63,15 @@ INSERT INTO public.address(
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'BENU', 3.4, 'First Pharmacy',700, 7);
+	VALUES (default, 'BENU', 8.4, 'First Pharmacy',700, 7);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Jankovic', 4.6, 'Second Pharmacy',1000, 8);
+	VALUES (default, 'Jankovic', 9.6, 'Second Pharmacy',1000, 8);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Higija', 5.0, 'Third Pharmacy',600, 11);
+	VALUES (default, 'Higija', 10.0, 'Third Pharmacy',600, 11);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
@@ -175,17 +175,19 @@ INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
 	VALUES (default, 'GOLD', 40, 1);
 	
--- password Ivana1234!
+-- password Ivana1234! - ivanagavric@gmail.com - TEST - lukait31@gmail.com
+-- My trial email address is lukait31@gmail.com, put a trial email at the supplier so you can receive messages from the pharmacy for 3.26 task
+-- At Pera, Mirko and Luna put your test email
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'ivanagavric@gmail.com', true, false, 'Pera', 'Peric', '2020-11-11', '$2a$12$oI9p3iPsjtJ3y.0DEGo2T.zWkB8RKdtHRrzMyvSDx2JN8q3jYekGS', 'AN777Ivx9owXayu67jL012==', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
 
--- password Dobavljac17!
+-- password Dobavljac17! - isateam3921@gmail.com - TEST - lukait31@gmail.com
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'isateam3921@gmail.com', true, false, 'Mirko', 'Mirkovic', '2020-11-11', '$2a$12$pdxtJczjkp.hLRLosRub/eYxQ.VZE8D/BhhmHbcqw7BYePkUVqAO.', 'BV1010SsRNlpMB1021Og44==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
 
--- password Luna123!
+-- password Luna123! - luna21@gmail.com - TEST  - lukait31@gmail.com  
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Supplier', default, 'luna21@gmail.com', true, false, 'Luna', 'Lukovic', '2020-11-11', '$2a$12$6//4tJzqynBMvPO0CrIhwOiRucoj3wGMm49k9pX0eVgrO14Pls1di', 'Lxw2ena1sRNlpMB10oO456==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
@@ -245,6 +247,10 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'lukatomic', 'PATIENT', null, 0, 14, null, null);	
 
+INSERT INTO public.loyalty_card(
+	card_id, loyalty_category, points, patient_user_id) 
+	VALUES (default, 'GOLD', 40, 15);
+
 -- password Luka678!
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
@@ -259,7 +265,11 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
-	
+
+-- password Sara3456!
+INSERT INTO public.user(
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('PharmacyAdministrator', default, 'admin7@gmail.com', true, false, 'Sara', 'Petrovic', '2020-11-11', '$2a$12$MIVjrgnhb9.m.ctkLly5oOA995IsCazjk6JWYUVUUVoMOR4YyRnOm', 'S342a3rar20PoIm12pZIi7==', '061/333-23-71', '', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
 	
 INSERT INTO public.authority(name) VALUES ('ROLE_PATIENT');	
 INSERT INTO public.authority(name) VALUES ('ROLE_SYS_ADMIN');	
@@ -286,7 +296,7 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (15, 1)
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (16, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (17, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (18, 6);
-
+INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (19, 4);
 
 -- ORDER - OFFER TEST DATA
 
@@ -295,13 +305,13 @@ INSERT INTO public.medicine_item(
 	VALUES (101, 10, 1);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (102, 5, 2);
+	VALUES (102, 5, 4);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (103, 3, 3);
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default,'2021/08/27', 'PROCESSED', 2, 10);
+	VALUES (default,'2021/08/28', 'WAITING_OFFER', 2, 10);
 
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
 	VALUES (1, 101);
@@ -325,50 +335,107 @@ INSERT INTO public.offer(
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
 	VALUES (default, '2021/09/06', 4800, 'WAITING', 1, 3);
+	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 101);
 
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 102);
+	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 103);
+	
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (104, 10, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (105, 5, 3);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (106, 3, 4);
+	
 
--- OLD TEST
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/08/27', 'PROCESSED', 2, 19);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 104);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 105);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (2, 106);
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/05', 6000, 'WAITING', 2, 2);
+	
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/09', 5300, 'WAITING', 2, 4);
+	
+
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/09/06', 5600, 'WAITING', 2, 3);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 104);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 105);
+	
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 106);
+
+INSERT INTO public.order(
+	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default, '2021/08/26', 'FINISHED', 2, 10);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/31', 52000, 'ACCEPTED', 3, 2);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/30', 54000, 'DECLINED', 3, 2);
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/04', 'PROCESSED', 2, 10);
-
-INSERT INTO public.order(
-	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/11', 'PROCESSED', 2, 10);
+	VALUES (default, '2021/08/20', 'FINISHED', 3, 6);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/23', 8000, 'ACCEPTED', 4, 2);
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/21', 15000, 'WAITING', 4, 2);
+	
+INSERT INTO public.offer(
+	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
+	VALUES (default, '2021/08/25', 10000, 'DECLINED', 4, 2);	
 	
 INSERT INTO public.order(
 	order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default, '2021/04/21', 'PROCESSED', 2, 10);
-
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/05/05', 22000, 'ACCEPTED', 2, 2);
+	VALUES (default, '2021/09/30', 'WAITING_OFFER', 2, 10);
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/06', 8000, 'ACCEPTED', 3, 2);
-
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/06/05', 12000, 'DECLINED', 4, 2);	
+	VALUES (default, '2021/10/10', 12000, 'WAITING', 5, 2);	
 	
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/03/05', 15000, 'WAITING', 3, 2);
+	VALUES (default, '2021/10/15', 14000, 'WAITING', 5, 2);
 	
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/03', 100000, 'DECLINED', 3, 2);
-
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/15', 2000, 'WAITING', 4, 2);
-	
-INSERT INTO public.offer(
-	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/02/01', 54000, 'DECLINED', 2, 2);
-
 --- Pharmacies - Dermatologists - TABLE INSERT DATA ---
 -- Sara dermatologist
  INSERT INTO public.pharmacy_dermatologist(
@@ -410,10 +477,11 @@ INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 1);
 
 
 -- PHARMACIST-VACATION - TEST DATA
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 11, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 16, 2); 
 
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 17, 2); 
-
 
 -- DERMATOLOGIST-VACATION - TEST DATA
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211012 07:00:00 AM','20211022 07:00:00 PM', 18, 2); 
@@ -426,6 +494,22 @@ VALUES (default, 'NONE', false, '2021-01-01 11:00:00', 30, 5,1500, 12, null, 1);
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-11-11 11:30:00', 30, 5,2000, 12, null, 1);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 12:00:00', 30, 5,2000, 12, null, 1);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 14:00:00', 30, 5,2000, 12, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 15:00:00', 30, 5,2000, 12, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 13:00:00', 30, 5,2000, 12, 1, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
@@ -455,27 +539,46 @@ INSERT INTO public.medicine_replacement_medicine(
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (11, 12);
+
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (1, 10, 1);
+	VALUES (default, 10, 1);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (2, 20, 2);
+	VALUES (default, 20, 2);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (3, 3, 3);
+	VALUES (default, 3, 3);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (4, 10, 4);
+	VALUES (default, 10, 4);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (5, 20, 5);
+	VALUES (default, 20, 5);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (6, 3, 6);
+	VALUES (default, 3, 6);
+
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (8, 3, 8);  
+	VALUES (default, 3, 6);
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 3, 8);  
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 10, 1);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 3);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -509,6 +612,15 @@ INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 11, 3, 3, 4);
 
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 12, 1, 1, 2);
+
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 13, 3, 3, 4);
+
+
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
 	VALUES (default, 'NONE', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
@@ -540,3 +652,110 @@ INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 INSERT INTO public.work_schedule_pharmacist_scheduled_consultations(
 	work_schedule_pharmacist_work_schedule_id, scheduled_consultations_appointment_id)
 	VALUES (2, 4);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	 values(1, 1);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id)
+	 values(1, 10);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(3, 2);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 4);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 9);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(2, 11);
+
+INSERT INTO public.pharmacy_medicine_item(
+	pharmacy_pharmacy_id, medicine_item_medicine_item_id) 
+	values(1, 3);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id) 
+	values (2, 3);
+
+INSERT INTO public.user_medicine_item(
+	supplier_user_id, medicine_item_medicine_item_id)
+	 values (2, 4);
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 400, 1, 7);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 500, 2, 7);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 350, 1, 8);
+
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 580, 2, 8);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (1, 1);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (1, 2);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 3);
+
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 4);
+	
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'FINISHED', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'FINISHED', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.complaint_employee(
+	comp_emp_id, text_employee, patient_user_id, pharmacy_employee_user_id)
+	VALUES (default, 'Organizacija pregleda nije dobra.', 1, 13);
+	
+
+INSERT INTO public.complaint_employee(
+	comp_emp_id, text_employee, patient_user_id, pharmacy_employee_user_id)
+	VALUES (default, 'Kasnjenje.', 1, 9);
+	
+INSERT INTO public.complaint_pharmacy(
+	comp_ph_id, text_ph, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'Radi samo jedna kasa sto stvara veliku guzvu.', 1, 1);
+
+INSERT INTO public.complaint_pharmacy(
+	comp_ph_id, text_ph, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'Izdat pogresan lijek', 1, 2);
+
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, true, 'ghgy32uu1', 12, 1, 1);
+
+	

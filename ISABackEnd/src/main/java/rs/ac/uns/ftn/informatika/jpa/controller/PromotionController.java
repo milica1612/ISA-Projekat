@@ -64,10 +64,9 @@ public class PromotionController {
 		}
 		
 	}
-	
-	//subscribeToPharmacy - Role : patient
+	///subscribeToPharmacy - Role : patient
 	@PostMapping(path = "/subscribeToPharmacy/{pharmacyId}")
-//	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	public ResponseEntity<?> subscribeToPharmacy(@PathVariable Long pharmacyId) {
     	try {
             return new ResponseEntity<>(this._promotionService.subscribeToPharmacy(pharmacyId), HttpStatus.OK);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="requestVacationCaption">All vacation requests from pharmacists</h1>
-
+    <v-card id="allRequestVacationCard" justify-center>
     <div class="table">
       <v-data-table
         :headers="headers"
@@ -20,6 +20,7 @@
         </template>
       </v-data-table>
     </div>
+    </v-card>
   </div>
 </template>
 
@@ -71,6 +72,11 @@ export default {
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
+}
+#allRequestVacationCard {
+  width: 80%;
+  text-align: center;
+  margin: auto;
 }
 </style>
  

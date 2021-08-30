@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +20,6 @@ import rs.ac.uns.ftn.informatika.jpa.dto.OfferDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.OfferForOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.OfferAcceptDTO;
-import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.OfferService;
@@ -42,7 +40,7 @@ public class OfferController {
 	}
 	
 	@GetMapping(path = "/seeOffers/{id}")
-	public List<Offer> findOffers(@PathVariable Long id) {
+	public List<Offer> findOffers(@PathVariable Long id) {		
 		return  _offerService.findOffersBySupplier(id);
 	}
 
@@ -64,13 +62,13 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
-	@PutMapping(value = "createOffer/{id}/{order_id}")
-	public ResponseEntity<?> createOffer(@RequestBody OfferDTO offerDTO, Order order) {
+	@PostMapping(value = "/createOffer/{order_id}")
+	public ResponseEntity<?> createOffer(@PathVariable Long order_id, @RequestBody OfferDTO offerDTO){
 		try {
-			_offerService.createOffer(offerDTO, null);
+			_offerService.createOffer(order_id, offerDTO);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -83,11 +81,11 @@ public class OfferController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value="/acceptOffer")
-	public ResponseEntity<Offer> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
+	public ResponseEntity<Boolean> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
 		try {
-			return new ResponseEntity<Offer>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);
+			return new ResponseEntity<Boolean>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Offer>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

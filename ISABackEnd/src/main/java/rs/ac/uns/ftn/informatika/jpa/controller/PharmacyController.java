@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
+import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
+import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
+import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -27,6 +31,18 @@ public class PharmacyController {
 	
 	@Autowired
 	private PharmacyService _pharmacyService;
+	
+	@Autowired
+	private ReservationService _reservationService;
+	
+	@Autowired
+	private EPrescriptionService _ePrescriptionService;
+	
+	@Autowired
+	private ConsultationService _consultationService;
+	
+	@Autowired
+	private ExaminationService _examinationService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Pharmacy> getAllPharmacies() {
@@ -84,4 +100,16 @@ public class PharmacyController {
 		Double rating = 0.0;
 		return new Pharmacy(name, rating);
 	}
+	
+	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")
+	public ArrayList<Pharmacy> getPharmaciesForPatient(@PathVariable Long patientId){
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		_reservationService.getPharmaciesForPatient(patientId, result);
+		_ePrescriptionService.getPharmaciesForPatient(patientId, result);
+		_consultationService.getPharmaciesForPatient(patientId, result);
+		_examinationService.getPharmaciesForPatient(patientId, result);
+		
+		return result;
+	}
+	
 }

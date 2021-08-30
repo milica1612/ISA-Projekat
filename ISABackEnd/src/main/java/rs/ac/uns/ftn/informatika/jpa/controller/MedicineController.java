@@ -2,11 +2,13 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,23 +18,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
-import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.Recommendation;
-import rs.ac.uns.ftn.informatika.jpa.model.ReportDerm;
+import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReportDermService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReportPharmService;
+import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -57,6 +59,12 @@ public class MedicineController {
 	@Autowired
 	private ReportPharmService _reportPharmService;
 	
+	@Autowired
+	private ReservationService _reservationService;
+	
+	@Autowired
+	private EPrescriptionService _ePrescriptionService;
+	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
 		return _medicineService.findAllMedicine();
@@ -75,6 +83,7 @@ public class MedicineController {
 	@PostMapping("/addMedicine")
     public ResponseEntity<?> addNewMedicine(@RequestBody MedicineRegistrationDTO medicineRegistration)
     {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		try {
 			  return new ResponseEntity<>(this._medicineService.addNewMedicine(medicineRegistration), HttpStatus.CREATED);
 			} catch (Exception e) { 
@@ -150,4 +159,33 @@ public class MedicineController {
 		return substituteMedicines;
 		
 	}
+	
+	@GetMapping(path = "/filtrate/{rating}")
+	public List<Medicine> filtrateMedicine(@PathVariable int rating){
+		
+		List<Medicine> medicines = findAllMedicine();
+		
+		List<Medicine> filtrateMedicines = new ArrayList<>();
+
+		for(Medicine m : medicines) {
+			if(m.getRating() == rating) {
+				filtrateMedicines.add(m);				}
+		}
+		
+		return filtrateMedicines; 
+	}
+	
+	@GetMapping(path = "/checkMedicineInPharmacy/{name}")
+	public List<MedicineAvailableInPharmacyDTO> findAvailableMedicineInPharmacy(@PathVariable String name){	
+		return _medicineService.findPharmacyForMedicineItem(name); 
+	}
+	
+	@GetMapping(path = "/getMedicineForRating/{patientId}")
+	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
+		ArrayList<Medicine> result = new ArrayList<Medicine>();
+		_reservationService.getMedicineForRating(patientId, result);
+		//_ePrescriptionService.getMedicineForRating(patientId, result);
+		return result;
+	}
+	
 }

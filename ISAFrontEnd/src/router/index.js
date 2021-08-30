@@ -81,6 +81,12 @@ const routes = [{
             import ('../views/UpcomingVisits.vue')
     },
     {
+        path: '/medicineReservations',
+        name: 'MedicineReservations',
+        component: () =>
+            import ('../views/MedicineReservations.vue')
+    },
+    {
         path: '/scheduleConsultation',
         name: 'ScheduleConsultation',
         component: () =>
@@ -103,12 +109,6 @@ const routes = [{
         name: 'Offers',
         component: () =>
             import ('../views/Offers.vue')
-    },
-    {
-        path: '/scheduleAppointment',
-        name: 'ScheduleAppointment',
-        component: () =>
-            import ('../views/ScheduleAppointment.vue')
     },
     {
         path: '/editPatientInfo',
@@ -268,6 +268,18 @@ const routes = [{
             import('../views/DispensingMedicinePharmacist.vue')
     },
     {
+        path: '/scheduleExaminationDermatologist',
+        name: 'ScheduleExaminationDermatologist',
+        component: () =>
+            import('../views/ScheduleExaminationDermatologist.vue')
+    },
+    {
+        path: '/scheduleConsultationPharmacist',
+        name: 'ScheduleConsultationPharmacist',
+        component: () =>
+            import('../views/ScheduleConsultationPharmacist.vue')
+    },
+    {
         path: '/requestsVacationPharmacists',
         name: 'RequestsVacationPharmacists',
         component: () =>
@@ -302,10 +314,32 @@ const routes = [{
         name: 'PharmacySubscription',
         component: () =>
             import('../views/PharmacySubscription.vue')
+    }, 
+    {
+        path: '/medicinesInPharmacy',
+        name: 'MedicinesInPharmacy',
+        component: () =>
+            import('../views/MedicinesInPharmacy.vue')
+    },
+    {
+        path: '/makeAnOrder',
+        name: 'MakeAnOrder',
+        component: () =>
+            import('../views/MakeAnOrder.vue')
+    },
+    {
+        path: '/rateAndReport',
+        name: 'RateAndReport',
+        component: () =>
+            import('../views/RateAndReport.vue')
+    },
+    {
+        path: '/complaints',
+        name: 'Complaints',
+        component: () =>
+            import('../views/Complaints.vue')
     }
-
 ]
-
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,

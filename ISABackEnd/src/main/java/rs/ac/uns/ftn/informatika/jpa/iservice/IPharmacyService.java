@@ -23,4 +23,5 @@ public interface IPharmacyService {
     
 	List<PharmacyRegisterDTO> getSubscribedPharmacyForPatient(Long patient_id);
 	
+	void updateRating(Long pharmacyId, Double newRating);
 }

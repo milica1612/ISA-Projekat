@@ -38,7 +38,7 @@ public class Consultation{
 	@Column(name = "points", nullable = false)
     private int points;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Patient patient;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)

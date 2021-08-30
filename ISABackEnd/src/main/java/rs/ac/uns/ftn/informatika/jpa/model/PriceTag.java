@@ -23,13 +23,17 @@ public class PriceTag {
 	@Column(name = "price", nullable = false)
 	private Double price;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)    
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)    
 	public TimeInterval timeInterval;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)    
+	public Medicine medicine;
    
-   public PriceTag(Double price, TimeInterval timeInterval) {
+   public PriceTag(Double price, TimeInterval timeInterval, Medicine medicine) {
 		super();
 		this.price = price;
 		this.timeInterval = timeInterval;
+		this.medicine = medicine;
    	}
    
    public PriceTag()
@@ -51,6 +55,22 @@ public class PriceTag {
 	
 	public void setTimeInterval(TimeInterval timeInterval) {
 		this.timeInterval = timeInterval;
+	}
+
+	public Long getPriceTagId() {
+		return priceTagId;
+	}
+
+	public void setPriceTagId(Long priceTagId) {
+		this.priceTagId = priceTagId;
+	}
+
+	public Medicine getMedicine() {
+		return medicine;
+	}
+
+	public void setMedicine(Medicine medicine) {
+		this.medicine = medicine;
 	}
 
 }

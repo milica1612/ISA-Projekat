@@ -13,6 +13,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -109,7 +110,6 @@ public class PharmacyService implements IPharmacyService {
 		List<Pharmacy> pharmacies = _pharmacyRepository.findAll();
 		List<PharmacyRegisterDTO> ph_list = new ArrayList<>();		
 		
-		
 		for(Pharmacy pharmacy: patient.getPharmacies()) {
 			for(Pharmacy pharm: pharmacies) {
 				if(pharmacy.getPharmacyId() == pharm.getPharmacyId()) {
@@ -120,6 +120,13 @@ public class PharmacyService implements IPharmacyService {
 		}
 		
 		return ph_list;
+	}
+	public void updateRating(Long pharmacyId, Double newRating) {
+		Pharmacy existing = _pharmacyRepository.findById(pharmacyId).orElse(null);
+		if(existing!= null) {
+			existing.setRating(newRating);
+			_pharmacyRepository.save(existing);
+		}
 	}
 	
 }

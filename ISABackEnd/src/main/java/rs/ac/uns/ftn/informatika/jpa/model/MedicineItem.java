@@ -20,7 +20,7 @@ public class MedicineItem {
 	@Column(name = "quantity", nullable = false)
     private int quantity;
    
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     public Medicine medicine;
   
     public MedicineItem(int quantity, Medicine medicine) {

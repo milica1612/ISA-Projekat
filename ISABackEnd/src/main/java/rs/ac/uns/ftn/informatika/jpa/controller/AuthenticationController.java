@@ -72,8 +72,10 @@ public class AuthenticationController {
 			// Ubaci korisnika u trenutni security kontekst
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			User user = (User) authentication.getPrincipal();
+
+			System.out.println(user.getEmail());
+			
 			if (user.getEnabled()) {
-				
 				// Kreiraj token za tog korisnika
 				String jwt = tokenUtils.generateToken(authenticationRequest.getEmail());
 				int expiresIn = tokenUtils.getExpiredIn();
