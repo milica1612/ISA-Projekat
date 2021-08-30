@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ComplaintPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.ComplaintEmployee;
 import rs.ac.uns.ftn.informatika.jpa.model.ComplaintPharmacy;
 import rs.ac.uns.ftn.informatika.jpa.service.ComplaintService;
+import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -29,6 +30,10 @@ public class ComplaintController {
 
 	@Autowired
 	public ComplaintService _complaintService;
+	
+	@Autowired
+	public EmailService _emailService;
+	
 	
 	@PostMapping("/createComplaint")
 	public ResponseEntity<?> createComplaint(@RequestBody ComplaintEmployeeDTO complaintEmployeeDTO, UriComponentsBuilder ucBuilder) {
@@ -61,6 +66,7 @@ public class ComplaintController {
 	@PostMapping("/answerOnComplaintForEmployee")
 	public ResponseEntity<?> answerOnComplaintForEmployee(@RequestBody AnswerOnComplaintDTO answerOnComplaintDTO, UriComponentsBuilder ucBuilder) {
 		try {
+			_emailService.sendAnswerOnComplaintEmailAsync(answerOnComplaintDTO);
 			return new ResponseEntity<>(this._complaintService.answerOnComplaintForEmployee(answerOnComplaintDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -70,6 +76,7 @@ public class ComplaintController {
 	@PostMapping("/answerOnComplaintForPharmacy")
 	public ResponseEntity<?> answerOnComplaintForPharmacy(@RequestBody AnswerOnComplaintForPharmacyDTO answerOnComplaintDTO, UriComponentsBuilder ucBuilder) {
 		try {
+			_emailService.sendAnswerOnComplaintPharmacyEmailAsync(answerOnComplaintDTO);
 			return new ResponseEntity<>(this._complaintService.answerOnComplaintForPharmacy(answerOnComplaintDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
