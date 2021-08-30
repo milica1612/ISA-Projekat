@@ -138,7 +138,7 @@ public class ConsultationService implements IConsultationService{
 	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
 		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
 		for (Consultation consultation : allConsultations) {
-			if(consultation.getPatient().getUserId() == patientId) {
+			if(consultation.getPatient().getUserId() == patientId && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
 				if(!result.contains(consultation.getPharmacy())) {
 					result.add(consultation.getPharmacy());
 				}
