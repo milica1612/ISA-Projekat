@@ -573,6 +573,9 @@ INSERT INTO public.medicine_item(
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (default, 20, 2);
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 3);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -747,4 +750,9 @@ INSERT INTO public.complaint_pharmacy(
 INSERT INTO public.complaint_pharmacy(
 	comp_ph_id, text_ph, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, 'Izdat pogresan lijek', 1, 2);
+
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, true, 'ghgy32uu1', 12, 1, 1);
+
 	

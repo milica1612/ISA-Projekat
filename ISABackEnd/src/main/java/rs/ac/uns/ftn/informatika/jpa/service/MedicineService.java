@@ -151,4 +151,14 @@ public class MedicineService implements IMedicineService{
 		}
 		return null;
 	}
+
+	@Override
+	public void updateRating(Long medicineId, Double newRating) {
+		Medicine existing = _medicineRepository.findById(medicineId).orElse(null);
+		if(existing!= null) {
+			existing.setRating(newRating);
+			_medicineRepository.save(existing);
+		}
+		
+	}
 }

@@ -417,6 +417,7 @@
                         dark
                     >Rate medicine:</v-toolbar>
                     <template>
+                      <br>
                       <label>Rating 10</label>
                       <input type="radio" value=10 name="rating" @change = "setRating(10)">
 
@@ -431,12 +432,21 @@
 
                       <label>Rating 6</label>
                       <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                      <br>
+                      <br>
                     </template>
                     <v-btn
                         width="300"
-                        text
-                        @click="submit(p, dialog)"
+                        color="primary"
+                        small
+                        @click="submitMedicine(m, dialog)"
                     >Submit</v-btn>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="dialog.value=false"
+                    >Cancel</v-btn>
                   </v-card>
                 </template>
               </v-dialog>
@@ -602,6 +612,17 @@ mounted() {
       dialog.value = false
       this.axios
           .post("http://localhost:8091/ratePharmacy/rate",{rating: this.rating, pharmacy: p},
+              {headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }})
+          .then(
+              window.location.href = "http://localhost:8080/rateAndReport"
+          );
+    },
+    submitMedicine: function(m, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/rateMedicine/rate",{rating: this.rating, medicine: m},
               {headers: {
                   Authorization: 'Bearer ' + localStorage.getItem("token")
                 }})
