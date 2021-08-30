@@ -18,6 +18,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 
 @Service
@@ -124,5 +125,18 @@ public class ConsultationService implements IConsultationService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		for (Consultation consultation : allConsultations) {
+			if(consultation.getPatient().getUserId() == patientId) {
+				if(!result.contains(consultation.getPharmacy())) {
+					result.add(consultation.getPharmacy());
+				}
+			}
+		}
+		
 	}
 }

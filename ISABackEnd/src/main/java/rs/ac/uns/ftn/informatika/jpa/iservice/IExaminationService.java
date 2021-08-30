@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
 public interface IExaminationService {
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId);
@@ -16,4 +17,5 @@ public interface IExaminationService {
 	Examination save(ExaminationDTO dto);
 	ArrayList<Examination> getExaminationsByPatient(Long patientId);
 	Examination saveExamination(Examination e);
+	void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result);
 }
