@@ -204,14 +204,6 @@
                 </template>
               </v-dialog>
             </td>
-           <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Rate</v-btn>
-            </td>
             <td>
               <v-btn>   
                   <v-col cols="auto">
