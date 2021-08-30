@@ -3,7 +3,11 @@
     <h1 id="makeAnOrderCaption">Make an order for a pharmacy</h1>
     <v-card id="makeAnOrderCard" elevation="10" justify-center>
       <div>
-        <v-data-table :headers="headers" :items="medicineItemsPharmacy" :items-per-page="5">
+        <v-data-table
+          :headers="headers"
+          :items="medicineItemsPharmacy"
+          :items-per-page="5"
+        >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
@@ -90,45 +94,46 @@
         </v-data-table>
       </div>
       <v-card-text>
-          <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
-            <v-row>
-              <v-text-field
-                class="ml-10 mr-10 mt-10  text-center"
-                color="blue"
-                type="text"
-                v-bind:readonly="true"
-                value="Please select below an offer deadline date"
-              > </v-text-field>
-              <v-date-picker
-                width="100%"
-                class="ml-10 mr-10 mt-4"
-                v-model="offerDeadline"
-                :allowed-dates="disablePastDates"
-                :format="datePickerFormat"
-                color="green lighten-1"
-                header-color="primary"
-              ></v-date-picker>
-            </v-row>
-          </v-form>
+        <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
+          <v-row>
+            <v-text-field
+              class="ml-10 mr-10 mt-10 text-center"
+              color="blue"
+              type="text"
+              v-bind:readonly="true"
+              value="Please select below an offer deadline date"
+            >
+            </v-text-field>
+            <v-date-picker
+              width="100%"
+              class="ml-10 mr-10 mt-4"
+              v-model="offerDeadline"
+              :allowed-dates="disablePastDates"
+              :format="datePickerFormat"
+              color="green lighten-1"
+              header-color="primary"
+            ></v-date-picker>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-card-actions class="justify-center">
-          <v-btn
-            v-on:click="createOreder"
-            color="primary"
-            class="btnCreate"
-            x-large
-            width="30%"
-            >Create</v-btn
-          >
-          <v-btn
-            v-on:click="cancel"
-            color="primary"
-            class="btnCancel"
-            x-large
-            width="30%"
-            >Cancel</v-btn
-          >
-        </v-card-actions>
+        <v-btn
+          v-on:click="createOreder"
+          color="primary"
+          class="btnCreate"
+          x-large
+          width="30%"
+          >Create</v-btn
+        >
+        <v-btn
+          v-on:click="cancel"
+          color="primary"
+          class="btnCancel"
+          x-large
+          width="30%"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -139,6 +144,7 @@ export default {
   data: () => ({
     medicineItemsPharmacy: [],
     potentiallyNewMedicineItems: [],
+    myOrder: [],
     headers: [
       {
         text: "Medicine ID",
@@ -187,10 +193,10 @@ export default {
   mounted() {
     this.initialize();
   },
-  computed:{
-    pageTxt(){
-      return this.$vuetify.dataFooter.pageText
-    }
+  computed: {
+    orderList() {
+      return { order: this.myOrder };
+    },
   },
   methods: {
     disablePastDates(val) {
@@ -243,8 +249,56 @@ export default {
           this.potentiallyNewMedicineItems = response.data;
         });
     },
-    createOreder(){
+    createOreder() {
+      if (this.offerDeadline == "") {
+        alert("Not defined offer deadline. Please enter it.");
+      } else {
+        for (let i = 0; i < this.medicineItemsPharmacy.length; i++) {
+          var medicine = this.medicineItemsPharmacy[i];
+          if (medicine.newQuantity == null) {
+            medicine.newQuantity = 0;
+          }
+          var addQuantity = parseInt(medicine.newQuantity);
+          if (addQuantity < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          }
 
+          if (addQuantity > 0) {
+            let medicineData = {
+              id: medicine.medicineId,
+              quantity: medicine.newQuantity,
+            };
+            console.log(medicineData);
+            this.myOrder.push(medicineData);
+          }
+        }
+
+        for (let i = 0; i < this.potentiallyNewMedicineItems.length; i++) {
+          var newMedicine = this.potentiallyNewMedicineItems[i];
+          if (newMedicine.newQuantity == null) {
+            newMedicine.newQuantity = 0;
+          }
+          var newQuantityForNewMedicine = parseInt(newMedicine.newQuantity);
+          if (newQuantityForNewMedicine < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          }
+
+          if (newQuantityForNewMedicine > 0) {
+            let newMedicineData = {
+              id: newMedicine.medicineId,
+              quantity: newMedicine.newQuantity,
+            };
+            console.log(newMedicineData);
+            this.myOrder.push(newMedicineData);
+          }
+        }
+
+        console.log(this.myOrder);
+
+        // call methods
+      }
     },
     cancel() {
       alert("Canceled making order!");
@@ -268,13 +322,13 @@ export default {
   text-align: center;
   margin: auto;
 }
-.btnCreate{
+.btnCreate {
   margin: 5%;
   padding-top: 10%;
 }
-.btnCancel{
+.btnCancel {
   margin-top: 5%;
-  margin-left: 25% ;
+  margin-left: 25%;
   margin-bottom: 5%;
   padding-top: 10%;
 }
