@@ -144,7 +144,8 @@ export default {
   data: () => ({
     medicineItemsPharmacy: [],
     potentiallyNewMedicineItems: [],
-    myOrder: [],
+    medicineInPharmacyData: new Map(),
+    newMedicineInPharmacyData: new Map(),
     headers: [
       {
         text: "Medicine ID",
@@ -189,14 +190,26 @@ export default {
     pharmacyId: "",
     offerDeadline: "",
     datePickerFormat: "dd.MM.yyyy.",
+    keys1: [],
+    values1: [],
+    keys2: [],
+    values2: [],
   }),
+  computed: {
+    newOrder() {
+      return {
+        pharmacyAdminId: localStorage.getItem("userId"),
+        pharmacyId: this.pharmacy.pharmacyId,
+        offerDeadline: this.offerDeadline,
+        keys1: this.keys1,
+        values1: this.values1,
+        keys2: this.keys2,
+        values2: this.values2,
+      };
+    },
+  },
   mounted() {
     this.initialize();
-  },
-  computed: {
-    order() {
-      return { 'order': this.myOrder };
-    },
   },
   methods: {
     disablePastDates(val) {
@@ -263,14 +276,10 @@ export default {
             alert("You must enter a positive value for the quantity!");
             return;
           }
-
           if (addQuantity > 0) {
-            let medicineData = {
-              id: medicine.medicineId,
-              quantity: medicine.newQuantity,
-            };
-            console.log(medicineData);
-            this.myOrder.push(medicineData);
+            this.keys1.push(medicine.medicineId);
+            this.values1.push(addQuantity);
+            this.medicineInPharmacyData.set(medicine.medicineId, addQuantity);
           }
         }
 
@@ -286,18 +295,28 @@ export default {
           }
 
           if (newQuantityForNewMedicine > 0) {
-            let newMedicineData = {
-              id: newMedicine.medicineId,
-              quantity: newMedicine.newQuantity,
-            };
-            console.log(newMedicineData);
-            this.myOrder.push(newMedicineData);
+            this.keys2.push(newMedicine.medicineId);
+            this.values2.push(newQuantityForNewMedicine);
+            this.newMedicineInPharmacyData.set(newMedicine.medicineId, newQuantityForNewMedicine);
           }
         }
 
-        console.log(this.myOrder);
+        console.log(this.newOrder);
 
-        // call methods
+        this.axios
+          .post(
+            "http://localhost:8091/orders/createOrder/", this.newOrder,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              }
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            alert("Successfully created a order for pharmacy.");
+            window.location.href = "/pharmacyOrders";
+          });
       }
     },
     cancel() {
