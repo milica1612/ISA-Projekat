@@ -186,9 +186,11 @@ public class ExaminationService implements IExaminationService{
 	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
 		for (Examination examination : allExaminations) {
-			if(examination.getPatient().getUserId() == patientId) {
-				if(!result.contains(examination.getPharmacy())) {
-					result.add(examination.getPharmacy());
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(!result.contains(examination.getPharmacy())) {
+						result.add(examination.getPharmacy());
+					}
 				}
 			}
 		}
@@ -203,16 +205,12 @@ public class ExaminationService implements IExaminationService{
 		for(Examination examination: allExaminations) {
 			if(examination.getPatient() != null) {
 				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
-					if(result.contains(examination.getDermatologist())) {
-						throw new IllegalArgumentException("Dermatologist is already added!");
-					}else {
+					if(!result.contains(examination.getDermatologist())) {
 						result.add(examination.getDermatologist());
 					}	
 				}
-		
 			}
 		}
-		return result;
+		return result;	
 	}
-	
 }
