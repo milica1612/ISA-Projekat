@@ -728,7 +728,15 @@ INSERT INTO public.pharmacy_price_tags(
 	
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'FINISHED', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+VALUES (default, 'FINISHED', false, '2021-08-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'FINISHED', false, '2021-08-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'FINISHED', false, '2021-08-20 12:00:00', 20, 5, 1900, 13, 1, 2);
 
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)

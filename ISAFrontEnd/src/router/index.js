@@ -332,6 +332,12 @@ const routes = [{
         name: 'Complaints',
         component: () =>
             import('../views/Complaints.vue')
+    },
+    {
+        path: '/previousExaminations',
+        name: 'PreviousExaminations',
+        component: () =>
+            import('../views/PreviousExaminations.vue')
     }
 ]
 const router = new VueRouter({
