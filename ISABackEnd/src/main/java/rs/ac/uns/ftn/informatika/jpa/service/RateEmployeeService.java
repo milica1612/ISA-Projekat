@@ -37,15 +37,15 @@ public class RateEmployeeService implements IRateEmployeeService{
 	@Override
 	public Double calculateRatingForEmployee(RateEmployee rate) {
 		ArrayList<RateEmployee> ratings = (ArrayList<RateEmployee>) _rateEmployeeRepository.findAll();
-		int numberOfRatings = 0;
-		int rateSum = 0;
+		double numberOfRatings = 0;
+		double rateSum = 0;
 		for (RateEmployee rateEmployee : ratings) {
 			if(rateEmployee.getPharmacyEmployee().getUserId() == rate.getPharmacyEmployee().getUserId()) {
 				numberOfRatings++;
 				rateSum += rateEmployee.getRating();
 			}
 		}
-		Double rating = (double) (rateSum/numberOfRatings);
+		Double rating = rateSum/numberOfRatings;
 		return rating;
 	}
 
