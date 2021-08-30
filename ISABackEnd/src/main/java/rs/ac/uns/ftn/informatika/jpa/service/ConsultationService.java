@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
@@ -16,9 +17,12 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class ConsultationService implements IConsultationService{
@@ -26,6 +30,9 @@ public class ConsultationService implements IConsultationService{
 	@Autowired 
 	private IConsultationRepository _consultationRepository;
 
+	@Autowired 
+	private IUserRepository _userRepository;
+	
 	@Override
 	public ArrayList<Consultation> findAllConsultation() {
 		return (ArrayList<Consultation>) _consultationRepository.findAll();
@@ -124,5 +131,26 @@ public class ConsultationService implements IConsultationService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Pharmacist> getAllPharmacistForPatient() {
+
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		ArrayList<Pharmacist> result = new ArrayList<Pharmacist>();
+		
+		Patient currentUser = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Patient patient = (Patient) _userRepository.findById(currentUser.getUserId()).orElse(null);
+		
+		for(Consultation consultation: allConsultations) {
+			if(consultation.getPatient().getUserId() == patient.getUserId() && consultation.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+				if(result.contains(consultation.getPharmacist())) {
+					throw new IllegalArgumentException("Pharmacist is already added!");
+				}else {
+					result.add(consultation.getPharmacist());
+				}	
+			}
+		}
+		return result;
 	}
 }

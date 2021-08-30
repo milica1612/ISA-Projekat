@@ -3,7 +3,9 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 import java.util.ArrayList;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 
 public interface IExaminationService {
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId);
@@ -16,4 +18,6 @@ public interface IExaminationService {
 	Examination save(ExaminationDTO dto);
 	ArrayList<Examination> getExaminationsByPatient(Long patientId);
 	Examination saveExamination(Examination e);
+	ArrayList<Dermatologist> getAllDermatologistByPatient();
+
 }
