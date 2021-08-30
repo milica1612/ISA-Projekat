@@ -63,15 +63,15 @@ INSERT INTO public.address(
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'BENU', 3.4, 'First Pharmacy',700, 7);
+	VALUES (default, 'BENU', 8.4, 'First Pharmacy',700, 7);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Jankovic', 4.6, 'Second Pharmacy',1000, 8);
+	VALUES (default, 'Jankovic', 9.6, 'Second Pharmacy',1000, 8);
 
 INSERT INTO public.pharmacy(
 	pharmacy_id, name, rating, description,consultation_price, address_id)
-	VALUES (default, 'Higija', 5.0, 'Third Pharmacy',600, 11);
+	VALUES (default, 'Higija', 10.0, 'Third Pharmacy',600, 11);
 	
 INSERT INTO public.medicine_specification(
 	med_spec_id, dosage)
@@ -246,6 +246,10 @@ INSERT INTO public.user(
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'lukatomic', 'PATIENT', null, 0, 14, null, null);	
+
+INSERT INTO public.loyalty_card(
+	card_id, loyalty_category, points, patient_user_id) 
+	VALUES (default, 'GOLD', 40, 15);
 
 -- password Luka678!
 INSERT INTO public.user(

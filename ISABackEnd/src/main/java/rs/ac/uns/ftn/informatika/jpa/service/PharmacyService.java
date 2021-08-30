@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 
@@ -85,6 +86,17 @@ public class PharmacyService implements IPharmacyService {
 				result.add(pharmacy);
 		}
 		return result;
+	}
+
+	@Override
+	public void updateRating(Long pharmacyId, Double newRating) {
+		Pharmacy existing = _pharmacyRepository.findById(pharmacyId).orElse(null);
+		if(existing!= null) {
+			existing.setRating(newRating);
+			_pharmacyRepository.save(existing);
+		}
+
+		
 	}
 	
 }

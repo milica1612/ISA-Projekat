@@ -1,20 +1,20 @@
 <template>
   <div id = "homePage">
     <div class = "container">
-    <h2>Rate or report pharmacies and dermatologists:</h2>
+    <h2>Rate or report:</h2>
       <br>
       <v-simple-table>
         <template v-slot:default>
           <thead>
           <tr>
             <th>
-              Name
+              Pharmacist
             </th>
             <th>
               Rating
             </th>
             <th>
-              Address
+              Pharmacy
             </th>
           </tr>
           </thead>
@@ -25,15 +25,63 @@
           >
             <td>{{ p.firstName + " " + p.lastName}}</td>
             <td>{{ p.rating }}</td>
-            <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
+            <td>{{p.pharmacy.name}}</td>
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Rate</v-btn>
+            <v-dialog
+                transition="dialog-top-transition"
+                max-width="600"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="secondary"
+                    elevation="3"
+                    x-small
+                    v-bind="attrs"
+                    v-on="on"
+                >Rate</v-btn>
+              </template>
+              <template v-slot:default="dialog">
+                <v-card>
+                  <v-toolbar
+                      color="primary"
+                      dark
+                  >Rate pharmacist:</v-toolbar>
+                  <template>
+                    <br>
+                    <label>Rating 10</label>
+                    <input type="radio" value=10 name="rating" @change = "setRating(10)">
+
+                    <label>Rating 9</label>
+                    <input type="radio" value=4 name="rating" @change = "setRating(9)">
+
+                    <label>Rating 8</label>
+                    <input type="radio" value=3 name="rating" @change = "setRating(8)">
+
+                    <label>Rating 7</label>
+                    <input type="radio" value=2 name="rating" @change = "setRating(7)">
+
+                    <label>Rating 6</label>
+                    <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                    <br>
+                    <br>
+                  </template>
+                  <v-btn
+                      width="300"
+                      color="primary"
+                      small
+                      @click="submitPharmacist(p, dialog)"
+                  >Submit</v-btn>
+                  <v-btn
+                      width="300"
+                      color="primary"
+                      small
+                      @click="dialog.value=false"
+                  >Cancel</v-btn>
+                </v-card>
+              </template>
+            </v-dialog>
             </td>
+
             <td>
               <v-btn>   
                   <v-col cols="auto">
@@ -87,13 +135,10 @@
           <thead>
           <tr>
             <th>
-              Name
+              Dermatologist
             </th>
             <th>
               Rating
-            </th>
-            <th>
-              Address
             </th>
           </tr>
           </thead>
@@ -104,14 +149,60 @@
           >
             <td>{{ d.firstName + " " + d.lastName}}</td>
             <td>{{ d.rating }}</td>
-            <td>{{d.address.street + " " + d.address.streetNumber + ", " + d.address.city + ", " + d.address.country}}</td>
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Rate</v-btn>
+              <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="secondary"
+                      elevation="3"
+                      x-small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Rate</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Rate dermatologist:</v-toolbar>
+                    <template>
+                      <br>
+                      <label>Rating 10</label>
+                      <input type="radio" value=10 name="rating" @change = "setRating(10)">
+
+                      <label>Rating 9</label>
+                      <input type="radio" value=4 name="rating" @change = "setRating(9)">
+
+                      <label>Rating 8</label>
+                      <input type="radio" value=3 name="rating" @change = "setRating(8)">
+
+                      <label>Rating 7</label>
+                      <input type="radio" value=2 name="rating" @change = "setRating(7)">
+
+                      <label>Rating 6</label>
+                      <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                      <br>
+                      <br>
+                    </template>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="submitDermatologist(d, dialog)"
+                    >Submit</v-btn>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="dialog.value=false"
+                    >Cancel</v-btn>
+                  </v-card>
+                </template>
+              </v-dialog>
             </td>
            <td>
               <v-btn
@@ -174,7 +265,7 @@
           <thead>
           <tr>
             <th>
-              Name
+              Pharmacy
             </th>
             <th>
               Rating
@@ -193,12 +284,59 @@
             <td>{{ ph.rating }}</td>
             <td>{{ph.address.street + " " + ph.address.streetNumber + ", " + ph.address.city + ", " + ph.address.country}}</td>
             <td>
-              <v-btn
-                  color="secondary"
-                  elevation="3"
-                  x-small
-                  v-if="isLogged"
-              >Rate</v-btn>
+              <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="secondary"
+                      elevation="3"
+                      x-small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Rate</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Rate pharmacy:</v-toolbar>
+                    <template>
+                      <br>
+                      <label>Rating 10</label>
+                      <input type="radio" value=10 name="rating" @change = "setRating(10)">
+
+                      <label>Rating 9</label>
+                      <input type="radio" value=4 name="rating" @change = "setRating(9)">
+
+                      <label>Rating 8</label>
+                      <input type="radio" value=3 name="rating" @change = "setRating(8)">
+
+                      <label>Rating 7</label>
+                      <input type="radio" value=2 name="rating" @change = "setRating(7)">
+
+                      <label>Rating 6</label>
+                      <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                      <br>
+                      <br>
+                    </template>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="submitPharmacy(p, dialog)"
+                    >Submit</v-btn>
+                    <v-btn
+                        width="300"
+                        color="primary"
+                        small
+                        @click="dialog.value=false"
+                    >Cancel</v-btn>
+                  </v-card>
+                </template>
+              </v-dialog>
             </td>
             <td>
               <v-btn>   
@@ -245,6 +383,76 @@
           </tbody>
         </template>
       </v-simple-table>
+      <br>
+      <br>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th>
+              Medicine
+            </th>
+            <th>
+              Rating
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="m in medicine"
+              :key="m"
+          >
+            <td>{{ m.name}}</td>
+            <td>{{ m.rating }}</td>
+            <td>
+              <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="secondary"
+                      elevation="3"
+                      x-small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Rate</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Rate medicine:</v-toolbar>
+                    <template>
+                      <label>Rating 10</label>
+                      <input type="radio" value=10 name="rating" @change = "setRating(10)">
+
+                      <label>Rating 9</label>
+                      <input type="radio" value=4 name="rating" @change = "setRating(9)">
+
+                      <label>Rating 8</label>
+                      <input type="radio" value=3 name="rating" @change = "setRating(8)">
+
+                      <label>Rating 7</label>
+                      <input type="radio" value=2 name="rating" @change = "setRating(7)">
+
+                      <label>Rating 6</label>
+                      <input type="radio" value=1 name="rating" @change = "setRating(6)">
+                    </template>
+                    <v-btn
+                        width="300"
+                        text
+                        @click="submit(p, dialog)"
+                    >Submit</v-btn>
+                  </v-card>
+                </template>
+              </v-dialog>
+            </td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </div>
   </div>
 </template>
@@ -259,6 +467,8 @@ export default {
       dermatologists: [],
       pharmacists: [],
       pharmacies: [],
+      medicine: [],
+      rating: 10,
       searchField: "",
       pharmacist: "",
       dialog: false,
@@ -295,6 +505,13 @@ mounted() {
               }
             })
       .then(r => (this.pharmacies = r.data));
+  this.axios
+      .get('http://localhost:8091/medicine/getMedicineForRating/' + localStorage.getItem("userId"), {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem("token")
+        }
+      })
+      .then(r => (this.medicine = r.data));
 },
   methods: {
       createComplaintForPharmacist: function(p, dialog){
@@ -362,7 +579,44 @@ mounted() {
                         this.textComplaint = "";
                         console.log(er.response.data);
                         });
-      }
+      },
+    setRating: function (rating){
+        this.rating = rating
+    },
+    submitPharmacist: function(e, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/rateEmployee/ratePharmacist",{rating: this.rating, pharmacyEmployee: e},
+              {headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then(
+              window.location.href = "http://localhost:8080/rateAndReport"
+          );
+    },
+
+    submitDermatologist: function(e, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/rateEmployee/rateDermatologist",{rating: this.rating, pharmacyEmployee: e},
+              {headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }})
+          .then(
+              window.location.href = "http://localhost:8080/rateAndReport"
+          );
+    },
+    submitPharmacy: function(p, dialog){
+      dialog.value = false
+      this.axios
+          .post("http://localhost:8091/ratePharmacy/rate",{rating: this.rating, pharmacy: p},
+              {headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }})
+          .then(
+              window.location.href = "http://localhost:8080/rateAndReport"
+          );
+    },
   },
   computed:{
     isLogged: function (){
