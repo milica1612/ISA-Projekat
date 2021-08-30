@@ -1,14 +1,14 @@
 <template>
   <div id = "homePage">
     <div class = "container">
-    <h2>Rate or report pharmacies and dermatologists:</h2>
+    <h2>Rate or report:</h2>
       <br>
       <v-simple-table>
         <template v-slot:default>
           <thead>
           <tr>
             <th>
-              Name
+              Pharmacist
             </th>
             <th>
               Rating
@@ -54,7 +54,7 @@
           <thead>
           <tr>
             <th>
-              Name
+              Dermatologist
             </th>
             <th>
               Rating
@@ -100,7 +100,7 @@
           <thead>
           <tr>
             <th>
-              Name
+              Pharmacy
             </th>
             <th>
               Rating
@@ -138,6 +138,39 @@
           </tbody>
         </template>
       </v-simple-table>
+      <br>
+      <br>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th>
+              Medicine
+            </th>
+            <th>
+              Rating
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="m in medicine"
+              :key="m"
+          >
+            <td>{{ m.name}}</td>
+            <td>{{ m.rating }}</td>
+            <td>
+              <v-btn
+                  color="secondary"
+                  elevation="3"
+                  x-small
+                  v-if="isLogged"
+              >Rate</v-btn>
+            </td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </div>
   </div>
 </template>
@@ -152,6 +185,7 @@ export default {
       dermatologists: [],
       pharmacists: [],
       pharmacies: [],
+      medicine: [],
       searchField: "",
       token: localStorage.getItem("token"),
       sort: {
@@ -185,6 +219,13 @@ mounted() {
               }
             })
       .then(r => (this.pharmacies = r.data));
+  this.axios
+      .get('http://localhost:8091/medicine/getMedicineForRating/' + localStorage.getItem("userId"), {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem("token")
+        }
+      })
+      .then(r => (this.medicine = r.data));
 },
   methods: {
   },

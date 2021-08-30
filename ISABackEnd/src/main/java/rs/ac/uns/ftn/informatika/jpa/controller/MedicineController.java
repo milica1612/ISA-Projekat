@@ -180,7 +180,7 @@ public class MedicineController {
 		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
 	
-	@GetMapping(path = "/getMedicineForRating/{patinetId}")
+	@GetMapping(path = "/getMedicineForRating/{patientId}")
 	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
 		ArrayList<Medicine> result = new ArrayList<Medicine>();
 		_reservationService.getMedicineForRating(patientId, result);
