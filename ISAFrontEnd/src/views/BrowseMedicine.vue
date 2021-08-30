@@ -68,6 +68,7 @@
                                 small
                                 v-bind="attrs"
                                 v-on="on"
+                                v-if="isLogged"
                             >Medicine Specification</v-btn>
                           </template>
                           <template v-slot:default="dialog">
@@ -164,6 +165,7 @@
                       color="primary"
                       small
                       v-bind="attrs"
+                      v-if="isLogged"
                       v-on="on"
                   >Make a reservation</v-btn>
                 </template>
@@ -203,6 +205,7 @@ export default {
       dialog: false,
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       medicines: [],
+      token: localStorage.getItem("token"),
       medicineSpecification: {
           dosage: "",
           contraindication: {
