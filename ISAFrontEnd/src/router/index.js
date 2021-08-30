@@ -326,8 +326,14 @@ const routes = [{
         name: 'RateAndReport',
         component: () =>
             import('../views/RateAndReport.vue')
-    }]
-
+    },
+    {
+        path: '/complaints',
+        name: 'Complaints',
+        component: () =>
+            import('../views/Complaints.vue')
+    }
+]
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
