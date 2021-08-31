@@ -69,13 +69,13 @@ public class PromotionService implements IPromotionService {
 		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
 	
-		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
+		Pharmacy pharmacy = _pharmacyRepository.findById(pharmacyId).orElse(null);
 	
 		for(Pharmacy p: patient.getPharmacies()) {
-			if(p.getPharmacyId() == pharmacy.getPharmacyId()) {
-	    		throw new IllegalArgumentException("Already subscribed!");
-			}else {
-				pharmacy.getPatients().add(patient);
+			if(p.getPharmacyId() != pharmacy.getPharmacyId()) {
+				if(!pharmacy.getPatients().contains(patient)) {
+					pharmacy.getPatients().add(patient);
+				}
 			}
 		}
 		return _pharmacyRepository.save(pharmacy);
@@ -86,7 +86,7 @@ public class PromotionService implements IPromotionService {
 		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
 	
-		Pharmacy pharmacy = _pharmacyRepository.getOne(pharmacyId);
+		Pharmacy pharmacy = _pharmacyRepository.findById(pharmacyId).orElse(null);
 	
 		for(Pharmacy p: patient.getPharmacies()) {
 			if(p.getPharmacyId() == pharmacy.getPharmacyId()) {

@@ -51,7 +51,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping(value = "/getPharmacyForPatient/{user_id}")
-	public List<PharmacyRegisterDTO> getPharmacyForPatient(@PathVariable Long user_id){
+	public List<Pharmacy> getPharmacyForPatient(@PathVariable Long user_id){
 		return _pharmacyService.getSubscribedPharmacyForPatient(user_id);
 	}
 	
@@ -91,14 +91,6 @@ public class PharmacyController {
 		_pharmacy = (Pharmacy) _pharmacyService.save(_pharmacy);	
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		
-	}
-	
-	@GetMapping(value = "/newPharmacy")
-	public Pharmacy getNewPharmacy() {
-						
-		String name = "";
-		Double rating = 0.0;
-		return new Pharmacy(name, rating);
 	}
 	
 	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")

@@ -21,7 +21,7 @@ public interface IPharmacyService {
 
     ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating);
     
-	List<PharmacyRegisterDTO> getSubscribedPharmacyForPatient(Long patient_id);
+	List<Pharmacy> getSubscribedPharmacyForPatient(Long patient_id);
 	
 	void updateRating(Long pharmacyId, Double newRating);
 }

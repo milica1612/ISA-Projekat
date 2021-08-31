@@ -102,19 +102,21 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	@Override
-	public List<PharmacyRegisterDTO> getSubscribedPharmacyForPatient(Long patient_id) {
+	public List<Pharmacy> getSubscribedPharmacyForPatient(Long patient_id) {
 		
 		Patient current_logged = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Patient patient = _patientRepository.findById(current_logged.getUserId()).orElse(null);
 	
+		Pharmacy p = new Pharmacy();
 		List<Pharmacy> pharmacies = _pharmacyRepository.findAll();
-		List<PharmacyRegisterDTO> ph_list = new ArrayList<>();		
+		List<Pharmacy> ph_list = new ArrayList<>();		
 		
 		for(Pharmacy pharmacy: patient.getPharmacies()) {
 			for(Pharmacy pharm: pharmacies) {
 				if(pharmacy.getPharmacyId() == pharm.getPharmacyId()) {
-					PharmacyRegisterDTO pharmacyDTO = new PharmacyRegisterDTO(pharm.getName(), pharm.getRating(), pharm.getAddress(), pharm.getDescription());
-					ph_list.add(pharmacyDTO);
+					if(!ph_list.contains(pharm)) {
+						ph_list.add(pharm);
+					}
 				}
 			}
 		}

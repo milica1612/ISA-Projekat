@@ -1,29 +1,25 @@
 <template>
   <div id = "homePage">
     <div class = "container">
-    <h3>Pharmacies:</h3>
-    
+    <h3>Pharmacies:</h3>    
       <v-simple-table>
         <template v-slot:default>
           <thead>
           <tr>
-            <th :class="sortedClass('name')"
-                @click="sortBy('name')">
+            <th >
               Name
             </th>
-            <th :class="sortedClass('rating')"
-                @click="sortBy('rating')">
+            <th >
               Rating
             </th>
-            <th :class="sortedClass('adress')"
-                @click="sortBy('adress')">
+            <th >
               Address
             </th>
           </tr>
           </thead>
           <tbody>
           <tr
-              v-for="p in sortedItems"
+              v-for="p in pharmacies"
               :key="p"
           >
             <td>{{ p.name }}</td>
@@ -39,54 +35,53 @@
               >Visit</v-btn>
             </td>
             <td>              
-                    <v-row justify="center">
-                        <v-dialog
-                        v-model="dialog"
-                        persistent
-                        max-width="290"
-                        >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                            color="primary"
-                            dark
-                            v-bind="attrs"
-                            v-on="on"
-                            v-on:click="setPharmacyId()"
-                            >
-                            Unsubscribe
-                            </v-btn>
-                        </template>
-                        <v-card>
-                            <v-card-title class="text-h5">
-                            Unsubscribe  {{p.name}}
-                            </v-card-title>
-                        
-                            <v-card-text>If unsubscribe, you won't get notifications about new promotions in selected pharmacy. Are you sure?</v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                color="green darken-1"
-                                text
-                                @click="dialog = false"
-                            >
-                                Disagree
-                            </v-btn>
-                            <v-btn
-                                color="green darken-1"
-                                text
-                                @click="dialog = false"
-                                v-on:click = "unsubscribeToSalesAndPromotion(p.pharmacyId)"
-                            >
-                                Agree
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-dialog>
-                    </v-row>
+            <v-btn>   
+                  <v-col cols="auto">
+                <v-dialog
+                    transition="dialog-top-transition"
+                    max-width="600"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="secondary"
+                        elevation="3"
+                        x-small
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="isLogged"
+                    >Unsubscribe</v-btn>
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar
+                          color="primary"
+                          dark
+                      >Unsubscribe to {{p.name}}</v-toolbar>
+                        <v-textarea
+                                background-color="white"
+                                filled
+                                readonly
+                                name="input-7-4"
+                                label="You won't get notifications about new sales and promotions in pharmacy. Are you sure?"
+                          ></v-textarea>
+                    <v-btn
+                          width="300"
+                          text
+                          @click="unsubscribeToSalesAndPromotion(p, dialog)"
+                      >Unsubscribe</v-btn>
+                    <v-btn
+                          width="300"
+                          text
+                      >Cancel</v-btn>
+                    </v-card>
+                </template>
+              </v-dialog>
+            </v-col>
+              </v-btn>
             </td>
           </tr>
           </tbody>
-        </template>
+        </template>           
       </v-simple-table>
     </div>
   </div>
@@ -101,11 +96,7 @@ export default {
       dialog: false,
       pharmacies: [],
       searchField: "",
-      token: localStorage.getItem("token"),
-      sort: {
-        key: '',
-        isAsc: false
-      }
+      token: localStorage.getItem("token")
     }
   },
 mounted() {
@@ -125,35 +116,19 @@ mounted() {
       localStorage.setItem("pharmacyName", p.name);
       window.location.href = "http://localhost:8080/pharmacyPage";
     },
-    sortedClass (key) {
-      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
-
-    },
-    sortBy (key) {
-      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
-      this.sort.key = key;
-    },
-    searchPharmacies: function() {
+    unsubscribeToSalesAndPromotion(p, dialog){
+      dialog.value = false
       this.axios
-          .get("http://localhost:8091/pharmacy/getByNameOrAddress/" + this.searchField)
-          .then(response => (this.pharmacies = response.data))
-    },
-    filtrate: function(rating){
-      this.axios
-          .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
-          .then(response => (this.pharmacies = response.data))
-    },
-    unsubscribeToSalesAndPromotion(pharmacyId){
-      
-      this.axios
-        .post('http://localhost:8091/promotions/unsubscribeToPharmacy/' + pharmacyId, {}, {
+        .post('http://localhost:8091/promotions/unsubscribeToPharmacy/' + p.pharmacyId, {}, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
           .then(r => {
                   this.pharmacy = r.data
-                  alert("Successfully unsubscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
+                  alert("Successfully unsubscribed to " + p.name + " pharmacy!")
+                  window.location.href = "http://localhost:8080/pharmacySubscription"
+
           })
           .catch(() => {
                   alert("Successful unsubscription!")
@@ -179,19 +154,7 @@ mounted() {
       else {
         return true
       }
-    },sortedItems () {
-      const list = this.pharmacies.slice();  // ソート時でdataの順序を書き換えないため
-      if (this.sort.key !="") {
-        list.sort((a, b) => {
-          a = a[this.sort.key]
-          b = b[this.sort.key]
-
-          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
-        });
-      }
-
-      return list;
-    }
+    },
   }
 }
 </script>
