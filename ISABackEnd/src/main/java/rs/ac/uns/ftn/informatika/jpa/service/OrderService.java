@@ -235,28 +235,28 @@ public class OrderService implements IOrderService{
 	public Order editOrder(List<MedicineData> medicineItemInOrderData, List<MedicineData> newMedicineItemData, Long orderId,
 			Date offerDeadline) {
 		Order order = _orderRepository.getOne(orderId);
-		Set<MedicineItem> newOrderMedicineItems = new HashSet<MedicineItem>();
+		Set<MedicineItem> updatedMedicineItems = new HashSet<MedicineItem>();
 		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
 		
-		for (MedicineItem orderMedicineItem : orderMedicineItems) {
-			for (MedicineData m : medicineItemInOrderData) {
+		for (MedicineData m : medicineItemInOrderData)
+			for (MedicineItem orderMedicineItem : orderMedicineItems) {
 				Medicine medicine = _medicineRepository.getOne(m.getMedicineId());
 				if (orderMedicineItem.getMedicine() == medicine) {
 					if (m.getQuantity() > 0) {
 						MedicineItem mItem = new MedicineItem(m.getQuantity(), medicine);
-						newOrderMedicineItems.add(mItem);
+						updatedMedicineItems.add(mItem);
 					}
 				}
 			}
-		}
 		
-		for (MedicineData m : newMedicineItemData) 
+		
+		for (MedicineData newMedicineData : newMedicineItemData) 
 		{
-			MedicineItem newMedicineItemInOrder = new MedicineItem(m.getQuantity(), _medicineRepository.getOne(m.getMedicineId()));
-			newOrderMedicineItems.add(newMedicineItemInOrder);
+			MedicineItem newMedicineItemInOrder = new MedicineItem(newMedicineData.getQuantity(), _medicineRepository.getOne(newMedicineData.getMedicineId()));
+			updatedMedicineItems.add(newMedicineItemInOrder);
 		}
 		
-		order.setMedicineItem(newOrderMedicineItems);
+		order.setMedicineItem(updatedMedicineItems);
 		
 		if (!offerDeadline.equals(order.getOfferDeadline()))
 			order.setOfferDeadline(offerDeadline);

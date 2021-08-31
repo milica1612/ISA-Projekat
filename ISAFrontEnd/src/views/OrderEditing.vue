@@ -124,7 +124,7 @@
                           </v-text-field>
                           <v-date-picker
                             width="100%"
-                             v-model="newOfferDeadline"
+                            v-model="newOfferDeadline"
                             class="ml-10 mr-10 mt-4"
                             :allowed-dates="disablePastDates"
                             :format="datePickerFormat"
@@ -415,6 +415,15 @@ export default {
         this.orderItem = Object.assign({}, this.defaultItem);
         this.index = -1;
       });
+      this.newOfferDeadline = "";
+      this.keys1 = [];
+      this.values1 = [];
+      this.keys2 = [];
+      this.values2 = [];
+      this.medicineItemInOrderData = new Map();
+      this.newMedicineItemData = new Map();
+      this.newOfferDeadline = "";
+      this.deadLine = null;
     },
     deleteThisOrder() {
       console.log(this.deleteOrderId);
@@ -431,83 +440,87 @@ export default {
         });
     },
     edit() {
+      console.log(this.newOfferDeadline);
+      if (this.newOfferDeadline == "") {
+        var d = new Date(this.oldOfferDeadline);
+        this.deadLine = d;
+        console.log(this.deadLine);
+      } else {
+        this.deadLine = this.newOfferDeadline;
+      }
 
-        console.log(this.newOfferDeadline);
-        if (this.newOfferDeadline == "") {
-            this.deadLine = this.oldOfferDeadline;
-        } else
-        {
-            this.deadLine = this.newOfferDeadline;
+      for (let i = 0; i < this.orderMedicineItems.length; i++) {
+        var medicineInOrder = this.orderMedicineItems[i];
+        if (medicineInOrder.newQuantity == null) {
+          medicineInOrder.newQuantity = this.orderMedicineItems[i].quantity;
         }
-        
-        for (let i = 0; i < this.orderMedicineItems.length; i++) {
-          var medicineInOrder = this.orderMedicineItems[i];
-          if (medicineInOrder.newQuantity == null) {
-            medicineInOrder.newQuantity = this.orderMedicineItems[i].quantity;
-          }
-          var addQuantity = parseInt(medicineInOrder.newQuantity);
-          if (addQuantity < 0) {
-            alert("You must enter a positive value for the quantity!");
-            return;
-          } 
-          else {
-            this.keys1.push(medicineInOrder.medicineId);
-            this.values1.push(addQuantity);
-            this.medicineItemInOrderData.set(medicineInOrder.medicineId, addQuantity);
-          }
+        var addQuantity = parseInt(medicineInOrder.newQuantity);
+        if (addQuantity < 0) {
+          alert("You must enter a positive value for the quantity!");
+          return;
+        } else {
+          this.keys1.push(medicineInOrder.medicineId);
+          this.values1.push(addQuantity);
+          this.medicineItemInOrderData.set(
+            medicineInOrder.medicineId,
+            addQuantity
+          );
         }
+      }
 
-
-        for (let i = 0; i < this.possibleNewMedicineItems.length; i++) {
-          var newMedicine = this.possibleNewMedicineItems[i];
-          if (newMedicine.newQuantity == null) {
-            newMedicine.newQuantity = 0;
-          }
-          var newQuantityForNewMedicine = parseInt(newMedicine.newQuantity);
-          if (newQuantityForNewMedicine < 0) {
-            alert("You must enter a positive value for the quantity!");
-            return;
-          }
-
-          if (newQuantityForNewMedicine > 0) {
-            this.keys2.push(newMedicine.medicineId);
-            this.values2.push(newQuantityForNewMedicine);
-            this.newMedicineItemData.set(newMedicine.medicineId, newQuantityForNewMedicine);
-          }
+      for (let i = 0; i < this.possibleNewMedicineItems.length; i++) {
+        var newMedicine = this.possibleNewMedicineItems[i];
+        if (newMedicine.newQuantity == null) {
+          newMedicine.newQuantity = 0;
+        }
+        var newQuantityForNewMedicine = parseInt(newMedicine.newQuantity);
+        if (newQuantityForNewMedicine < 0) {
+          alert("You must enter a positive value for the quantity!");
+          return;
         }
 
-        this.axios
-          .post(
-            "http://localhost:8091/orders/editOrder",
-             {
-                orderId: this.orderItem.orderId,
-                offerDeadline: this.deadLine,
-                keys1: this.keys1,
-                values1: this.values1,
-                keys2: this.keys2,
-                values2: this.values2
-        
-            },
-            {
-               headers: {
+        if (newQuantityForNewMedicine > 0) {
+          this.keys2.push(newMedicine.medicineId);
+          this.values2.push(newQuantityForNewMedicine);
+          this.newMedicineItemData.set(
+            newMedicine.medicineId,
+            newQuantityForNewMedicine
+          );
+        }
+      }
+
+      this.axios
+        .post(
+          "http://localhost:8091/orders/editOrder",
+          {
+            orderId: this.orderItem.orderId,
+            offerDeadline: this.deadLine,
+            keys1: this.keys1,
+            values1: this.values1,
+            keys2: this.keys2,
+            values2: this.values2,
+          },
+          {
+            headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
-               },
-            }
-          )
-          .then((response) => {
-            console.log(response.data);
-            this.newOfferDeadline = "";
-            this.keys1 = [];
-            this.values1 = [];
-            this.keys2 = [];
-            this.values2 = [];
-            this.medicineItemInOrderData = new Map();
-            this.newMedicineItemData = new Map();
-            this.deadLine = "";
-            location.reload();
-            alert("Successfully updated order!");
-          });
-    }
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.newOfferDeadline = "";
+          this.keys1 = [];
+          this.values1 = [];
+          this.keys2 = [];
+          this.values2 = [];
+          this.medicineItemInOrderData = new Map();
+          this.newMedicineItemData = new Map();
+          this.newOfferDeadline = "";
+          this.deadLine = null;
+          location.reload();
+          alert("Successfully updated order!");
+        });
+    },
   },
 };
 </script>

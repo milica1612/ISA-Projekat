@@ -98,7 +98,7 @@ public class OrderController {
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value="/editOrder")
 	public ResponseEntity<Order> edit(@RequestBody EditOrderDTO editOrderDTO) {
-		
+			try {
 			List<MedicineData> medicineItemData = new ArrayList<MedicineData>();
 			for (int i = 0; i < editOrderDTO.getKeys1().size(); i++) {
 				MedicineData mData1 = new MedicineData(editOrderDTO.getKeys1().get(i), editOrderDTO.getValues1().get(i)); 
@@ -112,6 +112,11 @@ public class OrderController {
 			}
 			Order o = _orderService.editOrder(medicineItemData, newMedicineItemData, editOrderDTO.getOrderId(), editOrderDTO.getOfferDeadline());
             return new ResponseEntity<Order>(o, HttpStatus.OK);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+				return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
+			}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
