@@ -145,6 +145,7 @@ export default {
       modal2: false,
       pharmacies: [],
       searchField: "",
+      dateValid: false,
       token: localStorage.getItem("token"),
       sort: {
         key: '',
@@ -155,12 +156,27 @@ export default {
   methods: {
     getPharmacies(){
       this.axios
-          .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacies',{date: this.date, time: this.time}, {
+          .put('http://localhost:8091/workSchedulePharmacist/checkDate',{date: this.date, time: this.time}, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(r => (this.pharmacies = r.data))
+          .then(r => {this.dateValid = r.data
+     if(this.dateValid) {
+       this.axios
+           .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacies', {
+             date: this.date,
+             time: this.time
+           }, {
+             headers: {
+               Authorization: 'Bearer ' + localStorage.getItem("token")
+             }
+           })
+           .then(r => (this.pharmacies = r.data))
+     }else{
+       alert("Please select a date in the future.")
+     }
+          })
     },
 
     pharmacistsForConsultation(p){
