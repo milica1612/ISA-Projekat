@@ -576,6 +576,18 @@ INSERT INTO public.medicine_item(
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (default, 1, 3);
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 4);
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 5);
+
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (default, 1, 4);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -684,8 +696,7 @@ INSERT INTO public.user_medicine_item(
 
 INSERT INTO public.user_medicine_item(
 	supplier_user_id, medicine_item_medicine_item_id)
-	 values (2, 4);
-
+	 values (1, 4);
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
@@ -770,5 +781,14 @@ INSERT INTO public.complaint_pharmacy(
 INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-11-11 00:00:00', false, true, 'ghgy32uu1', 12, 1, 1);
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, false, 'jhi3d7g2G', 13, 1, 2);
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, false, 'KDU3BB1', 14, 1, 1);
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-11-11 00:00:00', false, false, 'gNJHgyoej1', 15, 1, 1);
 
 	

@@ -94,6 +94,7 @@ public class ConsultationService implements IConsultationService{
 
 	}
 	
+	//konsultacije za pacijenta koje se jos nisu odrzale
 	@Override
 	public ArrayList<ConsultationViewDTO> getByPatient(Long patientId) {
 		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();

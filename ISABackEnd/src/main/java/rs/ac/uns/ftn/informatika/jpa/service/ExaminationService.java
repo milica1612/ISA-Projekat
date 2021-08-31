@@ -61,6 +61,7 @@ public class ExaminationService implements IExaminationService{
 		
 	}
 
+	//metoda koja dobavalja zakazane preglede koji se jos nisu odrzali
 	@Override
 	public ArrayList<ExaminationDTO> getByPatient(Long patientId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
