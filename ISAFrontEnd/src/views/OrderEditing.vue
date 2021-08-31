@@ -327,7 +327,15 @@ export default {
     pharmacyAdminId: localStorage.getItem("userId"),
     deleteOrderId: null,
     newOfferDeadline: "",
+    oldOfferDeadline: "",
     datePickerFormat: "dd.MM.yyyy.",
+    keys1: [],
+    values1: [],
+    keys2: [],
+    values2: [],
+    medicineItemInOrderData: new Map(),
+    newMedicineItemData: new Map(),
+    deadLine: "",
   }),
   mounted() {
     this.initialize();
@@ -356,6 +364,7 @@ export default {
       this.index = this.possibleEditingOrderList.indexOf(item);
       this.orderItem = Object.assign({}, item);
       this.dialogEditOrder = true;
+      this.oldOfferDeadline = this.orderItem.offerDeadline;
 
       this.axios
         .get(
@@ -422,9 +431,82 @@ export default {
         });
     },
     edit() {
+
         console.log(this.newOfferDeadline);
-        alert("Successfully updated order!");
-        location.reload();
+        if (this.newOfferDeadline == "") {
+            this.deadLine = this.oldOfferDeadline;
+        } else
+        {
+            this.deadLine = this.newOfferDeadline;
+        }
+        
+        for (let i = 0; i < this.orderMedicineItems.length; i++) {
+          var medicineInOrder = this.orderMedicineItems[i];
+          if (medicineInOrder.newQuantity == null) {
+            medicineInOrder.newQuantity = this.orderMedicineItems[i].quantity;
+          }
+          var addQuantity = parseInt(medicineInOrder.newQuantity);
+          if (addQuantity < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          } 
+          else {
+            this.keys1.push(medicineInOrder.medicineId);
+            this.values1.push(addQuantity);
+            this.medicineItemInOrderData.set(medicineInOrder.medicineId, addQuantity);
+          }
+        }
+
+
+        for (let i = 0; i < this.possibleNewMedicineItems.length; i++) {
+          var newMedicine = this.possibleNewMedicineItems[i];
+          if (newMedicine.newQuantity == null) {
+            newMedicine.newQuantity = 0;
+          }
+          var newQuantityForNewMedicine = parseInt(newMedicine.newQuantity);
+          if (newQuantityForNewMedicine < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          }
+
+          if (newQuantityForNewMedicine > 0) {
+            this.keys2.push(newMedicine.medicineId);
+            this.values2.push(newQuantityForNewMedicine);
+            this.newMedicineItemData.set(newMedicine.medicineId, newQuantityForNewMedicine);
+          }
+        }
+
+        this.axios
+          .post(
+            "http://localhost:8091/orders/editOrder",
+             {
+                orderId: this.orderItem.orderId,
+                offerDeadline: this.deadLine,
+                keys1: this.keys1,
+                values1: this.values1,
+                keys2: this.keys2,
+                values2: this.values2
+        
+            },
+            {
+               headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+               },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            this.newOfferDeadline = "";
+            this.keys1 = [];
+            this.values1 = [];
+            this.keys2 = [];
+            this.values2 = [];
+            this.medicineItemInOrderData = new Map();
+            this.newMedicineItemData = new Map();
+            this.deadLine = "";
+            location.reload();
+            alert("Successfully updated order!");
+          });
     }
   },
 };

@@ -231,4 +231,37 @@ public class OrderService implements IOrderService{
 		return _orderRepository.save(deleteOrder);
 	}
 	
+	@Override
+	public Order editOrder(List<MedicineData> medicineItemInOrderData, List<MedicineData> newMedicineItemData, Long orderId,
+			Date offerDeadline) {
+		Order order = _orderRepository.getOne(orderId);
+		Set<MedicineItem> newOrderMedicineItems = new HashSet<MedicineItem>();
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		
+		for (MedicineItem orderMedicineItem : orderMedicineItems) {
+			for (MedicineData m : medicineItemInOrderData) {
+				Medicine medicine = _medicineRepository.getOne(m.getMedicineId());
+				if (orderMedicineItem.getMedicine() == medicine) {
+					if (m.getQuantity() > 0) {
+						MedicineItem mItem = new MedicineItem(m.getQuantity(), medicine);
+						newOrderMedicineItems.add(mItem);
+					}
+				}
+			}
+		}
+		
+		for (MedicineData m : newMedicineItemData) 
+		{
+			MedicineItem newMedicineItemInOrder = new MedicineItem(m.getQuantity(), _medicineRepository.getOne(m.getMedicineId()));
+			newOrderMedicineItems.add(newMedicineItemInOrder);
+		}
+		
+		order.setMedicineItem(newOrderMedicineItems);
+		
+		if (!offerDeadline.equals(order.getOfferDeadline()))
+			order.setOfferDeadline(offerDeadline);
+		
+		return _orderRepository.save(order);
+	}
+	
 }
