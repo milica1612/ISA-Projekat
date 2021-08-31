@@ -52,12 +52,12 @@ public class ExaminationService implements IExaminationService{
 	}
 
 	@Override
-	public void scheduleExamination(ExaminationDTO examination) {
+	public Examination scheduleExamination(ExaminationDTO examination) {
 		Optional<Examination> oldExamination = _examinationRepository.findById(examination.getAppointmentId());
 		Examination e = oldExamination.get();
 		e.setPatient(examination.patient);
 		e.setCancelled(false);
-		_examinationRepository.save(e);
+		return _examinationRepository.save(e);
 		
 	}
 

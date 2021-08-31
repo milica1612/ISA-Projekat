@@ -172,7 +172,7 @@ public class EmailService {
 		
 		text.append("Dear " + examination.getPatient().getFirstName() + " "  + examination.getPatient().getLastName() + ",");
 		text.append("\n\n");
-		text.append("\nYou have successfully scheduled a consultation.");
+		text.append("\nYou have successfully scheduled a examination.");
 		text.append("\nConsultation information:");
 		text.append("\nPHARMACY: " + examination.getPharmacy().getName());
 		text.append("\nDATE AND TIME: " + date);

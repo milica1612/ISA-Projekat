@@ -58,7 +58,8 @@ public class ExaminationContoller {
 			System.out.println("Unable to schedule examination because of penalties");
 			return;
 		}
-		_examinationService.scheduleExamination(examination);
+		Examination e = _examinationService.scheduleExamination(examination);
+		_emailService.sendExaminationConfirmation(e);
 	}
 	
 	@PutMapping(value = "/cancel")
