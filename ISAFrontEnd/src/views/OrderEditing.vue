@@ -23,7 +23,7 @@
                     class="text-h4 justify-center orderEditingCaption"
                     >Edit order</v-card-title
                   >
-                  <v-card class="orderEditingCard" elevation="7" justify-center>
+                  <v-card class="orderEditingCard" elevation="9" justify-center>
                     <v-data-table
                       :headers="headersEdit"
                       :items="orderMedicineItems"
@@ -54,7 +54,7 @@
                           <td>
                             {{ row.item.medicineForm }}
                           </td>
-                           <td>
+                          <td>
                             {{ row.item.quantity }}
                           </td>
                           <td>
@@ -77,7 +77,7 @@
                         <v-toolbar dark color="light-blue darken-2">
                           <v-spacer></v-spacer>
                           <v-toolbar-title>
-                           Add new medicine items to the order
+                            Add new medicine items to the order
                           </v-toolbar-title>
                           <v-spacer></v-spacer>
                         </v-toolbar>
@@ -111,13 +111,47 @@
                         </tr>
                       </template>
                     </v-data-table>
+                    <v-card-text>
+                      <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
+                        <v-row>
+                          <v-text-field
+                            class="ml-10 mr-10 mt-10 text-center"
+                            color="blue"
+                            type="text"
+                            v-bind:readonly="true"
+                            value="If you wish, you can choose a new deadline for the offer"
+                          >
+                          </v-text-field>
+                          <v-date-picker
+                            width="100%"
+                             v-model="newOfferDeadline"
+                            class="ml-10 mr-10 mt-4"
+                            :allowed-dates="disablePastDates"
+                            :format="datePickerFormat"
+                            color="green lighten-1"
+                            header-color="primary"
+                          ></v-date-picker>
+                        </v-row>
+                      </v-form>
+                    </v-card-text>
                   </v-card>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="red" text @click="closeEditOrderDialog"
-                      >Close</v-btn
+                  <v-card-actions class="justify-center">
+                    <v-btn
+                      v-on:click="edit"
+                      color="primary"
+                      class="btnEdit"
+                      x-large
+                      width="30%"
+                      >Edit</v-btn
                     >
-                    <v-spacer></v-spacer>
+                    <v-btn
+                      v-on:click="closeEditOrderDialog"
+                      color="primary"
+                      class="btnCancel"
+                      x-large
+                      width="30%"
+                      >Cancel</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -248,7 +282,7 @@ export default {
         width: "16%",
       },
     ],
-     headersNew: [
+    headersNew: [
       {
         text: "Medicine ID",
         value: "medicineId",
@@ -292,11 +326,16 @@ export default {
     id: null,
     pharmacyAdminId: localStorage.getItem("userId"),
     deleteOrderId: null,
+    newOfferDeadline: "",
+    datePickerFormat: "dd.MM.yyyy.",
   }),
   mounted() {
     this.initialize();
   },
   methods: {
+    disablePastDates(val) {
+      return val >= new Date().toISOString().substr(0, 10);
+    },
     initialize() {
       this.axios
         .get("http://localhost:8091/orders/possibleEditingOrders", {
@@ -333,7 +372,7 @@ export default {
           this.orderMedicineItems = resp.data;
         });
 
-     this.axios
+      this.axios
         .get(
           "http://localhost:8091/medicineItem/findMedicineItemsNotExistByOrderId/" +
             this.orderItem.orderId,
@@ -382,6 +421,11 @@ export default {
           window.location.href = "/homePagePharmacyAdmin";
         });
     },
+    edit() {
+        console.log(this.newOfferDeadline);
+        alert("Successfully updated order!");
+        location.reload();
+    }
   },
 };
 </script>
@@ -398,5 +442,15 @@ export default {
   width: 80%;
   text-align: center;
   margin: auto;
+}
+.btnEdit {
+  margin: 5%;
+  padding-top: 10%;
+}
+.btnCancel {
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-bottom: 5%;
+  padding-top: 10%;
 }
 </style>
