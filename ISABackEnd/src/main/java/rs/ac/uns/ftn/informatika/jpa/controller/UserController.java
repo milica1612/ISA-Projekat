@@ -113,6 +113,7 @@ public class UserController {
 		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
 	}
 	
+	//penali se brisu prvog u mjesecu u 00:00
 	@Scheduled(cron = "0 0 0 1 * *")
 	public void deletePenalties() {
 		System.out.println("+++++++++++++++++++++++++++");
