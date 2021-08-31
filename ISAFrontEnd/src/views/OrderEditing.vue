@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1 id="orderEditingCaption">Edit my orders</h1>
-    <v-card id="orderEditingCard" elevation="7" justify-center>
+    <h1 class="orderEditingCaption">Edit or delete my orders</h1>
+    <v-card class="orderEditingCard" elevation="7" justify-center>
       <div>
         <v-data-table
           :headers="headers"
           :items="possibleEditingOrderList"
+          :items-per-page="5"
           sort-by="orderId"
-          class="elevation-1"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -19,15 +19,57 @@
               <v-dialog v-model="dialogEditOrder" max-width="60%">
                 <v-card>
                   <v-spacer></v-spacer>
-                  <v-card-title class="text-h4 justify-center"
+                  <v-card-title
+                    class="text-h4 justify-center orderEditingCaption"
                     >Edit order</v-card-title
                   >
-                  <v-data-table
-                    :headers="headersEdit"
-                    :items="offerList"
-                    sort-by="offerId"
-                  >
-                  </v-data-table>
+                  <v-card class="orderEditingCard" elevation="7" justify-center>
+                    <v-data-table
+                      :headers="headersEdit"
+                      :items="orderMedicineItems"
+                    >
+                      <template v-slot:top>
+                        <v-toolbar dark color="light-blue darken-2">
+                          <v-spacer></v-spacer>
+                          <v-toolbar-title>
+                            Medicine item that exist in the order
+                          </v-toolbar-title>
+                          <v-spacer></v-spacer>
+                        </v-toolbar>
+                      </template>
+                      <template v-slot:item="row">
+                        <tr>
+                          <td>
+                            {{ row.item.medicineId }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineCode }}
+                          </td>
+                          <td>
+                            {{ row.item.name }}
+                          </td>
+                          <td>
+                            {{ row.item.type }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineForm }}
+                          </td>
+                           <td>
+                            {{ row.item.quantity }}
+                          </td>
+                          <td>
+                            <v-text-field
+                              type="number"
+                              min="0"
+                              v-model="row.item.newQuantity"
+                            >
+                              {{ row.item.newQuantity }}
+                            </v-text-field>
+                          </td>
+                        </tr>
+                      </template>
+                    </v-data-table>
+                  </v-card>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="red" text @click="closeEditOrderDialog"
@@ -89,7 +131,7 @@ export default {
     possibleEditingOrderList: [],
     dialogEditOrder: false,
     dialogDeleteOrder: false,
-    offerList: [],
+    orderMedicineItems: [],
     headers: [
       {
         text: "Order ID",
@@ -149,6 +191,13 @@ export default {
         sortable: true,
       },
       {
+        text: "Old quantity",
+        value: "quantity",
+        align: "center",
+        sortable: true,
+        width: "16%",
+      },
+      {
         text: "New quantity",
         value: "newQuantity",
         align: "center",
@@ -186,10 +235,10 @@ export default {
       this.index = this.possibleEditingOrderList.indexOf(item);
       this.orderItem = Object.assign({}, item);
       this.dialogEditOrder = true;
-      /*
+
       this.axios
         .get(
-          "http://localhost:8091/offers/findOffersByOrderId/" +
+          "http://localhost:8091/medicineItem/findMedicineItemsByOrderId/" +
             this.orderItem.orderId,
           {
             headers: {
@@ -199,8 +248,8 @@ export default {
         )
         .then((resp) => {
           console.log(resp.data);
-          this.offerList = resp.data;
-        });*/
+          this.orderMedicineItems = resp.data;
+        });
     },
     closeEditOrderDialog() {
       this.dialogEditOrder = false;
@@ -225,14 +274,11 @@ export default {
     deleteThisOrder() {
       console.log(this.deleteOrderId);
       this.axios
-        .get(
-          "http://localhost:8091/orders/delete/" + this.deleteOrderId,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            }
-          }
-        )
+        .get("http://localhost:8091/orders/delete/" + this.deleteOrderId, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((resp) => {
           alert("Order is deleted.");
           console.log(resp.data);
@@ -244,14 +290,14 @@ export default {
 </script>
 
 <style scoped>
-#orderEditingCaption {
+.orderEditingCaption {
   margin-top: 2%;
   margin-bottom: 2%;
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
 }
-#orderEditingCard {
+.orderEditingCard {
   width: 80%;
   text-align: center;
   margin: auto;
