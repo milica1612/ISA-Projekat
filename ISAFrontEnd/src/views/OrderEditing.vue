@@ -5,7 +5,7 @@
       <div>
         <v-data-table
           :headers="headers"
-          :items="waitingOrderList"
+          :items="possibleEditingOrderList"
           sort-by="orderId"
           class="elevation-1"
         >
@@ -58,7 +58,7 @@
 export default {
   name: "OrderEditing",
   data: () => ({
-    waitingOrderList: [],
+    possibleEditingOrderList: [],
     dialogShowOffer: false,
     offerList: [],
     headers: [
@@ -142,13 +142,16 @@ export default {
   methods: {
     initialize() {
         this.axios
-        .get("http://localhost:8091/orders/waitingOfferForPharmacy", {
+        .get("http://localhost:8091/orders/possibleEditingOrders", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
-          this.waitingOrderList = response.data;
+          console.log(response.data);
+          this.possibleEditingOrderList = response.data;
+           if (response.data.length != 0)  
+            alert('There is an order that can be edit or delete by pharmacy admin who created them.');
         });
     },
     showOffer(item) {

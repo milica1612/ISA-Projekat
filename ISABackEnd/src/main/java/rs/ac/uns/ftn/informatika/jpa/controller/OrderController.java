@@ -92,5 +92,12 @@ public class OrderController {
 			
             return new ResponseEntity<>(true, HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/possibleEditingOrders")
+	public ResponseEntity<List<OrderDTO>> findAllPossibleEditingOrdersByPharmacyAdmin() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllPossibleEditingOrdersByPharmacyAdmin();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
 
 }

@@ -28,4 +28,6 @@ public interface IOrderService {
 	
 	Order createOrder(List<MedicineData> medicineItemData, List<MedicineData> newMedicineItemData, Long pharmacyAdminId,
 			Long pharmacyId, Date offerDeadline);
+	
+	List<OrderDTO> findAllPossibleEditingOrdersByPharmacyAdmin();
 }
