@@ -332,7 +332,13 @@ const routes = [{
         name: 'Complaints',
         component: () =>
             import('../views/Complaints.vue')
-    }
+    },
+    {
+        path: '/orderEditing',
+        name: 'OrderEditing',
+        component: () =>
+            import('../views/OrderEditing.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',
