@@ -25,7 +25,7 @@ public class Patient extends User {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Penalty> penalties = new HashSet<Penalty>();
 	
 	@JsonIgnore

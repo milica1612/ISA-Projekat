@@ -47,5 +47,7 @@ public interface IUserService {
 
 	boolean checkPenalties(Long id);
 
+	void deletePenalties(Long id);
+
 	
 }

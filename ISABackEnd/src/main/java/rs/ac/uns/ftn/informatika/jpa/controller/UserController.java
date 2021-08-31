@@ -1,9 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +30,8 @@ import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.PenaltyService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
+@Configuration
+@EnableScheduling
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,5 +111,14 @@ public class UserController {
 		Penalty p = new Penalty(c.getDateAndTime().toString(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
+	}
+	
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void deletePenalties() {
+		System.out.println("+++++++++++++++++++++++++++");
+		ArrayList<User> allPatients = (ArrayList<User>) _userService.getAllPatients();
+		for (User user : allPatients) {
+		_userService.deletePenalties(user.getUserId());
+		}
 	}
 }	

@@ -26,6 +26,9 @@ public class Penalty {
 	@Enumerated(EnumType.STRING)
     public PenaltyType penaltyType;
 	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Pharmacy pharmacy;
 
@@ -34,6 +37,7 @@ public class Penalty {
 		this.date = date;
 		this.penaltyType = penaltyType;
 		this.pharmacy = pharmacy;
+		this.deleted = false;
 	}
 	
 	public Penalty() {
@@ -62,6 +66,22 @@ public class Penalty {
 
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
+	}
+
+	public Long getPenaltyId() {
+		return penaltyId;
+	}
+
+	public void setPenaltyId(Long penaltyId) {
+		this.penaltyId = penaltyId;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	
