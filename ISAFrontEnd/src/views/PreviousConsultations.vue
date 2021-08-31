@@ -20,7 +20,7 @@
               Address
             </th>
             <th>
-              Dermatologist
+              Pharmacist
             </th>
             <th :class="sortedClass('price')"
                 @click="sortBy('price')">
@@ -38,7 +38,7 @@
             <td>{{ c.pharmacy.name}}</td>
             <td>{{c.pharmacy.address.street + " " + c.pharmacy.address.streetNumber + ", " +
             c.pharmacy.address.city + ", " + c.pharmacy.address.country}}</td>
-            <td>{{c.dermatologist.firstName + " " + c.dermatologist.lastName}}</td>
+            <td>{{c.pharmacist.firstName + " " + c.pharmacist.lastName}}</td>
             <td>{{c.price + " rsd"}}</td>
           </tr>
           </tbody>
@@ -50,10 +50,10 @@
 
 <script>
 export default {
-  name: "PreviousExaminations",
+  name: "PreviousConsultations",
   data: function () {
     return {
-      examinations: [],
+      consultations: [],
       sort: {
         key: '',
         isAsc: false
@@ -61,15 +61,13 @@ export default {
     }
   },
   mounted() {
-    {
       this.axios
-          .get('http://localhost:8091/examination/getPreviousExaminations/' + localStorage.getItem("userId"), {
+          .get('http://localhost:8091/consultation/getPreviousConsultations/' + localStorage.getItem("userId"), {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(response => (this.examinations = response.data));
-    }
+          .then(response => (this.consultations = response.data));
   },
   methods: {
     sortedClass(key) {
@@ -81,21 +79,21 @@ export default {
       this.sort.key = key;
     }
   },
-    computed:{
-      sortedItems () {
-        const list = this.examinations.slice();  // ソート時でdataの順序を書き換えないため
-        if (this.sort.key !="") {
-          list.sort((a, b) => {
-            a = a[this.sort.key]
-            b = b[this.sort.key]
+  computed:{
+    sortedItems () {
+      const list = this.consultations.slice();  // ソート時でdataの順序を書き換えないため
+      if (this.sort.key !="") {
+        list.sort((a, b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
 
-            return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
-          });
-        }
-
-        return list;
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
       }
+
+      return list;
     }
+  }
 }
 </script>
 

@@ -61,6 +61,12 @@ public class ConsultationController {
 		return _consultationService.getByPatient(patientId);
 	}
 	
+
+	@GetMapping(value = "/getPreviousConsultations/{patientId}")
+	public ArrayList<ConsultationViewDTO> getPreviousConsultations(@PathVariable Long patientId){
+		return _consultationService.getPreviousConsultations(patientId);
+	}
+	
 	@PutMapping(value = "/cancel")
 	public boolean cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
 		return _consultationService.cancelConsultation(consultation);

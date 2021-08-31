@@ -338,6 +338,12 @@ const routes = [{
         name: 'PreviousExaminations',
         component: () =>
             import('../views/PreviousExaminations.vue')
+    },
+    {
+        path: '/previousConsultations',
+        name: 'PreviousConsultations',
+        component: () =>
+            import('../views/PreviousConsultations.vue')
     }
 ]
 const router = new VueRouter({

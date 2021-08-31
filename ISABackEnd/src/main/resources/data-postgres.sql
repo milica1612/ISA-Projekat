@@ -740,7 +740,15 @@ VALUES (default, 'FINISHED', false, '2021-08-20 12:00:00', 20, 5, 1900, 13, 1, 2
 
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
-	VALUES (default, 'FINISHED', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
+	VALUES (default, 'FINISHED', false, '2021-06-11 08:15:00', 15, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'FINISHED', false, '2021-07-07 10:15:00', 30, 5, 780, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'FINISHED', false, '2021-08-13 07:15:00', 20, 5, 1000, 1, 9, 2);
 
 INSERT INTO public.complaint_employee(
 	comp_emp_id, text_employee, patient_user_id, pharmacy_employee_user_id)

@@ -163,4 +163,22 @@ public class ConsultationService implements IConsultationService{
 		}
 		return result;
 	}
+
+	@Override
+	public ArrayList<ConsultationViewDTO> getPreviousConsultations(Long patientId) {
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		ArrayList<ConsultationViewDTO> result = new ArrayList<ConsultationViewDTO>();
+		
+		for (Consultation c : allConsultations) {
+			if(c.getPatient() != null) {
+				if(c.getPatient().getUserId() == patientId && c.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					result.add(new ConsultationViewDTO(c.getAppointmentId(),c.getDateAndTime().toString(),
+							c.getDuration(),c.getPrice(),c.getPoints(),c.getPharmacist(),
+							null, c.getPharmacy()));
+				}
+			}
+		}
+		
+		return result;
+	}
 }
