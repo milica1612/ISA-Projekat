@@ -121,14 +121,6 @@ export default {
     ],
     vacationId: null,
   }),
-  watch: {
-    dialogDeclineRequest(val) {
-      val || this.closeDeclineRequest();
-    },
-    dialogAcceptRequest(val) {
-      val || this.closeAcceptRequest();
-    },
-  },
   mounted() {
     this.initialize();
   },

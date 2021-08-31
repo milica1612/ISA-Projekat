@@ -18,6 +18,8 @@ public interface IOrderService {
 
 	Order save(Order order);
 	
+	Order deleteOrder(Long orderId);
+	
 	List<OrderDTO> findAllOrdersForPharmacy();
 	
 	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();

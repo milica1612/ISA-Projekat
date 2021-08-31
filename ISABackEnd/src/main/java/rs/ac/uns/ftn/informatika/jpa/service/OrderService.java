@@ -122,7 +122,7 @@ public class OrderService implements IOrderService{
 		List<Offer> allOffers = _offerRepository.findAll();
 		Date currentDate = new Date(System.currentTimeMillis());
 		for (Order order : allOrders) {
-			if (order.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+			if (order.getPharmacyAdministrator().getUserId() == pAdmin.getUserId()) {
 				if (order.getOfferDeadline().before(currentDate) && order.getOrderStatus() != OrderStatus.FINISHED) {
 					order.setOrderStatus(OrderStatus.PROCESSED);
 					_orderRepository.save(order);
@@ -213,6 +213,19 @@ public class OrderService implements IOrderService{
 		order.setMedicineItem(orderItems);
 		order.setPharmacyAdministrator(_pharmacyAdminRepository.findByUserId(pharmacyAdminId));
 		return _orderRepository.save(order);
+	}
+	
+	@Override
+	public Order deleteOrder(Long orderId) {
+		
+		Order deleteOrder = _orderRepository.getOne(orderId);
+		/* Logical deletion
+		 * I did not want to add a new deleted state, 
+		 * because I believe that the order can be finished even if the supplier's offer is not accepted, ie if the administrator deletes it, 
+		 * then it will go into that finished state, and in this state of course the medicines will not be updated in the pharmacy.
+		 */
+		deleteOrder.setOrderStatus(OrderStatus.FINISHED);
+		return _orderRepository.save(deleteOrder);
 	}
 	
 }

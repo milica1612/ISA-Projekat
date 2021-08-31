@@ -99,5 +99,12 @@ public class OrderController {
 		List<OrderDTO> listOrderDTOs =  _orderService.findAllPossibleEditingOrdersByPharmacyAdmin();
 		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/delete/{orderId}")
+	public ResponseEntity<Order> deleteOrder(@PathVariable Long orderId) {
+		Order order = _orderService.deleteOrder(orderId);
+		return new ResponseEntity<Order>(order, HttpStatus.OK);
+	}
 
 }

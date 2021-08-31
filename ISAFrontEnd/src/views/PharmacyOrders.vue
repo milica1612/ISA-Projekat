@@ -242,11 +242,6 @@ export default {
     pharmacyAdminId: null,
     pharmacyAdminNote: null,
   }),
-  watch: {
-    dialogShowOffer(val) {
-      val || this.closeShowOffer();
-    },
-  },
   mounted() {
     this.initialize();
   },
