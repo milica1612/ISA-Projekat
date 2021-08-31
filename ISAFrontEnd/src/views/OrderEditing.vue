@@ -517,7 +517,7 @@ export default {
           this.newMedicineItemData = new Map();
           this.newOfferDeadline = "";
           this.deadLine = null;
-          // location.reload();
+          location.reload();
           alert("Successfully updated order!");
         });
     },
