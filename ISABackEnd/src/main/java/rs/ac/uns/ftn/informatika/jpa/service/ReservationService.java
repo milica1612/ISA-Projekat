@@ -24,6 +24,8 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
+import rs.ac.uns.ftn.informatika.jpa.model.PenaltyType;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
@@ -136,20 +138,20 @@ public class ReservationService implements IReservationService{
 	}
 
 	@Override
-	public int checkForPenatlies(Long patientId) {
-		int penalty = 0;
+	public ArrayList<Penalty> checkForPenatlies(Long patientId) {
 		ArrayList<Reservation> allReservations = (ArrayList<Reservation>) _reservationRepository.findAll();
+		ArrayList<Penalty> penalties = new ArrayList<Penalty>();
 		for (Reservation reservation : allReservations) {
 			if(reservation.getPatient().getUserId() == patientId && reservation.getCancelled() == false
 					&& reservation.getPenalty() == false && reservation.getRecieved() == false
 					&& reservation.getDeadline().before(new Date())) {
 				reservation.setPenalty(true);
 				_reservationRepository.save(reservation);
-				penalty ++;
+				penalties.add(new Penalty(reservation.getDeadline(), PenaltyType.RESERVATION_MISSED, reservation.getPharmacy()));
 			}
 		}
 		
-		return penalty;
+		return penalties;
 	}
 
 	@Override

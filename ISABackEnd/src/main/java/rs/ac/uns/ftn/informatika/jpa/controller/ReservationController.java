@@ -25,11 +25,13 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
+import rs.ac.uns.ftn.informatika.jpa.service.PenaltyService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -50,6 +52,9 @@ public class ReservationController {
 	
 	@Autowired
 	private UserService _userService;
+	
+	@Autowired
+	private PenaltyService _penaltyService;
 	
 	@Autowired
 	private MedicineItemService _medicineItemService;
@@ -118,9 +123,11 @@ public class ReservationController {
 	
 	@PutMapping(value = "/checkForPenalties/{patientId}")
 	public void checkForPenalties(@PathVariable Long patientId) {
-		int penatlties = _reservationService.checkForPenatlies(patientId);
-		for (int i = 0; i < penatlties; i++) {
-			_userService.increasePenalty(patientId);
+		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
+		for (Penalty penalty : penalties) {
+			Penalty p = _penaltyService.save(penalty);
+			_userService.increasePenalty(patientId, p);
+			
 		}
 	}
 

@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
+import rs.ac.uns.ftn.informatika.jpa.model.PenaltyType;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+import rs.ac.uns.ftn.informatika.jpa.service.PenaltyService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -27,6 +32,10 @@ public class UserController {
 	
 	@Autowired
 	private UserService _userService ;
+	
+
+	@Autowired
+	private PenaltyService _penaltyService;
 	
 	@GetMapping(value = "/{id}")
 	public User findUser(@PathVariable Long id) {
@@ -83,9 +92,17 @@ public class UserController {
 		
 	}
 	
-	@PostMapping(value = "/increasePenalty")
-	public void increasePenalty(@RequestBody User user) throws Exception {
-		
-		_userService.increasePenalty(user.getUserId());
+	@PostMapping(value = "/increasePenaltyExamination")
+	public void increasePenaltyExamination(@RequestBody Examination e) throws Exception {
+		Penalty p = new Penalty(e.getDateAndTime(), PenaltyType.EXAMINATION_MISSED, e.getPharmacy());
+		Penalty newPenalty = _penaltyService.save(p);
+		_userService.increasePenalty(e.getPatient().getUserId(),newPenalty);
+	}
+	
+	@PostMapping(value = "/increasePenaltyConsultation")
+	public void increasePenaltyConsultation(@RequestBody Consultation c) throws Exception {
+		Penalty p = new Penalty(c.getDateAndTime(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
+		Penalty newPenalty = _penaltyService.save(p);
+		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
 	}
 }	

@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -283,14 +284,15 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public void increasePenalty(Long id) {
+	public void increasePenalty(Long id, Penalty p) {
 		
 		User user = findById(id);
 		
 		int penalty = ((Patient) user).getPenalty() + 1;
 		
 		((Patient) user).setPenalty(penalty);
+		((Patient) user).getPenalties().add(p);
 		update(user);
 	}
-	
+
 }

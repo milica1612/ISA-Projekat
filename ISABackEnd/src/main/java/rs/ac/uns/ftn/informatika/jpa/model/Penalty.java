@@ -1,0 +1,68 @@
+package rs.ac.uns.ftn.informatika.jpa.model;
+
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Penalty {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long penaltyId;
+	
+	@Column(name = "date", nullable = false)
+	private Date date;
+	
+	@Enumerated(EnumType.STRING)
+    public PenaltyType penaltyType;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	public Pharmacy pharmacy;
+
+	public Penalty(Date date, PenaltyType penaltyType, Pharmacy pharmacy) {
+		super();
+		this.date = date;
+		this.penaltyType = penaltyType;
+		this.pharmacy = pharmacy;
+	}
+	
+	public Penalty() {
+		
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public PenaltyType getPenaltyType() {
+		return penaltyType;
+	}
+
+	public void setPenaltyType(PenaltyType penaltyType) {
+		this.penaltyType = penaltyType;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+	
+	
+}
