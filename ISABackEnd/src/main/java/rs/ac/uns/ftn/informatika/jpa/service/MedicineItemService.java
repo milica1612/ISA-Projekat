@@ -117,5 +117,31 @@ public class MedicineItemService implements IMedicineItemService{
 		
 		return list;
 	}
+	
+	@Override
+	public List<MedicineItemDTO> findMedicineItemsNotExistByOrderId(Long orderId) {
+		List<Long> orderMedicineItemIds = _orderRepository.findMedicineItemIdsByOrderId(orderId);
+		List<MedicineItemDTO> list = new ArrayList<MedicineItemDTO>();
+		List<Medicine> allMedicine = _medicineRepository.findAll();	
+		
+		for (Medicine m : allMedicine) {
+			if (!isMedicineInOrder(orderMedicineItemIds, m)) {
+				MedicineItemDTO medicineItemDTO = new MedicineItemDTO(m.getName(), m.getMedicineId(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), 0);
+				list.add(medicineItemDTO);
+			}
+		}
+		
+		return list;
+	}
+
+	private Boolean isMedicineInOrder(List<Long> orderMedicineItemIds, Medicine m) {
+		for (Long medicineItemId : orderMedicineItemIds) {
+			Medicine medicineInOrder = _medicineItemRepository.getOne(medicineItemId).getMedicine();
+			if (m.getMedicineId() == medicineInOrder.getMedicineId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

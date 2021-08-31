@@ -32,7 +32,7 @@
                         <v-toolbar dark color="light-blue darken-2">
                           <v-spacer></v-spacer>
                           <v-toolbar-title>
-                            Medicine item that exist in the order
+                            Medicine items that exist in the order
                           </v-toolbar-title>
                           <v-spacer></v-spacer>
                         </v-toolbar>
@@ -56,6 +56,48 @@
                           </td>
                            <td>
                             {{ row.item.quantity }}
+                          </td>
+                          <td>
+                            <v-text-field
+                              type="number"
+                              min="0"
+                              v-model="row.item.newQuantity"
+                            >
+                              {{ row.item.newQuantity }}
+                            </v-text-field>
+                          </td>
+                        </tr>
+                      </template>
+                    </v-data-table>
+                    <v-data-table
+                      :headers="headersNew"
+                      :items="possibleNewMedicineItems"
+                    >
+                      <template v-slot:top>
+                        <v-toolbar dark color="light-blue darken-2">
+                          <v-spacer></v-spacer>
+                          <v-toolbar-title>
+                           Add new medicine items to the order
+                          </v-toolbar-title>
+                          <v-spacer></v-spacer>
+                        </v-toolbar>
+                      </template>
+                      <template v-slot:item="row">
+                        <tr>
+                          <td>
+                            {{ row.item.medicineId }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineCode }}
+                          </td>
+                          <td>
+                            {{ row.item.name }}
+                          </td>
+                          <td>
+                            {{ row.item.type }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineForm }}
                           </td>
                           <td>
                             <v-text-field
@@ -132,6 +174,7 @@ export default {
     dialogEditOrder: false,
     dialogDeleteOrder: false,
     orderMedicineItems: [],
+    possibleNewMedicineItems: [],
     headers: [
       {
         text: "Order ID",
@@ -205,6 +248,45 @@ export default {
         width: "16%",
       },
     ],
+     headersNew: [
+      {
+        text: "Medicine ID",
+        value: "medicineId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine code",
+        value: "medicineCode",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine name",
+        value: "name",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine type",
+        value: "type",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine form",
+        value: "medicineForm",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "New quantity",
+        value: "newQuantity",
+        align: "center",
+        sortable: false,
+        width: "16%",
+      },
+    ],
     orderItem: null,
     index: null,
     id: null,
@@ -249,6 +331,21 @@ export default {
         .then((resp) => {
           console.log(resp.data);
           this.orderMedicineItems = resp.data;
+        });
+
+     this.axios
+        .get(
+          "http://localhost:8091/medicineItem/findMedicineItemsNotExistByOrderId/" +
+            this.orderItem.orderId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.possibleNewMedicineItems = resp.data;
         });
     },
     closeEditOrderDialog() {
