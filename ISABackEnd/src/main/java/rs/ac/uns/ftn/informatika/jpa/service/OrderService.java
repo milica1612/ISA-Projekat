@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineData;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOrderService;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
@@ -197,13 +198,15 @@ public class OrderService implements IOrderService{
 		
 		for (MedicineData m : newMedicineItemData) {
 			MedicineItem medicineItem = new MedicineItem();
-			medicineItem.setMedicine(_medicineRepository.getOne(m.getMedicineId()));
-			medicineItem.setQuantity(0);
-			
-			pharmcayItems.add(medicineItem);
-			
+			MedicineItem medicineItemPharmacy = new MedicineItem();
+			Medicine medicine = _medicineRepository.getOne(m.getMedicineId());
+			medicineItem.setMedicine(medicine);
 			medicineItem.setQuantity(m.getQuantity());
 			orderItems.add(medicineItem);
+			medicineItemPharmacy.setMedicine(medicine);
+			medicineItemPharmacy.setQuantity(0);
+			pharmcayItems.add(medicineItemPharmacy);
+	
 		}
 		
 		order.setOrderStatus(OrderStatus.WAITING_OFFER);
