@@ -339,6 +339,18 @@ const routes = [{
         component: () =>
             import('../views/OrderEditing.vue')
     },
+    {
+        path: '/previousExaminations',
+        name: 'PreviousExaminations',
+        component: () =>
+            import('../views/PreviousExaminations.vue')
+    },
+    {
+        path: '/previousConsultations',
+        name: 'PreviousConsultations',
+        component: () =>
+            import('../views/PreviousConsultations.vue')
+    }
 ]
 const router = new VueRouter({
     mode: 'history',

@@ -41,8 +41,8 @@
                 @click="sortBy('rating')">
               Rating
             </th>
-            <th :class="sortedClass('adress')"
-                @click="sortBy('adress')">
+            <th :class="sortedClass('address')"
+                @click="sortBy('address')">
               Address
             </th>
           </tr>

@@ -22,5 +22,6 @@ public interface IConsultationService {
 	boolean isSoonerThan24hours(Consultation c);
 	void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result);
 	 ArrayList<Pharmacist> getAllPharmacistForPatient(Long patientId);
+	ArrayList<ConsultationViewDTO> getPreviousConsultations(Long patientId);
 
 }

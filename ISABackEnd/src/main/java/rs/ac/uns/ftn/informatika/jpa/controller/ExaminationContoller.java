@@ -38,6 +38,11 @@ public class ExaminationContoller {
 		return _examinationService.getByPharmacy(pharmacyId);
 	}
 	
+	@GetMapping(value = "/getPreviousExaminations/{patientId}")
+	public ArrayList<ExaminationDTO> getPreviousExaminations(@PathVariable Long patientId){
+		return _examinationService.getPreviousExaminations(patientId);
+	}
+	
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
 		return _examinationService.getByPatient(patientId);

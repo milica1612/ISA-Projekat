@@ -61,6 +61,7 @@ public class ExaminationService implements IExaminationService{
 		
 	}
 
+	//metoda koja dobavalja zakazane preglede koji se jos nisu odrzali
 	@Override
 	public ArrayList<ExaminationDTO> getByPatient(Long patientId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
@@ -212,5 +213,23 @@ public class ExaminationService implements IExaminationService{
 			}
 		}
 		return result;	
+	}
+
+	@Override
+	public ArrayList<ExaminationDTO> getPreviousExaminations(Long patientId) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
+		
+		for (Examination examination : allExaminations) {
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
+							examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),
+							null, examination.getPharmacy()));
+				}
+			}
+		}
+		
+		return result;
 	}
 }
