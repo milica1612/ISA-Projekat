@@ -789,6 +789,6 @@ INSERT INTO public.reservation(
 	VALUES (default, false, '2021-11-11 00:00:00', false, false, 'KDU3BB1', 14, 1, 1);
 INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, false, '2021-11-11 00:00:00', false, false, 'gNJHgyoej1', 15, 1, 1);
+	VALUES (default, false, '2021-08-08 00:00:00', false, false, 'gNJHgyoej1', 15, 1, 1);
 
 	

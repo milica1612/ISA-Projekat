@@ -21,30 +21,34 @@ public class Penalty {
 	private Long penaltyId;
 	
 	@Column(name = "date", nullable = false)
-	private Date date;
+	private String date;
 	
 	@Enumerated(EnumType.STRING)
     public PenaltyType penaltyType;
 	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Pharmacy pharmacy;
 
-	public Penalty(Date date, PenaltyType penaltyType, Pharmacy pharmacy) {
+	public Penalty(String date, PenaltyType penaltyType, Pharmacy pharmacy) {
 		super();
 		this.date = date;
 		this.penaltyType = penaltyType;
 		this.pharmacy = pharmacy;
+		this.deleted = false;
 	}
 	
 	public Penalty() {
 		
 	}
-
-	public Date getDate() {
+	
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -62,6 +66,22 @@ public class Penalty {
 
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
+	}
+
+	public Long getPenaltyId() {
+		return penaltyId;
+	}
+
+	public void setPenaltyId(Long penaltyId) {
+		this.penaltyId = penaltyId;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

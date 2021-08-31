@@ -147,7 +147,7 @@ public class ReservationService implements IReservationService{
 					&& reservation.getDeadline().before(new Date())) {
 				reservation.setPenalty(true);
 				_reservationRepository.save(reservation);
-				penalties.add(new Penalty(reservation.getDeadline(), PenaltyType.RESERVATION_MISSED, reservation.getPharmacy()));
+				penalties.add(new Penalty(reservation.getDeadline().toString(), PenaltyType.RESERVATION_MISSED, reservation.getPharmacy()));
 			}
 		}
 		

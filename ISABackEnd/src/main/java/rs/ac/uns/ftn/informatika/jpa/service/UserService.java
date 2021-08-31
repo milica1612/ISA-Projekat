@@ -1,8 +1,10 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -293,6 +295,31 @@ public class UserService implements IUserService {
 		((Patient) user).setPenalty(penalty);
 		((Patient) user).getPenalties().add(p);
 		update(user);
+	}
+	
+	@Override
+	public boolean checkPenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			int penalty = ((Patient) existing).getPenalty();
+			if(penalty >= 3) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public void deletePenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			((Patient) existing).setPenalty(0);
+			for (Penalty p : ((Patient) existing).getPenalties()) {
+				p.setDeleted(true);
+			}
+			((Patient) existing).setPenalties(new HashSet<Penalty>());
+			_userRepository.save(existing);
+		}
 	}
 
 }

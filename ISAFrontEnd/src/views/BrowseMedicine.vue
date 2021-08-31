@@ -43,9 +43,6 @@
             <th class="text-left">
               Rating
             </th>
-            <th class="text-left">
-              Medicine Specification
-            </th>
           </tr>
           </thead>
           <tbody>
@@ -68,7 +65,7 @@
                                 small
                                 v-bind="attrs"
                                 v-on="on"
-                                v-if="isLogged"
+                                v-if="isLoggedAsNotUser"
                             >Medicine Specification</v-btn>
                           </template>
                           <template v-slot:default="dialog">
@@ -216,7 +213,8 @@ export default {
           },
       },
       availableInPharmacies: [],
-      searchMedicine: ""
+      searchMedicine: "",
+      patient: {}
     }
   },
   mounted(){
@@ -226,6 +224,7 @@ export default {
   },
   methods: {
     searchMedicines: function() {
+      this.getUser()
       this.axios
           .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
@@ -240,18 +239,43 @@ export default {
     },
     makeReservation: function(a, dialog){
       dialog.value = false
+      if(this.patient.penalty < 3) {
+        this.axios
+            .post("http://localhost:8091/reservation/create", {
+              dto: a, date: this.picker,
+              userId: localStorage.getItem("userId")
+            }, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(window.location.href = "http://localhost:8080/medicineReservations");
+      }else{
+        alert("You can't schedule make a reservation because you have 3 or more penalties. This option" +
+            " will be available next month")
+      }
+    },
+    getUser: function (){
       this.axios
-          .post("http://localhost:8091/reservation/create",{dto:a, date:this.picker,
-                userId: localStorage.getItem("userId")}, {headers: {
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-          .then(window.location.href = "http://localhost:8080/medicineReservations");
+            }
+          })
+          .then(response => (this.patient = response.data));
     }
   },
 
   computed:{
     isLogged: function (){
-      if (this.token == ""){
+      if (this.token == "" || localStorage.getItem("userType") != "PATIENT"){
+        return false
+      }else{
+        return true
+      }
+    },
+    isLoggedAsNotUser: function (){
+      if (this.token == "" || localStorage.getItem("userType") == "PATIENT"){
         return false
       }else{
         return true

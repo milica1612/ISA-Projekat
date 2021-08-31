@@ -17,6 +17,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
+import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 
 @RestController
@@ -29,6 +30,9 @@ public class ExaminationContoller {
 	
 	@Autowired
 	private EmailService _emailService;
+	
+	@Autowired
+	private UserService _userService;
 
 	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
@@ -50,6 +54,10 @@ public class ExaminationContoller {
 	
 	@PutMapping(value = "/schedule")
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
+		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
+			System.out.println("Unable to schedule examination because of penalties");
+			return;
+		}
 		_examinationService.scheduleExamination(examination);
 	}
 	
