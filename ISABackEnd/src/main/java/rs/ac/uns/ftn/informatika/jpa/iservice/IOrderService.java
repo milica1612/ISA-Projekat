@@ -18,6 +18,8 @@ public interface IOrderService {
 
 	Order save(Order order);
 	
+	Order deleteOrder(Long orderId);
+	
 	List<OrderDTO> findAllOrdersForPharmacy();
 	
 	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();
@@ -28,4 +30,6 @@ public interface IOrderService {
 	
 	Order createOrder(List<MedicineData> medicineItemData, List<MedicineData> newMedicineItemData, Long pharmacyAdminId,
 			Long pharmacyId, Date offerDeadline);
+	
+	List<OrderDTO> findAllPossibleEditingOrdersByPharmacyAdmin();
 }

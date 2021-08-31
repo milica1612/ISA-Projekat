@@ -2,7 +2,7 @@
   <div>
     <h1 id="requestVacationCaption">All vacation requests from pharmacists</h1>
     <v-card id="allRequestVacationCard" justify-center>
-    <div class="table">
+    <div>
       <v-data-table
         :headers="headers"
         :items="vacatoionList"

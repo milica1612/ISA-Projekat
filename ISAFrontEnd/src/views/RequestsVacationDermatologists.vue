@@ -2,7 +2,7 @@
   <div>
     <h1 id="requestVacationCaption">Vacation requests from dermatologists</h1>
      <v-card id="requestVacationCard" justify-center>
-    <div class="table">
+    <div>
       <v-data-table
         :headers="headers"
         :items="vacatoionList"
@@ -121,14 +121,6 @@ export default {
     ],
     vacationId: null,
   }),
-  watch: {
-    dialogDeclineRequest(val) {
-      val || this.closeDeclineRequest();
-    },
-    dialogAcceptRequest(val) {
-      val || this.closeAcceptRequest();
-    },
-  },
   mounted() {
     this.initialize();
   },

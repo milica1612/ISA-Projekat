@@ -15,11 +15,13 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineData;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOrderService;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
+import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
 import rs.ac.uns.ftn.informatika.jpa.model.OrderStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyAdminRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
@@ -35,12 +37,15 @@ public class OrderService implements IOrderService{
 	
 	private IPharmacyAdminRepository _pharmacyAdminRepository;
 	
+	private IOfferRepository _offerRepository;
+	
 	@Autowired
-	public OrderService(IOrderRepository orderRepository, IMedicineRepository medicineRepository, IPharmacyRepository pharmacyRepository, IPharmacyAdminRepository pharmacyAdminRepository) {
+	public OrderService(IOrderRepository orderRepository, IMedicineRepository medicineRepository, IPharmacyRepository pharmacyRepository, IPharmacyAdminRepository pharmacyAdminRepository, IOfferRepository offerRepository) {
 		this._orderRepository = orderRepository;
 		this._medicineRepository = medicineRepository;
 		this._pharmacyRepository = pharmacyRepository;
 		this._pharmacyAdminRepository = pharmacyAdminRepository;
+		this._offerRepository = offerRepository;
 	}
 	
 	@Override
@@ -110,6 +115,44 @@ public class OrderService implements IOrderService{
 	}
 	
 	@Override
+	public List<OrderDTO> findAllPossibleEditingOrdersByPharmacyAdmin() {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		List<Order> allOrders = _orderRepository.findAll();
+		List<OrderDTO> list = new ArrayList<OrderDTO>();
+		List<Offer> allOffers = _offerRepository.findAll();
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (Order order : allOrders) {
+			if (order.getPharmacyAdministrator().getUserId() == pAdmin.getUserId()) {
+				if (order.getOfferDeadline().before(currentDate) && order.getOrderStatus() != OrderStatus.FINISHED) {
+					order.setOrderStatus(OrderStatus.PROCESSED);
+					_orderRepository.save(order);
+				}
+				
+				// added and processed request in case the deadline expires - order.getOrderStatus() == OrderStatus.PROCESSED
+				if (order.getOrderStatus() == OrderStatus.WAITING_OFFER || order.getOrderStatus() == OrderStatus.PROCESSED) { 
+								
+					if (!hasOffer(allOffers, order)) {
+						String deadline = new SimpleDateFormat("dd.MM.yyyy.").format(order.getOfferDeadline());
+						OrderDTO orderDTO = new OrderDTO(order.getOrderId(), deadline, order.getPharmacyAdministrator().getUserId(), order.getPharmacyAdministrator().getFirstName() + " " + order.getPharmacyAdministrator().getLastName(), order.getOrderStatus());
+						list.add(orderDTO);
+					}
+				}
+			}
+		}
+		
+		return list;
+	}
+
+	private Boolean hasOffer(List<Offer> allOffers, Order order) {
+		for (Offer offer : allOffers) {
+			if (offer.getOrder().getOrderId() == order.getOrderId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
 	public List<OrderDTO> findAllFinishedOrdersForPharmacy() {
 		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		List<Order> allOrders = _orderRepository.findAll();
@@ -170,6 +213,19 @@ public class OrderService implements IOrderService{
 		order.setMedicineItem(orderItems);
 		order.setPharmacyAdministrator(_pharmacyAdminRepository.findByUserId(pharmacyAdminId));
 		return _orderRepository.save(order);
+	}
+	
+	@Override
+	public Order deleteOrder(Long orderId) {
+		
+		Order deleteOrder = _orderRepository.getOne(orderId);
+		/* Logical deletion
+		 * I did not want to add a new deleted state, 
+		 * because I believe that the order can be finished even if the supplier's offer is not accepted, ie if the administrator deletes it, 
+		 * then it will go into that finished state, and in this state of course the medicines will not be updated in the pharmacy.
+		 */
+		deleteOrder.setOrderStatus(OrderStatus.FINISHED);
+		return _orderRepository.save(deleteOrder);
 	}
 	
 }

@@ -311,7 +311,7 @@ INSERT INTO public.medicine_item(
 	VALUES (103, 3, 3);
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default,'2021/08/28', 'WAITING_OFFER', 2, 10);
+	VALUES (default,'2021/09/02', 'WAITING_OFFER', 2, 10);
 
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
 	VALUES (1, 101);
@@ -324,17 +324,17 @@ INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_it
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/09/05', 5000, 'WAITING', 1, 2);
+	VALUES (default, '2021/09/12', 5000, 'WAITING', 1, 2);
 	
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/09/09', 4300, 'WAITING', 1, 4);
+	VALUES (default, '2021/09/16', 4300, 'WAITING', 1, 4);
 	
 
 INSERT INTO public.offer(
 	offer_id, delivery_deadline, price, status, order_order_id, supplier_user_id)
-	VALUES (default, '2021/09/06', 4800, 'WAITING', 1, 3);
+	VALUES (default, '2021/09/14', 4800, 'WAITING', 1, 3);
 	
 INSERT INTO public.user_medicine_item(
 	supplier_user_id, medicine_item_medicine_item_id) 
@@ -360,7 +360,7 @@ INSERT INTO public.medicine_item(
 	
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
-	VALUES (default,'2021/08/27', 'PROCESSED', 2, 19);
+	VALUES (default,'2021/08/31', 'PROCESSED', 2, 19);
 
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
 	VALUES (2, 104);
