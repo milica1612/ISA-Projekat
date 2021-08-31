@@ -94,14 +94,14 @@ public class UserController {
 	
 	@PostMapping(value = "/increasePenaltyExamination")
 	public void increasePenaltyExamination(@RequestBody Examination e) throws Exception {
-		Penalty p = new Penalty(e.getDateAndTime(), PenaltyType.EXAMINATION_MISSED, e.getPharmacy());
+		Penalty p = new Penalty(e.getDateAndTime().toString(), PenaltyType.EXAMINATION_MISSED, e.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(e.getPatient().getUserId(),newPenalty);
 	}
 	
 	@PostMapping(value = "/increasePenaltyConsultation")
 	public void increasePenaltyConsultation(@RequestBody Consultation c) throws Exception {
-		Penalty p = new Penalty(c.getDateAndTime(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
+		Penalty p = new Penalty(c.getDateAndTime().toString(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
 	}

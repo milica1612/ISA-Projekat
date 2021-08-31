@@ -21,7 +21,7 @@ public class Penalty {
 	private Long penaltyId;
 	
 	@Column(name = "date", nullable = false)
-	private Date date;
+	private String date;
 	
 	@Enumerated(EnumType.STRING)
     public PenaltyType penaltyType;
@@ -29,7 +29,7 @@ public class Penalty {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	public Pharmacy pharmacy;
 
-	public Penalty(Date date, PenaltyType penaltyType, Pharmacy pharmacy) {
+	public Penalty(String date, PenaltyType penaltyType, Pharmacy pharmacy) {
 		super();
 		this.date = date;
 		this.penaltyType = penaltyType;
@@ -39,12 +39,12 @@ public class Penalty {
 	public Penalty() {
 		
 	}
-
-	public Date getDate() {
+	
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
