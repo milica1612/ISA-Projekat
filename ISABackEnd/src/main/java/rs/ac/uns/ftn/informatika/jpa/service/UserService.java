@@ -294,5 +294,17 @@ public class UserService implements IUserService {
 		((Patient) user).getPenalties().add(p);
 		update(user);
 	}
+	
+	@Override
+	public boolean checkPenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			int penalty = ((Patient) existing).getPenalty();
+			if(penalty >= 3) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

@@ -107,13 +107,18 @@ export default {
         patientId : this.patient.userId
       }
 
-      this.axios
-          .post('http://localhost:8091/consultation/create' , request, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(window.location.href = "http://localhost:8080/upcomingVisits");
+      if(this.patient.penalty <3) {
+        this.axios
+            .post('http://localhost:8091/consultation/create', request, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(window.location.href = "http://localhost:8080/upcomingVisits");
+      }else{
+        alert("You can't schedule a consultation because you have 3 or more penalties. This option" +
+            " will be available next month")
+      }
     },
     sortedClass(key) {
       return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc'}` : '';

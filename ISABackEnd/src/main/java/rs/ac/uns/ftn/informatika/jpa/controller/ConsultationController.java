@@ -52,6 +52,10 @@ public class ConsultationController {
 	@PostMapping("/create")
 	public void createNewConsultation(@RequestBody Request r) {
 		User user = _userService.findById(r.patientId);
+		if(!_userService.checkPenalties(r.patientId)) {
+			System.out.println("Unable to schedule consultation because of penalties");
+			return;
+		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 		this._emailService.sendConsultationConfirmation(c);
