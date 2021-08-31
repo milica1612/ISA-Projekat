@@ -42,4 +42,18 @@ public class MedicineItemController {
 		return new ResponseEntity<List<MedicineItemDTO>>(medicineItemDTOs, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/findMedicineItemsByOrderId/{orderId}")
+	public ResponseEntity<List<MedicineItemDTO>> findMedicineItemsByOrderId(@PathVariable Long orderId) {
+		List<MedicineItemDTO> medicineItemDTOs = _medicineItemService.findMedicineItemsByOrderId(orderId);
+		return new ResponseEntity<List<MedicineItemDTO>>(medicineItemDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/findMedicineItemsNotExistByOrderId/{orderId}")
+	public ResponseEntity<List<MedicineItemDTO>> findMedicineItemsNotExistByOrderId(@PathVariable Long orderId) {
+		List<MedicineItemDTO> medicineItemDTOs = _medicineItemService.findMedicineItemsNotExistByOrderId(orderId);
+		return new ResponseEntity<List<MedicineItemDTO>>(medicineItemDTOs, HttpStatus.OK);
+	}
+	
 }

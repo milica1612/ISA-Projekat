@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1 id="orderEditingCaption">Edit my orders</h1>
-    <v-card id="orderEditingCard" elevation="7" justify-center>
+    <h1 class="orderEditingCaption">Edit or delete my orders</h1>
+    <v-card class="orderEditingCard" elevation="7" justify-center>
       <div>
         <v-data-table
           :headers="headers"
           :items="possibleEditingOrderList"
+          :items-per-page="5"
           sort-by="orderId"
-          class="elevation-1"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -19,21 +19,139 @@
               <v-dialog v-model="dialogEditOrder" max-width="60%">
                 <v-card>
                   <v-spacer></v-spacer>
-                  <v-card-title class="text-h4 justify-center"
+                  <v-card-title
+                    class="text-h4 justify-center orderEditingCaption"
                     >Edit order</v-card-title
                   >
-                  <v-data-table
-                    :headers="headersEdit"
-                    :items="offerList"
-                    sort-by="offerId"
-                  >
-                  </v-data-table>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="red" text @click="closeEditOrderDialog"
-                      >Close</v-btn
+                  <v-card class="orderEditingCard" elevation="9" justify-center>
+                    <v-data-table
+                      :headers="headersEdit"
+                      :items="orderMedicineItems"
                     >
-                    <v-spacer></v-spacer>
+                      <template v-slot:top>
+                        <v-toolbar dark color="light-blue darken-2">
+                          <v-spacer></v-spacer>
+                          <v-toolbar-title>
+                            Medicine items that exist in the order
+                          </v-toolbar-title>
+                          <v-spacer></v-spacer>
+                        </v-toolbar>
+                      </template>
+                      <template v-slot:item="row">
+                        <tr>
+                          <td>
+                            {{ row.item.medicineId }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineCode }}
+                          </td>
+                          <td>
+                            {{ row.item.name }}
+                          </td>
+                          <td>
+                            {{ row.item.type }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineForm }}
+                          </td>
+                          <td>
+                            {{ row.item.quantity }}
+                          </td>
+                          <td>
+                            <v-text-field
+                              type="number"
+                              min="0"
+                              v-model="row.item.newQuantity"
+                            >
+                              {{ row.item.newQuantity }}
+                            </v-text-field>
+                          </td>
+                        </tr>
+                      </template>
+                    </v-data-table>
+                    <v-data-table
+                      :headers="headersNew"
+                      :items="possibleNewMedicineItems"
+                    >
+                      <template v-slot:top>
+                        <v-toolbar dark color="light-blue darken-2">
+                          <v-spacer></v-spacer>
+                          <v-toolbar-title>
+                            Add new medicine items to the order
+                          </v-toolbar-title>
+                          <v-spacer></v-spacer>
+                        </v-toolbar>
+                      </template>
+                      <template v-slot:item="row">
+                        <tr>
+                          <td>
+                            {{ row.item.medicineId }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineCode }}
+                          </td>
+                          <td>
+                            {{ row.item.name }}
+                          </td>
+                          <td>
+                            {{ row.item.type }}
+                          </td>
+                          <td>
+                            {{ row.item.medicineForm }}
+                          </td>
+                          <td>
+                            <v-text-field
+                              type="number"
+                              min="0"
+                              v-model="row.item.newQuantity"
+                            >
+                              {{ row.item.newQuantity }}
+                            </v-text-field>
+                          </td>
+                        </tr>
+                      </template>
+                    </v-data-table>
+                    <v-card-text>
+                      <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
+                        <v-row>
+                          <v-text-field
+                            class="ml-10 mr-10 mt-10 text-center"
+                            color="blue"
+                            type="text"
+                            v-bind:readonly="true"
+                            value="If you wish, you can choose a new deadline for the offer"
+                          >
+                          </v-text-field>
+                          <v-date-picker
+                            width="100%"
+                             v-model="newOfferDeadline"
+                            class="ml-10 mr-10 mt-4"
+                            :allowed-dates="disablePastDates"
+                            :format="datePickerFormat"
+                            color="green lighten-1"
+                            header-color="primary"
+                          ></v-date-picker>
+                        </v-row>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+                  <v-card-actions class="justify-center">
+                    <v-btn
+                      v-on:click="edit"
+                      color="primary"
+                      class="btnEdit"
+                      x-large
+                      width="30%"
+                      >Edit</v-btn
+                    >
+                    <v-btn
+                      v-on:click="closeEditOrderDialog"
+                      color="primary"
+                      class="btnCancel"
+                      x-large
+                      width="30%"
+                      >Cancel</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -89,7 +207,8 @@ export default {
     possibleEditingOrderList: [],
     dialogEditOrder: false,
     dialogDeleteOrder: false,
-    offerList: [],
+    orderMedicineItems: [],
+    possibleNewMedicineItems: [],
     headers: [
       {
         text: "Order ID",
@@ -149,6 +268,52 @@ export default {
         sortable: true,
       },
       {
+        text: "Old quantity",
+        value: "quantity",
+        align: "center",
+        sortable: true,
+        width: "16%",
+      },
+      {
+        text: "New quantity",
+        value: "newQuantity",
+        align: "center",
+        sortable: false,
+        width: "16%",
+      },
+    ],
+    headersNew: [
+      {
+        text: "Medicine ID",
+        value: "medicineId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine code",
+        value: "medicineCode",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine name",
+        value: "name",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine type",
+        value: "type",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Medicine form",
+        value: "medicineForm",
+        align: "center",
+        sortable: true,
+      },
+      {
         text: "New quantity",
         value: "newQuantity",
         align: "center",
@@ -161,11 +326,24 @@ export default {
     id: null,
     pharmacyAdminId: localStorage.getItem("userId"),
     deleteOrderId: null,
+    newOfferDeadline: "",
+    oldOfferDeadline: "",
+    datePickerFormat: "dd.MM.yyyy.",
+    keys1: [],
+    values1: [],
+    keys2: [],
+    values2: [],
+    medicineItemInOrderData: new Map(),
+    newMedicineItemData: new Map(),
+    deadLine: "",
   }),
   mounted() {
     this.initialize();
   },
   methods: {
+    disablePastDates(val) {
+      return val >= new Date().toISOString().substr(0, 10);
+    },
     initialize() {
       this.axios
         .get("http://localhost:8091/orders/possibleEditingOrders", {
@@ -186,10 +364,11 @@ export default {
       this.index = this.possibleEditingOrderList.indexOf(item);
       this.orderItem = Object.assign({}, item);
       this.dialogEditOrder = true;
-      /*
+      this.oldOfferDeadline = this.orderItem.offerDeadline;
+
       this.axios
         .get(
-          "http://localhost:8091/offers/findOffersByOrderId/" +
+          "http://localhost:8091/medicineItem/findMedicineItemsByOrderId/" +
             this.orderItem.orderId,
           {
             headers: {
@@ -199,8 +378,23 @@ export default {
         )
         .then((resp) => {
           console.log(resp.data);
-          this.offerList = resp.data;
-        });*/
+          this.orderMedicineItems = resp.data;
+        });
+
+      this.axios
+        .get(
+          "http://localhost:8091/medicineItem/findMedicineItemsNotExistByOrderId/" +
+            this.orderItem.orderId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.possibleNewMedicineItems = resp.data;
+        });
     },
     closeEditOrderDialog() {
       this.dialogEditOrder = false;
@@ -225,35 +419,120 @@ export default {
     deleteThisOrder() {
       console.log(this.deleteOrderId);
       this.axios
-        .get(
-          "http://localhost:8091/orders/delete/" + this.deleteOrderId,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            }
-          }
-        )
+        .get("http://localhost:8091/orders/delete/" + this.deleteOrderId, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((resp) => {
           alert("Order is deleted.");
           console.log(resp.data);
           window.location.href = "/homePagePharmacyAdmin";
         });
     },
+    edit() {
+
+        console.log(this.newOfferDeadline);
+        if (this.newOfferDeadline == "") {
+            this.deadLine = this.oldOfferDeadline;
+        } else
+        {
+            this.deadLine = this.newOfferDeadline;
+        }
+        
+        for (let i = 0; i < this.orderMedicineItems.length; i++) {
+          var medicineInOrder = this.orderMedicineItems[i];
+          if (medicineInOrder.newQuantity == null) {
+            medicineInOrder.newQuantity = this.orderMedicineItems[i].quantity;
+          }
+          var addQuantity = parseInt(medicineInOrder.newQuantity);
+          if (addQuantity < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          } 
+          else {
+            this.keys1.push(medicineInOrder.medicineId);
+            this.values1.push(addQuantity);
+            this.medicineItemInOrderData.set(medicineInOrder.medicineId, addQuantity);
+          }
+        }
+
+
+        for (let i = 0; i < this.possibleNewMedicineItems.length; i++) {
+          var newMedicine = this.possibleNewMedicineItems[i];
+          if (newMedicine.newQuantity == null) {
+            newMedicine.newQuantity = 0;
+          }
+          var newQuantityForNewMedicine = parseInt(newMedicine.newQuantity);
+          if (newQuantityForNewMedicine < 0) {
+            alert("You must enter a positive value for the quantity!");
+            return;
+          }
+
+          if (newQuantityForNewMedicine > 0) {
+            this.keys2.push(newMedicine.medicineId);
+            this.values2.push(newQuantityForNewMedicine);
+            this.newMedicineItemData.set(newMedicine.medicineId, newQuantityForNewMedicine);
+          }
+        }
+
+        this.axios
+          .post(
+            "http://localhost:8091/orders/editOrder",
+             {
+                orderId: this.orderItem.orderId,
+                offerDeadline: this.deadLine,
+                keys1: this.keys1,
+                values1: this.values1,
+                keys2: this.keys2,
+                values2: this.values2
+        
+            },
+            {
+               headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+               },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            this.newOfferDeadline = "";
+            this.keys1 = [];
+            this.values1 = [];
+            this.keys2 = [];
+            this.values2 = [];
+            this.medicineItemInOrderData = new Map();
+            this.newMedicineItemData = new Map();
+            this.deadLine = "";
+            location.reload();
+            alert("Successfully updated order!");
+          });
+    }
   },
 };
 </script>
 
 <style scoped>
-#orderEditingCaption {
+.orderEditingCaption {
   margin-top: 2%;
   margin-bottom: 2%;
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
 }
-#orderEditingCard {
+.orderEditingCard {
   width: 80%;
   text-align: center;
   margin: auto;
+}
+.btnEdit {
+  margin: 5%;
+  padding-top: 10%;
+}
+.btnCancel {
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-bottom: 5%;
+  padding-top: 10%;
 }
 </style>

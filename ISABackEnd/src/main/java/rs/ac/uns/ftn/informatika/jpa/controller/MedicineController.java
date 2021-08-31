@@ -23,7 +23,6 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
-import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;

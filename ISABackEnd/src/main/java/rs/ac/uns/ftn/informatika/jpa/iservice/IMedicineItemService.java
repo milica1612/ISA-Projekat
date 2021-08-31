@@ -19,4 +19,7 @@ public interface IMedicineItemService {
 
 	List<MedicineItemDTO> findPotentiallyNewMedicineItemsForPharmacy(Long pharmacyId);
 
+	List<MedicineItemDTO> findMedicineItemsByOrderId(Long orderId);
+	
+	List<MedicineItemDTO> findMedicineItemsNotExistByOrderId(Long orderId);
 }
