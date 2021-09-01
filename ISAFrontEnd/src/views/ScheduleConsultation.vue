@@ -173,7 +173,11 @@ export default {
                Authorization: 'Bearer ' + localStorage.getItem("token")
              }
            })
-           .then(r => (this.pharmacies = r.data))
+           .then(r => {this.pharmacies = r.data
+              if(this.pharmacies.length == 0){
+                alert("There are no pharamacies with available pharmacist for selected time!")
+              }
+           })
      }else{
        alert("Please select a date in the future.")
      }
