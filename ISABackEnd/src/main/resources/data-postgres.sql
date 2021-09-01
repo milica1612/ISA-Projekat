@@ -498,15 +498,15 @@ VALUES (default, 'NONE', false, '2021-11-11 12:00:00', 30, 5,2000, 12, null, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-11-11 14:00:00', 30, 5,2000, 12, null, 2);
-
-INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
-duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-11-11 15:00:00', 30, 5,2000, 12, null, 2);
-
-INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
-duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-11-11 13:00:00', 30, 5,2000, 12, 1, 1);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 16:00:00', 30, 5,2000, 12, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-11-11 17:00:00', 30, 5,2000, 12, null, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
@@ -704,6 +704,11 @@ INSERT INTO public.time_interval(
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+	
+-- Sara - work in Jankovic Pharmacy Second Shift Valid for time 01.08.2021 - 30.11.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 12, 2, 3, 8);
 
 INSERT INTO public.price_tag(
 	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
