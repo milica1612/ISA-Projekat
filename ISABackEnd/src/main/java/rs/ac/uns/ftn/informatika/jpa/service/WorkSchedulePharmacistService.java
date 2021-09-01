@@ -13,6 +13,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IWorkSchedulePharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.WorkSchedulePharmacist;
@@ -25,7 +26,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 	private IWorkSchedulePharmacistRepository _workScheduleRepository;
 
 	@Override
-	public ArrayList<Pharmacy> getAvailablePharmacies(Date date) {
+	public ArrayList<Pharmacy> getAvailablePharmacies(Date date, ArrayList<PharmacistVacation> vacations) {
 		
 		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
 		ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
@@ -47,65 +48,95 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		int endTime = startTime + 30;
 			
 		for (WorkSchedulePharmacist workSchedule : all) {
+			boolean notAvailable = checkVacation(examStart, examEnd, vacations, workSchedule);
+			if(notAvailable == false) {
+				Calendar validS = Calendar.getInstance();
+				validS.setTime(workSchedule.getValidFor().getStartDate());
+				System.out.println(validS.toString());
+				
+				Calendar validE = Calendar.getInstance(); // creates calendar
+				validE.setTime(workSchedule.getValidFor().getEndDate());               // sets calendar time/date
+				System.out.println(validE.toString());
+				
+				int shiftStart = workSchedule.getShift().getStartDate().getHours()*60 + workSchedule.getShift().getStartDate().getMinutes();
+				int shiftEnd = workSchedule.getShift().getEndDate().getHours()*60 + workSchedule.getShift().getEndDate().getMinutes();
 			
-			Calendar validS = Calendar.getInstance();
-			validS.setTime(workSchedule.getValidFor().getStartDate());
-			System.out.println(validS.toString());
-			
-			Calendar validE = Calendar.getInstance(); // creates calendar
-			validE.setTime(workSchedule.getValidFor().getEndDate());               // sets calendar time/date
-			System.out.println(validE.toString());
-			
-			int shiftStart = workSchedule.getShift().getStartDate().getHours()*60 + workSchedule.getShift().getStartDate().getMinutes();
-			int shiftEnd = workSchedule.getShift().getEndDate().getHours()*60 + workSchedule.getShift().getEndDate().getMinutes();
-		
-			Long validStart = validS.getTimeInMillis();
-			Long validEnd = validE.getTimeInMillis(); 		
-			
-			Set<Consultation> consultations = workSchedule.getScheduledConsultations();
-			boolean notAvailable = false;
-			if(validStart <= examStart && validEnd >= examStart) {
-				System.out.println("Dobar period");
-				if(shiftStart <= startTime && shiftEnd >= endTime) {
-					System.out.println("Dobra smjena");
-					for (Consultation c : consultations) {
-						Calendar startCons = Calendar.getInstance(); 
-						startCons.setTime(c.getDateAndTime());               
-						
-						Calendar endCons = Calendar.getInstance();
-						endCons.setTime(c.getDateAndTime());              
-						endCons.add(Calendar.MINUTE, c.getDuration());
-						
-						if(c.getCancelled() == true) {
-								System.out.println("cancelled");
-							}else if(examS.before(startCons) && endExam.after(startCons)) {
-								System.out.println("notAvailable");
-								notAvailable = true;
-								break;
-							}else if(examS.before(endCons) && endExam.after(endCons)){
-								System.out.println("notAVailable");
-								notAvailable = true;
-								break;
-							}else if(examS.equals(startCons)) {
-								System.out.println("notAVailable");
-								notAvailable = true;
-								break;
-							}
+				Long validStart = validS.getTimeInMillis();
+				Long validEnd = validE.getTimeInMillis(); 		
+				
+				Set<Consultation> consultations = workSchedule.getScheduledConsultations();
+				
+				if(validStart <= examStart && validEnd >= examStart) {
+					System.out.println("Dobar period");
+					if(shiftStart <= startTime && shiftEnd >= endTime) {
+						System.out.println("Dobra smjena");
+						for (Consultation c : consultations) {
+							Calendar startCons = Calendar.getInstance(); 
+							startCons.setTime(c.getDateAndTime());               
 							
-						}
-							if(notAvailable) {
-								notAvailable = false;
-							}else if (!pharmacies.contains(workSchedule.getPharmacy())){
-								System.out.println("dodaj");
-								pharmacies.add(workSchedule.getPharmacy());
+							Calendar endCons = Calendar.getInstance();
+							endCons.setTime(c.getDateAndTime());              
+							endCons.add(Calendar.MINUTE, c.getDuration());
+							
+							if(c.getCancelled() == true) {
+									System.out.println("cancelled");
+								}else if(examS.before(startCons) && endExam.after(startCons)) {
+									System.out.println("notAvailable");
+									notAvailable = true;
+									break;
+								}else if(examS.before(endCons) && endExam.after(endCons)){
+									System.out.println("notAVailable");
+									notAvailable = true;
+									break;
+								}else if(examS.equals(startCons)) {
+									System.out.println("notAVailable");
+									notAvailable = true;
+									break;
+								}
+								
 							}
+								if(notAvailable) {
+									notAvailable = false;
+								}else if (!pharmacies.contains(workSchedule.getPharmacy())){
+									System.out.println("dodaj");
+									pharmacies.add(workSchedule.getPharmacy());
+								}
+						}
 					}
-				}
 			}
+		}
 			
 		return pharmacies;
 }
 
+	@Override
+	public boolean checkVacation(Long startConsulatation, Long endConsulatation, ArrayList<PharmacistVacation> vacations, WorkSchedulePharmacist workSchedule) {
+		
+		for (PharmacistVacation v : vacations) {
+			Calendar vStart = Calendar.getInstance(); // creates calendar
+			vStart.setTime(v.getStartDate());
+			System.out.println(vStart.toString());
+			System.out.println("++++++++++++++++++++++++++++++++");
+			
+			Calendar vEnd = Calendar.getInstance(); // creates calendar
+			vEnd.setTime(v.getEndDate());
+			System.out.println(vEnd.toString());
+			
+			Long vacationStart = vStart.getTimeInMillis();
+			Long vacationEnd = vEnd.getTimeInMillis(); 
+			if(v.getPharmacist().getUserId() == workSchedule.getPharmacist().getUserId()) {
+				System.out.println("farmaceut isti");
+				if(vacationStart <= startConsulatation && vacationEnd >= endConsulatation) {
+					System.out.println("pregled je u vacation");
+					return true;
+					
+				}
+			}
+		}
+		return false;
+		
+	}
+	
 	@Override
 	public ArrayList<Pharmacist> getAvailablePharmacistsInPharmacy(Date date, Long pharmacyId) {
 		
@@ -258,4 +289,5 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		_workScheduleRepository.save(workSchedule);
 		return true;
 	}
+
 }

@@ -2,6 +2,8 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,4 +108,48 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 		}
 	}
 	
+	@Override
+	public PharmacistVacation requestForVacationPharmacist(PharmacistVacation pv) {
+			
+		PharmacistVacation pharmacistVacation = new PharmacistVacation();
+		pharmacistVacation.setStartDate(pv.getStartDate());
+		pharmacistVacation.setEndDate(pv.getEndDate());
+		pharmacistVacation.setStatus(Status.WAITING);
+		pharmacistVacation.setPharmacist(pv.getPharmacist());
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(new Date());
+		
+		Calendar vacationS = Calendar.getInstance();
+		vacationS.setTime(pv.getStartDate());
+		
+		Calendar vacationE = Calendar.getInstance(); // creates calendar
+		vacationE.setTime(pv.getEndDate());               // sets calendar time/date
+		
+		Long startDate = start.getTimeInMillis(); 
+		Long vacationStart = vacationS.getTimeInMillis();
+		Long vacationEnd = vacationE.getTimeInMillis(); 
+		
+		if(vacationEnd <= vacationStart || startDate > vacationStart || startDate > vacationEnd) {
+			return null;
+		}
+		
+		return _pharmacistVacationRepository.save(pharmacistVacation);
+	}
+	
+	@Override
+	public List<PharmacistVacation> findAllAcceptedVacations(){
+		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationRepository.findAll();
+		ArrayList<PharmacistVacation> result = new ArrayList<PharmacistVacation>();
+		for (PharmacistVacation pharmacistVacation : vacations) {
+			if(pharmacistVacation.getStatus() == Status.ACCEPTED) {
+				result.add(pharmacistVacation);
+			}
+		}
+		return result;
+	}
+	
+	
+	
 }
+

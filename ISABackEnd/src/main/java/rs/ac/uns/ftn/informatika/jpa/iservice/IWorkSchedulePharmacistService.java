@@ -6,11 +6,15 @@ import java.util.Date;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.WorkSchedulePharmacist;
 
 public interface IWorkSchedulePharmacistService {
-	ArrayList<Pharmacy> getAvailablePharmacies(Date date);
 	ArrayList<Pharmacist> getAvailablePharmacistsInPharmacy(Date date, Long pharmacyId);
 	void addNewConsultationToWorkSchedule(Consultation c);
 	Boolean addConsToWorkSchedule(Consultation c);
+	ArrayList<Pharmacy> getAvailablePharmacies(Date date, ArrayList<PharmacistVacation> vacations);
+	boolean checkVacation(Long startConsulatation, Long endConsulatation, ArrayList<PharmacistVacation> vacations,
+			WorkSchedulePharmacist workSchedule);
 }

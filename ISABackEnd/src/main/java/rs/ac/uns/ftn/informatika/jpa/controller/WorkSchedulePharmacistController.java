@@ -21,7 +21,9 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.service.PharmacistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -30,6 +32,9 @@ import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 public class WorkSchedulePharmacistController {
 	@Autowired
 	private WorkSchedulePharmacistService _workSchedulePharmacist;
+	
+	@Autowired
+	private PharmacistVacationService _pharmacistVacationService;
 	
 	@PutMapping("/getAvailablePharmacies")
 	public ArrayList<Pharmacy> getAvailablePharmacies(@RequestBody AppointmentDateAndTimeDTO dto) {
@@ -44,8 +49,8 @@ public class WorkSchedulePharmacistController {
 			return new ArrayList<Pharmacy>();
 		}  
 		
-	
-		return _workSchedulePharmacist.getAvailablePharmacies(date);
+		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
+		return _workSchedulePharmacist.getAvailablePharmacies(date, vacations);
 		
 	}
 	

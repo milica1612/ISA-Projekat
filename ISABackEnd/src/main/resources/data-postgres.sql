@@ -480,6 +480,8 @@ insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_us
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 17, 2); 
 
+insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20211112 07:00:00 AM','20211115 07:00:00 PM', 9, 0); 
+
 -- DERMATOLOGIST-VACATION - TEST DATA
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211012 07:00:00 AM','20211022 07:00:00 PM', 18, 2); 
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211020 07:00:00 AM','20211030 07:00:00 PM', 18, 2); 
