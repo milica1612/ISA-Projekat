@@ -78,8 +78,7 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	@Override
-	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating) {
-		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating, ArrayList<Pharmacy> pharmacies) {
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		for (Pharmacy pharmacy : pharmacies) {
 			if(pharmacy.getRating() >= rating) 

@@ -65,7 +65,6 @@
                                 small
                                 v-bind="attrs"
                                 v-on="on"
-                                v-if="isLoggedAsNotUser"
                             >Medicine Specification</v-btn>
                           </template>
                           <template v-slot:default="dialog">
@@ -290,13 +289,6 @@ export default {
   computed:{
     isLogged: function (){
       if (this.token == "" || localStorage.getItem("userType") != "PATIENT"){
-        return false
-      }else{
-        return true
-      }
-    },
-    isLoggedAsNotUser: function (){
-      if (this.token == "" || localStorage.getItem("userType") == "PATIENT"){
         return false
       }else{
         return true
