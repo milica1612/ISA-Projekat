@@ -2,23 +2,28 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.iservice.IWorkScheduleDermatologistService;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.WorkScheduleDermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.WorkSchedulePharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IWorkScheduleDermatologistRepository;
 
 @Service
 public class WorkScheduleDermatologistService implements IWorkScheduleDermatologistService{ 
 
-	@Autowired
 	private IWorkScheduleDermatologistRepository _workScheduleRepository;
+
+	@Autowired
+	public WorkScheduleDermatologistService(IWorkScheduleDermatologistRepository workScheduleDermatologistRepository) {
+		this._workScheduleRepository = workScheduleDermatologistRepository;
+	}
 
 	public  WorkScheduleDermatologist findWorkScheduleForDermatologistInPeriod(Examination examination) {
 		ArrayList<WorkScheduleDermatologist> all = (ArrayList<WorkScheduleDermatologist>) _workScheduleRepository.findAll();
@@ -83,5 +88,24 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 		workSchedule.getScheduledExaminations().add(e);
 		_workScheduleRepository.save(workSchedule);
 		return true;
+	}
+
+	@Override
+	public String getShiftByDermatologistId(Long dermatologistId) {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<WorkScheduleDermatologist> allWorkScheduleDermatologists = _workScheduleRepository.findAll();
+		StringBuilder shift = new StringBuilder();
+		for (WorkScheduleDermatologist w : allWorkScheduleDermatologists) {
+			if (w.getDermatologist().getUserId() == dermatologistId && w.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+				TimeInterval timeShift = w.getShift();
+				shift.append("The dermatologist in our pharmacy works in shifts");
+				shift.append(" from ");
+				shift.append(timeShift.getStartDate().toString());
+				shift.append(" to ");
+				shift.append(timeShift.getEndDate().toString());
+			}
+		}
+		
+		return shift.toString();
 	}
 }

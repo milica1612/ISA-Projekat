@@ -21,17 +21,38 @@
             <v-spacer></v-spacer>
           </v-toolbar>
         </template>
-          <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <template v-slot:[`item.action`]="{ item }">
           <v-card-actions>
-              <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
             <v-btn color="primary" text @click="selectDermatologist(item)">
               SELECT DERMATOLOGIST
             </v-btn>
-              <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
           </v-card-actions>
         </template>
       </v-data-table>
+      <div v-if="showDermatologistVacationList">
+        <v-data-table
+          :headers="headersVacation"
+          :items="dermatologistVacationList"
+          :items-per-page="5"
+          :sort-by="dermatologistName"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Current vacation list for a dermatologist {{ dermatologist }}
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
+      <div v-if="showShift">
+        <h2>{{shift}}</h2>
+      </div>
     </v-card>
   </div>
 </template>
@@ -43,8 +64,10 @@ export default {
   data: () => ({
     pharmacyAdmin: null,
     dermatologistList: [],
+    dermatologistVacationList: [],
     pharmcayId: localStorage.getItem("pharmacyId"),
     pharmacyName: "",
+    dermatologist: "",
     headers: [
       {
         text: "Dermatologist ID",
@@ -82,6 +105,29 @@ export default {
         sortable: false,
       },
     ],
+    headersVacation: [
+      {
+        text: "Dermatologist name",
+        value: "dermatologistName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Email",
+        value: "email",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Description",
+        value: "description",
+        align: "center",
+        sortable: true,
+      },
+    ],
+    showDermatologistVacationList: false,
+    showShift: false,
+    shift: "",
   }),
   mounted() {
     this.initialize();
@@ -128,8 +174,46 @@ export default {
         .then((response) => (this.dermatologistList = response.data));
     },
     selectDermatologist(item) {
-        console.log(item);
-    }
+      console.log(item);
+      this.axios
+        .get(
+          "http://localhost:8091/dermatologistVacation/isOnVacation/" +
+            item.userId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          this.dermatologistVacationList = response.data;
+          if (this.dermatologistVacationList.length > 0) {
+            this.showDermatologistVacationList = true;
+            this.dermatologist = item.firstName + " " + item.lastName;
+          } else {
+            this.showDermatologistVacationList = false;
+          }
+        });
+
+      this.axios
+        .get(
+          "http://localhost:8091/workScheduleDermatologist/findShiftByDermatologistId/" +
+            item.userId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          this.shift = response.data;
+          if (this.shift != "") {
+            this.showShift = true;
+          } else {
+            this.showShift = false;
+          }
+        });
+    },
   },
 };
 </script>
