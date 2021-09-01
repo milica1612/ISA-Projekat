@@ -101,7 +101,8 @@
             <th>
               Address
             </th>
-            <th>
+            <th :class="sortedClass('consultationPrice')"
+                @click="sortBy('consultationPrice')">
               Consultation Price
             </th>
           </tr>
@@ -114,7 +115,7 @@
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
-            <td>{{p.consultationPrice + " rsd" }}</td>
+            <td>{{p.consultationPrice.toString() + " rsd"}}</td>
             <td>
               <v-btn
                   color="secondary"
@@ -145,6 +146,7 @@ export default {
       modal2: false,
       pharmacies: [],
       searchField: "",
+      dateValid: false,
       token: localStorage.getItem("token"),
       sort: {
         key: '',
@@ -155,12 +157,31 @@ export default {
   methods: {
     getPharmacies(){
       this.axios
-          .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacies',{date: this.date, time: this.time}, {
+          .put('http://localhost:8091/workSchedulePharmacist/checkDate',{date: this.date, time: this.time}, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
-          .then(r => (this.pharmacies = r.data))
+          .then(r => {this.dateValid = r.data
+     if(this.dateValid) {
+       this.axios
+           .put('http://localhost:8091/workSchedulePharmacist/getAvailablePharmacies', {
+             date: this.date,
+             time: this.time
+           }, {
+             headers: {
+               Authorization: 'Bearer ' + localStorage.getItem("token")
+             }
+           })
+           .then(r => {this.pharmacies = r.data
+              if(this.pharmacies.length == 0){
+                alert("There are no pharamacies with available pharmacist for selected time!")
+              }
+           })
+     }else{
+       alert("Please select a date in the future.")
+     }
+          })
     },
 
     pharmacistsForConsultation(p){

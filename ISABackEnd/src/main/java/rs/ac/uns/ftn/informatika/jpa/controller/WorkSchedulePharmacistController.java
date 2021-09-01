@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,28 @@ public class WorkSchedulePharmacistController {
 	
 		return _workSchedulePharmacist.getAvailablePharmacies(date);
 		
+	}
+	
+	@PutMapping("/checkDate")
+	public boolean checkDate(@RequestBody AppointmentDateAndTimeDTO dto) {
+		Calendar cal = Calendar.getInstance(); // creates calendar
+		cal.setTime(new Date()); 
+		String d = dto.getDate() + " " +  dto.getTime() + ":00";
+	    Date date;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d);
+			System.out.println(date.toString());
+			if(date.before(cal.getTime())) {
+				return false;
+			}else {
+				return true;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+			
+		}  
 	}
 	
 	@PutMapping("/getAvailablePharmacistsInPharmacy")
