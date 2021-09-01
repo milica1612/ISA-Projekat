@@ -86,7 +86,7 @@ export default {
     }
   },
   methods: {
-    getEvents: function ({start, end}) {
+    getEvents: function () {
       //const evs ={}
       this.axios
           .get('http://localhost:8091/consultation/allForPharmacist/' + this.pharmacist.userId, {
@@ -97,8 +97,8 @@ export default {
           .then( response => {
             this.consultations = response.data;
             const events = []
-            const min = new Date(`${start.date}T00:00:00`)
-            const max = new Date(`${end.date}T23:59:59`)
+            //const min = new Date(`${start.date}T00:00:00`)
+            //const max = new Date(`${end.date}T23:59:59`)
 
 
             for(let i = 0; i <= this.consultations.length; i++){
@@ -134,12 +134,15 @@ export default {
               this.events = evs;*/
 
               const allDay = this.rnd(0, 3) === 0
-              const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-              const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-              const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+              //const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+              const first = new Date(this.consultations[i].dateAndTime - (this.consultations[i].dateAndTime % 900000))
+              //alert(first.toString())
+              const secondTimestamp = 30 * 60 * 1000
               const second = new Date(first.getTime() + secondTimestamp)
+              //alert(second.toString())
+
               events.push({
-                name: this.names[this.rnd(0, this.names.length - 1)],
+                name: "Consultation",
                 start: first,
                 end: second,
                 color: this.colors[this.rnd(0, this.colors.length - 1)],
