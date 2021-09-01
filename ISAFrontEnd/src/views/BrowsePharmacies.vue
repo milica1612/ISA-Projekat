@@ -14,20 +14,20 @@
     <h3>Filtrate by rating higher than:</h3>
 
 
-    <label>Rating 5</label>
-    <input type="radio" value=5 name="rating" @change = "filtrate(5)">
+    <label>Rating 10</label>
+    <input type="radio" value=10 name="rating" @change = "filtrate(10)">
 
-    <label>Rating4</label>
-    <input type="radio" value=4 name="rating" @change = "filtrate(4)">
+    <label>Rating 9</label>
+    <input type="radio" value=9 name="rating" @change = "filtrate(9)">
 
-    <label>Rating 3</label>
-    <input type="radio" value=3 name="rating" @change = "filtrate(3)">
+    <label>Rating 8</label>
+    <input type="radio" value=8 name="rating" @change = "filtrate(8)">
 
-    <label>Rating 2</label>
-    <input type="radio" value=2 name="rating" @change = "filtrate(2)">
+    <label>Rating 7</label>
+    <input type="radio" value=7 name="rating" @change = "filtrate(7)">
 
-    <label>Rating 1</label>
-    <input type="radio" value=1 name="rating" @change = "filtrate(1)">
+    <label>Rating 6</label>
+    <input type="radio" value=6 name="rating" @change = "filtrate(6)">
 
       <v-simple-table>
         <template v-slot:default>
@@ -41,8 +41,8 @@
                 @click="sortBy('rating')">
               Rating
             </th>
-            <th :class="sortedClass('adress')"
-                @click="sortBy('adress')">
+            <th :class="sortedClass('address')"
+                @click="sortBy('address')">
               Address
             </th>
           </tr>

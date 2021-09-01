@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -57,4 +59,6 @@ public class DermatologistController {
 	public Set<Dermatologist> getAllDermatologistByPharmacyId(@PathVariable Long pharmacyId){
 		return _dermatologistService.getAllDermatologistByPharmacyId(pharmacyId);
 	}
+
 }
+

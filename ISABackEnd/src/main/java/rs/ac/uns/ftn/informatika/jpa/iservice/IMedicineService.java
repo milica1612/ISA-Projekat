@@ -20,5 +20,6 @@ public interface IMedicineService {
 	public Medicine addNewMedicine(MedicineRegistrationDTO medicineRegistration);	 
 	public List<MedicineAvailableInPharmacyDTO> findPharmacyForMedicineItem(String name);
 	PriceTag getCurrentPriceForMedicine(Pharmacy p, String med);
+	void updateRating(Long medicineId, Double newRating);
 
 }

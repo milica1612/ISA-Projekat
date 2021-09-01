@@ -1,100 +1,136 @@
 <template>
   <div>
     <h1 id="pharmacyOrdersCaption">All pharmacy orders</h1>
+    <v-card id="pharmacyOrdersCard">
+      <div>
+        <v-data-table :headers="headers1" :items="orderList" sort-by="orderId">
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Choose offer for orders
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
 
-    <div>
-      <v-data-table :headers="headers1" :items="orderList" sort-by="orderId">
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center"> Choose offer for orders  </v-toolbar-title>
-            <v-spacer></v-spacer>
-
-            <v-dialog v-model="dialogShowOffer" max-width="60%">
-              <v-card>
-                <v-spacer></v-spacer>
-                <v-card-title class="text-h4 justify-center"
-                  >Offers</v-card-title
-                >
-                <v-data-table
-                  :headers="headers2"
-                  :items="offerList"
-                  sort-by="offerId"
-                >
-                  <template v-slot:[`item.actionAcceptOffer`]="{ item }" >
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn v-if="item.adminId == pharmacyAdminId && item.orderStatus == 'PROCESSED'" color="green" text @click="acceptOffer(item)"
-                        >Accept</v-btn
-                      >
-                      <v-btn v-else-if="item.adminId !== pharmacyAdminId && item.orderStatus == 'PROCESSED'" color="blue" text @click="seeNote(item)"
-                        >See note</v-btn
-                      >
-
-                      <v-btn v-else-if="item.orderStatus == 'WAITING_OFFER'" color="blue" text @click="waitingOffer(item)"
-                        >Waiting offer</v-btn
-                      >
-
-                      <v-spacer></v-spacer>
-                    </v-card-actions>
-                  </template>
-                </v-data-table>
-                <v-card-actions>
+              <v-dialog v-model="dialogShowOffer" max-width="60%">
+                <v-card>
                   <v-spacer></v-spacer>
+                  <v-card-title class="text-h4 justify-center"
+                    >Offers</v-card-title
+                  >
+                  <v-data-table
+                    :headers="headers2"
+                    :items="offerList"
+                    sort-by="offerId"
+                  >
+                    <template v-slot:[`item.actionAcceptOffer`]="{ item }">
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          v-if="
+                            item.adminId == pharmacyAdminId &&
+                            item.orderStatus == 'PROCESSED'
+                          "
+                          color="green"
+                          text
+                          @click="acceptOffer(item)"
+                          >Accept</v-btn
+                        >
+                        <v-btn
+                          v-else-if="
+                            item.adminId !== pharmacyAdminId &&
+                            item.orderStatus == 'PROCESSED'
+                          "
+                          color="blue"
+                          text
+                          @click="seeNote(item)"
+                          >See note</v-btn
+                        >
 
-                  <v-btn color="red" text @click="closeShowOffer">Close</v-btn>
+                        <v-btn
+                          v-else-if="item.orderStatus == 'WAITING_OFFER'"
+                          color="blue"
+                          text
+                          @click="waitingOffer(item)"
+                          >Waiting offer</v-btn
+                        >
 
-                  <v-spacer></v-spacer>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
-        <template v-slot:[`item.action`]="{ item }">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue" text @click="showOffer(item)">
-              SHOW OFFER
-            </v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </template>
-      </v-data-table>
-    </div>
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </template>
+                  </v-data-table>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
 
-    <div>
-      <v-data-table class="mt-5" :headers="headers1" :items="orderWaitingList" sort-by="orderId">
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center"> Waiting for offers  </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </template>
-         <template v-slot:[`item.action`]="{ item }">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue" text @click="showOffer(item)">
-              SHOW OFFER
-            </v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </template>
-      </v-data-table>
-    </div>
+                    <v-btn color="red" text @click="closeShowOffer"
+                      >Close</v-btn
+                    >
 
-    <div>
-      <v-data-table class="mt-5" :headers="headers3" :items="orderFinishedList" sort-by="orderId">
-        <template v-slot:top>
-          <v-toolbar dense dark color="light-blue darken-2">
-            <v-spacer></v-spacer>
-            <v-toolbar-title class="text-center"> Finished orders </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </template>
-      </v-data-table>
-    </div>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.action`]="{ item }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue" text @click="showOffer(item)">
+                SHOW OFFER
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </template>
+        </v-data-table>
+      </div>
 
+      <div>
+        <v-data-table
+          class="mt-5"
+          :headers="headers1"
+          :items="orderWaitingList"
+          sort-by="orderId"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Waiting for offers
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.action`]="{ item }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue" text @click="showOffer(item)">
+                SHOW OFFER
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </template>
+        </v-data-table>
+      </div>
+
+      <div>
+        <v-data-table
+          class="mt-5"
+          :headers="headers3"
+          :items="orderFinishedList"
+          sort-by="orderId"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Finished orders
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -206,11 +242,6 @@ export default {
     pharmacyAdminId: null,
     pharmacyAdminNote: null,
   }),
-  watch: {
-    dialogShowOffer(val) {
-      val || this.closeShowOffer();
-    },
-  },
   mounted() {
     this.initialize();
   },
@@ -238,7 +269,7 @@ export default {
           this.orderWaitingList = response.data;
         });
 
-       this.axios
+      this.axios
         .get("http://localhost:8091/orders/finishedOrdersForPharmacy", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -253,23 +284,27 @@ export default {
       this.index = this.orderList.indexOf(item);
       this.orderItem = Object.assign({}, item);
       this.dialogShowOffer = true;
-  
+
       this.axios
-      .get("http://localhost:8091/offers/findOffersByOrderId/" + this.orderItem.orderId,
-      {
-          headers: {
+        .get(
+          "http://localhost:8091/offers/findOffersByOrderId/" +
+            this.orderItem.orderId,
+          {
+            headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-      })
-      .then(resp => {
+            },
+          }
+        )
+        .then((resp) => {
           console.log(resp.data);
           this.offerList = resp.data;
-      });
+        });
     },
-    acceptOffer(offer) 
-    {
+    acceptOffer(offer) {
       console.log(offer);
-      alert("Be patient and the action will be successfully completed in a few moments.");
+      alert(
+        "Be patient and the action will be successfully completed in a few moments."
+      );
       this.axios
         .post(
           "http://localhost:8091/offers/acceptOffer",
@@ -282,14 +317,12 @@ export default {
             },
           }
         )
-        .then(response => 
-        {
+        .then((response) => {
           console.log(response.data);
           alert("The offer was accepted!");
           location.reload();
         });
       this.closeShowOffer();
-
     },
     closeShowOffer() {
       this.dialogShowOffer = false;
@@ -300,7 +333,7 @@ export default {
     },
     seeNote(item) {
       console.log(item);
-       this.axios
+      this.axios
         .get("http://localhost:8091/pharmacyAdmin/" + item.adminId, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -309,12 +342,22 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.pharmacyAdminNote = response.data;
-          alert("This order was placed by another pharmacy administrator, " + this.pharmacyAdminNote.firstName + " " + this.pharmacyAdminNote.lastName + " email " + this.pharmacyAdminNote.email + " , you can't select an offer.");
+          alert(
+            "This order was placed by another pharmacy administrator, " +
+              this.pharmacyAdminNote.firstName +
+              " " +
+              this.pharmacyAdminNote.lastName +
+              " email " +
+              this.pharmacyAdminNote.email +
+              " , you can't select an offer."
+          );
         });
     },
     waitingOffer() {
-      alert("You can't choose an offer, you have to wait until the end of the deadline.");
-    } 
+      alert(
+        "You can't choose an offer, you have to wait until the end of the deadline."
+      );
+    },
   },
 };
 </script>
@@ -327,5 +370,10 @@ export default {
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
+}
+#pharmacyOrdersCard {
+  width: 80%;
+  text-align: center;
+  margin: auto;
 }
 </style>

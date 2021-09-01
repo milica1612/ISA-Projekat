@@ -19,4 +19,6 @@ public interface IDermatologistService {
 	List<DermatologistDTO> filterDermatologistByRating(Double minRating, Double maxRating);
 	
 	Set<Dermatologist> getAllDermatologistByPharmacyId(Long pharmacyId);
+
+	void updateRating(Long userId, Double newRating);
 }

@@ -10,6 +10,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.AnswerOnComplaintDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.AnswerOnComplaintForPharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.AnswerEmployee;
+import rs.ac.uns.ftn.informatika.jpa.model.ComplaintEmployee;
+import rs.ac.uns.ftn.informatika.jpa.model.ComplaintPharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
@@ -19,6 +24,9 @@ import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
+import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.repository.IComplaintEmployeeRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IComplaintPharmacyRepository;
 
 @Service
 public class EmailService {
@@ -26,6 +34,12 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
+	@Autowired
+	private IComplaintEmployeeRepository _complaintEmployeeRepository;
+	
+	@Autowired
+	private IComplaintPharmacyRepository _complaintPharmacyRepository;
+	
 	/*
 	 * Koriscenje klase za ocitavanje vrednosti iz application.properties fajla
 	 */
@@ -311,6 +325,59 @@ public class EmailService {
 		
 		javaMailSender.send(mail);
 		System.out.println("Declined offer email successfully sent!");
+	}
+	
+	public void sendAnswerOnComplaintEmailAsync(AnswerOnComplaintDTO answerEmployee) {
+			
+		ComplaintEmployee complaintEmployee = _complaintEmployeeRepository.findById(answerEmployee.getComplaintEmployeeId()).orElse(null);
+		
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(complaintEmployee.getPatient().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Answer for your complaint");
+		      
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " + complaintEmployee.getPatient().getFirstName() + " "  + complaintEmployee.getPatient().getLastName() + ",");
+		text.append("\n\n");
+		text.append(answerEmployee.getTextAnswer());
+		text.append("\n");
+		text.append("\n\n\r\n"
+				+ "Greeting");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Answer on complaint email successfully sent!");
+	}
+	
+	
+
+	
+	public void sendAnswerOnComplaintPharmacyEmailAsync(AnswerOnComplaintForPharmacyDTO answerOnComplaintForPharmacyDTO) {
+			
+		ComplaintPharmacy complaintPharmacy = _complaintPharmacyRepository.findById(answerOnComplaintForPharmacyDTO.getComplaintPharmacyId()).orElse(null);
+		
+		System.out.println(env.getProperty("spring.mail.username"));
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(complaintPharmacy.getPatient().getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Answer for your complaint");
+		      
+		StringBuilder text = new StringBuilder();
+		
+		text.append("Dear " +  complaintPharmacy.getPatient().getFirstName() + " "  + complaintPharmacy.getPatient().getLastName() + ",");
+		text.append("\n\n");
+		text.append(answerOnComplaintForPharmacyDTO.getTextAnswer());
+		text.append("\n");
+		text.append("\n\n\r\n"
+				+ "Greeting");
+		
+		mail.setText(text.toString());
+		
+		javaMailSender.send(mail);
+		System.out.println("Answer on complaint email successfully sent!");
 	}
 	
 }

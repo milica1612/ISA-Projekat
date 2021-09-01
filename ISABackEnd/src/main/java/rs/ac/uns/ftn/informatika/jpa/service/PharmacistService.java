@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacistRepository;
 
 @Service
@@ -72,6 +73,17 @@ public class PharmacistService implements IPharmacistService{
 		
 		return pharmacistDTOs;
 	
+	}
+
+	@Override
+	public void updateRating(Long userId, Double newRating) {
+		Pharmacist existing = _pharmacistRepository.findById(userId).orElse(null);
+		if(existing!= null) {
+			existing.setRating(newRating);
+			_pharmacistRepository.save(existing);
+		}
+		
+		
 	}
 
 }

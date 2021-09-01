@@ -11,20 +11,27 @@ import javax.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
+import rs.ac.uns.ftn.informatika.jpa.service.PenaltyService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.service.ReservationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -47,6 +54,9 @@ public class ReservationController {
 	private UserService _userService;
 	
 	@Autowired
+	private PenaltyService _penaltyService;
+	
+	@Autowired
 	private MedicineItemService _medicineItemService;
 	
 	static class ResChecker {
@@ -58,9 +68,18 @@ public class ReservationController {
 	@PostMapping("create")
 	public void createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
+		if(!_userService.checkPenalties(dto.getUserId())) {
+			System.out.println("Unable to make a reservation because of penalties");
+			return;
+		}
 		Reservation reservation = _reservationService.createReservation(dto,(Patient) user);
 		_medicineItemService.findMedicineItmeAndChangeQuantity(dto.getDto());
 		_emailService.sendReservationMadeEmail(reservation);
+	}
+	
+	@GetMapping(value = "/getByPatientId/{patientId}")
+	public ArrayList<ReservationViewDTO> getByPatient(@PathVariable Long patientId){
+		return _reservationService.getByPatient(patientId);
 	}
 	
 	@PutMapping("/findReservation")
@@ -100,6 +119,20 @@ public class ReservationController {
 		
 		return new Reservation();
 		
+	}
+	@PutMapping(value = "/cancel")
+	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
+		return _reservationService.cancelReservation(reservation);
+	}
+	
+	@PutMapping(value = "/checkForPenalties/{patientId}")
+	public void checkForPenalties(@PathVariable Long patientId) {
+		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
+		for (Penalty penalty : penalties) {
+			Penalty p = _penaltyService.save(penalty);
+			_userService.increasePenalty(patientId, p);
+			
+		}
 	}
 
 }

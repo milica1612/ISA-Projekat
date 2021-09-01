@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
+import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 
 @RestController
@@ -28,6 +31,9 @@ public class ExaminationContoller {
 	
 	@Autowired
 	private EmailService _emailService;
+	
+	@Autowired
+	private UserService _userService;
 
 	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
@@ -37,6 +43,11 @@ public class ExaminationContoller {
 		return _examinationService.getByPharmacy(pharmacyId);
 	}
 	
+	@GetMapping(value = "/getPreviousExaminations/{patientId}")
+	public ArrayList<ExaminationDTO> getPreviousExaminations(@PathVariable Long patientId){
+		return _examinationService.getPreviousExaminations(patientId);
+	}
+	
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
 		return _examinationService.getByPatient(patientId);
@@ -44,6 +55,10 @@ public class ExaminationContoller {
 	
 	@PutMapping(value = "/schedule")
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
+		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
+			System.out.println("Unable to schedule examination because of penalties");
+			return;
+		}
 		_examinationService.scheduleExamination(examination);
 	}
 	
@@ -137,7 +152,6 @@ public class ExaminationContoller {
 		}
 	}
 	
-	
 	static class DataForAppointment{
 		public Date dateAndTime;
 		public Long dermId;
@@ -158,6 +172,11 @@ public class ExaminationContoller {
 		}
 		
 		else return new Examination();
+	}
+	
+	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
+	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
+		return _examinationService.getAllDermatologistByPatient(patientId);
 	}
 	
 }

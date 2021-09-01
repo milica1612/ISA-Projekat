@@ -8,20 +8,32 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class ExaminationService implements IExaminationService{
 	@Autowired
 	private IExaminationRepository _examinationRepository;
 
+	@Autowired
+	private IUserRepository _userRepository;
+	
 	@Override
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
@@ -49,6 +61,7 @@ public class ExaminationService implements IExaminationService{
 		
 	}
 
+	//metoda koja dobavalja zakazane preglede koji se jos nisu odrzali
 	@Override
 	public ArrayList<ExaminationDTO> getByPatient(Long patientId) {
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
@@ -169,6 +182,20 @@ public class ExaminationService implements IExaminationService{
 		return this._examinationRepository.save(examination);
 		
 	}
+
+	@Override
+	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		for (Examination examination : allExaminations) {
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(!result.contains(examination.getPharmacy())) {
+						result.add(examination.getPharmacy());
+					}
+				}
+			}
+		}
+	}
 	
 	@Override
 	public Examination startExamination(Date date) {
@@ -217,5 +244,40 @@ public class ExaminationService implements IExaminationService{
 	@Override
 	public Examination findById(Long id) {
 		return _examinationRepository.findById(id).orElse(null);
+	}
+	
+	public ArrayList<Dermatologist> getAllDermatologistByPatient(Long patientId) {
+		
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<Dermatologist> result = new ArrayList<Dermatologist>();
+		
+		for(Examination examination: allExaminations) {
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					if(!result.contains(examination.getDermatologist())) {
+						result.add(examination.getDermatologist());
+					}	
+				}
+			}
+		}
+		return result;	
+	}
+
+	@Override
+	public ArrayList<ExaminationDTO> getPreviousExaminations(Long patientId) {
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
+		
+		for (Examination examination : allExaminations) {
+			if(examination.getPatient() != null) {
+				if(examination.getPatient().getUserId() == patientId && examination.getAppointmentStatus() == AppointmentStatus.FINISHED) {
+					result.add(new ExaminationDTO(examination.getAppointmentId(),examination.getDateAndTime().toString(),
+							examination.getDuration(),examination.getPrice(),examination.getPoints(),examination.getDermatologist(),
+							null, examination.getPharmacy()));
+				}
+			}
+		}
+		
+		return result;
 	}
 }

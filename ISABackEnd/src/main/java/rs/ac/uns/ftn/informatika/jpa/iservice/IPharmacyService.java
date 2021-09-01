@@ -18,4 +18,6 @@ public interface IPharmacyService {
 	ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar);
 
     ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating);
+
+	void updateRating(Long pharmacyId, Double newRating);
 }

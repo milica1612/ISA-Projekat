@@ -81,6 +81,12 @@ const routes = [{
             import ('../views/UpcomingVisits.vue')
     },
     {
+        path: '/medicineReservations',
+        name: 'MedicineReservations',
+        component: () =>
+            import ('../views/MedicineReservations.vue')
+    },
+    {
         path: '/scheduleConsultation',
         name: 'ScheduleConsultation',
         component: () =>
@@ -320,9 +326,56 @@ const routes = [{
         name: 'VacationDermatologist',
         component: () =>
             import('../views/VacationDermatologist.vue')
+    }, 
+    {
+        path: '/medicinesInPharmacy',
+        name: 'MedicinesInPharmacy',
+        component: () =>
+            import('../views/MedicinesInPharmacy.vue')
+    },
+    {
+        path: '/makeAnOrder',
+        name: 'MakeAnOrder',
+        component: () =>
+            import('../views/MakeAnOrder.vue')
+    },
+    {
+        path: '/rateAndReport',
+        name: 'RateAndReport',
+        component: () =>
+            import('../views/RateAndReport.vue')
+    },
+    {
+        path: '/complaints',
+        name: 'Complaints',
+        component: () =>
+            import('../views/Complaints.vue')
+    },
+    {
+        path: '/orderEditing',
+        name: 'OrderEditing',
+        component: () =>
+            import('../views/OrderEditing.vue')
+    },
+    {
+        path: '/previousExaminations',
+        name: 'PreviousExaminations',
+        component: () =>
+            import('../views/PreviousExaminations.vue')
+    },
+    {
+        path: '/previousConsultations',
+        name: 'PreviousConsultations',
+        component: () =>
+            import('../views/PreviousConsultations.vue')
+    },
+    {
+        path: '/myPenalties',
+        name: 'MyPenalties',
+        component: () =>
+            import('../views/MyPenalties.vue')
     }
 ]
-
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,

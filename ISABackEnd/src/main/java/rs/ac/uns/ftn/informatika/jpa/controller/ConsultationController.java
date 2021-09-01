@@ -57,6 +57,10 @@ public class ConsultationController {
 	@PostMapping("/create")
 	public void createNewConsultation(@RequestBody Request r) {
 		User user = _userService.findById(r.patientId);
+		if(!_userService.checkPenalties(r.patientId)) {
+			System.out.println("Unable to schedule consultation because of penalties");
+			return;
+		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 		this._emailService.sendConsultationConfirmation(c);
@@ -64,6 +68,12 @@ public class ConsultationController {
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ConsultationViewDTO> getByPatient(@PathVariable Long patientId){
 		return _consultationService.getByPatient(patientId);
+	}
+	
+
+	@GetMapping(value = "/getPreviousConsultations/{patientId}")
+	public ArrayList<ConsultationViewDTO> getPreviousConsultations(@PathVariable Long patientId){
+		return _consultationService.getPreviousConsultations(patientId);
 	}
 	
 	@PutMapping(value = "/cancel")
@@ -126,6 +136,7 @@ public class ConsultationController {
 		}
 	}
 	
+	
 	@GetMapping(value = "/allForPharmacist/{id}")
 	public List<Consultation> getByPharmacist(@PathVariable Long id) {
 		return _consultationService.getByPharmacist(id);
@@ -154,4 +165,9 @@ public class ConsultationController {
 		else return new Consultation();
 	}
 	
+	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
+	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
+		return _consultationService.getAllPharmacistForPatient(patientId);
+	}
+
 }

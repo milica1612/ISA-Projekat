@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
@@ -189,6 +190,17 @@ public class DermatologistService implements IDermatologistService {
 		Set<Dermatologist> dermatologists = pharmacy.getDermatologist();
 		
 		return dermatologists;
+	}
+
+
+	@Override
+	public void updateRating(Long userId, Double newRating) {
+		Dermatologist existing = _dermatologistRepository.findById(userId).orElse(null);
+		if(existing!= null) {
+			existing.setRating(newRating);
+			_dermatologistRepository.save(existing);
+		}
+		
 	}
 
 }

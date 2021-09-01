@@ -18,8 +18,8 @@ public class AnswerPharmacy {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answPhId; 
 	
-	@Column(name = "textPh", nullable = false)
-    private String textPh;
+	@Column(name = "textAnswer", nullable = false)
+    private String textAnswer;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public ComplaintPharmacy complaintPharmacy;
@@ -27,10 +27,10 @@ public class AnswerPharmacy {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public SystemAdministrator systemAdministrator;
    
-   public AnswerPharmacy(String textPh, Long answPhId, ComplaintPharmacy complaintPharmacy,
+   public AnswerPharmacy(String textAnswer, Long answPhId, ComplaintPharmacy complaintPharmacy,
 		SystemAdministrator systemAdministrator) {
 	super();
-	this.textPh = textPh;
+	this.textAnswer = textAnswer;
 	this.answPhId = answPhId;
 	this.complaintPharmacy = complaintPharmacy;
 	this.systemAdministrator = systemAdministrator;
@@ -41,14 +41,15 @@ public class AnswerPharmacy {
 	   
    }
    
-	public String getTextPh() {
-		return textPh;
+	
+	public String getTextAnswer() {
+		return textAnswer;
 	}
 	
-	public void setTextPh(String textPh) {
-		this.textPh = textPh;
+	public void setTextAnswer(String textAnswer) {
+		this.textAnswer = textAnswer;
 	}
-	
+
 	public Long getAnswPhId() {
 		return answPhId;
 	}

@@ -1,15 +1,16 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -289,14 +291,40 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public void increasePenalty(Long id) {
+	public void increasePenalty(Long id, Penalty p) {
 		
 		User user = findById(id);
 		
 		int penalty = ((Patient) user).getPenalty() + 1;
 		
 		((Patient) user).setPenalty(penalty);
+		((Patient) user).getPenalties().add(p);
 		update(user);
 	}
 	
+	@Override
+	public boolean checkPenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			int penalty = ((Patient) existing).getPenalty();
+			if(penalty >= 3) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public void deletePenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			((Patient) existing).setPenalty(0);
+			for (Penalty p : ((Patient) existing).getPenalties()) {
+				p.setDeleted(true);
+			}
+			((Patient) existing).setPenalties(new HashSet<Penalty>());
+			_userRepository.save(existing);
+		}
+	}
+
 }
