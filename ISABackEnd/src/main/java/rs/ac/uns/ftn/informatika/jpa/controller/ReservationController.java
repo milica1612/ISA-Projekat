@@ -123,6 +123,7 @@ public class ReservationController {
 	}
 	@PutMapping(value = "/cancel")
 	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
+		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
 		return _reservationService.cancelReservation(reservation);
 	}
 	

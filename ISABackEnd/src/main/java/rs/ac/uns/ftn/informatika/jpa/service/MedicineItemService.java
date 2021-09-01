@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineItemDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ReservationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
@@ -47,6 +48,19 @@ public class MedicineItemService implements IMedicineItemService{
 		this._medicineItemRepository.save(medicineItem);
 		return medicineItem;
 	}
+	
+	@Override
+	public MedicineItem increaseQuantityMedicineItem(@Valid MedicineItem mi) {
+		
+		int quantity = mi.getQuantity() + 1;
+		
+		MedicineItem medicineItem = _medicineItemRepository.findById(mi.getMedicine().getMedicineId()).orElse(null);
+		medicineItem.setMedicine(mi.getMedicine());
+		medicineItem.setQuantity(quantity);
+		System.out.println(quantity +  "*****************");
+		this._medicineItemRepository.save(medicineItem);
+		return medicineItem;
+	}
 
 	@Override
 	public void findMedicineItmeAndChangeQuantity(MedicineAvailableInPharmacyDTO dto) {
@@ -54,6 +68,18 @@ public class MedicineItemService implements IMedicineItemService{
 		for (MedicineItem m : all) {
 			if(m.getMedicine().getName().equals(dto.getPriceTag().getMedicine().getName())) {
 				saveQuantityMedicineItem(m);
+				break;
+			}
+		}
+	
+		}
+	
+	@Override
+	public void findMedicineItemAndIncreaseQuantity(ReservationViewDTO r) {
+		Set<MedicineItem> all = r.getPharmacy().getMedicineItem();
+		for (MedicineItem m : all) {
+			if(m.getMedicine().getName().equals(r.getMedicineItem().getMedicine().getName())) {
+				increaseQuantityMedicineItem(m);
 				break;
 			}
 		}
