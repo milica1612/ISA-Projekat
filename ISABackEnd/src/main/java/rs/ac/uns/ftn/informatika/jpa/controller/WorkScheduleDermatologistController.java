@@ -13,7 +13,12 @@ import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 @RequestMapping(value = "/workScheduleDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
 public class WorkScheduleDermatologistController {
 
-	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
+
+	@Autowired
+	public WorkScheduleDermatologistController(WorkScheduleDermatologistService workScheduleDermatologist) {
+		this._workScheduleDermatologist = workScheduleDermatologist;
+	}
+	
 	
 }
