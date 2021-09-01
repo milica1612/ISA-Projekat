@@ -338,6 +338,12 @@ const routes = [{
         name: 'Complaints',
         component: () =>
             import('../views/Complaints.vue')
+    },
+    {
+        path: '/choosePharmacy',
+        name: 'ChoosePharmacy',
+        component: () =>
+            import('../views/ChoosePharmacy.vue')
     }
 ]
 const router = new VueRouter({

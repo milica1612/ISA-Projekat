@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
+import rs.ac.uns.ftn.informatika.jpa.iservice.IAddressService;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacyService;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
@@ -30,14 +32,12 @@ public class PharmacyService implements IPharmacyService {
 	@Autowired
 	private IPatientRepository _patientRepository;
 	
+	@Autowired
+	private IAddressService _addressService;
+	
 	@Override
 	public Pharmacy findById(Long id) {
 		return _pharmacyRepository.findById(id).orElse(null);
-	}
-
-	@Override
-	public Pharmacy save(Pharmacy pharmacy) {
-		return _pharmacyRepository.save(pharmacy);
 	}
 	
 	@Override
@@ -129,6 +129,21 @@ public class PharmacyService implements IPharmacyService {
 			existing.setRating(newRating);
 			_pharmacyRepository.save(existing);
 		}
+	}
+	
+	@Override
+	public Pharmacy createPharmacy(PharmacyRegisterDTO pharmacyDTO) {
+		Pharmacy pharmacy = new Pharmacy();
+		
+		pharmacy.setName(pharmacyDTO.getName());
+		pharmacy.setDescription(pharmacyDTO.getDescription());
+		
+		Address a = new Address();
+		a = pharmacyDTO.getAddress();
+		pharmacy.setAddress(a);
+		pharmacy.setConsultationPrice(pharmacyDTO.getConsultationPrice());
+		this._addressService.createAddress(pharmacyDTO.getAddress());
+		return _pharmacyRepository.save(pharmacy);
 	}
 	
 }

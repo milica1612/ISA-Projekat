@@ -1,11 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
-import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
-public class RegistrationRequest {
-
+public class PharmacyAdminRegistrationDTO {
 	private Long id;
 	
 	private String email;
@@ -20,24 +18,21 @@ public class RegistrationRequest {
 	
 	private String phoneNumber;
 	
-	private Pharmacy pharmacy;
+	private Long pharmacyId;
 	
-	private Double rating;
+    public PharmacyAdminRegistrationDTO() {}
 	
-	private Allergy allergy;
-	
-	public RegistrationRequest() {}
-	
-	public RegistrationRequest(Long id, String email, String password, String firstName, String lastName,
-			String phoneNumber, Address address) {
+	public PharmacyAdminRegistrationDTO(Long id, String email, String password, String firstName, String lastName,
+			String phoneNumber, Address address, Long pharmacyId) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), null, null);
+		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), address.getLongitude(), address.getLatitude());
 		this.phoneNumber = phoneNumber;
+		this.pharmacyId = pharmacyId;
 	}
 	
 	public Long getId() {
@@ -96,29 +91,12 @@ public class RegistrationRequest {
 		this.address = address;
 	}
 
-	public Pharmacy getPharmacy() {
-		return pharmacy;
+	public Long getPharmacyId() {
+		return pharmacyId;
 	}
 
-	public void setPharmacy(Pharmacy pharmacy) {
-		this.pharmacy = pharmacy;
+	public void setPharmacyId(Long pharmacyId) {
+		this.pharmacyId = pharmacyId;
 	}
 
-	public Double getRating() {
-		return rating;
-	}
-
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
-
-	public Allergy getAllergy() {
-		return allergy;
-	}
-
-	public void setAllergy(Allergy allergy) {
-		this.allergy = allergy;
-	}
-	
-	
 }

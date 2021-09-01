@@ -17,10 +17,6 @@ public interface ISystemAdminService {
 	
 	User findByEmail(String email);
 		
-	Pharmacy createPharmacy(PharmacyRegisterDTO pharmacy);
-	
-	User savePharmacyAdmin(RegistrationRequest request);
-	
 	User saveDermatologist(RegistrationRequest request);
 	
 	User saveSupplier(RegistrationRequest request);

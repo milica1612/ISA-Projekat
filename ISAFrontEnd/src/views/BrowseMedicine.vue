@@ -10,7 +10,14 @@
         small
         v-on:click = "searchMedicines"
         v-if="notFilled"
-    >Search</v-btn>
+    >Search</v-btn> 
+    <input type="file" id="file" ref="file"  v-on:change="handleFileUpload()" />
+    <v-btn
+        color="secondary"
+        elevation="3"
+        small
+        v-on:click = "submitFile()"
+    >Check Availability</v-btn> 
     <br>
     <h3>Filtrate by rating higher than:</h3>
 
@@ -243,7 +250,15 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
           .then(window.location.href = "http://localhost:8080/medicineReservations");
-    }
+    },
+    handleFileUpload(){
+      this.file = this.$refs.file.files[0];
+    },
+    submitFile(){
+      let formData = new FormData();
+      formData.append('file', this.file);
+           
+    },
   },
 
   computed:{

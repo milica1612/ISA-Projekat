@@ -16,7 +16,7 @@ public class PharmacyEmployee extends User {
 
 	public PharmacyEmployee(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, Long userId, UserType userType, Address address, Boolean enabled, Date lastResetPasswordDate, Boolean firstLogin) {
-		super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate, firstLogin);
+		super(firstName, lastName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate, firstLogin);
 	}
 
 	public PharmacyEmployee(String firstName, String lastName, String userName, String password, String email,

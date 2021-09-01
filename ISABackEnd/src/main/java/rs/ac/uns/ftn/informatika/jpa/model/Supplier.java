@@ -25,7 +25,7 @@ public class Supplier extends User {
 
 	public Supplier(String firstName, String lastName, String userName, String password, String email,
 			String phoneNumber, Long userId, UserType userType, Address address, Set<MedicineItem> medItem, Boolean enabled, Date lastResetPasswordDate, Boolean firstLogin) {
-		super(firstName, lastName, userName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate, firstLogin);
+		super(firstName, lastName, password, email, phoneNumber, enabled, userId, userType, address, lastResetPasswordDate, firstLogin);
 		this.medicineItem = new HashSet<MedicineItem>();
 		
 	}

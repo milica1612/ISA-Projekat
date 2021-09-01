@@ -11,7 +11,7 @@ public interface IPharmacyService {
 
 	Pharmacy findById(Long id);
 
-	Pharmacy save(Pharmacy pharmacy);
+	Pharmacy createPharmacy(PharmacyRegisterDTO pharmacy);
 	
 	PharmacyDTO getPharmacyById(Long pharmacyId);
 	

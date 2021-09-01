@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
@@ -75,24 +76,6 @@ public class PharmacyController {
 		return _pharmacyService.findById(id);
 	}
 
-	@PostMapping(value = "/createPharmacy")
-	public ResponseEntity<Pharmacy> createPharmacy(@RequestBody Pharmacy pharmacy){
-		
-		if(pharmacy == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		Pharmacy _pharmacy = new Pharmacy();
-		
-		_pharmacy.setName(pharmacy.getName());
-		_pharmacy.setRating(pharmacy.getRating());
-		_pharmacy.setMedicineItem(pharmacy.getMedicineItem());
-	
-		_pharmacy = (Pharmacy) _pharmacyService.save(_pharmacy);	
-		return new ResponseEntity<>(HttpStatus.CREATED);
-		
-	}
-	
 	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")
 	public ArrayList<Pharmacy> getPharmaciesForPatient(@PathVariable Long patientId){
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
@@ -102,6 +85,17 @@ public class PharmacyController {
 		_examinationService.getPharmaciesForPatient(patientId, result);
 		
 		return result;
+	}
+	
+
+	@PostMapping("/createPharmacy")
+	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyRegisterDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
+		try {
+	
+		  return new ResponseEntity<>(this._pharmacyService.createPharmacy(pharmacyRequest), HttpStatus.CREATED);
+		} catch (Exception e) { 
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 }

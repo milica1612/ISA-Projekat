@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,17 @@ import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCard;
+import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCategory;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+import rs.ac.uns.ftn.informatika.jpa.repository.ILoyaltyCardRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 import rs.ac.uns.ftn.informatika.jpa.security.auth.JwtAuthenticationRequest;
 
@@ -46,6 +51,9 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private EmailService _emailService;
+	
+	@Autowired
+	private ILoyaltyCardRepository _loyaltyCardRepository;
 
 	@Autowired
 	private ConfirmationTokenService _confirmationTokenService;
@@ -61,7 +69,10 @@ public class UserService implements IUserService {
 
 		Address a = new Address();
 		Patient p = new Patient();
-	
+		Allergy allergy = new Allergy();
+		LoyaltyCard loyaltyCard = new LoyaltyCard();
+		
+		
 		p.setEmail(request.getEmail());
 		
 		byte[] salt = generateSalt();
@@ -75,7 +86,6 @@ public class UserService implements IUserService {
 		p.setLastName(request.getLastName());
 
 		p.setPhoneNumber(request.getPhoneNumber());
-
 		a = request.getAddress();
 		p.setAddress(a);
 		this._addressService.createAddress(request.getAddress());
@@ -84,14 +94,20 @@ public class UserService implements IUserService {
 
 		p.setEnabled(false);
 		p.setFirstLogin(false);
-
+		p.setAllergy(allergy);
+		p.setLastResetPasswordDate(new Date());
+		
 		List<Authority> auth = _authorityService.findByName("ROLE_PATIENT");
 		p.setAuthorities(auth);
 
+		loyaltyCard.setPatient(p);
+		loyaltyCard.setLoyaltyCategory(LoyaltyCategory.REGULAR);
+		this._loyaltyCardRepository.save(loyaltyCard);
+		
 		this._userRepository.save(p);
 		ConfirmationToken confirmationToken = _confirmationTokenService.saveConfirmationToken(p);
 		sendConfirmationEmail(p, confirmationToken);
-		
+	
 		return p;
 	}
 	

@@ -15,25 +15,22 @@ public class PharmacyRegisterDTO {
 	
 	private Pharmacy pharmacy;
 	
+	private Double consultationPrice;
+	
 	public PharmacyRegisterDTO() {}
 	
 	public PharmacyRegisterDTO(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
 	}
 	
-	public PharmacyRegisterDTO(String name, Address address, String description) {
-		super();
-		this.name = name;
-		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), null, null);
-		this.description = description;
-	}
 	
-	public PharmacyRegisterDTO(String name, Double rating, Address address, String description) {
+	public PharmacyRegisterDTO(String name, Double rating, Address address, String description, Double consultationPrice) {
 		super();
 		this.name = name;
 		this.rating = rating;
 		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), null, null);
 		this.description = description;
+		this.consultationPrice = consultationPrice;
 	}
 
 	public String getName() {
@@ -66,6 +63,22 @@ public class PharmacyRegisterDTO {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
+	public Double getConsultationPrice() {
+		return consultationPrice;
+	}
+
+	public void setConsultationPrice(Double consultationPrice) {
+		this.consultationPrice = consultationPrice;
 	}
 		
 }

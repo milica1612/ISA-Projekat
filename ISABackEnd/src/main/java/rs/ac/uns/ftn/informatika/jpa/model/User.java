@@ -36,9 +36,6 @@ public class User implements UserDetails {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 
-	@Column(name = "username")
-	private String username;
-
 	@Column(name = "password", unique = false, nullable = false)
 	private String password;
 
@@ -78,13 +75,12 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String firstName, String lastName, String userName, String password, String email, String phoneNumber,
+	public User(String firstName, String lastName, String password, String email, String phoneNumber,
 			Boolean enabled, Long userId, UserType userType, Address address, Date lastPassResetDate,
 			Boolean firstLogin) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = userName;
 		this.password = password;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
@@ -96,12 +92,11 @@ public class User implements UserDetails {
 		this.firstLogin = firstLogin;
 	}
 
-	public User(String firstName, String lastName, String userName, String password, String email, String phoneNumber,
+	public User(String firstName, String lastName, String password, String email, String phoneNumber,
 			UserType userType, Address address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = userName;
 		this.password = password;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
@@ -109,12 +104,11 @@ public class User implements UserDetails {
 		this.address = address;
 	}
 
-	public User(String firstName, String lastName, String userName, String password, String salt, String email,
+	public User(String firstName, String lastName, String password, String salt, String email,
 			String phoneNumber, UserType userType, Address address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = userName;
 		this.salt = salt;
 		this.password = password;
 		this.email = email;
@@ -137,14 +131,6 @@ public class User implements UserDetails {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getUserName() {
-		return username;
-	}
-
-	public void setUserName(String userName) {
-		this.username = userName;
 	}
 
 	public String getPassword() {
@@ -239,7 +225,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return username;
+		return email;
 	}
 
 	@Override

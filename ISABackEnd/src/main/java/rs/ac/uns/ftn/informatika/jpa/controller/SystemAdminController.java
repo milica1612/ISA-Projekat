@@ -59,24 +59,6 @@ public class SystemAdminController {
 		}
 	}
 	
-	@PostMapping("/createPhAdmin")
-	public ResponseEntity<?> createPhAdmin(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
-		try {
-		  return new ResponseEntity<>(this.systemAdminService.savePharmacyAdmin(userRequest), HttpStatus.CREATED);
-		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PostMapping("/createPharmacy")
-	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyRegisterDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
-		try {
-	
-		  return new ResponseEntity<>(this.systemAdminService.createPharmacy(pharmacyRequest), HttpStatus.CREATED);
-		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
-		}
-	}	
 }
 	
 

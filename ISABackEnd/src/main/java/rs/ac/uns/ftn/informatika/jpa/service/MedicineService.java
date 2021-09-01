@@ -106,7 +106,6 @@ public class MedicineService implements IMedicineService{
 	
 	@Override
 	public List<MedicineAvailableInPharmacyDTO> findPharmacyForMedicineItem(String name) {
-		System.out.println("service");
 		
 		List<Pharmacy> pharmacies = _pharmacyRepository.findAll();
 		List<MedicineItem> medicineItems = _medicineItemRepository.findAll();
@@ -117,15 +116,9 @@ public class MedicineService implements IMedicineService{
 		for(MedicineItem m: medicineItems) {
 			if(m.getMedicine().getName().equals(name)) {
 				items.add(m);
-				System.out.println(m.getMedicine().getName());
 			}
 		}
-		System.out.println(items.size());
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		
+
 		for(Pharmacy p: pharmacies) {
 			for(MedicineItem m: items) {
 				if(p.getMedicineItem().contains(m) && m.getQuantity() > 0) {
