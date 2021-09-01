@@ -294,7 +294,7 @@ export default {
         )
         .then((response) => {
           this.allScheduledExaminationForDermatologistList = response.data;
-          if (this.validFor != "") {
+          if (this.allScheduledExaminationForDermatologistList.length > 0) {
             this.showAllScheduledExaminationForDermatologistList = true;
           } else {
             this.showAllScheduledExaminationForDermatologistList = false;
