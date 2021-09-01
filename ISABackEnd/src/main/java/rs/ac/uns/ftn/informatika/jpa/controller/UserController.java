@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PatientAppointmentDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -70,7 +71,7 @@ public class UserController {
 	}
 	
     @PutMapping(value = "/searchUser")
-    public List<Patient> searchUser(@RequestBody NameAndEmployee ne) {
+    public List<PatientAppointmentDTO> searchUser(@RequestBody NameAndEmployee ne) {
     	return _userService.getPatientsByName(ne.fullName, ne.employeeId);
 	}
 	
@@ -89,4 +90,5 @@ public class UserController {
 		
 		_userService.increasePenalty(user.getUserId());
 	}
+
 }	

@@ -486,6 +486,10 @@ VALUES (default, 'NONE', false, '2021-01-01 11:00:00', 30, 5,1500, 12, null, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-01 02:35:00', 30, 5,1500, 12, 1, 1);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-11-11 11:30:00', 30, 5,2000, 12, null, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
@@ -594,10 +598,26 @@ INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
 
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 00:00:00', '2021-08-31 23:59:59');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-09-01 00:00:00', '2021-09-30 23:59:59');
+
 INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 9, 2, 1, 2);
 
+INSERT INTO public.work_schedule_pharmacist(
+	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 9, 2, 1, 7);
+
+INSERT INTO public.work_schedule_pharmacist(
+	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 9, 2, 1, 8);   
+   
 INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 11, 3, 3, 4);
@@ -610,10 +630,13 @@ INSERT INTO public.work_schedule_dermatologist(
 	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 13, 3, 3, 4);
 
-
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
 	VALUES (default, 'NONE', false, '2021-11-11 08:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-09-01 00:50:00', 30, 5, 700, 1, 9, 2);
 
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
@@ -622,6 +645,30 @@ INSERT INTO public.consultation(
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
 	VALUES (default, 'NONE', false, '2021-11-11 16:15:00', 30, 5, 700, 1, 11, 3);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-08-01 12:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-08-02 12:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-08-03 12:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-09-01 12:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-09-02 12:15:00', 30, 5, 700, 1, 9, 2);
+
+INSERT INTO public.consultation(
+	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)
+	VALUES (default, 'NONE', false, '2021-09-03 12:15:00', 30, 5, 700, 1, 9, 2);
 
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)

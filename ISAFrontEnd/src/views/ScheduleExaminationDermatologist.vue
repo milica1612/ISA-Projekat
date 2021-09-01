@@ -138,8 +138,8 @@ export default {
       chooseExisting: false,
       exam: null,
       chooseNew: false,
-      patient_id : 1, // bice localStorage.getItem("patientId") posto uzima iz reporta
-      pharmacy_id: 1, // bice localStorage.getItem("pharmacyId") posto uzima iz reporta
+      patient_id : localStorage.getItem("patientId"),
+      pharmacy_id: localStorage.getItem("pharmacyId"),
       pharmacyy: null,
       patient: null,
       available : false
@@ -147,7 +147,9 @@ export default {
   },
   mounted() {
 
-    if(localStorage.getItem("userType") == "DERMATOLOGIST"){
+    if(localStorage.getItem("userType") == "DERMATOLOGIST") {
+
+      this.appId = localStorage.getItem("appointmentId")
       this.axios
           .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
             headers: {
@@ -156,9 +158,8 @@ export default {
           })
           .then(response => (this.dermatologistt = response.data));
 
-      //localStorage.getItem("patientId"),
       this.axios
-          .get('http://localhost:8091/users/' + this.patient_id, {
+          .get('http://localhost:8091/users/' + localStorage.getItem("patientId"), {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -173,15 +174,32 @@ export default {
           })
           .then(response => (this.pharmacyy = response.data));
 
-    } else{
-     window.location.href = "http://localhost:8080/logIn";
+      if (this.appId == null) {
+        alert("None appointment is started!")
+        window.location.href = "http://localhost:8080/homePageDermatologist";
+      } else {
+        this.axios
+            .post('http://localhost:8091/medicine/endExam/' + this.currentExamination.appointmentId, {}, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => {
+              this.app = response.data
+              localStorage.removeItem("appointmentId")
+            });
+      }
     }
+    else
+      {
+        window.location.href = "http://localhost:8080/logIn";
+      }
   },
   methods: {
     findNextTerm: function (){
 
       const dataForTerm={
-        pharmacyId: 1, // bice localStorage.getItem("pharmacyId") posto ce iz reporta da zna u kojoj je ap bio stari
+        pharmacyId: this.pharmacyId,
         dermatologistId: localStorage.getItem("userId"),
         patientId: this.patient.userId
       }
@@ -202,7 +220,7 @@ export default {
       examination.patient = this.patient
 
       const dataForTerm={
-        pharmacyId: 1, // bice localStorage.getItem("pharmacyId") posto ce iz reporta da zna u kojoj je ap bio stari
+        pharmacyId: this.pharmacyId,
         dermatologistId: localStorage.getItem("userId"),
         patientId: this.patient.userId
       }
@@ -227,7 +245,7 @@ export default {
                       this.chooseExisting = true
                       this.chooseNew = false
                     }),
-            window.location.href = "http://localhost:8080/homePageDermatologist"
+            window.location.href = "http://localhost:8080/reportForExamination"
           });
     },
     createNewDateTerm: function() {
@@ -255,7 +273,7 @@ export default {
                 this.chooseExisting = false
             if(this.available){
               alert("Examination scheduled!"),
-              window.location.href = "http://localhost:8080/homePageDermatologist"
+              window.location.href = "http://localhost:8080/reportForExamination"
             }
             else {
               alert("You did not choose available term! Choose again!")
@@ -265,7 +283,7 @@ export default {
     chooseDateAndTime: function (){
       this.chooseNew = true,
       this.chooseExisting = false
-    }
+    },
   }
 }
 </script>

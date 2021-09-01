@@ -98,8 +98,8 @@ export default {
       modal: false,
       menu2: false,
       pharmacistt: null,
-      patient_id : 1, // bice localStorage.getItem("patientId") posto uzima iz reporta
-      pharmacy_id: 3, // bice localStorage.getItem("pharmacyId") posto uzima iz reporta
+      patient_id : localStorage.getItem("patientId"),
+      pharmacy_id: localStorage.getItem("pharmacyId"),
       pharmacyy: null,
       patient: null,
       available : false,
@@ -108,6 +108,8 @@ export default {
   },
   mounted() {
     if(localStorage.getItem("userType") == "PHARMACIST"){
+
+      this.appId = localStorage.getItem("appointmentId")
       this.axios
           .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
             headers: {
@@ -116,9 +118,8 @@ export default {
           })
           .then(response => (this.pharmacistt = response.data));
 
-      //localStorage.getItem("patientId"),
       this.axios
-          .get('http://localhost:8091/users/' + this.patient_id, {
+          .get('http://localhost:8091/users/' + localStorage.getItem("patientId"), {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
@@ -126,13 +127,28 @@ export default {
           .then(response => (this.patient = response.data));
 
       this.axios
-          .get('http://localhost:8091/pharmacy/2' , {
+          .get('http://localhost:8091/pharmacy/2', {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }
           })
           .then(response => (this.pharmacyy = response.data));
-
+      if (this.appId == null) {
+        alert("None appointment is started!")
+        window.location.href = "http://localhost:8080/homePageDermatologist";
+      } else {
+        this.axios
+            .post('http://localhost:8091/medicine/endExam/' + this.currentExamination.appointmentId, {}, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => {
+              this.app = response.data
+              localStorage.removeItem("appointmentId"),
+                  window.location.href = "http://localhost:8080/homePagePharmacist"
+            });
+      }
     } else{
       window.location.href = "http://localhost:8080/logIn";
     }

@@ -8,7 +8,7 @@
               color="primary"
               elevation="2"
               medium
-              v-on:click= "modeChange"
+              v-on:click= "examinationStart"
               :disabled="isActive"
               >Start Examination</v-btn></td>
           <td align="center"><v-btn
@@ -21,7 +21,7 @@
         </tr>
       </template>
       </v-simple-table>
-      <div v-if="this.mode == 'BROWSE'">
+      <div v-if="this.mode == 'STARTED'">
       <br><br>
       <v-textarea
           background-color="white"
@@ -151,7 +151,6 @@
                                   :key="sm"
                              >
                               <td align="center">{{ sm.name }}</td>
-
                               <td align="center">
                                 <v-btn
                                     color="primary"
@@ -206,12 +205,21 @@
         <tr>
           <td align="center" width="650">
             <v-btn
+                color="primary"
+                elevation="2"
+                v-on:click="home"
+                large
+            >HomePage</v-btn></td>
+          <td align="center" width="650">
+            <v-btn
               color="primary"
               elevation="2"
               v-on:click="endExamination"
               large
             >End Examination</v-btn></td>
-          <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Examination</v-btn></td>
+          <td align="center"><v-btn color="primary" elevation="2" large
+            v-on:click="scheduleNew"
+          >Schedule New Examination</v-btn></td>
         </tr>
       </table>
     </div>
@@ -224,13 +232,17 @@ export default {
   name: "ReportForExamination",
   data: function () {
     return {
+      dermatologist: null,
+      dateStart: new Date().getDate(),
+      currentExamination: null,
+      endedRep: false,
+      ended: true,
       medicines: [],
       substituteMedicines: [],
       patient: null,
       notAvailable: false,
       mode: '',
       mmm: [],
-      phId: 1,
       med: [],
       isActive: false,
       isPatientCome: false,
@@ -256,6 +268,14 @@ export default {
   mounted() {
 
     if(localStorage.getItem("userType") == "DERMATOLOGIST"){
+
+      this.axios
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then(response => (this.dermatologist = response.data))
+
       this.axios
           .get('http://localhost:8091/users/' + this.patient_id, {
               headers: {
@@ -288,25 +308,57 @@ export default {
               window.location.href = "http://localhost:8080/homePageDermatologist"
           )
     },
-    modeChange: function (){
-      this.mode = 'BROWSE'
-      this.isActive = true
+    examinationStart: function (){
+      this.ended = true
+      this.dateStart = new Date()
+        if(localStorage.getItem("patientId") != "") {
+          const dfa = {
+            dateAndTime: this.dateStart,
+            dermId: this.dermatologist.userId,
+            patientId: localStorage.getItem("patientId")
+          }
+
+          this.axios
+              .put('http://localhost:8091/examination/findCurrentTerm', dfa, {
+                headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")
+                }
+              })
+              .then(response => {
+                this.currentExamination = response.data
+                if (this.currentExamination.appointmentId != null) {
+                  this.mode = 'STARTED',
+                      this.isActive = true
+                  localStorage.setItem("appointmentId", this.currentExamination.appointmentId),
+                  localStorage.setItem("patientId", this.currentExamination.patient.userId),
+                  localStorage.setItem("pharmacyId", this.currentExamination.pharmacy.pharmacyId
+                )
+                  console.log(this.currentExamination)
+                } else {
+                  alert("There is no scheduled appointment at this time!")
+                }
+              })
+        } else{
+            alert("You did not choose patient for examination!")
+          }
     },
     endExamination: function(){
-
       this.reportDTO = {
-      info: this.infoAppointment,
-      appointmentId : 1,
-      recommendations: this.recommendationsDTO
-    }
-      this.axios
-        .post('http://localhost:8091/medicine/addReportDerm', this.reportDTO, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem("token")
-        }})
-          .then(
-            window.location.href = "http://localhost:8080/homePageDermatologist"
-          )
+        info: this.infoAppointment,
+        appointmentId: this.currentExamination.appointmentId,
+        recommendations: this.recommendationsDTO
+      }
+          this.axios
+            .post('http://localhost:8091/medicine/addReportDerm/' + this.currentExamination.appointmentId, this.reportDTO, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+              .then( response => {
+                this.endedRep = response.data
+                if(this.endedRep != null){
+                  this.ended = false;
+                }
+              })
     },
     findSubstituteMedicine: function (sm){
       this.med = sm
@@ -317,7 +369,7 @@ export default {
       }
 
       const ca={
-        pharmacyId: this.phId,
+        pharmacyId: this.currentExamination.pharmacy.pharmacyId,
         medicineAvailable: this.med
       }
 
@@ -355,7 +407,7 @@ export default {
       this.mmm = smed
 
       const ca={
-        pharmacyId: this.phId,
+        pharmacyId: this.currentExamination.pharmacy.pharmacyId,
         medicineAvailable: this.mmm
       }
 
@@ -373,6 +425,30 @@ export default {
       }
       this.notAvailable = false
       this.recommendationsDTO.push(this.recommendationDTO)
+    },
+    scheduleNew(){
+
+      this.reportDTO = {
+        info: this.infoAppointment,
+        appointmentId: this.currentExamination.appointmentId,
+        recommendations: this.recommendationsDTO
+      }
+      this.axios
+          .post('http://localhost:8091/medicine/addReportDermAndSchedule/' + this.currentExamination.appointmentId, this.reportDTO, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then( response => {
+            this.currentExamination = response.data
+            localStorage.setItem("appointmentId", this.currentExamination.appointmentId)
+            localStorage.setItem("patientId", this.currentExamination.patient.userId)
+            localStorage.setItem("pharmacyId", this.currentExamination.pharmacy.pharmacyId)
+
+            window.location.href = "http://localhost:8080/scheduleExaminationDermatologist";
+          })
+    },
+    home(){
+      window.location.href = "http://localhost:8080/homePageDermatologist";
     }
   }
 }

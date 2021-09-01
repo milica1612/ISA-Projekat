@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -134,6 +135,29 @@ public class ExaminationContoller {
 		}else {
 			return false;
 		}
+	}
+	
+	
+	static class DataForAppointment{
+		public Date dateAndTime;
+		public Long dermId;
+		public Long patientId;
+	}
+	
+	@PutMapping(value = "/findCurrentTerm")
+	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
+		
+		Examination e = _examinationService.startExamination(dfa.dateAndTime);
+		if(e.getDermatologist() != null && e.getPatient() != null) {
+			if(dfa.patientId.equals(e.getPatient().getUserId())
+					&& dfa.dermId.equals(e.getDermatologist().getUserId())) {
+					return e;
+			}
+		else
+			return new Examination();
+		}
+		
+		else return new Examination();
 	}
 	
 }

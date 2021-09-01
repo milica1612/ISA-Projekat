@@ -2,6 +2,8 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,13 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.controller.ExaminationContoller.DataForAppointment;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
@@ -118,6 +124,34 @@ public class ConsultationController {
 		}else {
 			return false;
 		}
+	}
+	
+	@GetMapping(value = "/allForPharmacist/{id}")
+	public List<Consultation> getByPharmacist(@PathVariable Long id) {
+		return _consultationService.getByPharmacist(id);
+	}
+	
+
+	static class DataForAppointment{
+		public Date dateAndTime;
+		public Long pharmId;
+		public Long patientId;
+	}
+	
+	@PutMapping(value = "/findCurrentTerm")
+	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
+		
+		Consultation e = _consultationService.startConsultation(dfa.dateAndTime);
+		if(e.getPharmacist() != null && e.getPatient() != null) {
+			if(dfa.patientId.equals(e.getPatient().getUserId())
+					&& dfa.pharmId.equals(e.getPharmacist().getUserId())) {
+					return e;
+			}
+		else
+			return new Consultation();
+		}
+		
+		else return new Consultation();
 	}
 	
 }

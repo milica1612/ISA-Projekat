@@ -23,9 +23,13 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
+import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.NotificationService;
@@ -55,6 +59,12 @@ public class MedicineController {
 	
 	@Autowired
 	private ReportPharmService _reportPharmService;
+	
+	@Autowired
+	private ExaminationService _examinationService;
+	
+	@Autowired
+	private ConsultationService _consultationService;
 	
 	@GetMapping(value = "")
 	public ArrayList<Medicine> findAllMedicine(){
@@ -109,16 +119,67 @@ public class MedicineController {
 		return false;
 	}
 	
-	@PostMapping(value = "/addReportDerm")
-	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO) {
+	@PostMapping(value = "/addReportDerm/{id}")
+	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_examinationService.endExamination(id);
 		_reportDermService.saveReportDerm(reportDTO);
 		return reportDTO;
 	}
 	
-	@PostMapping(value = "/addReportPharm")
-	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO) {
+	@PostMapping(value = "/addReportPharm/{id}")
+	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_consultationService.endConsultation(id);
 		_reportPharmService.saveReportPharm(reportDTO);
 		return reportDTO;
+	}
+	
+	//Sl dvije metode su ako je pregled u toku i zelimo da zakazemo novi, prethodno cuvamo report
+	
+	@PostMapping(value = "/addReportDermAndSchedule/{id}")
+	public Examination addReportDermAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_reportDermService.saveReportDerm(reportDTO);
+		
+		Examination e = _examinationService.findById(id);
+		if(e != null) {
+			return e;
+		}
+		else
+			return new Examination();
+	}
+	
+	@PostMapping(value = "/addReportPharmAndSchedule/{id}")
+	public Consultation addReportPharmAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_reportPharmService.saveReportPharm(reportDTO);
+		
+		Consultation c = _consultationService.findById(id);
+		if(c != null) {
+			return c;
+		}
+		return new Consultation();
+	}
+	
+	@PostMapping(value = "/endExam/{id}")
+	public Examination endExam( @PathVariable Long id) {
+		Examination e = _examinationService.findById(id);
+		if(e != null) {
+			_examinationService.endExamination(id);
+			return e;
+		}
+		else
+			return new Examination();
+		
+	}
+	
+	@PostMapping(value = "/endCons/{id}")
+	public Consultation endCons( @PathVariable Long id) {
+		Consultation c = _consultationService.findById(id);
+		if(c != null) {
+			_consultationService.endConsultation(id);
+			return c;
+		}
+		else
+			return new Consultation();
+		
 	}
 	
 	static class SubstitutesWithoutAllergy{

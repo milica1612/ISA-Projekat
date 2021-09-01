@@ -170,4 +170,52 @@ public class ExaminationService implements IExaminationService{
 		
 	}
 	
+	@Override
+	public Examination startExamination(Date date) {
+		
+		Calendar eS = Calendar.getInstance();
+		eS.setTime(date);
+		eS.add(Calendar.MINUTE, -15);
+		
+		Calendar eE = Calendar.getInstance(); // creates calendar
+		eE.setTime(eS.getTime());               // sets calendar time/date
+		eE.add(Calendar.MINUTE, 30);
+		
+		Long eStart = eS.getTimeInMillis();
+		Long eEnd = eE.getTimeInMillis(); 
+		
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		for(Examination e: allExaminations) {
+			Calendar examS = Calendar.getInstance();
+			examS.setTime(e.getDateAndTime());
+			
+			Long examStart = examS.getTimeInMillis();
+			
+			if(examStart >= eStart && examStart < eEnd) {
+				e.setAppointmentStatus(AppointmentStatus.STARTED);
+				this._examinationRepository.save(e);
+				return e;
+			}
+		}
+		return new Examination();
+	}
+	
+	@Override
+	public Examination endExamination(Long id) {
+		
+		Examination e = findById(id);
+		
+			if(e.getAppointmentStatus().equals(AppointmentStatus.STARTED)){
+				e.setAppointmentStatus(AppointmentStatus.FINISHED);
+				this._examinationRepository.save(e);
+				return e;
+		
+		}
+		return null;
+	}
+
+	@Override
+	public Examination findById(Long id) {
+		return _examinationRepository.findById(id).orElse(null);
+	}
 }
