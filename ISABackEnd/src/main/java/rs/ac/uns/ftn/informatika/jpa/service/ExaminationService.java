@@ -5,34 +5,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
-import rs.ac.uns.ftn.informatika.jpa.model.Examination;
-import rs.ac.uns.ftn.informatika.jpa.model.Patient;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
-import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
-import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
-import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class ExaminationService implements IExaminationService{
-	@Autowired
+	
 	private IExaminationRepository _examinationRepository;
-
+	
 	@Autowired
-	private IUserRepository _userRepository;
+	public ExaminationService(IExaminationRepository examinationRepository) {
+		this._examinationRepository = examinationRepository;
+	}
 	
 	@Override
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId) {
@@ -231,5 +228,22 @@ public class ExaminationService implements IExaminationService{
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public List<ExaminationDTO> findAllScheduledExaminationInPharmacyByDermatologist(Long dermatologistId) {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Examination> allExamination = _examinationRepository.findAll();
+		List<ExaminationDTO> list = new ArrayList<ExaminationDTO>();
+		
+		for(Examination e : allExamination) {
+			if (e.getDermatologist().getUserId() == dermatologistId
+					&& e.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+				ExaminationDTO examinationDTO = new ExaminationDTO(e.getAppointmentId(),e.getDateAndTime().toString(), e.getDuration(), e.getPrice(), e.getPoints(), e.getDermatologist(), e.getPatient(), e.getPharmacy());
+				list.add(examinationDTO);
+			}
+		}
+		
+		return list;
 	}
 }

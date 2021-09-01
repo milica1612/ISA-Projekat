@@ -261,7 +261,7 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Pavkov', '2020-11-11', '$2a$12$pxBaiz4IN6MjRcVAblBJA.8cfpv0pU7G6TGqNnqLIjyvkotAu3.JS', '0QWE1XACxxWsSV4Ju1D31x==', '061/300-23-77', '', 'PHARMACIST', 7.6, null, 16, 2, null);
 
--- password Luka333!
+-- password Luka333! - Test dermatolog with email lukait31@gmail.com - for vacation 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
@@ -308,7 +308,7 @@ INSERT INTO public.medicine_item(
 	VALUES (102, 5, 4);
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (103, 3, 3);
+	VALUES (103, 5, 10);
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
 	VALUES (default,'2021/09/02', 'WAITING_OFFER', 2, 10);
@@ -443,10 +443,7 @@ INSERT INTO public.offer(
 	VALUES (1, 12);
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
-	VALUES (2, 12);
- INSERT INTO public.pharmacy_dermatologist(
-	pharmacy_pharmacy_id, dermatologist_user_id)
-	VALUES (3, 12);   
+	VALUES (2, 12); 
 -- Katarina dermatologist
  INSERT INTO public.pharmacy_dermatologist(
 	pharmacy_pharmacy_id, dermatologist_user_id)
@@ -482,9 +479,10 @@ insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_us
 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20211112 07:00:00 AM','20211115 07:00:00 PM', 9, 0); 
 
--- DERMATOLOGIST-VACATION - TEST DATA
+-- DERMATOLOGIST-VACATION - TEST DATA - Luka Dermatolog user_id : 18
+
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211012 07:00:00 AM','20211022 07:00:00 PM', 18, 2); 
-insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211020 07:00:00 AM','20211030 07:00:00 PM', 18, 2); 
+insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211022 07:00:00 AM','20211101 07:00:00 PM', 18, 2); 
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
@@ -500,31 +498,31 @@ VALUES (default, 'NONE', false, '2021-11-11 12:00:00', 30, 5,2000, 12, null, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-11-11 14:00:00', 30, 5,2000, 12, null, 2);
-
-INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
-duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-11-11 15:00:00', 30, 5,2000, 12, null, 2);
-
-INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
-duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-11-11 13:00:00', 30, 5,2000, 12, 1, 1);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', true, '2021-11-11 12:00:00', 30, 5,2000, 13, 1, 1);
+VALUES (default, 'NONE', false, '2021-11-11 16:00:00', 30, 5,2000, 12, null, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-12-12 12:00:00', 30, 5,2100, 13, null, 2);
+VALUES (default, 'NONE', false, '2021-11-11 17:00:00', 30, 5,2000, 12, null, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-08-21 12:00:00', 30, 5,2100, 13, 1, 2);
+VALUES (default, 'NONE', true, '2021-11-11 15:00:00', 30, 5,2000, 13, 1, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'NONE', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+VALUES (default, 'NONE', false, '2021-12-12 15:00:00', 30, 5,2100, 13, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-08-21 16:00:00', 30, 5,2100, 13, 1, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-09 17:00:00', 30, 5, 2100, 13, 1, 2);
 
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
@@ -605,7 +603,7 @@ INSERT INTO public.time_interval(
 
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
-	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
+	VALUES (default, '2021-08-01 00:00:00', '2021-11-30 23:59:59');
 
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
@@ -614,6 +612,27 @@ INSERT INTO public.time_interval(
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)
 	VALUES (default, '2021-11-01 00:00:00', '2021-11-30 23:59:59');
+	
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
+	
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-31 07:00:00', '2021-12-31 07:00:00');
+	
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-31 07:00:00', '2021-12-31 15:00:00');
+	
+INSERT INTO public.time_interval(
+	time_interval_id, start_date, end_date)
+	VALUES (default, '2021-08-31 15:00:00', '2021-12-31 20:00:00');
+
 
 INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
@@ -623,13 +642,46 @@ INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 11, 3, 3, 4);
 
+-- Branko - - work in Jankovic Pharmacy Second Shift - 01.08.2021. - 30.11.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 13, 2, 3, 4);
+
+-- Sara - work in Benu Pharmacy First Shift Valid for time 01.11.2021 - 30.11.2021.
 INSERT INTO public.work_schedule_dermatologist(
 	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 12, 1, 1, 2);
-
+	
+-- Sara - work in Jankovic Pharmacy Second Shift Valid for time 01.08.2021 - 30.11.2021.
 INSERT INTO public.work_schedule_dermatologist(
 	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
-	VALUES (default, 13, 3, 3, 4);
+	VALUES (default, 12, 2, 3, 8);
+	
+-- Luka - work in Jankovic First Shift Valid for time 31.08.2021. - 31.12.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 18, 2, 10, 9);
+
+-- Luka - also work in Higija Second Shift Valid for time 30.08.2021. - 31.12.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 18, 3, 11, 9);
+	
+-- Milan - also work in Higija First Shift Valid for time 30.08.2021. - 31.12.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 14, 3, 10, 9);
+	
+	
+-- Katarina - work in Jankovic First Shift Valid for time 30.08.2021. - 31.12.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 7, 2, 10, 9);
+	
+-- Katarina - work in Higija Second Shift Valid for time 30.08.2021. - 31.12.2021.
+INSERT INTO public.work_schedule_dermatologist(
+	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
+	VALUES (default, 7, 3, 11, 9);
 
 
 INSERT INTO public.consultation(
@@ -699,18 +751,11 @@ INSERT INTO public.user_medicine_item(
 INSERT INTO public.user_medicine_item(
 	supplier_user_id, medicine_item_medicine_item_id)
 	 values (1, 4);
-INSERT INTO public.time_interval(
-	time_interval_id, start_date, end_date)
-	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
-
-INSERT INTO public.time_interval(
-	time_interval_id, start_date, end_date)
-	VALUES (default, '2021-08-01 07:00:00', '2021-11-30 07:00:00');
 
 INSERT INTO public.price_tag(
 	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
 	VALUES (default, 400, 1, 7);
-
+	
 INSERT INTO public.price_tag(
 	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
 	VALUES (default, 500, 2, 7);
@@ -741,15 +786,15 @@ INSERT INTO public.pharmacy_price_tags(
 	
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'FINISHED', false, '2021-08-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+VALUES (default, 'FINISHED', false, '2021-08-09 15:00:00', 30, 5, 2100, 13, 1, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'FINISHED', false, '2021-08-09 12:00:00', 30, 5, 2100, 13, 1, 2);
+VALUES (default, 'FINISHED', false, '2021-08-09 17:00:00', 30, 5, 2100, 13, 1, 2);
 
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
-VALUES (default, 'FINISHED', false, '2021-08-20 12:00:00', 20, 5, 1900, 13, 1, 2);
+VALUES (default, 'FINISHED', false, '2021-08-20 16:00:00', 20, 5, 1900, 13, 1, 2);
 
 INSERT INTO public.consultation(
 	appointment_id, appointment_status, cancelled, date_and_time, duration, points, price, patient_user_id, pharmacist_user_id, pharmacy_pharmacy_id)

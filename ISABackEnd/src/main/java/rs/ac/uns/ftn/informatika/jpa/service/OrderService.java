@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineData;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IOrderService;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Offer;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
@@ -197,13 +198,15 @@ public class OrderService implements IOrderService{
 		
 		for (MedicineData m : newMedicineItemData) {
 			MedicineItem medicineItem = new MedicineItem();
-			medicineItem.setMedicine(_medicineRepository.getOne(m.getMedicineId()));
-			medicineItem.setQuantity(0);
-			
-			pharmcayItems.add(medicineItem);
-			
+			MedicineItem medicineItemPharmacy = new MedicineItem();
+			Medicine medicine = _medicineRepository.getOne(m.getMedicineId());
+			medicineItem.setMedicine(medicine);
 			medicineItem.setQuantity(m.getQuantity());
 			orderItems.add(medicineItem);
+			medicineItemPharmacy.setMedicine(medicine);
+			medicineItemPharmacy.setQuantity(0);
+			pharmcayItems.add(medicineItemPharmacy);
+	
 		}
 		
 		order.setOrderStatus(OrderStatus.WAITING_OFFER);
@@ -226,6 +229,39 @@ public class OrderService implements IOrderService{
 		 */
 		deleteOrder.setOrderStatus(OrderStatus.FINISHED);
 		return _orderRepository.save(deleteOrder);
+	}
+	
+	@Override
+	public Order editOrder(List<MedicineData> medicineItemInOrderData, List<MedicineData> newMedicineItemData, Long orderId,
+			Date offerDeadline) {
+		Order order = _orderRepository.getOne(orderId);
+		Set<MedicineItem> updatedMedicineItems = new HashSet<MedicineItem>();
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		
+		for (MedicineData m : medicineItemInOrderData)
+			for (MedicineItem orderMedicineItem : orderMedicineItems) {
+				Medicine medicine = _medicineRepository.getOne(m.getMedicineId());
+				if (orderMedicineItem.getMedicine() == medicine) {
+					if (m.getQuantity() > 0) {
+						MedicineItem mItem = new MedicineItem(m.getQuantity(), medicine);
+						updatedMedicineItems.add(mItem);
+					}
+				}
+			}
+		
+		
+		for (MedicineData newMedicineData : newMedicineItemData) 
+		{
+			MedicineItem newMedicineItemInOrder = new MedicineItem(newMedicineData.getQuantity(), _medicineRepository.getOne(newMedicineData.getMedicineId()));
+			updatedMedicineItems.add(newMedicineItemInOrder);
+		}
+		
+		order.setMedicineItem(updatedMedicineItems);
+		
+		if (!offerDeadline.equals(order.getOfferDeadline()))
+			order.setOfferDeadline(offerDeadline);
+		
+		return _orderRepository.save(order);
 	}
 	
 }

@@ -356,7 +356,13 @@ const routes = [{
         name: 'MyPenalties',
         component: () =>
             import('../views/MyPenalties.vue')
-    }
+    }, 
+    {
+        path: '/defineFreeTermWithDermatologist',
+        name: 'DefineFreeTermWithDermatologist',
+        component: () =>
+            import('../views/DefineFreeTermWithDermatologist.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

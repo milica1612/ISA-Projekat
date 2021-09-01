@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;

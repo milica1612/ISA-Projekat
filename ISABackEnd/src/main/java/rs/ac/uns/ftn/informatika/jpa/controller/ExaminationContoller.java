@@ -2,8 +2,12 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -155,6 +159,12 @@ public class ExaminationContoller {
 	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
 	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
 		return _examinationService.getAllDermatologistByPatient(patientId);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/findAllScheduledExaminationInPharmacyByDermatologist/{dermatologistId}")
+	public ResponseEntity<List<ExaminationDTO>> findAllScheduledExaminationInPharmacyByDermatologist(@PathVariable Long dermatologistId) {
+		return new ResponseEntity<List<ExaminationDTO>>(_examinationService.findAllScheduledExaminationInPharmacyByDermatologist(dermatologistId), HttpStatus.OK);
 	}
 	
 }

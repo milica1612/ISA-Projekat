@@ -32,4 +32,7 @@ public interface IOrderService {
 			Long pharmacyId, Date offerDeadline);
 	
 	List<OrderDTO> findAllPossibleEditingOrdersByPharmacyAdmin();
+	
+	Order editOrder(List<MedicineData> medicineItemInOrderData, List<MedicineData> newMedicineItemData, Long orderId,
+			Date offerDeadline);
 }

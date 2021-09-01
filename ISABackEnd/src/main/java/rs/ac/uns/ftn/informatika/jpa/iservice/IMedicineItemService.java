@@ -26,4 +26,7 @@ public interface IMedicineItemService {
 
 	void findMedicineItemAndIncreaseQuantity(ReservationViewDTO r);
 
+	List<MedicineItemDTO> findMedicineItemsByOrderId(Long orderId);
+	
+	List<MedicineItemDTO> findMedicineItemsNotExistByOrderId(Long orderId);
 }
