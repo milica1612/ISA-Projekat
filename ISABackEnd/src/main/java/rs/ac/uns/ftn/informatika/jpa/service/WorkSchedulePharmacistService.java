@@ -26,98 +26,129 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 
 	@Override
 	public ArrayList<Pharmacy> getAvailablePharmacies(Date date) {
+		
 		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
 		ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
-		for (WorkSchedulePharmacist workSchedule : all) {
+		System.out.println(date.toString());
+		Calendar examS = Calendar.getInstance();
+		examS.setTime(date);
+		System.out.println(examS.toString());
 		
-			TimeInterval valid = workSchedule.getValidFor();
-			TimeInterval shift = workSchedule.getShift();
-			Set<Consultation> consultations = workSchedule.getScheduledConsultations();
+		Calendar endExam = Calendar.getInstance(); // creates calendar
+		endExam.setTime(examS.getTime());               // sets calendar time/date vraca vrijeme mjesec dana ranije
+		endExam.add(Calendar.MINUTE, 30);
+		System.out.println("end" + endExam.toString());
+		
+		Long examStart = examS.getTimeInMillis();
+		Long examEnd = endExam.getTimeInMillis(); 
+		System.out.println(examStart + " " + examEnd);
+		
+		int startTime = date.getHours()*60 + date.getMinutes();
+		int endTime = startTime + 30;
 			
-			Calendar cal = Calendar.getInstance(); // creates calendar
-			cal.setTime(date);               // sets calendar time/date
-			cal.add(Calendar.MINUTE, 30);
+		for (WorkSchedulePharmacist workSchedule : all) {
+			
+			Calendar validS = Calendar.getInstance();
+			validS.setTime(workSchedule.getValidFor().getStartDate());
+			System.out.println(validS.toString());
+			
+			Calendar validE = Calendar.getInstance(); // creates calendar
+			validE.setTime(workSchedule.getValidFor().getEndDate());               // sets calendar time/date
+			System.out.println(validE.toString());
+			
+			int shiftStart = workSchedule.getShift().getStartDate().getHours()*60 + workSchedule.getShift().getStartDate().getMinutes();
+			int shiftEnd = workSchedule.getShift().getEndDate().getHours()*60 + workSchedule.getShift().getEndDate().getMinutes();
+		
+			Long validStart = validS.getTimeInMillis();
+			Long validEnd = validE.getTimeInMillis(); 		
+			
+			Set<Consultation> consultations = workSchedule.getScheduledConsultations();
 			boolean notAvailable = false;
-			if(valid.getStartDate().before(date) && valid.getEndDate().after(date)) {
-				System.out.println(shift.getStartDate().getHours());
-				System.out.println(date.getHours());
-				if(shift.getStartDate().getHours() < date.getHours()) {
-					if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
-						for (Consultation c : consultations) {
-							System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
-							Calendar endCons = Calendar.getInstance(); // creates calendar
-							endCons.setTime(c.getDateAndTime());               // sets calendar time/date
-							endCons.add(Calendar.MINUTE, c.getDuration());
-
-							if(c.getCancelled() == true) {
+			if(validStart <= examStart && validEnd >= examStart) {
+				System.out.println("Dobar period");
+				if(shiftStart <= startTime && shiftEnd >= endTime) {
+					System.out.println("Dobra smjena");
+					for (Consultation c : consultations) {
+						Calendar startCons = Calendar.getInstance(); 
+						startCons.setTime(c.getDateAndTime());               
+						
+						Calendar endCons = Calendar.getInstance();
+						endCons.setTime(c.getDateAndTime());              
+						endCons.add(Calendar.MINUTE, c.getDuration());
+						
+						if(c.getCancelled() == true) {
 								System.out.println("cancelled");
-								break;
-							}else if(date.before(c.getDateAndTime()) && cal.before(endCons.getTime())) {
+							}else if(examS.before(startCons) && endExam.after(startCons)) {
 								System.out.println("notAvailable");
 								notAvailable = true;
 								break;
-							}else if(date.after(c.getDateAndTime()) && cal.after(endCons.getTime())){
+							}else if(examS.before(endCons) && endExam.after(endCons)){
+								System.out.println("notAVailable");
+								notAvailable = true;
+								break;
+							}else if(examS.equals(startCons)) {
 								System.out.println("notAVailable");
 								notAvailable = true;
 								break;
 							}
+							
 						}
-						if(notAvailable) {
-							notAvailable = false;
-						}else if (!pharmacies.contains(workSchedule.getPharmacy())){
-							System.out.println("dodaj");
-							pharmacies.add(workSchedule.getPharmacy());
-						}
-					
+							if(notAvailable) {
+								notAvailable = false;
+							}else if (!pharmacies.contains(workSchedule.getPharmacy())){
+								System.out.println("dodaj");
+								pharmacies.add(workSchedule.getPharmacy());
+							}
 					}
+				}
 			}
-		}
-		
-	}
+			
 		return pharmacies;
 }
 
 	@Override
 	public ArrayList<Pharmacist> getAvailablePharmacistsInPharmacy(Date date, Long pharmacyId) {
+		
 		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
 		ArrayList<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
+		
 		for (WorkSchedulePharmacist workSchedule : all) {
-		if(workSchedule.getPharmacy().getPharmacyId() == pharmacyId) {
-			TimeInterval valid = workSchedule.getValidFor();
-			TimeInterval shift = workSchedule.getShift();
-			Set<Consultation> consultations = workSchedule.getScheduledConsultations();
-			
-			Calendar cal = Calendar.getInstance(); // creates calendar
-			cal.setTime(date);               // sets calendar time/date
-			cal.add(Calendar.MINUTE, 30);
-			boolean notAvailable = false;
-			if(valid.getStartDate().before(date) && valid.getEndDate().after(date)) {
-				System.out.println(shift.getStartDate().getHours());
-				System.out.println(date.getHours());
-				if(shift.getStartDate().getHours() < date.getHours()) {
-					if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
-						for (Consultation c : consultations) {
-							Calendar endCons = Calendar.getInstance(); // creates calendar
-							endCons.setTime(c.getDateAndTime());               // sets calendar time/date
-							endCons.add(Calendar.MINUTE, c.getDuration());
-						 if(date.before(c.getDateAndTime()) && cal.before(endCons.getTime())) {
-								notAvailable = true;
-								break;
-							}else if(date.after(c.getDateAndTime()) && cal.after(endCons.getTime())){
-								notAvailable = true;
-								break;
+			if(workSchedule.getPharmacy().getPharmacyId() == pharmacyId) {
+				TimeInterval valid = workSchedule.getValidFor();
+				TimeInterval shift = workSchedule.getShift();
+				Set<Consultation> consultations = workSchedule.getScheduledConsultations();
+				
+				Calendar cal = Calendar.getInstance(); // creates calendar
+				cal.setTime(date);               // sets calendar time/date
+				cal.add(Calendar.MINUTE, 30);
+				boolean notAvailable = false;
+				if(valid.getStartDate().before(date) && valid.getEndDate().after(date)) {
+					System.out.println(shift.getStartDate().getHours());
+					System.out.println(date.getHours());
+					if(shift.getStartDate().getHours() < date.getHours()) {
+						if(shift.getEndDate().getHours() > cal.getTime().getHours()) {
+							for (Consultation c : consultations) {
+								Calendar endCons = Calendar.getInstance(); // creates calendar
+								endCons.setTime(c.getDateAndTime());               // sets calendar time/date
+								endCons.add(Calendar.MINUTE, c.getDuration());
+							 if(date.before(c.getDateAndTime()) && cal.before(endCons.getTime())) {
+									notAvailable = true;
+									break;
+								}else if(date.after(c.getDateAndTime()) && cal.after(endCons.getTime())){
+									notAvailable = true;
+									break;
+								}
 							}
+							if(notAvailable) {
+								notAvailable = false;
+							}else {
+							pharmacists.add(workSchedule.getPharmacist());
+							}
+						
 						}
-						if(notAvailable) {
-							notAvailable = false;
-						}else {
-						pharmacists.add(workSchedule.getPharmacist());
-						}
-					
-					}
+				}
 			}
 		}
-	}
 		
 	}
 		return pharmacists;

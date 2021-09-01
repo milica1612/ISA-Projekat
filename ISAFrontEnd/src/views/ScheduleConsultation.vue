@@ -101,7 +101,8 @@
             <th>
               Address
             </th>
-            <th>
+            <th :class="sortedClass('consultationPrice')"
+                @click="sortBy('consultationPrice')">
               Consultation Price
             </th>
           </tr>
@@ -114,7 +115,7 @@
             <td>{{ p.name }}</td>
             <td>{{ p.rating }}</td>
             <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
-            <td>{{p.consultationPrice + " rsd" }}</td>
+            <td>{{p.consultationPrice.toString() + " rsd"}}</td>
             <td>
               <v-btn
                   color="secondary"
