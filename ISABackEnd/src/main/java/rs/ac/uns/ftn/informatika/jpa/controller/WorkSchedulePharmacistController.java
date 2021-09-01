@@ -89,8 +89,8 @@ public class WorkSchedulePharmacistController {
 			return new ArrayList<Pharmacist>();
 		}  
 		long id = Long.parseLong(dto.getPharmacyId());
-		
-		return _workSchedulePharmacist.getAvailablePharmacistsInPharmacy(date, id);
+		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
+		return _workSchedulePharmacist.getAvailablePharmacistsInPharmacy(date, id, vacations);
 	}
 
 }
