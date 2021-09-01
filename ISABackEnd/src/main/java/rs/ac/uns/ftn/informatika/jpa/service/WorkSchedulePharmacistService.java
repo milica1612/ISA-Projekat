@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,7 +162,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 				Long shiftEnd = shiftE.getTimeInMillis(); 		
 				System.out.println(shiftStart + " " + shiftEnd);
 				
-				if(validStart <= examStart && validEnd >= examStart) {
+				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Pronasao je period");
 				if(shiftStart <= examStart) {
 					System.out.println("Pronasao je smjenu ");
@@ -197,4 +198,6 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		_workScheduleRepository.save(workSchedule);
 		return true;
 	}
+	
+	
 }

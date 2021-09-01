@@ -297,10 +297,29 @@ export default {
   },
   methods: {
     patientDidntCome: function() {
+      this.dateStart = new Date()
+
+      if(localStorage.getItem("patientId") != "") {
+        const dfa = {
+          dateAndTime: this.dateStart,
+          dermId: this.dermatologist.userId,
+          patientId: localStorage.getItem("patientId")
+        }
+
+        this.axios
+            .put('http://localhost:8091/examination/findCurrentTerm', dfa, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => {
+                  this.currentExamination = response.data })
+      }
+
       this.isPatientCome = true
       this.isActive = true
       this.axios
-        .post('http://localhost:8091/users/increasePenalty', this.patient, {
+        .post('http://localhost:8091/users/increasePenaltyExamination', this.currentExamination, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem("token")
           }})
