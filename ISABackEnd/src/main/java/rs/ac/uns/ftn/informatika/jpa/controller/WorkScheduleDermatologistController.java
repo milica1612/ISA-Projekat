@@ -32,4 +32,11 @@ public class WorkScheduleDermatologistController {
 		return new ResponseEntity<String>(_workScheduleDermatologistService.getShiftByDermatologistId(dermatologistId), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path = "/findValidForByDermatologistId/{dermatologistId}")
+	public ResponseEntity<String> getValidForByDermatologistId(@PathVariable Long dermatologistId) {
+		
+		return new ResponseEntity<String>(_workScheduleDermatologistService.getValidForByDermatologistId(dermatologistId), HttpStatus.OK);
+	}
+	
 }

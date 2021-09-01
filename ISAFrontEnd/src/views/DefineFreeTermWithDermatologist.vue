@@ -49,9 +49,28 @@
           </template>
         </v-data-table>
       </div>
+      <div v-if="showAllScheduledExaminationForDermatologistList">
+        <v-data-table
+          :headers="headersExamination"
+          :items="allScheduledExaminationForDermatologistList"
+          :items-per-page="10"
+          :sort-by="appointmentId"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Scheduled examination in {{ pharmacyName }} pharmacy with
+                dermatologist {{ dermatologist }}
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
       <div v-if="showShift || showValidFor">
-        <h2 id = "shiftText">{{shift}}</h2>
-        <h3 id = "validForText">{{validFor}}</h3>
+        <h2 id="shiftText">{{ shift }}</h2>
+        <h3 id="validForText">{{ validFor }}</h3>
       </div>
     </v-card>
   </div>
@@ -65,6 +84,7 @@ export default {
     pharmacyAdmin: null,
     dermatologistList: [],
     dermatologistVacationList: [],
+    allScheduledExaminationForDermatologistList: [],
     pharmcayId: localStorage.getItem("pharmacyId"),
     pharmacyName: "",
     dermatologist: "",
@@ -125,7 +145,34 @@ export default {
         sortable: true,
       },
     ],
+    headersExamination: [
+      {
+        text: "Examination ID",
+        value: "appointmentId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Date and time",
+        value: "dateAndTime",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Duration",
+        value: "duration",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Price",
+        value: "price",
+        align: "center",
+        sortable: true,
+      },
+    ],
     showDermatologistVacationList: false,
+    showAllScheduledExaminationForDermatologistList: false,
     showShift: false,
     showValidFor: false,
     shift: "",
@@ -232,6 +279,25 @@ export default {
             this.showValidFor = true;
           } else {
             this.showValidFor = false;
+          }
+        });
+
+      this.axios
+        .get(
+          "http://localhost:8091/examination/findAllScheduledExaminationInPharmacyByDermatologist/" +
+            item.userId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          this.allScheduledExaminationForDermatologistList = response.data;
+          if (this.validFor != "") {
+            this.showAllScheduledExaminationForDermatologistList = true;
+          } else {
+            this.showAllScheduledExaminationForDermatologistList = false;
           }
         });
     },
