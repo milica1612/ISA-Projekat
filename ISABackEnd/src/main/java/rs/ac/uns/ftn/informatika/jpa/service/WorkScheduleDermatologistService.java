@@ -98,14 +98,49 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 		for (WorkScheduleDermatologist w : allWorkScheduleDermatologists) {
 			if (w.getDermatologist().getUserId() == dermatologistId && w.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
 				TimeInterval timeShift = w.getShift();
-				shift.append("The dermatologist in our pharmacy works in shifts");
+				shift.append("The dermatologist ");
+				shift.append(w.getDermatologist().getFirstName());
+				shift.append(" " + w.getDermatologist().getLastName());
+				shift.append(" ");
+				shift.append("in our pharmacy works in shifts");
 				shift.append(" from ");
-				shift.append(timeShift.getStartDate().toString());
+				String shiftStartStr = timeShift.getStartDate().toString();
+				String[] shiftStartTime = shiftStartStr.split(" ", 2);
+				shift.append(shiftStartTime[1].substring(0, shiftStartTime.length));
 				shift.append(" to ");
-				shift.append(timeShift.getEndDate().toString());
+				String shiftEndStr = timeShift.getEndDate().toString();
+				String[] shiftEndTime = shiftEndStr.split(" ", 2);
+				shift.append(shiftEndTime[1].substring(0, shiftEndTime.length));
+				shift.append(" h");
 			}
 		}
 		
 		return shift.toString();
+	}
+	
+	@Override
+	public String getValidForByDermatologistId(Long dermatologistId) {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<WorkScheduleDermatologist> allWorkScheduleDermatologists = _workScheduleRepository.findAll();
+		StringBuilder validFor = new StringBuilder();
+		for (WorkScheduleDermatologist w : allWorkScheduleDermatologists) {
+			if (w.getDermatologist().getUserId() == dermatologistId && w.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
+				TimeInterval validForDates = w.getValidFor();
+				validFor.append("This working time for dermatologist ");
+				validFor.append(w.getDermatologist().getFirstName());
+				validFor.append(" " + w.getDermatologist().getLastName());
+				validFor.append(" ");
+				validFor.append("is valid from ");
+				String validForStartStr = validForDates.getStartDate().toString();
+				String[] validForStartDate = validForStartStr.split(" ", 2);
+				validFor.append(validForStartDate[0]);
+				validFor.append(" to ");
+				String validForEndStr = validForDates.getEndDate().toString();
+				String[] validForEndDate = validForEndStr.split(" ", 2);
+				validFor.append(validForEndDate[0]);
+			}
+		}
+		
+		return validFor.toString();
 	}
 }

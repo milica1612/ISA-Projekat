@@ -8,4 +8,6 @@ public interface IWorkScheduleDermatologistService {
 	
 	String getShiftByDermatologistId(Long dermatologistId);
 
+	String getValidForByDermatologistId(Long dermatologistId);
+
 }

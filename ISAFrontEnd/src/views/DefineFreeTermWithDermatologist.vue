@@ -9,7 +9,6 @@
         :headers="headers"
         :items="dermatologistList"
         :items-per-page="10"
-        :sort-by="userId"
       >
         <template v-slot:top>
           <v-toolbar dense dark color="light-blue darken-2">
@@ -50,8 +49,9 @@
           </template>
         </v-data-table>
       </div>
-      <div v-if="showShift">
-        <h2>{{shift}}</h2>
+      <div v-if="showShift || showValidFor">
+        <h2 id = "shiftText">{{shift}}</h2>
+        <h3 id = "validForText">{{validFor}}</h3>
       </div>
     </v-card>
   </div>
@@ -127,7 +127,9 @@ export default {
     ],
     showDermatologistVacationList: false,
     showShift: false,
+    showValidFor: false,
     shift: "",
+    validFor: "",
   }),
   mounted() {
     this.initialize();
@@ -213,6 +215,25 @@ export default {
             this.showShift = false;
           }
         });
+
+      this.axios
+        .get(
+          "http://localhost:8091/workScheduleDermatologist/findValidForByDermatologistId/" +
+            item.userId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          this.validFor = response.data;
+          if (this.validFor != "") {
+            this.showValidFor = true;
+          } else {
+            this.showValidFor = false;
+          }
+        });
     },
   },
 };
@@ -231,5 +252,13 @@ export default {
   width: 80%;
   text-align: center;
   margin: auto;
+}
+#shiftText {
+  color: rgb(2, 2, 117);
+  text-align: center;
+}
+#validForText {
+  color: rgb(2, 2, 117);
+  text-align: center;
 }
 </style>
