@@ -261,7 +261,7 @@ INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Pavkov', '2020-11-11', '$2a$12$pxBaiz4IN6MjRcVAblBJA.8cfpv0pU7G6TGqNnqLIjyvkotAu3.JS', '0QWE1XACxxWsSV4Ju1D31x==', '061/300-23-77', '', 'PHARMACIST', 7.6, null, 16, 2, null);
 
--- password Luka333!
+-- password Luka333! - Test dermatolog with email lukait31@gmail.com - for vacation 
 INSERT INTO public.user(
 	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
 	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
@@ -480,7 +480,7 @@ insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_us
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 16, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210905 07:00:00 AM','20210915 07:00:00 PM', 17, 2); 
 
--- DERMATOLOGIST-VACATION - TEST DATA
+-- DERMATOLOGIST-VACATION - TEST DATA - Luka Dermatolog user_id : 18
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211012 07:00:00 AM','20211022 07:00:00 PM', 18, 2); 
 insert into dermatologist_vacation(vacation_id, start_date, end_date, dermatologist_user_id, status) values (default, '20211020 07:00:00 AM','20211030 07:00:00 PM', 18, 2); 
 
