@@ -105,4 +105,9 @@ public class PharmacyController {
 		return result;
 	}
 	
+	@GetMapping(value = "/getAllPharmacyByDermatologist/{id}")
+	public ArrayList<Pharmacy> getAllByDermatologist(@PathVariable Long id){
+		return _pharmacyService.getAllByDermatologist(id);
+	}
+	
 }

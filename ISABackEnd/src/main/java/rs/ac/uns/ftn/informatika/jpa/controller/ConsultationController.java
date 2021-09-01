@@ -25,6 +25,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
@@ -137,9 +138,9 @@ public class ConsultationController {
 	}
 	
 	
-	@GetMapping(value = "/allForPharmacist/{id}")
-	public List<Consultation> getByPharmacist(@PathVariable Long id) {
-		return _consultationService.getByPharmacist(id);
+	@PutMapping(value = "/allForPharmacist/{id}")
+	public List<Consultation> getByPharmacist(@PathVariable Long id, @RequestBody TimeInterval timeInterval) {
+		return _consultationService.getByPharmacist(id, timeInterval);
 	}
 	
 

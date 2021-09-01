@@ -99,4 +99,21 @@ public class PharmacyService implements IPharmacyService {
 		
 	}
 	
+	@Override
+	public ArrayList<Pharmacy> getAllByDermatologist(Long id){
+		
+		ArrayList<Pharmacy> all = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		
+		for(Pharmacy p : all) {
+			for(Dermatologist d: p.getDermatologist()) {
+				if(id.equals(d.getUserId())){
+					result.add(p);
+				}
+			}
+		}
+		return result;
+		
+	}
+	
 }

@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -131,16 +132,18 @@ public class ConsultationService implements IConsultationService{
 	}
 	
 	@Override
-	public List<Consultation> getByPharmacist(Long id){
+	public List<Consultation> getByPharmacist(Long id, TimeInterval timeInterval){
 		
 		List<Consultation> all = _consultationRepository.findAll();
 		List<Consultation> result = new ArrayList<>();
 		
+		
 		for(Consultation c: all) {
 			if(c.getPharmacist() != null) {
 				if(id.equals(c.getPharmacist().getUserId())) {
-					System.out.println(c.getAppointmentId() + "aaaaaaaaaaaaaaaaaaaa");
-					result.add(c);
+					if(c.getDateAndTime().after(timeInterval.getStartDate()) && c.getDateAndTime().before(timeInterval.getEndDate())) {
+						result.add(c);
+					}
 				}
 			}
 		}

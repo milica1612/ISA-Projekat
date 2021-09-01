@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -277,6 +279,27 @@ public class ExaminationService implements IExaminationService{
 				}
 			}
 		}
+		
+		return result;
+	}
+	
+	@Override
+	public List<Examination> getByDermatologist(Long id, TimeInterval timeInterval){
+		
+		List<Examination> all = _examinationRepository.findAll();
+		List<Examination> result = new ArrayList<>();
+		
+		
+		for(Examination e: all) {
+			if(e.getDermatologist() != null) {
+				if(id.equals(e.getDermatologist().getUserId())) {
+					if(e.getDateAndTime().after(timeInterval.getStartDate()) && e.getDateAndTime().before(timeInterval.getEndDate())) {
+						result.add(e);
+					}
+				}
+			}
+		}
+		
 		
 		return result;
 	}

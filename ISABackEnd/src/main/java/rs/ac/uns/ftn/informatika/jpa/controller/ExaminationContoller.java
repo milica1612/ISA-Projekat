@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
@@ -177,6 +180,25 @@ public class ExaminationContoller {
 	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
 	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
 		return _examinationService.getAllDermatologistByPatient(patientId);
+	}
+	
+	static class DataForPharmacies{
+		public TimeInterval timeInterval;
+		public Long pharmacyId;
+	}
+	
+	@PutMapping(value = "/allForDermatologist/{id}")
+	public List<Examination> getByDermatologist(@PathVariable Long id, @RequestBody DataForPharmacies dfp) {
+		 List<Examination> allExam = _examinationService.getByDermatologist(id, dfp.timeInterval);
+		 List<Examination> result = new ArrayList<Examination>();
+		 
+		 for(Examination e: allExam) {
+			 if(dfp.pharmacyId.equals(e.getPharmacy().getPharmacyId())) {
+				 result.add(e);
+			 }
+		 }
+		 
+		 return result;
 	}
 	
 }

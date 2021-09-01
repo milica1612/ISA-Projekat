@@ -20,4 +20,6 @@ public interface IPharmacyService {
     ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating);
 
 	void updateRating(Long pharmacyId, Double newRating);
+
+	ArrayList<Pharmacy> getAllByDermatologist(Long id);
 }

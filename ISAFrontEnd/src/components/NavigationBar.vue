@@ -113,7 +113,7 @@ export default {
         this.items = [
           {title: "My Patients", path: "/usersList"},
           {title: "Start Counseling", path: "/reportForConsultation"},
-          {title: "Work Calendar", path: "/workCalendar"},
+          {title: "Work Calendar", path: "/workSchedulePharmacist"},
           {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},

@@ -316,6 +316,12 @@ const routes = [{
             import('../views/WorkSchedulePharmacist.vue')
     },
     {
+        path: '/workScheduleDermatologist',
+        name: 'WorkScheduleDermatologist',
+        component: () =>
+            import('../views/WorkScheduleDermatologist.vue')
+    },
+    {
         path: '/vacationPharmacist',
         name: 'VacationPharmacist',
         component: () =>
