@@ -8,8 +8,6 @@
       <a class="a_style" href="/medicineRegistration">Add Medicine</a>
       <a class="a_style" href="/complaints">Complaints</a>
       <a class="a_style" href="/loyaltyScale">Define Loyalty Scale</a>
-      <a class="a_style" href="/">Medicines in pharmacy</a>
-      <a class="a_style" href="/">Make an order</a>
     </div> 
 </template>
 

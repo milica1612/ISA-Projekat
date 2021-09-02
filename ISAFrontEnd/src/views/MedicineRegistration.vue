@@ -120,14 +120,14 @@
                     <v-col cols="12">
                         <v-text-field
                         label="Ingridients*"
-                        v-model = "ingridient"
+                        v-model = "name"
                         required
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                         <v-text-field
                         label="Contraindication*"
-                        v-model = "contraindication"
+                        v-model = "description"
                         required
                         ></v-text-field>
                     </v-col>
@@ -188,8 +188,6 @@ export default {
     precautions: "",
     manufacturer: "",
     medicine: null,
-    contraindications: [],
-    ingridients: [],
     replacementMed: [],
   }),
   mounted() {
@@ -235,8 +233,8 @@ export default {
           manufacturer: this.manufacturer,
           medicineSpecification: {
                 dosage: this.dosage,
-                contraindication: this.contraindications,
-                ingridient: this.ingridients,
+                description: this.description,
+                name: this.name,
         },
           headers: {
               Authorization: 'Bearer ' + token}

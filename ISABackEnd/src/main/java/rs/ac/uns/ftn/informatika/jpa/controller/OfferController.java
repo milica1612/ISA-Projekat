@@ -40,11 +40,13 @@ public class OfferController {
 	}
 	
 	@GetMapping(path = "/seeOffers/{id}")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public List<Offer> findOffers(@PathVariable Long id) {		
 		return  _offerService.findOffersBySupplier(id);
 	}
 
 	@GetMapping(path = "/filtrate/{status}/{id}")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public List<Offer> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
 		
 		List<Offer> offers = findOffers(id);
@@ -62,13 +64,14 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
-	@PostMapping(value = "/createOffer/{order_id}")
+	@PostMapping(value = "/createOffer/{order_id}/add")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<?> createOffer(@PathVariable Long order_id, @RequestBody OfferDTO offerDTO){
 		try {
 			_offerService.createOffer(order_id, offerDTO);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

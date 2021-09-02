@@ -226,21 +226,19 @@ public class OfferService implements IOfferService {
 
 	@Override
 	public Boolean checkMedicineAvailable(Order order, Supplier supplier) {
-		System.out.println("medicine available");
 		Set<MedicineItem> medicineItems = order.getMedicineItem();
 		
 		Set<MedicineItem> supplierMedItem = supplier.getMedicineItem();
 		
 		if(supplier.getMedicineItem().isEmpty()) {
-			System.out.println("empty");
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}
 		
 		List<MedicineItem> medicineForOrder = new ArrayList<>();
 		
 		for(MedicineItem m: medicineItems) {
-			if(medicineItems.equals(supplierMedItem)) {
-					medicineForOrder.add(m);
+			if(supplierMedItem.contains(m)) {
+				medicineForOrder.add(m);
 			}
 		}
 		return true;

@@ -14,14 +14,19 @@ import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.Contraindication;
+import rs.ac.uns.ftn.informatika.jpa.model.Ingridient;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineSpecification;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PriceTag;
 import rs.ac.uns.ftn.informatika.jpa.repository.IAllergyRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IContraindicationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IIngridientRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineSpecificationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 
 @Service
@@ -35,11 +40,21 @@ public class MedicineService implements IMedicineService{
 	@Autowired
 	private IMedicineItemRepository _medicineItemRepository;
 	
+	@Autowired
+	private IIngridientRepository _ingridientRepository;
+	
+	@Autowired
+	private IContraindicationRepository _contraidicationRepository;
+	
+	@Autowired
+	private IMedicineSpecificationRepository _medicineSpecificationRepository;
+	
 	@Override
 	public ArrayList<Medicine> findAllMedicine() {
 		
 		return (ArrayList<Medicine>) _medicineRepository.findAll();
 	}
+	
 	
 	@Override
 	public ArrayList<Medicine> findAllMedicineForAllergies(Allergy allergy) {
@@ -96,11 +111,19 @@ public class MedicineService implements IMedicineService{
 		
 		MedicineSpecification med_spec = new MedicineSpecification();
 		
-		med_spec.setContraindication(medicineRegistration.getMedicineSpecification().getContraindication());
 		med_spec.setDosage(medicineRegistration.getMedicineSpecification().getDosage());
-		med_spec.setIngridient(medicineRegistration.getMedicineSpecification().getIngridient());
 		medicine.setMedicineSpecification(med_spec);
 		
+		Ingridient ingridient = new Ingridient();
+		ingridient.setName(medicineRegistration.getMedicineSpecificationDTO().getName());
+		_ingridientRepository.save(ingridient);
+		
+		Contraindication contraindication = new Contraindication();
+		contraindication.setDescription(medicineRegistration.getMedicineSpecificationDTO().getDescription());
+		_contraidicationRepository.save(contraindication);
+	
+		
+		_medicineSpecificationRepository.save(med_spec);
 		return _medicineRepository.save(medicine);
 	}
 	
