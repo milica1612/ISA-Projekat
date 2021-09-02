@@ -35,14 +35,12 @@ public class EPrescriptionService implements IEPrescriptionService {
 
 	@Override
 	public void getMedicineForRating(Long patientId, ArrayList<Medicine> result) {
-		/*ArrayList<EPrescription> all = (ArrayList<EPrescription>) _ePrescriptionRepository.findAll();
-		for (EPrescription ePrescription : all) {
-			if(ePrescription.getPatient().getUserId() == patientId) {
-				if(!result.contains(ePrescription.getMedicine())) {
-					result.add(ePrescription.getMedicine());
-				}
+		ArrayList<Medicine> med = getIssuedMedicine(patientId);
+		for (Medicine medicine : med) {
+			if(!result.contains(medicine)) {
+				result.add(medicine);
 			}
-		}*/
+		}
 	}
 
 	@Override
