@@ -111,26 +111,6 @@
         </div>
       </v-card>
       <v-spacer></v-spacer>
-      <v-card id="pharmacyEmployeeInPharmacyCard">
-        <div>
-          <v-data-table
-            :headers="pharmacistHeaders"
-            :items="pharmacistsInPharmacy"
-            :items-per-page="5"
-          >
-            <template v-slot:top>
-              <v-toolbar dense dark color="light-blue darken-2">
-                <v-spacer></v-spacer>
-                <v-toolbar-title class="text-center">
-                  Pharmacists in {{ name }} pharmacy
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-            </template>
-          </v-data-table>
-        </div>
-      </v-card>
-      <v-spacer></v-spacer>
       <v-card id="allfreeTermsInPharmacyCard">
         <div>
           <v-data-table
@@ -144,6 +124,26 @@
                 <v-toolbar-title class="text-center">
                   All Free term for examination with our dermatologists that the
                   patient can schedule
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+      <v-spacer></v-spacer>
+      <v-card id="pharmacyEmployeeInPharmacyCard">
+        <div>
+          <v-data-table
+            :headers="pharmacistHeaders"
+            :items="pharmacistsInPharmacy"
+            :items-per-page="5"
+          >
+            <template v-slot:top>
+              <v-toolbar dense dark color="light-blue darken-2">
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="text-center">
+                  Pharmacists in {{ name }} pharmacy
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
