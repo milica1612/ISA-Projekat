@@ -387,6 +387,31 @@ const routes = [{
         component: () =>
             import('../views/DefineFreeTermWithDermatologist.vue')
     },
+
+    {
+        path: '/myEPrescription',
+        name: 'MyEPrescription',
+        component: () =>
+            import('../views/MyEPrescription.vue')
+    },
+    {
+        path: '/issuedMedicine',
+        name: 'IssuedMedicine',
+        component: () =>
+            import('../views/IssuedMedicine.vue')
+    },
+    {
+        path: '/mySubscriptions',
+        name: 'MySubscriptions',
+        component: () =>
+            import('../views/MySubscriptions.vue')
+    },
+    {
+        path: '/changePassword',
+        name: 'ChangePassword',
+        component: () =>
+            import('../views/ChangePassword.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
@@ -48,21 +49,26 @@ public class ExaminationContoller {
 	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
 	
+	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST')")
 	@GetMapping(value = "/getByPharmacy/{pharmacyId}")
 	public ArrayList<ExaminationDTO> getByPharmacy(@PathVariable Long pharmacyId){
 		return _examinationService.getByPharmacy(pharmacyId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPreviousExaminations/{patientId}")
 	public ArrayList<ExaminationDTO> getPreviousExaminations(@PathVariable Long patientId){
 		return _examinationService.getPreviousExaminations(patientId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
 		return _examinationService.getByPatient(patientId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/schedule")
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
 		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
@@ -73,6 +79,7 @@ public class ExaminationContoller {
 		_emailService.sendExaminationConfirmation(e);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
 	public boolean cancelExamination(@RequestBody ExaminationDTO examination) {
 		return _examinationService.cancelExamination(examination);
@@ -274,11 +281,11 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value = "/createFreeTermExamination")
-	public ResponseEntity<Examination> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
+	public ResponseEntity<ResponseFreeTermDTO> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
 		try {
-			return new ResponseEntity<Examination>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
+			return new ResponseEntity<ResponseFreeTermDTO>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
 		} catch(Exception e) {
-			return new ResponseEntity<Examination>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ResponseFreeTermDTO>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

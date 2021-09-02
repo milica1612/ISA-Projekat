@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,6 +67,8 @@ public class ReservationController {
 		public Long pharmacyId;
 	}
 	
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("create")
 	public void createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
@@ -78,6 +81,7 @@ public class ReservationController {
 		_emailService.sendReservationMadeEmail(reservation);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ReservationViewDTO> getByPatient(@PathVariable Long patientId){
 		return _reservationService.getByPatient(patientId);
@@ -122,12 +126,15 @@ public class ReservationController {
 		return new Reservation();
 		
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
 	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
 		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
 		return _reservationService.cancelReservation(reservation);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/checkForPenalties/{patientId}")
 	public void checkForPenalties(@PathVariable Long patientId) {
 		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
@@ -138,6 +145,7 @@ public class ReservationController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value="/checkDate")
 	public boolean checkDate(@RequestBody ReservationDTO dto) throws ParseException {
 		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getDate());

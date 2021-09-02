@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,7 @@ public class WorkSchedulePharmacistController {
 	@Autowired
 	private PharmacistVacationService _pharmacistVacationService;
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping("/getAvailablePharmacies")
 	public ArrayList<Pharmacy> getAvailablePharmacies(@RequestBody AppointmentDateAndTimeDTO dto) {
 		String d = dto.getDate() + " " +  dto.getTime() + ":00";
@@ -50,6 +52,7 @@ public class WorkSchedulePharmacistController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping("/checkDate")
 	public boolean checkDate(@RequestBody AppointmentDateAndTimeDTO dto) {
 		Calendar cal = Calendar.getInstance(); // creates calendar
@@ -72,6 +75,7 @@ public class WorkSchedulePharmacistController {
 		}  
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping("/getAvailablePharmacistsInPharmacy")
 	public ArrayList<Pharmacist> getAvalibalePharmacistsInPharmacy(@RequestBody ConsultationDTO dto){
 		String d = dto.getDate() + " " +  dto.getTime() + ":00";

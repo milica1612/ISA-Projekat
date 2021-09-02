@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +28,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.PenaltyType;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.service.PenaltyService;
@@ -112,6 +115,14 @@ public class UserController {
 		Penalty p = new Penalty(c.getDateAndTime().toString(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
+	}
+	
+	@GetMapping(value = "/subscriptions/{patientId}")
+	public ResponseEntity<?> getSubscriptions(@PathVariable Long patientId){
+		User user = _userService.findById(patientId);
+		Patient p = (Patient) user;
+		List<Pharmacy> pharmacies = p.getPharmacies();
+		return new ResponseEntity<List<Pharmacy>>(pharmacies, HttpStatus.OK);
 	}
 	
 	//penali se brisu prvog u mjesecu u 00:00

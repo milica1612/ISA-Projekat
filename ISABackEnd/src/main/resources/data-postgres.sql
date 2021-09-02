@@ -470,6 +470,8 @@ INSERT INTO public.offer(
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
 
+INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 2);
+
 -- PHARMACIST-VACATION - TEST DATA
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 11, 2); 
 insert into pharmacist_vacation(vacation_id, start_date, end_date, pharmacist_user_id, status) values (default, '20210912 07:00:00 AM','20210922 07:00:00 PM', 16, 2); 
@@ -539,6 +541,7 @@ VALUES (default, 'NONE', false, '2021-09-02 13:10:00', 30, 5, 2100, 12, 15, 2);
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-09-02 14:10:00', 30, 5, 2100, 12, 15, 3);
+
 
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
@@ -902,4 +905,26 @@ INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-08-08 00:00:00', false, false, 'gNJHgyoej1', 15, 1, 1);
 
+INSERT INTO public.eprescription(
+	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '2021-09-01', 'NEW', 1, 2);
+
+INSERT INTO public.eprescription(
+	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '2021-06-01', 'PROCESSED', 1, 2);
+
+INSERT INTO public.eprescription(
+	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '2021-08-01', 'DECLINED', 1, 2);
+
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (1, 1);
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (1, 3);
+
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (2, 5);
 	

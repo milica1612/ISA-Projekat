@@ -170,6 +170,7 @@ export default {
         {
           console.log(response.data);
           alert("The vacation request was successfully accepted!");
+          window.location.href = "/allVacationRequestsDermatologists";
         });
       this.closeAcceptRequest();
     },
@@ -193,6 +194,7 @@ export default {
         {
           console.log(response.data);
           alert("The vacation request was declined!");
+          window.location.href = "/allVacationRequestsDermatologists";
         });
       this.closeDeclineRequest();
     },

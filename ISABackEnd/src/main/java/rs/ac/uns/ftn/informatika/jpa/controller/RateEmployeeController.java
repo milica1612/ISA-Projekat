@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class RateEmployeeController {
 	@Autowired
 	private DermatologistService _dermatologistService;
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/ratePharmacist")
 	public void rateEmployeePharmacist(@RequestBody RateEmployee rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
@@ -42,6 +44,7 @@ public class RateEmployeeController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/rateDermatologist")
 	public void rateEmployeeDermatologist(@RequestBody RateEmployee rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
