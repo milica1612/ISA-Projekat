@@ -2,7 +2,7 @@
   <div>
     <div style = "background-color: #E0E8F0;; overflow: hidden;">
       <a href="/usersList" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Patients</a>
-      <a href="/startCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Start Counseling</a>
+      <a href="/reportForConsultation" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Start Counseling</a>
       <a href="/workSchedulePharmacist" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Work Calendar</a>
       <a href="/dispensingMedicinePharmacist" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Dispense Medicine</a>
       <a href="/vacationPharmacist" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Vacation</a>

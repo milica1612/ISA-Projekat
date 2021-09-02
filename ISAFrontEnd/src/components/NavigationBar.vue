@@ -108,6 +108,7 @@ export default {
             {title: "Schedule Vacation", path: "/scheduleVacation"},
             {title: "My profile", path: "/dermatologistProfile"},
             {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
+            {title: "Home Page", path: "/homePageDermatologist"}
           ];
       } else if (this.userType === "PHARMACIST") {
         this.items = [
@@ -118,6 +119,7 @@ export default {
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},
           {title: "Schedule new Counseling", path: "/scheduleConsultationPharmacist"},
+          {title: "Home Page", path: "/homePagePharmacist"}
         ];
       } else if (this.userType === "PH_ADMINISTRATOR") {
         this.items = [
