@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -228,6 +229,12 @@ public class ExaminationContoller {
 		} catch(Exception e) {
 			return new ResponseEntity<ResponseFreeTermDTO>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path = "/findAllFreeTerm")
+	public ResponseEntity<List<PharmacyFreeTermDTO>> findAllFreeTermExamination() {
+		return new ResponseEntity<List<PharmacyFreeTermDTO>>(_examinationService.findAllFreeTermExamination(), HttpStatus.OK);
 	}
 	
 }
