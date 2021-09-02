@@ -32,7 +32,7 @@
           </thead>
           <tbody>
           <tr
-              v-for="a in medicineAvailableInPharmacyDTO" :key="a"
+              v-for="a in result.medicineAvailableInPharmacyDTO" :key="a"
           >
             <td>{{ a.pharmacy.name }}</td>
             <td>{{ a.priceTag.medicine.name}}</td>
@@ -52,7 +52,8 @@ export default {
     return {
       file: '',
       pharmacies: [],
-      availableInPharmacies: []
+      availableInPharmacies: [],
+      result: {}
     }
   },
   mounted(){},
@@ -73,7 +74,8 @@ export default {
           }
         }).then(response => (this.medicineAvailableInPharmacyDTO = response.data.medicineAvailableInPharmacyDTO,
                              this.qrCodeDTOs = response.data.qrCodeDTOs,
-                             this.code = response.data.code));
+                             this.code = response.data.code,
+                             this.result = response.data));
                   
     },
   },
