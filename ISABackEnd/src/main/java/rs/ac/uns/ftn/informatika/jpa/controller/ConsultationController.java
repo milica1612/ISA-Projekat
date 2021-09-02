@@ -155,7 +155,7 @@ public class ConsultationController {
 	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Consultation e = _consultationService.startConsultation(dfa.dateAndTime);
-		if(e.getPharmacist() != null && e.getPatient() != null && e.appointmentStatus.equals(AppointmentStatus.NONE)) {
+		if(e.getPharmacist() != null && e.getPatient() != null) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.pharmId.equals(e.getPharmacist().getUserId())) {
 					return e;

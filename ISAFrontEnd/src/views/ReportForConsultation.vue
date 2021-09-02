@@ -299,12 +299,12 @@ export default {
   },
   methods: {
     patientDidntCome: function() {
-      this.isPatientCome = true
-      this.isActive = true
+      this.dateStart = new Date()
+
       if(localStorage.getItem("patientId") != "") {
         const dfa = {
           dateAndTime: this.dateStart,
-          dermId: this.dermatologist.userId,
+          pharmId: this.pharmacist.userId,
           patientId: localStorage.getItem("patientId")
         }
 
@@ -455,6 +455,12 @@ export default {
       this.recommendationsDTO.push(this.recommendationDTO)
     },
     scheduleNew(){
+      this.reportDTO = {
+        info: this.infoAppointment,
+        appointmentId: this.currentExamination.appointmentId,
+        recommendations: this.recommendationsDTO
+      }
+
       this.axios
           .post('http://localhost:8091/medicine/addReportPharmAndSchedule/' + this.currentExamination.appointmentId, this.reportDTO, {
             headers: {

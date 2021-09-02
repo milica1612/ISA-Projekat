@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,6 +89,7 @@ public class ExaminationContoller {
 		
 		
 		System.out.println(dataForTerm.pharmacyId + dataForTerm.dermatologistId + dataForTerm.patientId + "00000");
+		boolean available = true;
 		
 		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
 		ArrayList<ExaminationDTO> byPharmacy = _examinationService.getByPharmacy(dataForTerm.pharmacyId);
@@ -96,9 +99,60 @@ public class ExaminationContoller {
 		for(ExaminationDTO e1: byPharmacy) {
 			for(ExaminationDTO e2: byDermatologist) {
 				for(ExaminationDTO e3: byPatient) {
-					if(e1.getAppointmentId().equals(e2.getAppointmentId())
-							&& !e2.getDateAndTime().equals(e3.getDateAndTime())) {
-						result.add(e1);
+					if(e1.getAppointmentId().equals(e2.getAppointmentId())){
+						
+						String d2 = e2.getDateAndTime() + ":00";
+					    Date date2 = new Date();
+						try {
+							date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d2);
+							System.out.println(date2.toString());
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}  
+						
+						String d3 = e3.getDateAndTime() + ":00";
+					    Date date3 = new Date();
+						try {
+							date3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d3);
+							System.out.println(date3.toString());
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}  
+						
+						Calendar examS = Calendar.getInstance();
+						examS.setTime(date2);
+						
+						Calendar endExam = Calendar.getInstance(); // creates calendar
+						endExam.setTime(examS.getTime());               // sets calendar time/date
+						endExam.add(Calendar.MINUTE, 30);
+						
+						Long examStart = examS.getTimeInMillis();
+						Long examEnd = endExam.getTimeInMillis(); 
+						
+						Calendar pS = Calendar.getInstance();
+						pS.setTime(date3);
+						
+						Calendar pEn = Calendar.getInstance(); // creates calendar
+						pEn.setTime(pS.getTime()); // sets calendar time/date
+						pEn.add(Calendar.MINUTE, 30);
+						
+						Long pStart = pS.getTimeInMillis();
+						Long pEnd = pEn.getTimeInMillis();
+						
+					
+						if(examStart <= pStart && examEnd >= pStart) {
+							available = false;
+							break;
+						} else if (examStart <= pEnd && examEnd >= pEnd) {
+							available = false;
+							break;
+						}
+					
+						if(available) {
+							result.add(e1);
+						}	
 					}
 				}
 			}
@@ -151,10 +205,14 @@ public class ExaminationContoller {
 			}
 		}
 		if(available) {
+			Calendar startExamination = Calendar.getInstance(); // creates calendar
+			startExamination.setTime(examination.getDateAndTime());               // sets calendar time/date
+			startExamination.add(Calendar.HOUR, -1);
+			
+			examination.setDateAndTime(new Date(startExamination.getTime().getTime()));
 			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(examination)) {
 				return false;
 			}
-			this._examinationService.saveExamination(examination);
 			this._emailService.sendExaminationConfirmation(examination);
 			return true;
 		}else {

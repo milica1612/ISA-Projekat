@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.iservice.IWorkScheduleDermatologistService;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
@@ -76,6 +77,7 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 
 	@Override
 	public Boolean addNewExaminationToWorkSchedule(Examination e) {
+		e.setAppointmentStatus(AppointmentStatus.NONE);
 		WorkScheduleDermatologist workSchedule = findWorkScheduleForDermatologistInPeriod(e);
 		if(workSchedule == null) {
 			return false;
