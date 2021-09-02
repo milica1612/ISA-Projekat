@@ -5,6 +5,8 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,9 @@ public class EPrescription {
    @Column(name = "date", nullable = false)
    private Date date;
    
+   @Enumerated(EnumType.STRING)
+   private EPrescriptionStatus status;
+   
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    public Set<Medicine> medicine;
    
@@ -34,13 +39,14 @@ public class EPrescription {
    @OneToOne(fetch = FetchType.EAGER)
    private Patient patient;
    
-   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient) {
+   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient, EPrescriptionStatus status) {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.date = date;
 	this.medicine = new HashSet<Medicine>();
 	this.pharmacy = pharmacy;
 	this.patient = patient;
+	this.status = status;
 }
    public EPrescription() 
    {
@@ -117,7 +123,11 @@ public class EPrescription {
 	public void setMedicine(Set<Medicine> medicine) {
 		this.medicine = medicine;
 	}
-	   
-	   
+	public EPrescriptionStatus getStatus() {
+		return status;
+	}
+	public void setStatus(EPrescriptionStatus status) {
+		this.status = status;
+	}
 
 }
