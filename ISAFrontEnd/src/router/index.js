@@ -406,6 +406,12 @@ const routes = [{
         component: () =>
             import('../views/MySubscriptions.vue')
     },
+    {
+        path: '/changePassword',
+        name: 'ChangePassword',
+        component: () =>
+            import('../views/ChangePassword.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',
