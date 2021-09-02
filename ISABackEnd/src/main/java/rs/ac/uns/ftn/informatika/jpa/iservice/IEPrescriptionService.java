@@ -17,4 +17,6 @@ public interface IEPrescriptionService {
 
 	ArrayList<EPrescriptionDTO> filtrate(String status, Long patientId);
 
+	ArrayList<Medicine> getIssuedMedicine(Long patientId);
+
 }

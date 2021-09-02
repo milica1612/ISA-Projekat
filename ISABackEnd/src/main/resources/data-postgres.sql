@@ -849,4 +849,15 @@ INSERT INTO public.eprescription(
 INSERT INTO public.eprescription(
 	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, '2021-08-01', 'DECLINED', 1, 2);
+
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (1, 1);
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (1, 3);
+
+INSERT INTO public.eprescription_medicine(
+	eprescription_prescription_id, medicine_medicine_id)
+	VALUES (2, 2);
 	

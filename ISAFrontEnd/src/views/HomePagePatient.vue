@@ -8,7 +8,7 @@
       <a href="/myEPrescription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My ePrescription</a>
       <a href="/medicineReservations" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Medicine Reservations</a>
       <a href="/myPenalties" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Penalties</a>
-      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Issued Medicine</a>
+      <a href="/issuedMedicine" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Issued Medicine</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Pharmacy Subscriptions</a>
       <a href="/rateAndReport" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Write Complaints</a>
       <a href="/browseMedicine" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Get Medicine</a>

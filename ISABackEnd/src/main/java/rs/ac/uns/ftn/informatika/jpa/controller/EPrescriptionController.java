@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -35,4 +36,12 @@ public class EPrescriptionController {
 		ArrayList<EPrescriptionDTO> result = _ePrescriptionService.filtrate(status, patientId);
 		return new ResponseEntity<ArrayList<EPrescriptionDTO>>(result, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/issuedMedicine/{patientId}")
+	public ResponseEntity<?> getIssuedMedicine(@PathVariable Long patientId){
+		ArrayList<Medicine> result = _ePrescriptionService.getIssuedMedicine(patientId);
+		return new ResponseEntity<ArrayList<Medicine>>(result, HttpStatus.OK);
+	}
+	
+	
 }
