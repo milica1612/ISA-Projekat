@@ -365,8 +365,8 @@ const routes = [{
     },
 
     {
-        path: '/myEPrescriptions',
-        name: 'MyEPrescriptions',
+        path: '/myEPrescription',
+        name: 'MyEPrescription',
         component: () =>
             import('../views/MyEPrescription.vue')
     },
