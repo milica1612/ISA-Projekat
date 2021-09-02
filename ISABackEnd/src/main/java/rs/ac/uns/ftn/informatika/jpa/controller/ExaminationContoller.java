@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -213,11 +214,10 @@ public class ExaminationContoller {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
-	@PutMapping(value = "/createFreeTermExaminationForDermatologist")
+	@PostMapping(value = "/createFreeTermExamination")
 	public ResponseEntity<Examination> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
 		try {
-			Examination freeTermExamination = _examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO);
-			return new ResponseEntity<Examination>(freeTermExamination, HttpStatus.CREATED);
+			return new ResponseEntity<Examination>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
 		} catch(Exception e) {
 			return new ResponseEntity<Examination>(HttpStatus.BAD_REQUEST);
 		}

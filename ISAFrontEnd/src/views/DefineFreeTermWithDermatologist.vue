@@ -54,7 +54,6 @@
           :headers="headersExamination"
           :items="allScheduledExaminationForDermatologistList"
           :items-per-page="10"
-          :sort-by="appointmentId"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -159,7 +158,7 @@
       </v-card-text>
       <v-card-actions class="justify-center" v-if="showBtn">
         <v-btn
-          v-on:click="createFreeTerm"
+          @click="createFreeTerm"
           color="primary"
           class="btnCreate"
           x-large
@@ -284,13 +283,16 @@ export default {
     menu1: false,
     time: null,
     menu2: false,
-    dateExamination: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .substr(0, 10),
+    dateExamination: new Date(
+      Date.now() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .substr(0, 10),
     showDateAndTime: false,
     examinationDuration: null,
     examinationPrice: null,
     showBtn: false,
+    freeTerm: null,
   }),
   mounted() {
     this.initialize();
@@ -430,10 +432,51 @@ export default {
     createFreeTerm() {
       console.log(this.selectedDermatologist);
 
-      if (this.examinationPrice == null || this.examinationDuration == null || this.dateExamination == null || this.time == null) {
-        alert("The fields based on which the create free term for dermatologist is performed must not be empty!");
+      if (
+        this.examinationPrice == null ||
+        this.examinationDuration == null ||
+        this.dateExamination == null ||
+        this.time == null
+      ) {
+        alert(
+          "The fields based on which the create free term for dermatologist is performed must not be empty!"
+        );
       } else if (this.examinationPrice <= 0 || this.examinationDuration <= 0) {
-        alert("Examination price and examination duration must be positive number!");
+        alert(
+          "Examination price and examination duration must be positive number!"
+        );
+      } else {
+        console.log(this.time);
+        console.log(this.dateExamination);
+        var timeString = this.time + ":00";
+        console.log(timeString);
+        var dateAndTimeExamination = new Date(
+          this.dateExamination.toString() + " " + timeString
+        );
+        console.log(dateAndTimeExamination);
+
+        this.axios
+          .post(
+            "http://localhost:8091/examination/createFreeTermExamination",
+            {
+              dermatologist: this.selectedDermatologist,
+              pharmacy: this.pharmacy,
+              dateAndTimeExamination: dateAndTimeExamination,
+              duration: this.examinationDuration,
+              price: this.examinationPrice,
+            },
+             {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+            this.freeTerm = response.data;
+            console.log(this.freeTerm);
+            alert("Successfully created free term with dermatologist!");
+            window.location.href = "/homePagePharmacyAdmin";
+          });
       }
     },
     cancel() {

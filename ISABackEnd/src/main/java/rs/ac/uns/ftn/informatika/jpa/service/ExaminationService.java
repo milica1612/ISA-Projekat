@@ -21,16 +21,18 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
+import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 
 @Service
 public class ExaminationService implements IExaminationService{
 	
 	private IExaminationRepository _examinationRepository;
-	
 	@Autowired
 	public ExaminationService(IExaminationRepository examinationRepository) {
 		this._examinationRepository = examinationRepository;
+
 	}
 	
 	@Override
@@ -318,7 +320,15 @@ public class ExaminationService implements IExaminationService{
 	
 	@Override
 	public Examination createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		Examination e = new Examination();
+		e.setAppointmentStatus(AppointmentStatus.NONE);
+		e.setCancelled(false);
+		e.setDuration(Integer.parseInt(createFreeTermDTO.getDuration()));
+		e.setDateAndTime(createFreeTermDTO.getDateAndTimeExamination());
+		e.setPharmacy(createFreeTermDTO.getPharmacy());
+		e.setPrice(Double.parseDouble(createFreeTermDTO.getPrice()));
+		e.setDermatologist(createFreeTermDTO.getDermatologist());
+		e.setPoints(5); // default
+		return _examinationRepository.save(e);
 	}
 }
