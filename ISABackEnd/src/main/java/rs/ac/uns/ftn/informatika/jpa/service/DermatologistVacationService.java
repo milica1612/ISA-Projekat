@@ -15,7 +15,6 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
-import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistVacationRepository;
 
@@ -159,6 +158,19 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 		
 		return responseVacationList;
 	
+	}
+	
+	@Override
+	public List<DermatologistVacation> findAllDermatologistVacationWithStatusWaitingByDermatologistId(Long dermatologistId) {
+		List<DermatologistVacation> allVacation = _dermatologistVacationRepository.findAll();
+		List<DermatologistVacation> list = new ArrayList<DermatologistVacation>();
+		
+		for (DermatologistVacation dVacation : allVacation) {
+			if(dVacation.getStatus() == Status.ACCEPTED && dVacation.getDermatologist().getUserId() == dermatologistId) {
+				list.add(dVacation);
+			}
+		}
+		return list;
 	}
 
 }

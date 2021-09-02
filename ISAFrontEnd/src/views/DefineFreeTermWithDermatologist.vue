@@ -36,7 +36,6 @@
           :headers="headersVacation"
           :items="dermatologistVacationList"
           :items-per-page="5"
-          :sort-by="dermatologistName"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -474,8 +473,12 @@ export default {
           .then((response) => {
             this.freeTerm = response.data;
             console.log(this.freeTerm);
-            alert("Successfully created free term with dermatologist!");
-            window.location.href = "/homePagePharmacyAdmin";
+            alert(this.freeTerm.answer);
+            if (this.freeTerm.status) {
+              window.location.href = "/homePagePharmacyAdmin"; 
+            } else {
+               location.reload();
+            }
           });
       }
     },

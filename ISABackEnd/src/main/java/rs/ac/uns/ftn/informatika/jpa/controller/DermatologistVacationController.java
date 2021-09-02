@@ -20,7 +20,6 @@ import rs.ac.uns.ftn.informatika.jpa.dto.RequestAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
-import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
 
 @CrossOrigin(origins = "http://localhost:8080")
