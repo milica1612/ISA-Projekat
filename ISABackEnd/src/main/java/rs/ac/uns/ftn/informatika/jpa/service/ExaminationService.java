@@ -7,20 +7,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
-import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
-import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
-import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
 
 @Service
@@ -314,5 +314,11 @@ public class ExaminationService implements IExaminationService{
 		}
 	
 	return list;
+	}
+	
+	@Override
+	public Examination createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
