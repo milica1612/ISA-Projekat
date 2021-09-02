@@ -284,6 +284,9 @@ export default {
     menu1: false,
     time: null,
     menu2: false,
+    dateExamination: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10),
     showDateAndTime: false,
     examinationDuration: null,
     examinationPrice: null,
@@ -426,6 +429,12 @@ export default {
     },
     createFreeTerm() {
       console.log(this.selectedDermatologist);
+
+      if (this.examinationPrice == null || this.examinationDuration == null || this.dateExamination == null || this.time == null) {
+        alert("The fields based on which the create free term for dermatologist is performed must not be empty!");
+      } else if (this.examinationPrice <= 0 || this.examinationDuration <= 0) {
+        alert("Examination price and examination duration must be positive number!");
+      }
     },
     cancel() {
       alert("Canceled defining free term with dermatologist!");
