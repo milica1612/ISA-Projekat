@@ -20,4 +20,6 @@ public interface IDermatologistVacationService {
 	DermatologistVacation requestForVacationDermatologist(DermatologistVacation dv);
 	
 	List<ResponseVacationDTO> isOnVacation(Long dermatologistId);
+
+	List<DermatologistVacation> findAllDermatologistVacationWithStatusWaitingByDermatologistId(Long dermatologistId);
 }

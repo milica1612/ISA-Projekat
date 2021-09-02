@@ -215,11 +215,11 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value = "/createFreeTermExamination")
-	public ResponseEntity<Examination> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
+	public ResponseEntity<Boolean> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
 		try {
-			return new ResponseEntity<Examination>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
+			return new ResponseEntity<Boolean>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
 		} catch(Exception e) {
-			return new ResponseEntity<Examination>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 	}
 	

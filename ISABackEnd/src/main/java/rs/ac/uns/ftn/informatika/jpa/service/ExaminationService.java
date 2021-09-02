@@ -17,6 +17,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
@@ -30,10 +31,12 @@ public class ExaminationService implements IExaminationService{
 	
 	private IExaminationRepository _examinationRepository;
 	private IWorkScheduleDermatologistRepository _workScheduleDermatologistRepository;
+	private DermatologistVacationService _dermatologistVacationService;
 	@Autowired
-	public ExaminationService(IExaminationRepository examinationRepository, IWorkScheduleDermatologistRepository workScheduleDermatologistRepository) {
+	public ExaminationService(IExaminationRepository examinationRepository, IWorkScheduleDermatologistRepository workScheduleDermatologistRepository, DermatologistVacationService dermatologistVacationService) {
 		this._examinationRepository = examinationRepository;
 		this._workScheduleDermatologistRepository = workScheduleDermatologistRepository;
+		this._dermatologistVacationService = dermatologistVacationService;
 	}
 	
 	@Override
@@ -320,7 +323,17 @@ public class ExaminationService implements IExaminationService{
 	}
 	
 	@Override
-	public Examination createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
+	public Boolean createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
+		
+		List<DermatologistVacation> allDermatologistAcceptedVacation = _dermatologistVacationService.findAllDermatologistVacationWithStatusWaitingByDermatologistId(createFreeTermDTO.getDermatologist().getUserId());
+		
+		if (allDermatologistAcceptedVacation.size() > 0)
+			for (DermatologistVacation dVacation : allDermatologistAcceptedVacation) 
+				if (dVacation.getStartDate().before(createFreeTermDTO.getDateAndTimeExamination())
+						&& dVacation.getEndDate().after(createFreeTermDTO.getDateAndTimeExamination()))
+							return false;
+		
+		
 		Examination e = new Examination();
 		e.setAppointmentStatus(AppointmentStatus.NONE);
 		e.setCancelled(false);
@@ -338,11 +351,11 @@ public class ExaminationService implements IExaminationService{
 					&& workScheduleDermatologist.getPharmacy().getPharmacyId() == createFreeTermDTO.getPharmacy().getPharmacyId()) {
 				workScheduleDermatologist.getScheduledExaminations().add(_examinationRepository.save(e));
 				_workScheduleDermatologistRepository.save(workScheduleDermatologist);	
-				return e;
+				return true;
 			
 			}
 		}
-		return null;
+		return false;
 		
 	}
 }

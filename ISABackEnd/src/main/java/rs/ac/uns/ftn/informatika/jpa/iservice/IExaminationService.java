@@ -30,5 +30,5 @@ public interface IExaminationService {
 	ArrayList<ExaminationDTO> getPreviousExaminations(Long patientId);
 	List<Examination> getByDermatologist(Long id, TimeInterval timeInterval);
 	List<ExaminationDTO> findAllScheduledExaminationInPharmacyByDermatologist(Long dermatologistId);
-	Examination createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO);
+	Boolean createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO);
 }
