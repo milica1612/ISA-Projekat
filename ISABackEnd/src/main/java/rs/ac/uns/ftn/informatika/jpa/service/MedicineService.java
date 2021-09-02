@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineSpecificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
 import rs.ac.uns.ftn.informatika.jpa.model.Contraindication;
@@ -108,22 +109,10 @@ public class MedicineService implements IMedicineService{
 		medicine.setReplacementMedicine(medicineRegistration.getReplacementMedicine());
 		medicine.setManufacturer(medicineRegistration.getManufacturer());
 		medicine.setPrecautions(medicineRegistration.getPrecautions());
+		medicine.setPrescriptionType(medicineRegistration.getPrescriptionType());
+		medicine.setRating(0.0);
+		medicine.setMedicineSpecification(addMedicineSpecification(medicineRegistration.getMedicineSpecificationDTO()));
 		
-		MedicineSpecification med_spec = new MedicineSpecification();
-		
-		med_spec.setDosage(medicineRegistration.getMedicineSpecification().getDosage());
-		medicine.setMedicineSpecification(med_spec);
-		
-		Ingridient ingridient = new Ingridient();
-		ingridient.setName(medicineRegistration.getMedicineSpecificationDTO().getName());
-		_ingridientRepository.save(ingridient);
-		
-		Contraindication contraindication = new Contraindication();
-		contraindication.setDescription(medicineRegistration.getMedicineSpecificationDTO().getDescription());
-		_contraidicationRepository.save(contraindication);
-	
-		
-		_medicineSpecificationRepository.save(med_spec);
 		return _medicineRepository.save(medicine);
 	}
 	
@@ -176,5 +165,23 @@ public class MedicineService implements IMedicineService{
 			_medicineRepository.save(existing);
 		}
 		
+	}
+
+
+	@Override
+	public MedicineSpecification addMedicineSpecification(MedicineSpecificationDTO medicineSpecificationDTO) {
+		MedicineSpecification med_spec = new MedicineSpecification();
+		
+		med_spec.setDosage(medicineSpecificationDTO.getDosage());
+		
+		Ingridient ingridient = new Ingridient();
+		ingridient.setName(medicineSpecificationDTO.getIngridientName());
+		_ingridientRepository.save(ingridient);
+		
+		Contraindication contraindication = new Contraindication();
+		contraindication.setDescription(medicineSpecificationDTO.getDescription());
+		_contraidicationRepository.save(contraindication);
+		
+		return _medicineSpecificationRepository.save(med_spec);
 	}
 }

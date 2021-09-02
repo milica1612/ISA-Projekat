@@ -12,17 +12,17 @@ public class MedicineSpecificationDTO {
 	
 	private Double dosage;
 	
-	public String name;
+	public String ingridientName;
 
 	public String description;
 	
 	public MedicineSpecificationDTO() {}
 	
-	public MedicineSpecificationDTO(Long id, Double dosage, String name, String description) {
+	public MedicineSpecificationDTO(Long id, Double dosage, String ingridientName, String description) {
 		super();
 		this.id = id;
 		this.dosage = dosage;
-		this.name = name;
+		this.ingridientName = ingridientName;
 		this.description = description;
 	}
 
@@ -42,12 +42,12 @@ public class MedicineSpecificationDTO {
 		this.dosage = dosage;
 	}
 
-	public String getName() {
-		return name;
+	public String getIngridientName() {
+		return ingridientName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIngridientName(String ingridientName) {
+		this.ingridientName = ingridientName;
 	}
 
 	public String getDescription() {

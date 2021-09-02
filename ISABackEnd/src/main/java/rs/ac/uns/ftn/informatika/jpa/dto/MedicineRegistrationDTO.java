@@ -9,30 +9,19 @@ import rs.ac.uns.ftn.informatika.jpa.model.PrescriptionType;
 
 public class MedicineRegistrationDTO {
 
-	private Long id;
-	
+	private Long id;	
 	private String name;
-	
 	private String code;
-	
 	private int loyaltyPoints;
-	
 	private MedicineForm medicineForm;
-	
 	private String type;
-	
 	public HashSet<Medicine> replacementMedicine;
-	
 	private PrescriptionType prescriptionType;
-	
 	private String manufacturer;
-	
 	private String precautions;
-	
 	private MedicineSpecificationDTO medicineSpecificationDTO;
 	
 	public MedicineRegistrationDTO() {}
-	
 
 	public MedicineRegistrationDTO(Long id, String name, String code, int loyaltyPoints, MedicineForm medicineForm,
 			String type, HashSet<Medicine> replacementMedicine, PrescriptionType prescriptionType, String manufacturer,
@@ -50,9 +39,6 @@ public class MedicineRegistrationDTO {
 		this.precautions = precautions;
 		this.medicineSpecificationDTO = medicineSpecificationDTO;
 	}
-
-
-
 
 	public String getName() {
 		return name;
