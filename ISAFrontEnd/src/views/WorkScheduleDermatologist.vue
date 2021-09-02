@@ -210,7 +210,6 @@ export default {
       }
 
       if(this.selectedPh.pharmacyId != null){
-        alert(this.selectedPh.pharmacyId)
         const dfp={
           timeInterval : this.timeInt,
           pharmacyId : this.selectedPh.pharmacyId

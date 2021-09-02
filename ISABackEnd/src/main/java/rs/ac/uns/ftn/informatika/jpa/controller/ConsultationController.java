@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.informatika.jpa.controller.ExaminationContoller.DataForAppo
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
@@ -154,7 +155,7 @@ public class ConsultationController {
 	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Consultation e = _consultationService.startConsultation(dfa.dateAndTime);
-		if(e.getPharmacist() != null && e.getPatient() != null) {
+		if(e.getPharmacist() != null && e.getPatient() != null && e.appointmentStatus.equals(AppointmentStatus.NONE)) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.pharmId.equals(e.getPharmacist().getUserId())) {
 					return e;

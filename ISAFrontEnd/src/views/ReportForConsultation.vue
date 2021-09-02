@@ -208,7 +208,6 @@
     <v-btn
         color="primary"
         elevation="2"
-        :disabled="ended"
         v-on:click="home"
         large
     >HomePage</v-btn></td>
@@ -246,8 +245,7 @@ export default {
       notAvailable: false,
       mode: '',
       mmm: [],
-      phId: 1,
-      med: [],
+       med: [],
       isActive: false,
       isPatientCome: false,
       available: true,
@@ -317,19 +315,26 @@ export default {
               }
             })
             .then(response => {
-              this.currentExamination = response.data })
+              this.currentExamination = response.data
+              if (this.currentExamination.appointmentId != null) {
+              this.isPatientCome = true
+              this.isActive = true
+              this.axios
+                .post('http://localhost:8091/users/increasePenaltyConsultation', this.currentExamination, {
+                  headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                  }})
+                .then(
+                    window.location.href = "http://localhost:8080/homePagePharmacist"
+                )
+              }else{
+                alert("There is no scheduled appointment at this time!")
+              }
+            })
       }
-
-      this.isPatientCome = true
-      this.isActive = true
-      this.axios
-          .post('http://localhost:8091/users/increasePenaltyConsultation', this.currentExamination, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-          .then(
-              window.location.href = "http://localhost:8080/homePagePharmacist"
-          )
+      else {
+        alert("You did not choose patient for examination!")
+      }
     },
     examinationStart: function (){
       this.ended = true

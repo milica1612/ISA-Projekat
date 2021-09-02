@@ -313,20 +313,28 @@ export default {
               }
             })
             .then(response => {
-                  this.currentExamination = response.data })
+              this.currentExamination = response.data
+              if (this.currentExamination.appointmentId != null) {
+                this.isPatientCome = true
+                this.isActive = true
+                this.axios
+                .post('http://localhost:8091/users/increasePenaltyExamination', this.currentExamination, {
+                  headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                  }
+                })
+                .then(
+                    window.location.href = "http://localhost:8080/homePageDermatologist"
+                )
+              }else{
+                alert("There is no scheduled appointment at this time!")
+              }
+            })
       }
-
-      this.isPatientCome = true
-      this.isActive = true
-      this.axios
-        .post('http://localhost:8091/users/increasePenaltyExamination', this.currentExamination, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem("token")
-          }})
-          .then(
-              window.location.href = "http://localhost:8080/homePageDermatologist"
-          )
-    },
+        else {
+        alert("You did not choose patient for examination!")
+        }
+     },
     examinationStart: function (){
       this.ended = true
       this.dateStart = new Date()

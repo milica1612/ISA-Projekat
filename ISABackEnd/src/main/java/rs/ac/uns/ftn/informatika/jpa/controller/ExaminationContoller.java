@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
@@ -165,7 +166,7 @@ public class ExaminationContoller {
 	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Examination e = _examinationService.startExamination(dfa.dateAndTime);
-		if(e.getDermatologist() != null && e.getPatient() != null) {
+		if(e.getDermatologist() != null && e.getPatient() != null && e.getAppointmentStatus().equals(AppointmentStatus.NONE)) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.dermId.equals(e.getDermatologist().getUserId())) {
 					return e;

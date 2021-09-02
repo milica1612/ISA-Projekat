@@ -528,6 +528,10 @@ INSERT INTO public.examination(appointment_id, appointment_status, cancelled, da
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
 VALUES (default, 'NONE', false, '2021-09-09 12:00:00', 30, 5, 2100, 13, 1, 2);
 
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-02 02:10:00', 30, 5, 2100, 12, 1, 2);
+
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (1, 6);
