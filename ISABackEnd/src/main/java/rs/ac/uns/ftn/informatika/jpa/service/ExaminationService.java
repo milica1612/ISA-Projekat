@@ -335,6 +335,52 @@ public class ExaminationService implements IExaminationService{
 							return new ResponseFreeTermDTO(false, "Try to create another term, the dermatologist is on vacation during this term!");
 				}
 		
+		List<Examination> allExaminations = _examinationRepository.findAll();
+		
+		for (Examination e : allExaminations) {
+			
+			if (e.getDermatologist().getUserId() == createFreeTermDTO.getDermatologist().getUserId()
+					&& e.getPharmacy().getPharmacyId() == createFreeTermDTO.getPharmacy().getPharmacyId()) {
+				
+				Calendar startExamination = Calendar.getInstance();
+				startExamination.setTime(e.getDateAndTime());
+				Long examinationStart = startExamination.getTimeInMillis();
+				
+				Calendar endExamination = Calendar.getInstance();
+				endExamination.setTime(e.getDateAndTime());
+				endExamination.add(Calendar.MINUTE, e.getDuration());
+				Long examinationEnd = endExamination.getTimeInMillis();
+				
+				Calendar startfreeTerm = Calendar.getInstance();
+				startfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());		
+				Long freeTermStart = startfreeTerm.getTimeInMillis();
+				
+				
+				Calendar endfreeTerm = Calendar.getInstance();
+				endfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());	
+				endfreeTerm.add(Calendar.MINUTE, Integer.parseInt(createFreeTermDTO.getDuration()));
+				Long freeTermEnd = startfreeTerm.getTimeInMillis();
+
+				
+				// I - u sredini trajanja zakazanog pregleda
+				if (examinationStart <= freeTermStart && examinationEnd >= freeTermEnd) {
+					return new ResponseFreeTermDTO(false, "Try again with another term, the dermatologist has already scheduled an examination for the selected date and time!");
+				}
+				// II - okruzi vec zakazan pregled
+				if (examinationStart >= freeTermStart && examinationEnd <= freeTermEnd) {
+					return new ResponseFreeTermDTO(false, "Try again with another term, the dermatologist has already scheduled an examination for the selected date and time!");
+				}
+				// III
+				if (examinationStart >= freeTermStart && examinationStart <= freeTermEnd) {
+					return new ResponseFreeTermDTO(false, "Try again with another term, the dermatologist has already scheduled an examination for the selected date and time!");
+				} 
+				// IV 
+				if (freeTermStart <= examinationEnd && examinationEnd <= freeTermEnd) {
+					return new ResponseFreeTermDTO(false, "Try again with another term, the dermatologist has already scheduled an examination for the selected date and time!");
+				}
+			}
+		}
+		
 		Examination e = new Examination();
 		e.setAppointmentStatus(AppointmentStatus.NONE);
 		e.setCancelled(false);
