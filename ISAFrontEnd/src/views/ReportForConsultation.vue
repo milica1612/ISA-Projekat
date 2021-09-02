@@ -215,6 +215,7 @@
     <v-btn
         color="primary"
         elevation="2"
+        :disabled="isEnded"
         v-on:click="endConsultation"
         large
     >End Consultation</v-btn></td>
@@ -264,7 +265,8 @@ export default {
         appointmentId: null,
         recommendations: []
       }
-      ]
+      ],
+      isEnded: false,
     }
   },
   mounted() {
@@ -371,13 +373,14 @@ export default {
       }
     },
     endConsultation: function(){
+      this.isEnded = true
       this.reportDTO = {
         info: this.infoAppointment,
         appointmentId : this.currentExamination.appointmentId,
         recommendations: this.recommendationsDTO
       }
       this.axios
-          .post('http://localhost:8091/medicine/addReportPharm' + this.currentExamination.appointmentId, this.reportDTO, {
+          .post('http://localhost:8091/medicine/addReportPharm/' + this.currentExamination.appointmentId, this.reportDTO, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
@@ -451,6 +454,7 @@ export default {
         medicine: this.mmm,
         duration: this.durRecommend
       }
+
       this.notAvailable = false
       this.recommendationsDTO.push(this.recommendationDTO)
     },

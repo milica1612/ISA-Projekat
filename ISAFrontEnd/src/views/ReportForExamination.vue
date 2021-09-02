@@ -214,6 +214,7 @@
             <v-btn
               color="primary"
               elevation="2"
+              :disabled="isEnded"
               v-on:click="endExamination"
               large
             >End Examination</v-btn></td>
@@ -262,7 +263,8 @@ export default {
         appointmentId: null,
         recommendations: []
       }
-      ]
+      ],
+      isEnded: false,
     }
   },
   mounted() {
@@ -372,6 +374,7 @@ export default {
           }
     },
     endExamination: function(){
+      this.isEnded = true
       this.reportDTO = {
         info: this.infoAppointment,
         appointmentId: this.currentExamination.appointmentId,

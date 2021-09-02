@@ -219,7 +219,7 @@ public class ExaminationService implements IExaminationService{
 			
 			Long examStart = examS.getTimeInMillis();
 			
-			if(examStart >= eStart && examStart < eEnd) {
+			if(examStart >= eStart && examStart < eEnd && !e.getAppointmentStatus().equals(AppointmentStatus.FINISHED)) {
 				e.setAppointmentStatus(AppointmentStatus.STARTED);
 				this._examinationRepository.save(e);
 				return e;
