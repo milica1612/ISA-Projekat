@@ -243,7 +243,7 @@ public class MedicineController {
 	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
 		ArrayList<Medicine> result = new ArrayList<Medicine>();
 		_reservationService.getMedicineForRating(patientId, result);
-		//_ePrescriptionService.getMedicineForRating(patientId, result);
+		_ePrescriptionService.getMedicineForRating(patientId, result);
 		return result;
 	}
 	

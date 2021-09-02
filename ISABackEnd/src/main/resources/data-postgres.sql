@@ -912,5 +912,5 @@ INSERT INTO public.eprescription_medicine(
 
 INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
-	VALUES (2, 2);
+	VALUES (2, 5);
 	
