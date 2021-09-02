@@ -336,7 +336,7 @@ public class ExaminationService implements IExaminationService{
 				}
 		
 		List<Examination> allExaminations = _examinationRepository.findAll();
-		
+
 		for (Examination e : allExaminations) {
 			
 			if (e.getDermatologist().getUserId() == createFreeTermDTO.getDermatologist().getUserId()
@@ -351,6 +351,7 @@ public class ExaminationService implements IExaminationService{
 				endExamination.add(Calendar.MINUTE, e.getDuration());
 				Long examinationEnd = endExamination.getTimeInMillis();
 				
+				
 				Calendar startfreeTerm = Calendar.getInstance();
 				startfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());		
 				Long freeTermStart = startfreeTerm.getTimeInMillis();
@@ -360,7 +361,7 @@ public class ExaminationService implements IExaminationService{
 				endfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());	
 				endfreeTerm.add(Calendar.MINUTE, Integer.parseInt(createFreeTermDTO.getDuration()));
 				Long freeTermEnd = startfreeTerm.getTimeInMillis();
-
+				
 				
 				// I - u sredini trajanja zakazanog pregleda
 				if (examinationStart <= freeTermStart && examinationEnd >= freeTermEnd) {
@@ -378,8 +379,72 @@ public class ExaminationService implements IExaminationService{
 				if (freeTermStart <= examinationEnd && examinationEnd <= freeTermEnd) {
 					return new ResponseFreeTermDTO(false, "Try again with another term, the dermatologist has already scheduled an examination for the selected date and time!");
 				}
+				
+				
 			}
 		}
+		
+		
+		List<WorkScheduleDermatologist> allWorkScheduleDermatologists = _workScheduleDermatologistRepository.findAll();
+		
+		for (WorkScheduleDermatologist workScheduleDermatologist : allWorkScheduleDermatologists) {
+			if (workScheduleDermatologist.getDermatologist().getUserId() == createFreeTermDTO.getDermatologist().getUserId()
+					&& workScheduleDermatologist.getPharmacy().getPharmacyId() == createFreeTermDTO.getPharmacy().getPharmacyId()) {
+				
+				TimeInterval shift =  workScheduleDermatologist.getShift();
+				Date start = shift.getStartDate();
+				Date end = shift.getEndDate();
+		
+				String shiftStartStr = start.toString();
+				String[] shiftStartPom = shiftStartStr.split(" ", 2);
+				String shiftStart = (shiftStartPom[1].substring(0, shiftStartPom.length)); // 07 15
+				
+				String shiftEndStr = end.toString();
+				String[] shiftEndPom = shiftEndStr.split(" ", 2);
+				String shiftEnd = (shiftEndPom[1].substring(0, shiftEndPom.length)); // 15 20
+				
+				String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(createFreeTermDTO.getDateAndTimeExamination());
+				
+			    Date date = new Date();
+				try {
+					date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				Calendar startfreeTerm = Calendar.getInstance();
+				startfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());		
+				Long freeTermStartValue = startfreeTerm.getTimeInMillis();
+				
+				
+				Calendar endfreeTerm = Calendar.getInstance();
+				endfreeTerm.setTime(createFreeTermDTO.getDateAndTimeExamination());	
+				endfreeTerm.add(Calendar.MINUTE, Integer.parseInt(createFreeTermDTO.getDuration()));
+				Long freeTermEndValue = startfreeTerm.getTimeInMillis();
+				
+				
+				Calendar startShift = Calendar.getInstance();
+				startShift.setTime(date);
+				startShift.add(Calendar.HOUR, Integer.parseInt(shiftStart));
+				Long startShiftValue = startShift.getTimeInMillis();
+				
+				
+				Calendar endShift = Calendar.getInstance();
+				endShift.setTime(date);
+				endShift.add(Calendar.HOUR, Integer.parseInt(shiftEnd));
+				Long endShiftValue = endShift.getTimeInMillis();
+				
+				if (startShiftValue <= freeTermStartValue && freeTermEndValue <= endShiftValue) {
+					System.out.println("OK");
+				} else {
+					return new ResponseFreeTermDTO(false, "Try again with another term, see in which shift the dermatologist works, since the entered start date and duration are not within that shift.");
+				}
+				
+			}
+		}
+		
+		
 		
 		Examination e = new Examination();
 		e.setAppointmentStatus(AppointmentStatus.NONE);
@@ -391,7 +456,6 @@ public class ExaminationService implements IExaminationService{
 		e.setDermatologist(createFreeTermDTO.getDermatologist());
 		e.setPoints(5); // default
 		// workschedule 
-		List<WorkScheduleDermatologist> allWorkScheduleDermatologists = _workScheduleDermatologistRepository.findAll();
 		
 		for (WorkScheduleDermatologist workScheduleDermatologist : allWorkScheduleDermatologists) {
 			if (workScheduleDermatologist.getDermatologist().getUserId() == createFreeTermDTO.getDermatologist().getUserId()
