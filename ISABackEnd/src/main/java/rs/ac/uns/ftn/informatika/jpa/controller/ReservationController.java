@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.AppointmentDateAndTimeDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReservationDTO;
@@ -122,6 +123,7 @@ public class ReservationController {
 	}
 	@PutMapping(value = "/cancel")
 	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
+		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
 		return _reservationService.cancelReservation(reservation);
 	}
 	
@@ -133,6 +135,21 @@ public class ReservationController {
 			_userService.increasePenalty(patientId, p);
 			
 		}
+	}
+	
+	@PutMapping(value="/checkDate")
+	public boolean checkDate(@RequestBody ReservationDTO dto) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getDate());
+		Calendar now = Calendar.getInstance(); // creates calendar
+		now.setTime(new Date()); 
+		Calendar d = Calendar.getInstance();
+		d.setTime(date);
+		
+			if(d.before(now)) {
+				return false;
+			}else {
+				return true;
+			}  
 	}
 
 }

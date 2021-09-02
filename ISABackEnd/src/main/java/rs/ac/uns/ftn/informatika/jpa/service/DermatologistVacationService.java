@@ -2,6 +2,8 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistVacationRepository;
 
@@ -98,6 +101,35 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 			System.out.print(e);
 			return false;
 		}
+	}
+
+	@Override
+	public DermatologistVacation requestForVacationDermatologist(DermatologistVacation dv) {
+			
+		DermatologistVacation dermatologistVacation = new DermatologistVacation();
+		dermatologistVacation.setStartDate(dv.getStartDate());
+		dermatologistVacation.setEndDate(dv.getEndDate());
+		dermatologistVacation.setStatus(Status.WAITING);
+		dermatologistVacation.setDermatologist(dv.getDermatologist());
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(new Date());
+		
+		Calendar vacationS = Calendar.getInstance();
+		vacationS.setTime(dv.getStartDate());
+		
+		Calendar vacationE = Calendar.getInstance(); // creates calendar
+		vacationE.setTime(dv.getEndDate());               // sets calendar time/date
+		
+		Long startDate = start.getTimeInMillis(); 
+		Long vacationStart = vacationS.getTimeInMillis();
+		Long vacationEnd = vacationE.getTimeInMillis(); 
+		
+		if(vacationEnd <= vacationStart || startDate > vacationStart || startDate > vacationEnd) {
+			return null;
+		}
+		
+		return _dermatologistVacationRepository.save(dermatologistVacation);
 	}
 
 	@Override

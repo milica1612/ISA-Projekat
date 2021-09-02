@@ -78,8 +78,7 @@ public class PharmacyService implements IPharmacyService {
 	}
 
 	@Override
-	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating) {
-		ArrayList<Pharmacy> pharmacies = findAllPharmacy();
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating, ArrayList<Pharmacy> pharmacies) {
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		for (Pharmacy pharmacy : pharmacies) {
 			if(pharmacy.getRating() >= rating) 
@@ -96,6 +95,23 @@ public class PharmacyService implements IPharmacyService {
 			_pharmacyRepository.save(existing);
 		}
 
+		
+	}
+	
+	@Override
+	public ArrayList<Pharmacy> getAllByDermatologist(Long id){
+		
+		ArrayList<Pharmacy> all = findAllPharmacy();
+		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
+		
+		for(Pharmacy p : all) {
+			for(Dermatologist d: p.getDermatologist()) {
+				if(id.equals(d.getUserId())){
+					result.add(p);
+				}
+			}
+		}
+		return result;
 		
 	}
 	

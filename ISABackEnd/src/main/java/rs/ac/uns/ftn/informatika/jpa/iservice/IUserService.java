@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PatientAppointmentDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.ConfirmationToken;
@@ -39,9 +40,9 @@ public interface IUserService {
 	
 	void sendConfirmationEmail(User user, ConfirmationToken confirmationToken);
 
-	List<Patient> getPatientsByName(String name, Long employeeId);
+	List<PatientAppointmentDTO> getPatientsByName(String name, Long employeeId);
 
-	List<Patient> findPatientsByAppointment(Long employeeId);
+	List<PatientAppointmentDTO> findPatientsByAppointment(Long employeeId);
 
 	void increasePenalty(Long id, Penalty p);
 

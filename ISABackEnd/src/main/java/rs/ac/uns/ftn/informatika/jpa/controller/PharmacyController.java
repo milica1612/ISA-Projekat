@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,10 @@ public class PharmacyController {
 	@Autowired
 	private ExaminationService _examinationService;
 	
+	static class PharmDTO {
+		public ArrayList<Pharmacy> pharmacies;
+	}
+	
 	@GetMapping(value = "")
 	public ArrayList<Pharmacy> getAllPharmacies() {
 		System.out.println("All Pharmacies");
@@ -53,9 +58,9 @@ public class PharmacyController {
 		return  _pharmacyService.getPharmacyById(pharmacyId);
 	}
 
-	@GetMapping(value = "/filtrateByRating/{rating}")
-	public ArrayList<Pharmacy> filtratePharmaciesByRating(@PathVariable Long rating){
-		return _pharmacyService.filtratePharmaciesByRating(rating);
+	@PutMapping(value = "/filtrateByRating/{rating}")
+	public ArrayList<Pharmacy> filtratePharmaciesByRating(@PathVariable Long rating, @RequestBody PharmDTO dto){
+		return _pharmacyService.filtratePharmaciesByRating(rating, dto.pharmacies);
 	}
 	
 	@GetMapping(value = "/getByNameOrAddress/{parametar}")
@@ -103,6 +108,11 @@ public class PharmacyController {
 		_examinationService.getPharmaciesForPatient(patientId, result);
 		
 		return result;
+	}
+	
+	@GetMapping(value = "/getAllPharmacyByDermatologist/{id}")
+	public ArrayList<Pharmacy> getAllByDermatologist(@PathVariable Long id){
+		return _pharmacyService.getAllByDermatologist(id);
 	}
 	
 }

@@ -65,7 +65,6 @@
                                 small
                                 v-bind="attrs"
                                 v-on="on"
-                                v-if="isLoggedAsNotUser"
                             >Medicine Specification</v-btn>
                           </template>
                           <template v-slot:default="dialog">
@@ -179,9 +178,16 @@
                     </template>
     <v-btn
         width="300"
-        text
+        small
+        color="primary"
         @click="makeReservation(a, dialog)"
     >Make a reservation</v-btn>
+    <v-btn
+        width="300"
+        color="primary"
+        small
+        @click="dialog.value=false"
+    >Cancel</v-btn>
     </v-card>
     </template>
     </v-dialog>
@@ -200,6 +206,7 @@ export default {
   data: function () {
     return {
       dialog: false,
+      dateValid:false,
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       medicines: [],
       token: localStorage.getItem("token"),
@@ -241,15 +248,28 @@ export default {
       dialog.value = false
       if(this.patient.penalty < 3) {
         this.axios
-            .post("http://localhost:8091/reservation/create", {
-              dto: a, date: this.picker,
-              userId: localStorage.getItem("userId")
-            }, {
+            .put('http://localhost:8091/reservation/checkDate',{date: this.picker}, {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
               }
             })
-            .then(window.location.href = "http://localhost:8080/medicineReservations");
+            .then(r => {
+              this.dateValid = r.data
+              if(this.dateValid) {
+                this.axios
+                    .post("http://localhost:8091/reservation/create", {
+                      dto: a, date: this.picker,
+                      userId: localStorage.getItem("userId")
+                    }, {
+                      headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token")
+                      }
+                    })
+                    .then(window.location.href = "http://localhost:8080/medicineReservations");
+              }else{
+                alert("Please select a date in the future.")
+              }
+            });
       }else{
         alert("You can't schedule make a reservation because you have 3 or more penalties. This option" +
             " will be available next month")
@@ -269,13 +289,6 @@ export default {
   computed:{
     isLogged: function (){
       if (this.token == "" || localStorage.getItem("userType") != "PATIENT"){
-        return false
-      }else{
-        return true
-      }
-    },
-    isLoggedAsNotUser: function (){
-      if (this.token == "" || localStorage.getItem("userType") == "PATIENT"){
         return false
       }else{
         return true

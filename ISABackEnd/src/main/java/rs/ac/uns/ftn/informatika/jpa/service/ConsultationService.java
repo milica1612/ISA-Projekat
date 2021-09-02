@@ -2,25 +2,21 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
-import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
-import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
@@ -134,7 +130,76 @@ public class ConsultationService implements IConsultationService{
 		}
 		return false;
 	}
+	
+	@Override
+	public List<Consultation> getByPharmacist(Long id, TimeInterval timeInterval){
+		
+		List<Consultation> all = _consultationRepository.findAll();
+		List<Consultation> result = new ArrayList<>();
+		
+		
+		for(Consultation c: all) {
+			if(c.getPharmacist() != null) {
+				if(id.equals(c.getPharmacist().getUserId())) {
+					if(c.getDateAndTime().after(timeInterval.getStartDate()) && c.getDateAndTime().before(timeInterval.getEndDate())) {
+						result.add(c);
+					}
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	@Override
+	public Consultation startConsultation(Date date) {
+		
+		Calendar eS = Calendar.getInstance();
+		eS.setTime(date);
+		eS.add(Calendar.MINUTE, -15);
+		
+		Calendar eE = Calendar.getInstance(); // creates calendar
+		eE.setTime(eS.getTime());               // sets calendar time/date
+		eE.add(Calendar.MINUTE, 30);
+		
+		Long eStart = eS.getTimeInMillis();
+		Long eEnd = eE.getTimeInMillis(); 
+		
+		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();
+		for(Consultation e: allConsultations) {
+			Calendar examS = Calendar.getInstance();
+			examS.setTime(e.getDateAndTime());
+			
+			Long examStart = examS.getTimeInMillis();
+			
+			if(examStart >= eStart && examStart < eEnd) {
+				e.setAppointmentStatus(AppointmentStatus.STARTED);
+				this._consultationRepository.save(e);
+				return e;
+			}
+		}
+		return new Consultation();
+	}
+	
+	@Override
+	public Consultation endConsultation(Long id) {
+		
+		Consultation e = findById(id);
+		
+			if(e.getAppointmentStatus().equals(AppointmentStatus.STARTED)){
+				e.setAppointmentStatus(AppointmentStatus.FINISHED);
+				this._consultationRepository.save(e);
+				return e;
+		
+		}
+		return null;
+	}
 
+	@Override
+	public Consultation findById(Long id) {
+		return _consultationRepository.findById(id).orElse(null);
+	}
+	
 	@Override
 	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
 		ArrayList<Consultation> allConsultations = (ArrayList<Consultation>) _consultationRepository.findAll();

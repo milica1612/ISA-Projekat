@@ -50,20 +50,13 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 				Calendar validE = Calendar.getInstance(); // creates calendar
 				validE.setTime(workSchedule.getValidFor().getEndDate());               // sets calendar time/date
 				
-				Calendar shiftS = Calendar.getInstance();
-				shiftS.setTime(workSchedule.getShift().getStartDate());
-				
-				Calendar shiftE = Calendar.getInstance(); // creates calendar
-				shiftE.setTime(workSchedule.getShift().getEndDate());               // sets calendar time/date
+				int shiftStart = workSchedule.getShift().getStartDate().getHours()*60 + workSchedule.getShift().getStartDate().getMinutes();
+				int shiftEnd = workSchedule.getShift().getEndDate().getHours()*60 + workSchedule.getShift().getEndDate().getMinutes();              // sets calendar time/date
 			
 				Long validStart = validS.getTimeInMillis();
 				Long validEnd = validE.getTimeInMillis(); 		
 				
-				Long shiftStart = shiftS.getTimeInMillis();
-				Long shiftEnd = shiftE.getTimeInMillis(); 		
-				System.out.println(shiftStart + " " + shiftEnd);
-				
-				if(validStart <= examStart && validEnd >= examStart) {
+				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Pronasao je period");
 				if(shiftStart <= examStart) {
 					System.out.println("Pronasao je smjenu ");

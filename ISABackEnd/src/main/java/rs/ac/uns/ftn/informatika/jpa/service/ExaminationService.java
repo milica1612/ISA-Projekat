@@ -7,17 +7,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
 
@@ -195,6 +197,54 @@ public class ExaminationService implements IExaminationService{
 	}
 	
 	@Override
+	public Examination startExamination(Date date) {
+		
+		Calendar eS = Calendar.getInstance();
+		eS.setTime(date);
+		eS.add(Calendar.MINUTE, -15);
+		
+		Calendar eE = Calendar.getInstance(); // creates calendar
+		eE.setTime(eS.getTime());               // sets calendar time/date
+		eE.add(Calendar.MINUTE, 30);
+		
+		Long eStart = eS.getTimeInMillis();
+		Long eEnd = eE.getTimeInMillis(); 
+		
+		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
+		for(Examination e: allExaminations) {
+			Calendar examS = Calendar.getInstance();
+			examS.setTime(e.getDateAndTime());
+			
+			Long examStart = examS.getTimeInMillis();
+			
+			if(examStart >= eStart && examStart < eEnd) {
+				e.setAppointmentStatus(AppointmentStatus.STARTED);
+				this._examinationRepository.save(e);
+				return e;
+			}
+		}
+		return new Examination();
+	}
+	
+	@Override
+	public Examination endExamination(Long id) {
+		
+		Examination e = findById(id);
+		
+			if(e.getAppointmentStatus().equals(AppointmentStatus.STARTED)){
+				e.setAppointmentStatus(AppointmentStatus.FINISHED);
+				this._examinationRepository.save(e);
+				return e;
+		
+		}
+		return null;
+	}
+
+	@Override
+	public Examination findById(Long id) {
+		return _examinationRepository.findById(id).orElse(null);
+	}
+	
 	public ArrayList<Dermatologist> getAllDermatologistByPatient(Long patientId) {
 		
 		ArrayList<Examination> allExaminations = (ArrayList<Examination>) _examinationRepository.findAll();
@@ -231,11 +281,30 @@ public class ExaminationService implements IExaminationService{
 	}
 	
 	@Override
+	public List<Examination> getByDermatologist(Long id, TimeInterval timeInterval){
+		
+		List<Examination> all = _examinationRepository.findAll();
+		List<Examination> result = new ArrayList<>();
+		
+		
+		for(Examination e: all) {
+			if(e.getDermatologist() != null) {
+				if(id.equals(e.getDermatologist().getUserId())) {
+					if(e.getDateAndTime().after(timeInterval.getStartDate()) && e.getDateAndTime().before(timeInterval.getEndDate())) {
+						result.add(e);
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	public List<ExaminationDTO> findAllScheduledExaminationInPharmacyByDermatologist(Long dermatologistId) {
 		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Examination> allExamination = _examinationRepository.findAll();
 		List<ExaminationDTO> list = new ArrayList<ExaminationDTO>();
-		
+	
 		for(Examination e : allExamination) {
 			if (e.getDermatologist().getUserId() == dermatologistId
 					&& e.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()) {
@@ -243,7 +312,7 @@ public class ExaminationService implements IExaminationService{
 				list.add(examinationDTO);
 			}
 		}
-		
-		return list;
+	
+	return list;
 	}
 }

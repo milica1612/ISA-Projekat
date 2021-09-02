@@ -81,6 +81,7 @@ export default {
   methods: {
     init() {
       this.userType = localStorage.getItem("userType");
+
       console.log(this.userType);
       if (this.userType === "PATIENT") {
         // USER-TYPE
@@ -100,19 +101,19 @@ export default {
           {title: "Supplier", path: "/supplier"},
         ];
       } else if (this.userType === "DERMATOLOGIST") {
-        this.items = [
-          {title: "My Patients", path: "/usersList"},
-          {title: "Start Examination", path: "/startExamination"},
-          {title: "Work Calendar", path: "/workCalendar"},
-          {title: "Schedule Vacation", path: "/scheduleVacation"},
-          {title: "My profile", path: "/dermatologistProfile"},
-          {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
-        ];
+          this.items = [
+            {title: "My Patients", path: "/usersList"},
+            {title: "Start Examination", path: "/reportForExamination"},
+            {title: "Work Calendar", path: "/workScheduleDermatologist"},
+            {title: "Schedule Vacation", path: "/scheduleVacation"},
+            {title: "My profile", path: "/dermatologistProfile"},
+            {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
+          ];
       } else if (this.userType === "PHARMACIST") {
         this.items = [
           {title: "My Patients", path: "/usersList"},
-          {title: "Start Counseling", path: "/startCounseling"},
-          {title: "Work Calendar", path: "/workCalendar"},
+          {title: "Start Counseling", path: "/reportForConsultation"},
+          {title: "Work Calendar", path: "/workSchedulePharmacist"},
           {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
           {title: "Schedule Vacation", path: "/scheduleVacation"},
           {title: "My profile", path: "/pharmacistProfile"},

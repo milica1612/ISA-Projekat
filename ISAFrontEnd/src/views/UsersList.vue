@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <v-table>
       <tr>
         <v-text-field
@@ -22,29 +22,38 @@
       <template v-slot:default>
         <thead>
         <tr>
-          <th class="text-left">
+          <th :class="sortedClass('firstName')" class="text-left"
+              @click="sortBy('firstName')">
             FirstName
-          </th>
-          <th class="text-left">
+          <th :class="sortedClass('lastName')" class="text-left"
+              @click="sortBy('lastName')">
             LastName
+          </th>
+          <th :class="sortedClass('dateAndTime')" class="text-left"
+              @click="sortBy('dateAndTime')">
+            Appointment Date
           </th>
           <th class="text-left">
             SeeProfile
           </th>
+          <th class="text-left">
+            StartAppointment
+          </th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="p in allpatients" :key="p">
+        <tr v-for="p in sortedItems" :key="p">
           <td>{{ p.firstName }}</td>
           <td>{{ p.lastName }}</td>
-          <td align="center">
+          <td>{{ p.dateAndTime }}</td>
+          <td align="left">
             <v-btn
                 color="primary"
                 elevation="2"
                 v-on:click = "seeProfile(p)"
                 small
                 >See profile</v-btn></td>
-          <td align="center">
+          <td align="left">
             <v-btn
                 color="primary"
                 elevation="2"
@@ -65,10 +74,15 @@ export default {
       allpatients: [],
       mode: 'BROWSE',
       backup: [],
+      paId : null,
       patient: {},
       employee : {},
       user: {},
       fName: '',
+      sort: {
+        key: '',
+        isAsc: false
+      }
 
   }),
   mounted() {
@@ -118,12 +132,20 @@ export default {
             })
           .then((resp) => (this.allpatients = resp.data))
     },
+    sortedClass (key) {
+      return this.sort.key === key ? `sorted ${this.sort.isAsc ? 'asc' : 'desc' }` : '';
+
+    },
+    sortBy (key) {
+      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : false;
+      this.sort.key = key;
+    },
     seeProfile: function(p) {
-      localStorage.setItem("patientId", p.userId);
+      localStorage.setItem("patientId", p.patientId);
       window.location.href = "http://localhost:8080/DermatologistPatientProfile";
     },
     startAppointment: function (p) {
-      localStorage.setItem("patientId", p.userId);
+      localStorage.setItem("patientId", p.patientId);
       if(localStorage.getItem("userType") == "DERMATOLOGIST"){
         window.location.href = "http://localhost:8080/reportForExamination";
       }
@@ -131,6 +153,36 @@ export default {
         window.location.href = "http://localhost:8080/reportForConsultation";
       }
     }
+  },
+  computed:{
+    sortedItems () {
+      const list = this.allpatients.slice();  // ソート時でdataの順序を書き換えないため
+      if (this.sort.key !="") {
+        list.sort((a, b) => {
+          a = a[this.sort.key]
+          b = b[this.sort.key]
+
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1)
+        });
+      }
+
+      return list;
+    }
   }
 };
 </script>
+
+<style>
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</style>

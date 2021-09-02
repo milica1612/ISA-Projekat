@@ -19,6 +19,8 @@
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
     "vue-chartjs": "^3.5.1",
+    "vue-fullcalendar": "^1.0.9",
+    "vue-material-year-calendar": "^1.2.6",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
     "vuetify-datetime-picker": "^2.1.1",
@@ -34,6 +36,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.32.0",
     "sass-loader": "^10.0.0",
+    "v-year-calendar": "^1.0.2",
     "vue-cli-plugin-vuetify": "~2.1.0",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.1"
