@@ -6,25 +6,25 @@
         <template v-slot:default>
           <thead>
           <tr>
-            <th class="text-left">
-              Issued medicine
+            <th>
+              Subscribed to
             </th>
-            <th class="text-left">
-              Type
-            </th>
-            <th class="text-left">
+            <th>
               Rating
+            </th>
+            <th>
+              Address
             </th>
           </tr>
           </thead>
           <tbody>
           <tr
-              v-for="m in medicine"
-              :key="m"
+              v-for="p in pharmacies"
+              :key="p"
           >
-            <td>{{ m.name }}</td>
-            <td>{{ m.type }}</td>
-            <td>{{ m.rating }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.rating }}</td>
+            <td>{{p.address.street + " " + p.address.streetNumber + ", " + p.address.city + ", " + p.address.country}}</td>
           </tr>
           </tbody>
         </template>
@@ -35,25 +35,22 @@
 
 <script>
 export default {
-  name: "IssuedMedicine",
+  name: "MySubscriptions",
   data: function () {
     return {
-    medicine: []
+      pharmacies: []
     }
   },
-  mounted() {
-    {
-      this.axios
-          .get('http://localhost:8091/ePrescription/issuedMedicine/' + localStorage.getItem("userId"), {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(r => {
-            this.medicine = r.data
-          })
-    }
-  },
+  mounted(){
+
+    this.axios
+        .get('http://localhost:8091/users/subscriptions/' + localStorage.getItem("userId"), {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem("token")
+          }
+        })
+        .then(response => (this.pharmacies = response.data));
+  }
 }
 </script>
 
@@ -70,5 +67,4 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
-
 </style>

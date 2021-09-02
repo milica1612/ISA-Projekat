@@ -27,7 +27,7 @@
               Pharmacy
             </th>
             <th>
-              Status
+              ePrescription Status
             </th>
           </tr>
           </thead>

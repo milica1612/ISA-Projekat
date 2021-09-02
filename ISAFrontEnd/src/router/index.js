@@ -400,6 +400,12 @@ const routes = [{
         component: () =>
             import('../views/IssuedMedicine.vue')
     },
+    {
+        path: '/mySubscriptions',
+        name: 'MySubscriptions',
+        component: () =>
+            import('../views/MySubscriptions.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',
