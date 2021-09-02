@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,7 @@ public class ConsultationController {
 		public Long patientId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("/create")
 	public void createNewConsultation(@RequestBody Request r) {
 		User user = _userService.findById(r.patientId);
@@ -67,17 +69,21 @@ public class ConsultationController {
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 		this._emailService.sendConsultationConfirmation(c);
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
 	public ArrayList<ConsultationViewDTO> getByPatient(@PathVariable Long patientId){
 		return _consultationService.getByPatient(patientId);
 	}
 	
-
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPreviousConsultations/{patientId}")
 	public ArrayList<ConsultationViewDTO> getPreviousConsultations(@PathVariable Long patientId){
 		return _consultationService.getPreviousConsultations(patientId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
 	public boolean cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
 		return _consultationService.cancelConsultation(consultation);
@@ -167,6 +173,7 @@ public class ConsultationController {
 		else return new Consultation();
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
 	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
 		return _consultationService.getAllPharmacistForPatient(patientId);

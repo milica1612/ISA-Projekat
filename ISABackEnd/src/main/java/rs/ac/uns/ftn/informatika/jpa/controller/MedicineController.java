@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,11 +79,13 @@ public class MedicineController {
 		return _medicineService.findAllMedicine();
 	}
 	@CrossOrigin(origins = "http://localhost:8080")
+	
+	
 	@GetMapping(value = "/getMedicineByName/{name}")
 	public ArrayList<Medicine> findMedicineByName(@PathVariable String name){
 		return _medicineService.findMedicineByName(name);
 	}
-	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST', 'ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/forAllergies")
 	public ArrayList<Medicine> findAllMedicineForAllergies(@RequestBody Allergy allergy){
 		return _medicineService.findAllMedicineForAllergies(allergy);
@@ -239,6 +242,7 @@ public class MedicineController {
 		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(path = "/getMedicineForRating/{patientId}")
 	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
 		ArrayList<Medicine> result = new ArrayList<Medicine>();
