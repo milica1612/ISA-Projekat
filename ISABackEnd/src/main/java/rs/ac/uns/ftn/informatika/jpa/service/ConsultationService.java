@@ -172,7 +172,7 @@ public class ConsultationService implements IConsultationService{
 			
 			Long examStart = examS.getTimeInMillis();
 			
-			if(examStart >= eStart && examStart < eEnd) {
+			if(examStart >= eStart && examStart < eEnd && !e.getAppointmentStatus().equals(AppointmentStatus.FINISHED)) {
 				e.setAppointmentStatus(AppointmentStatus.STARTED);
 				this._consultationRepository.save(e);
 				return e;

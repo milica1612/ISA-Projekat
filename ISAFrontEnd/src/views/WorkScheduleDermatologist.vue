@@ -131,6 +131,7 @@
                   <tr><td>Date And Time: </td><td>{{selectedEvent.startTime}}</td></tr>
                   <tr><td>Duration: </td><td>{{selectedEvent.duration}}</td></tr>
                   <tr><td>Patient: </td><td>{{selectedEvent.patientName}}</td></tr>
+                  <tr><td>Pharmacy: </td><td>{{selectedEvent.pharmacyName}}</td></tr>
                 </v-simple-table>
               </v-card-text>
               <v-btn
@@ -185,6 +186,7 @@ export default {
   },
   mounted() {
     if(localStorage.getItem("userType") == "DERMATOLOGIST"){
+
       this.axios
           .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
             headers: {
@@ -249,6 +251,7 @@ export default {
                 duration:this.consultations[i].duration,
                 patient: this.consultations[i].patient,
                 patientName: this.consultations[i].patient.firstName + " " + this.consultations[i].patient.lastName,
+                pharmacyName: this.consultations[i].pharmacy.name,
                 end: second,
                 color: this.colors[this.rnd(0, this.colors.length - 1)],
                 timed: !allDay
