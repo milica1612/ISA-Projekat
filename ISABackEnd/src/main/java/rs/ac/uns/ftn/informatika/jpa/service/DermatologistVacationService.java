@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistVacationService;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
@@ -101,7 +103,6 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 		}
 	}
 
-	
 	@Override
 	public DermatologistVacation requestForVacationDermatologist(DermatologistVacation dv) {
 			
@@ -130,4 +131,34 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 		
 		return _dermatologistVacationRepository.save(dermatologistVacation);
 	}
+
+	@Override
+	public List<ResponseVacationDTO> isOnVacation(Long dermatologistId) {
+		List<DermatologistVacation> acceptedDermatologistVacations = _dermatologistVacationRepository.findAllByStatus(Status.ACCEPTED);
+		List<ResponseVacationDTO> responseVacationList = new ArrayList<ResponseVacationDTO>();
+		for (DermatologistVacation dVacation : acceptedDermatologistVacations) {
+			Dermatologist d = dVacation.getDermatologist();
+			if (d.getUserId() == dermatologistId) {
+				StringBuilder fullName = new StringBuilder();
+				fullName.append(d.getFirstName());
+				fullName.append(" ");
+				fullName.append(d.getLastName());
+				
+				StringBuilder description = new StringBuilder();
+				
+				String startOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getStartDate());
+			    String endOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getEndDate());
+				description.append("On the vacation is from ");
+				description.append(startOfVacation);
+				description.append(" to ");
+				description.append(endOfVacation);
+				ResponseVacationDTO responseVacationDTO = new ResponseVacationDTO(fullName.toString(), d.getEmail(), description.toString());
+				responseVacationList.add(responseVacationDTO);
+			}
+		}
+		
+		return responseVacationList;
+	
+	}
+
 }

@@ -127,6 +127,7 @@ export default {
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
+          {title: "Define Term With Dermatologist", path: "/defineFreeTermWithDermatologist"},
           {title: "Define Promotion", path: "/promotion"},
           {title: "Make An Order", path: '/makeAnOrder'},
           {title: "Edit My Orders", path: '/orderEditing'},

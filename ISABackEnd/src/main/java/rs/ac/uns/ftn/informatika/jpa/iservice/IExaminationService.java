@@ -3,7 +3,6 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
@@ -12,7 +11,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 
 public interface IExaminationService {
 	public ArrayList<ExaminationDTO> getByPharmacy(Long pharmacyId);
-	public void scheduleExamination(ExaminationDTO examination);
+	public Examination scheduleExamination(ExaminationDTO examination);
 	public ArrayList<ExaminationDTO> getByPatient(Long patientId);
 	public boolean cancelExamination(ExaminationDTO examination);
 	public boolean isSoonerThan24hours(Examination examination);
@@ -28,4 +27,5 @@ public interface IExaminationService {
 	ArrayList<Dermatologist> getAllDermatologistByPatient(Long patientId);
 	ArrayList<ExaminationDTO> getPreviousExaminations(Long patientId);
 	List<Examination> getByDermatologist(Long id, TimeInterval timeInterval);
+	List<ExaminationDTO> findAllScheduledExaminationInPharmacyByDermatologist(Long dermatologistId);
 }

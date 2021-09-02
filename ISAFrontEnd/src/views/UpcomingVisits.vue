@@ -23,8 +23,8 @@
             <th>
               Dermatologist
             </th>
-            <th :class="sortedClass('rating')"
-                @click="sortBy('rating')">
+            <th :class="sortedClass('dermatologist')"
+                @click="sortBy('dermatologist')">
               Dermatologist Rating
             </th>
             <th :class="sortedClass('price')"
@@ -80,8 +80,8 @@
             <th>
               Pharmacist
             </th>
-            <th :class="sortedClass('rating')"
-                @click="sortBy('rating')">
+            <th :class="sortedClass('pharmacist')"
+                @click="sortBy('pharmacist')">
               Pharmacist Rating
             </th>
             <th :class="sortedClass('price')"

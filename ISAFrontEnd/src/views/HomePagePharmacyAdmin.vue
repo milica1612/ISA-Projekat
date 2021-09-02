@@ -4,6 +4,7 @@
       <a class="a_style" href="/myPharmacy">My Pharmacy</a>
       <a class="a_style" href="/medicinesInPharmacy">Medicines in pharmacy</a>
       <a class="a_style" href="/searchDermatologist">Search and filter dermatologists</a>
+      <a class="a_style" href="/defineFreeTermWithDermatologist">Define free term for examination with dermatologist</a>
       <a class="a_style" href="/searchPharmacist">Search and filter pharmacists</a>
       <a class="a_style" href="/promotion">Define a promotion</a>
       <a class="a_style" href="/makeAnOrder">Make an order</a>

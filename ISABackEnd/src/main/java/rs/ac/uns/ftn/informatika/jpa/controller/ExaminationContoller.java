@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
-import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
@@ -63,7 +63,8 @@ public class ExaminationContoller {
 			System.out.println("Unable to schedule examination because of penalties");
 			return;
 		}
-		_examinationService.scheduleExamination(examination);
+		Examination e = _examinationService.scheduleExamination(examination);
+		_emailService.sendExaminationConfirmation(e);
 	}
 	
 	@PutMapping(value = "/cancel")
@@ -200,6 +201,12 @@ public class ExaminationContoller {
 		 }
 		 
 		 return result;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/findAllScheduledExaminationInPharmacyByDermatologist/{dermatologistId}")
+	public ResponseEntity<List<ExaminationDTO>> findAllScheduledExaminationInPharmacyByDermatologist(@PathVariable Long dermatologistId) {
+		return new ResponseEntity<List<ExaminationDTO>>(_examinationService.findAllScheduledExaminationInPharmacyByDermatologist(dermatologistId), HttpStatus.OK);
 	}
 	
 }

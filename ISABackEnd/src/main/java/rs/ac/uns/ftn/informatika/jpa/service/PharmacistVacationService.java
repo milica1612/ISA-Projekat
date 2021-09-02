@@ -136,4 +136,17 @@ public class PharmacistVacationService implements IPharmacistVacationService {
 		
 		return _pharmacistVacationRepository.save(pharmacistVacation);
 	}
+	
+	@Override
+	public List<PharmacistVacation> findAllAcceptedVacations(){
+		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationRepository.findAll();
+		ArrayList<PharmacistVacation> result = new ArrayList<PharmacistVacation>();
+		for (PharmacistVacation pharmacistVacation : vacations) {
+			if(pharmacistVacation.getStatus() == Status.ACCEPTED) {
+				result.add(pharmacistVacation);
+			}
+		}
+		return result;
+	}	
 }
+

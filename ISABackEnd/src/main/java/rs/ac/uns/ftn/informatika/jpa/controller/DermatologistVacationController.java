@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
@@ -74,4 +76,13 @@ public class DermatologistVacationController {
 		else
 			return false;
 	}
+
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/isOnVacation/{dermatologistId}")
+	public ResponseEntity<List<ResponseVacationDTO>> isOnVacation(@PathVariable Long dermatologistId) {
+		return new ResponseEntity<List<ResponseVacationDTO>>(_dermatologistVacationService.isOnVacation(dermatologistId), HttpStatus.OK);
+	}
+
+
 }

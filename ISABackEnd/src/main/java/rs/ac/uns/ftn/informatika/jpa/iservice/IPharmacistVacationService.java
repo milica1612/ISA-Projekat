@@ -19,4 +19,7 @@ public interface IPharmacistVacationService {
 	PharmacistVacation decline(RequestDeclineDTO requestDeclineDTO);
 
 	PharmacistVacation requestForVacationPharmacist(PharmacistVacation pv);
+
+	List<PharmacistVacation> findAllAcceptedVacations();
+
 }

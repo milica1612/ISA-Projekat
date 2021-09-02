@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ public class PharmacyAdminController {
 		this._pharmacyAdminService = pharmacyAdminService;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public PharmacyAdminDTO findPharmacyAdminById(@PathVariable Long id) {
 		return _pharmacyAdminService.getPharmacyAdminById(id);
