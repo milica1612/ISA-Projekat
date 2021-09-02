@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -323,16 +324,16 @@ public class ExaminationService implements IExaminationService{
 	}
 	
 	@Override
-	public Boolean createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
+	public ResponseFreeTermDTO createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO) {
 		
 		List<DermatologistVacation> allDermatologistAcceptedVacation = _dermatologistVacationService.findAllDermatologistVacationWithStatusWaitingByDermatologistId(createFreeTermDTO.getDermatologist().getUserId());
 		
 		if (allDermatologistAcceptedVacation.size() > 0)
 			for (DermatologistVacation dVacation : allDermatologistAcceptedVacation) 
 				if (dVacation.getStartDate().before(createFreeTermDTO.getDateAndTimeExamination())
-						&& dVacation.getEndDate().after(createFreeTermDTO.getDateAndTimeExamination()))
-							return false;
-		
+						&& dVacation.getEndDate().after(createFreeTermDTO.getDateAndTimeExamination())) {
+							return new ResponseFreeTermDTO(false, "Try to create another term, the dermatologist is on vacation during this term!");
+				}
 		
 		Examination e = new Examination();
 		e.setAppointmentStatus(AppointmentStatus.NONE);
@@ -351,11 +352,11 @@ public class ExaminationService implements IExaminationService{
 					&& workScheduleDermatologist.getPharmacy().getPharmacyId() == createFreeTermDTO.getPharmacy().getPharmacyId()) {
 				workScheduleDermatologist.getScheduledExaminations().add(_examinationRepository.save(e));
 				_workScheduleDermatologistRepository.save(workScheduleDermatologist);	
-				return true;
+				return new ResponseFreeTermDTO(true, "Successfully created free term with dermatologist!");
 			
 			}
 		}
-		return false;
+		return new ResponseFreeTermDTO(false, "Server is busy - STOPED!");
 		
 	}
 }

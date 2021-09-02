@@ -473,13 +473,11 @@ export default {
           .then((response) => {
             this.freeTerm = response.data;
             console.log(this.freeTerm);
-
-            if (this.freeTerm) {
-              alert("Successfully created free term with dermatologist!");
+            alert(this.freeTerm.answer);
+            if (this.freeTerm.status) {
               window.location.href = "/homePagePharmacyAdmin"; 
             } else {
-              alert("Try to create another term, the dermatologist is on vacation during this term!");
-              location.reload();
+               location.reload();
             }
           });
       }
