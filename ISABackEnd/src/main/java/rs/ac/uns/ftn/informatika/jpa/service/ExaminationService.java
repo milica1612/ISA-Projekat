@@ -21,18 +21,19 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
-import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
+import rs.ac.uns.ftn.informatika.jpa.model.WorkScheduleDermatologist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
-import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IWorkScheduleDermatologistRepository;
 
 @Service
 public class ExaminationService implements IExaminationService{
 	
 	private IExaminationRepository _examinationRepository;
+	private IWorkScheduleDermatologistRepository _workScheduleDermatologistRepository;
 	@Autowired
-	public ExaminationService(IExaminationRepository examinationRepository) {
+	public ExaminationService(IExaminationRepository examinationRepository, IWorkScheduleDermatologistRepository workScheduleDermatologistRepository) {
 		this._examinationRepository = examinationRepository;
-
+		this._workScheduleDermatologistRepository = workScheduleDermatologistRepository;
 	}
 	
 	@Override
@@ -329,6 +330,19 @@ public class ExaminationService implements IExaminationService{
 		e.setPrice(Double.parseDouble(createFreeTermDTO.getPrice()));
 		e.setDermatologist(createFreeTermDTO.getDermatologist());
 		e.setPoints(5); // default
-		return _examinationRepository.save(e);
+		// workschedule 
+		List<WorkScheduleDermatologist> allWorkScheduleDermatologists = _workScheduleDermatologistRepository.findAll();
+		
+		for (WorkScheduleDermatologist workScheduleDermatologist : allWorkScheduleDermatologists) {
+			if (workScheduleDermatologist.getDermatologist().getUserId() == createFreeTermDTO.getDermatologist().getUserId()
+					&& workScheduleDermatologist.getPharmacy().getPharmacyId() == createFreeTermDTO.getPharmacy().getPharmacyId()) {
+				workScheduleDermatologist.getScheduledExaminations().add(_examinationRepository.save(e));
+				_workScheduleDermatologistRepository.save(workScheduleDermatologist);	
+				return e;
+			
+			}
+		}
+		return null;
+		
 	}
 }
