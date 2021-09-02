@@ -19,4 +19,8 @@ public interface IEPrescriptionService {
 	ArrayList<QRCodeDTO> getQRCodeMedicine(String decodedText);
 	
 	ArrayList<MedicineAvailableInPharmacyDTO> getPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs);
+	
+	String getCodeForEPrescription(String decodedText);
+	
+	ArrayList<MedicineAvailableInPharmacyDTO> checkAvailabilityMedicineInPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs);
 }

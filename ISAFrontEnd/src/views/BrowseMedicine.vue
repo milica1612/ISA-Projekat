@@ -11,13 +11,15 @@
         v-on:click = "searchMedicines"
         v-if="notFilled"
     >Search</v-btn> 
-    <input type="file" id="file" ref="file"  v-on:change="handleFileUpload()" />
-    <v-btn
-        color="secondary"
-        elevation="3"
-        small
-        v-on:click = "submitFile()"
-    >Check Availability</v-btn> 
+          <template>
+                <input type="file" id="file" ref="file"  v-on:change="handleFileUpload()" />
+                 <v-btn
+                    color="secondary"
+                    elevation="3"
+                    small
+                    v-on:click = "submitFile()"
+                  >Check Availability</v-btn> 
+          </template>
     <br>
     <h3>Filtrate by rating higher than:</h3>
 
@@ -219,6 +221,7 @@ export default {
               name: ""
           },
       },
+      file: '',
       availableInPharmacies: [],
       searchMedicine: ""
     }
@@ -256,8 +259,17 @@ export default {
     },
     submitFile(){
       let formData = new FormData();
+
       formData.append('file', this.file);
            
+
+      this.axios.post( 'http://localhost:8091/ePrescription/file', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        }).then(response => (this.availableInPharmacies = response.data));
+                  
     },
   },
 

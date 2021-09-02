@@ -208,13 +208,10 @@ public class OfferService implements IOfferService {
 		Offer offer = new Offer();
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		
 		User user = (User) currentUser.getPrincipal();
 		Supplier supplier = (Supplier) _userRepository.findById(user.getUserId()).get();
 				
 		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);
-		
-		System.out.println(supplier.getEmail());
 		
 		String d = offerDTO.getDeliveryDeadline();
 		Date date = new Date();

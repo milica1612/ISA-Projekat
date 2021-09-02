@@ -21,6 +21,9 @@ public class EPrescription {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long prescriptionId;
    
+   @Column(name = "code", nullable = false)
+   private String code;
+   
    @Column(name = "date", nullable = false)
    private Date date;
    
@@ -34,9 +37,10 @@ public class EPrescription {
    @OneToOne(fetch = FetchType.EAGER)
    private Patient patient;
    
-   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient) {
+   public EPrescription(Long prescriptionId, String code, Date date, Pharmacy pharmacy, Patient patient) {
 	super();
 	this.prescriptionId = prescriptionId;
+	this.code = code;
 	this.date = date;
 	this.medicine = new HashSet<Medicine>();
 	this.pharmacy = pharmacy;
@@ -55,6 +59,12 @@ public class EPrescription {
 		this.prescriptionId = prescriptionId;
 	}
 	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public Date getDate() {
 		return date;
 	}

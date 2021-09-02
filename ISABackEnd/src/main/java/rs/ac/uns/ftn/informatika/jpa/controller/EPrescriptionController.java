@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -28,8 +29,11 @@ import com.google.zxing.common.HybridBinarizer;
 
 import javassist.NotFoundException;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
+import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -39,37 +43,40 @@ public class EPrescriptionController {
 	@Autowired
 	public EPrescriptionService _ePrescriptionService;
 	
+	@Autowired
+	public MedicineService _medicineService;
+	
 	@PostMapping("/file")
-    @PreAuthorize("hasRole('ROLE_PATIENT')")
     ResponseEntity<EPrescriptionDTO> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
 
         if (!file.isEmpty()) {
             try {
                 BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-                File destination = new File("src/main/resources/qrCodes/" + file.getOriginalFilename());
+                File destination = new File("src/main/resources/images/" + file.getOriginalFilename());
                 ImageIO.write(src, "png", destination);
-                String decodedText = _ePrescriptionService.decodeQRCode(new File("src/main/resources/qrCodes/" + file.getOriginalFilename()));
+                String decodedText = _ePrescriptionService.decodeQRCode(new File("src/main/resources/images/" + file.getOriginalFilename()));
   
+                System.out.println(decodedText);
                 if (decodedText == null) {
                     throw new IllegalArgumentException("Please upload valid QR code!");
                 } else {
-              /*      String code = _ePrescriptionService.getEReceiptCode(decodedText);
+                    String code = _ePrescriptionService.getCodeForEPrescription(decodedText);
                     EPrescription ePrescription = _ePrescriptionService.findByCode(code);
                     if(ePrescription!=null) {
                         throw new IllegalArgumentException("This ePrescription is already used!");
                     }
                     
-                   // ArrayList<QRCodeDTO> qrCodeDrugs = _ePrescriptionService.getDrugsInQRcode(decodedText);
-                /*    if(qrCodeDrugs==null) {
+                    ArrayList<QRCodeDTO> qrCodeMed = _ePrescriptionService.getQRCodeMedicine(decodedText);
+                    if(qrCodeMed==null) {
                         throw new IllegalArgumentException("Please try later, there are no drugs!");
                     }
                     
-                  //  ArrayList<MedicineAvai> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.getAvailabilityInPharmacies(qrCodeDrugs);
-                    EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeDrugs,code,pharmacyDrugAvailabilityDTOs);
+                    ArrayList<MedicineAvailableInPharmacyDTO> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.checkAvailabilityMedicineInPharmacies(qrCodeMed);
+                    EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeMed,code,pharmacyDrugAvailabilityDTOs);
                     return pharmacyDrugAvailabilityDTOs == null ?
                             new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                             ResponseEntity.ok(ePrescriptionDTO);
-*/
+
                 }
             } catch (IOException | NotFoundException e) {
                 throw new IllegalArgumentException("Please upload valid QR code!");}

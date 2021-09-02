@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,10 +23,14 @@ import javassist.NotFoundException;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IEPrescriptionService;
+import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
+import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IEPrescriptionRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 
 @Service
@@ -35,6 +41,12 @@ public class EPrescriptionService implements IEPrescriptionService {
 
 	@Autowired
 	private IPharmacyRepository _pharmacyRepository;
+	
+	@Autowired
+	private IMedicineItemRepository _medicineItemRepository;
+	
+	@Autowired
+	private IMedicineService _medicineService;
 	
 	@Override
 	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
@@ -63,7 +75,7 @@ public class EPrescriptionService implements IEPrescriptionService {
 
 	@Override
 	public EPrescription findByCode(String code) {
-		return null;
+		return _ePrescriptionRepository.findByCode(code);
 	}
 	
 	public static String decodeQRCode(File qrCodeimage) throws IOException, NotFoundException {
@@ -84,12 +96,12 @@ public class EPrescriptionService implements IEPrescriptionService {
 	public ArrayList<QRCodeDTO> getQRCodeMedicine(String decodedText) {
 		ArrayList<QRCodeDTO> qrCodeDTOs = new ArrayList<>();
 		
-		if(decodedText.contains(";")) {
-			String []code = decodedText.split("!");
-			String []medicines = code[1].split(";");
+		if(decodedText.contains(";")) {					//792521!brufen_M60_4;aspirin_M35_7
+			String []code = decodedText.split("!");		//792521!brufen_M60_4
+			String []medicines = code[1].split(";");	//brufen_M60_4
 			
 			for(String medicine : medicines) {
-				String []medicineParts = medicine.split("_");
+				String []medicineParts = medicine.split("_");	
 				
 				qrCodeDTOs.add(new QRCodeDTO(medicineParts[0], medicineParts[1], Integer.parseInt(medicineParts[2])));
 			}
@@ -98,7 +110,6 @@ public class EPrescriptionService implements IEPrescriptionService {
 			String []code = decodedText.split("!");
 			String []medicineParts = code[1].split("_");
 			qrCodeDTOs.add(new QRCodeDTO(medicineParts[0], medicineParts[1], Integer.parseInt(medicineParts[2])));
-
 		}
 		
 		return qrCodeDTOs;
@@ -112,5 +123,29 @@ public class EPrescriptionService implements IEPrescriptionService {
 		return null;
 	}
 
+	@Override
+	public String getCodeForEPrescription(String decodedText) {
+	     String []code = decodedText.split("!");
+	     return code[0];
+	}
+
+	@Override
+	public ArrayList<MedicineAvailableInPharmacyDTO> checkAvailabilityMedicineInPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs) {
+		ArrayList<Pharmacy> pharmacies = (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
+		ArrayList<MedicineAvailableInPharmacyDTO> result = new ArrayList<MedicineAvailableInPharmacyDTO>();
+
+		for(Pharmacy p: pharmacies) {
+			for(QRCodeDTO q: qrCodeDTOs) {
+				for(MedicineItem m: p.getMedicineItem()) {
+					if(q.getName().equals(m.getMedicine().getName()) && q.getCode().equals(m.getMedicine().getMedicineCode()) && q.getQuantity() < m.getQuantity()) {
+						if(_medicineService.getCurrentPriceForMedicine(p, q.getName())!=null) {
+						result.add(new MedicineAvailableInPharmacyDTO(p, _medicineService.getCurrentPriceForMedicine(p, q.getName())));
+					}
+					}
+				}
+			}
+		}
+		return result;
+	}
 		
 }

@@ -356,6 +356,12 @@ const routes = [{
         name: 'LoyaltyScale',
         component: () =>
             import('../views/LoyaltyScale.vue')
+    },
+    {
+        path: '/ePrescription',
+        name: 'EPrescription',
+        component: () =>
+            import('../views/EPrescription.vue')
     }
 ]
 const router = new VueRouter({

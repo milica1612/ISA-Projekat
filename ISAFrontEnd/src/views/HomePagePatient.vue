@@ -15,6 +15,8 @@
       <a href="/scheduleConsultation" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Consultation</a>
       <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Examination</a>
       <a href="/patient" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Profile</a>
+      <a href="/ePrescription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">EPrescription</a>
+  
     </div>
   </div>
 </template>
