@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class RateMedicineController {
 	@Autowired 
 	private MedicineService _medicineService;
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/rate")
 	public void rateEmployeePharmacist(@RequestBody RateMedicine rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
