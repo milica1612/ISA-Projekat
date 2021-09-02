@@ -178,9 +178,17 @@ public class MedicineService implements IMedicineService{
 		ingridient.setName(medicineSpecificationDTO.getIngridientName());
 		_ingridientRepository.save(ingridient);
 		
+		HashSet<Ingridient> ingridients = new HashSet<Ingridient>();
+		ingridients.add(ingridient);
+		med_spec.setIngridient(ingridients);
+		
 		Contraindication contraindication = new Contraindication();
 		contraindication.setDescription(medicineSpecificationDTO.getDescription());
 		_contraidicationRepository.save(contraindication);
+
+		HashSet<Contraindication> contraindications = new HashSet<Contraindication>();
+		contraindications.add(contraindication);
+		med_spec.setContraindication(contraindications);
 		
 		return _medicineSpecificationRepository.save(med_spec);
 	}
