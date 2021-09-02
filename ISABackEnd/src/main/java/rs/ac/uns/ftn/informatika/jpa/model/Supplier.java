@@ -16,7 +16,7 @@ public class Supplier extends User {
 
 	private static final long serialVersionUID = -546832308000747395L;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<MedicineItem> medicineItem;
 	
 	public Supplier() {

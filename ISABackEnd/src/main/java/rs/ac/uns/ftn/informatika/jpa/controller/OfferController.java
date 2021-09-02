@@ -41,21 +41,21 @@ public class OfferController {
 	
 	@GetMapping(path = "/seeOffers/{id}")
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
-	public List<Offer> findOffers(@PathVariable Long id) {		
+	public ArrayList<OfferDTO> findOffers(@PathVariable Long id) {		
 		return  _offerService.findOffersBySupplier(id);
 	}
 
 	@GetMapping(path = "/filtrate/{status}/{id}")
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
-	public List<Offer> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
+	public ArrayList<OfferDTO> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
 		
-		List<Offer> offers = findOffers(id);
+		ArrayList<OfferDTO> offers = findOffers(id);
 		User user = _userService.findById(id);
 		
-		List<Offer> filtrateOffers = new ArrayList<>();
+		ArrayList<OfferDTO> filtrateOffers = new ArrayList<>();
 
 		if(user.getUserId() == id) {
-			for(Offer o : offers) {
+			for(OfferDTO o : offers) {
 				if(o.getStatus().equals(status)) {
 					filtrateOffers.add(o);
 				}

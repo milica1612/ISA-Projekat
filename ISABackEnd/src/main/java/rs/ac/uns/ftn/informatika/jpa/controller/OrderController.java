@@ -40,8 +40,9 @@ public class OrderController {
 	}
 	
 	@GetMapping(value = "/allOrders")
-	public List<Order> findAll() {
-		return _orderService.findAll();
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ArrayList<OrderDTO> findAllWaitingOfferOrders() {
+		return _orderService.findAllWaitingOfferOrders();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")

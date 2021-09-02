@@ -52,7 +52,7 @@
               v-for="offer in offers"
               :key="offer"
           >
-            <td>{{ offer.deliveryDeadline }}</td>
+            <td>{{ offer.deliveryDeadline.substr(0,10) }}</td>
             <td>{{ offer.status }}</td>
             <td>{{ offer.order.orderStatus}}</td>
             <td>{{ offer.price }}</td>
@@ -91,103 +91,51 @@
               v-for="order in orders"
               :key="order"
           >
-            <td>{{ order.offerDeadline}}</td>
+            <td>{{ order.offerDeadline.substr(0,10)}}</td>
             <td>{{order.orderStatus }}</td>
-            <td>{{ order.pharmacy.name }}</td>
+            <td>{{ order.name }}</td>
             <td>
 
-          <v-row justify="center">
-            <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
-            >
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                color="primary"
-                dark
-                v-bind="attrs"
-                v-on="on"
-                >
-                Create Offer
-                </v-btn>
-            </template>
-            <v-card>
-                <v-card-title>
-                <span class="text-h5">Offer</span>
-                </v-card-title>
-                <v-card-text>
-                <v-container>
-                    <v-row>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Price*"
-                        v-model= "price"
-                        required
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                         <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="deliveryDeadline"
-            label="Delivery Deadline*"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="deliveryDeadline"
-          @input="menu2 = false"
-        ></v-date-picker>
-      </v-menu>
-                    </v-col>
-                    </v-row>
-                </v-container>
-                <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                >
-                    Close
-                </v-btn>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                >
-                    Save
-                </v-btn>
-                </v-card-actions>
-            </v-card>
-            </v-dialog>
-        </v-row>
+        <v-dialog
+                  transition="dialog-top-transition"
+                  max-width="600"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="primary"
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                  >Create Offer</v-btn>
+                </template>
+                <template v-slot:default="dialog">
+                  <v-card>
+                    <v-toolbar
+                        color="primary"
+                        dark
+                    >Offer:</v-toolbar>
+                    
+                  <v-text-field
+                    label="Price"
+                    v-model="price"
+                    :rules="[() => !!price || 'This field is required']"
+                    prepend-icon="mdi-account-circle"
+                  />                  
+                    <template>
+                      <v-row justify="center">
+                        <v-date-picker v-model="deliveryDeadline"></v-date-picker>
+                      </v-row>
+                    </template>
+    <v-btn
+        width="300"
+        text
+        @click="addOfferForOrder(order, dialog)"
+    >Send</v-btn>
+    </v-card>
+    </template>
+    </v-dialog>
         </td>
-        <td>
-                <v-btn
-                    color="primary"
-                    dark
-                    @click="dialog = false"
-                    v-on:click= "addOfferForOrder(order)"
-                >
-                    Send
-                </v-btn>
-   
-            </td>
-          </tr>
+         </tr>
           </tbody>
         </template>
       </v-simple-table>
@@ -203,8 +151,6 @@ export default {
     name: "Offers",
     data: function() {
      return {
-        deliveryDeadline: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        dialog: false,
         menu2: false,
         logged: false,
         offers: [],
@@ -269,7 +215,11 @@ export default {
             })
             .then(r => (this.offers = r.data));
         },
-      addOfferForOrder: function(order){
+     disablePastDates(val) {
+      return val >= new Date().toISOString().substr(0, 10);
+    },
+      addOfferForOrder: function(order, dialog){
+        dialog.value = false
         this.axios
           .post("http://localhost:8091/offers/createOffer/" + order.orderId + "/add", {
               id: order.orderId,
@@ -301,5 +251,10 @@ h2 {
 
     text-align:center;
     color:white
+}
+
+.buttonSpec{
+  width: 100%;
+  cursor: pointer;
 }
 </style>

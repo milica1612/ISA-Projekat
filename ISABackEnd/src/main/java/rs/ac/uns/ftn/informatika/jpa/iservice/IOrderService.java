@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface IOrderService {
 	
 	Order createOrder(List<MedicineData> medicineItemData, List<MedicineData> newMedicineItemData, Long pharmacyAdminId,
 			Long pharmacyId, Date offerDeadline);
+	
+	ArrayList<OrderDTO> findAllWaitingOfferOrders();
 }

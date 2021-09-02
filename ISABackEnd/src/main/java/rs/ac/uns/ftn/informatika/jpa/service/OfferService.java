@@ -1,7 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -175,18 +177,18 @@ public class OfferService implements IOfferService {
 
 
 	@Override
-	public List<Offer> findOffersBySupplier(Long id) {
+	public ArrayList<OfferDTO> findOffersBySupplier(Long id) {
 
-		List<Offer> offers = _offerRepository.findAll();
+		ArrayList<Offer> offers = (ArrayList<Offer>) _offerRepository.findAll();
 		Supplier supplier = new Supplier();
-
-		List<Offer> offersBySupplier = new ArrayList<Offer>();
-
+		ArrayList<OfferDTO> offersBySupplier = new ArrayList<OfferDTO>();
+		
+		
 		for (Offer o : offers) {
 			supplier.setUserId(o.getSupplier().getUserId());
 
 			if (supplier.getUserId() == id) {
-				offersBySupplier.add(o);
+				offersBySupplier.add(new OfferDTO(o.getOfferId(), o.getPrice(), o.getDeliveryDeadline().toString(), o.getStatus(), o.getSupplier(), o.getOrder()));
 			}
 		}
 		return offersBySupplier;
@@ -214,9 +216,19 @@ public class OfferService implements IOfferService {
 		
 		System.out.println(supplier.getEmail());
 		
+		String d = offerDTO.getDeliveryDeadline();
+		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+		} catch (ParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
 		if(checkOffer(offerDTO, supplier)) {
 			offer.setPrice(offerDTO.getFinalPrice());
-			offer.setDeliveryDeadline(offerDTO.getDeliveryDeadline());
+			offer.setDeliveryDeadline(date);
 			offer.setStatus(Status.WAITING);
 			offer.setSupplier(supplier);
 			offer.setOrder(order);
@@ -226,22 +238,20 @@ public class OfferService implements IOfferService {
 
 	@Override
 	public Boolean checkMedicineAvailable(Order order, Supplier supplier) {
-		Set<MedicineItem> medicineItems = order.getMedicineItem();
 		
-		Set<MedicineItem> supplierMedItem = supplier.getMedicineItem();
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		Set<MedicineItem> supplierMedicineItem = supplier.getMedicineItem();
 		
 		if(supplier.getMedicineItem().isEmpty()) {
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}
 		
-		List<MedicineItem> medicineForOrder = new ArrayList<>();
-		
-		for(MedicineItem m: medicineItems) {
-			if(supplierMedItem.contains(m)) {
-				medicineForOrder.add(m);
+		for(MedicineItem m: orderMedicineItems) {
+			if(supplierMedicineItem.contains(m)) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -253,7 +263,16 @@ public class OfferService implements IOfferService {
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}
 		
-		if(order.getOfferDeadline().after(offerDTO.getDeliveryDeadline())) {
+		String d = offerDTO.getDeliveryDeadline();
+		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+		} catch (ParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		if(order.getOfferDeadline().after(date)) {
 			throw new IllegalArgumentException("Date is passed!");
 		}
 		
