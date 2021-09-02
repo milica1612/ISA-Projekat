@@ -387,6 +387,19 @@ const routes = [{
         component: () =>
             import('../views/DefineFreeTermWithDermatologist.vue')
     },
+
+    {
+        path: '/myEPrescription',
+        name: 'MyEPrescription',
+        component: () =>
+            import('../views/MyEPrescription.vue')
+    },
+    {
+        path: '/issuedMedicine',
+        name: 'IssuedMedicine',
+        component: () =>
+            import('../views/IssuedMedicine.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',
