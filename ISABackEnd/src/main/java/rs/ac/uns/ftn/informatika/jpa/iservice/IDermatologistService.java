@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 
 public interface IDermatologistService {
@@ -21,4 +22,6 @@ public interface IDermatologistService {
 	Set<Dermatologist> getAllDermatologistByPharmacyId(Long pharmacyId);
 
 	void updateRating(Long userId, Double newRating);
+
+	List<PharmacyDermatologistDTO> findDermatologistsByPharmacy();
 }
