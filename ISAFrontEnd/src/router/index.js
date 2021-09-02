@@ -344,6 +344,18 @@ const routes = [{
         name: 'ChoosePharmacy',
         component: () =>
             import('../views/ChoosePharmacy.vue')
+    },
+    {
+        path: '/homePageSystemAdmin',
+        name: 'HomePageSystemAdmin',
+        component: () =>
+            import('../views/HomePageSystemAdmin.vue')
+    },
+    {
+        path: '/loyaltyScale',
+        name: 'LoyaltyScale',
+        component: () =>
+            import('../views/LoyaltyScale.vue')
     }
 ]
 const router = new VueRouter({
