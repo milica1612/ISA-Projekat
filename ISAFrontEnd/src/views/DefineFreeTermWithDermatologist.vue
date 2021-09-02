@@ -72,6 +72,109 @@
         <h2 id="shiftText">{{ shift }}</h2>
         <h3 id="validForText">{{ validFor }}</h3>
       </div>
+      <v-card-text v-if="showDateAndTime">
+        <v-form class="mx-auto" width="30%">
+          <v-menu
+            v-model="menu1"
+            :close-on-content-click="false"
+            class="pl-5 mt-10"
+            :nudge-right="460"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="dateExamination"
+                label="Choose date for examination"
+                prepend-icon="mdi-calendar"
+                :allowed-dates="disablePastDates"
+                v-bind:readonly="true"
+                class="examinationField2"
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+
+            <v-date-picker
+              v-model="dateExamination"
+              :allowed-dates="disablePastDates"
+              color="green lighten-1"
+              header-color="primary"
+              @input="menu1 = false"
+            ></v-date-picker>
+          </v-menu>
+
+          <v-menu
+            ref="menu1"
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="460"
+            class="pl-5 mt-10"
+            :return-value.sync="time"
+            transition="scale-transition"
+            offset-y
+            min-width="16%"
+            max-width="25%"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="time"
+                label="Choose the start time of the examination"
+                prepend-icon="mdi-clock-time-four-outline"
+                v-bind:readonly="true"
+                class="examinationField2"
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
+              v-if="menu2"
+              v-model="time"
+              full-width
+              header-color="primary"
+              color="green lighten-1"
+              @click:minute="$refs.menu1.save(time)"
+            ></v-time-picker>
+          </v-menu>
+
+          <v-text-field
+            v-model="examinationDuration"
+            type="number"
+            class="examinationField1"
+            min="0"
+            label="Enter duration for examination"
+            color="primary"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="examinationPrice"
+            type="number"
+            class="examinationField1"
+            min="0"
+            label="Enter price ( RSD ) for examination"
+            color="primary"
+          ></v-text-field>
+        </v-form>
+      </v-card-text>
+      <v-card-actions class="justify-center" v-if="showBtn">
+        <v-btn
+          v-on:click="createFreeTerm"
+          color="primary"
+          class="btnCreate"
+          x-large
+          width="30%"
+          >Create</v-btn
+        >
+        <v-btn
+          v-on:click="cancel"
+          color="primary"
+          class="btnCancel"
+          x-large
+          width="30%"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -88,6 +191,7 @@ export default {
     pharmcayId: localStorage.getItem("pharmacyId"),
     pharmacyName: "",
     dermatologist: "",
+    selectedDermatologist: null,
     headers: [
       {
         text: "Dermatologist ID",
@@ -165,7 +269,7 @@ export default {
         sortable: true,
       },
       {
-        text: "Price",
+        text: "Price ( RSD )",
         value: "price",
         align: "center",
         sortable: true,
@@ -177,11 +281,26 @@ export default {
     showValidFor: false,
     shift: "",
     validFor: "",
+    menu1: false,
+    time: null,
+    menu2: false,
+    showDateAndTime: false,
+    examinationDuration: null,
+    examinationPrice: null,
+    showBtn: false,
   }),
   mounted() {
     this.initialize();
   },
   methods: {
+    disablePastDates(val) {
+      return (
+        val >=
+        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10)
+      );
+    },
     initialize() {
       this.axios
         .get(
@@ -224,6 +343,7 @@ export default {
     },
     selectDermatologist(item) {
       console.log(item);
+      this.selectedDermatologist = item;
       this.axios
         .get(
           "http://localhost:8091/dermatologistVacation/isOnVacation/" +
@@ -300,6 +420,16 @@ export default {
             this.showAllScheduledExaminationForDermatologistList = false;
           }
         });
+
+      this.showDateAndTime = true;
+      this.showBtn = true;
+    },
+    createFreeTerm() {
+      console.log(this.selectedDermatologist);
+    },
+    cancel() {
+      alert("Canceled defining free term with dermatologist!");
+      window.location.href = "/homePagePharmacyAdmin";
     },
   },
 };
@@ -326,5 +456,23 @@ export default {
 #validForText {
   color: rgb(2, 2, 117);
   text-align: center;
+}
+.examinationField1 {
+  padding-left: 22%;
+  width: 80%;
+}
+.examinationField2 {
+  padding-left: 20%;
+  width: 80%;
+}
+.btnCreate {
+  margin: 5%;
+  padding-top: 10%;
+}
+.btnCancel {
+  margin-top: 5%;
+  margin-left: 22%;
+  margin-bottom: 5%;
+  padding-top: 10%;
 }
 </style>
