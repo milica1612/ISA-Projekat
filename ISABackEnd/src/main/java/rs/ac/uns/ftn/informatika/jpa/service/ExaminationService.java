@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
@@ -468,5 +469,26 @@ public class ExaminationService implements IExaminationService{
 		}
 		return new ResponseFreeTermDTO(false, "Server is busy - STOPED!");
 		
+	}
+	
+	@Override
+	public List<PharmacyFreeTermDTO> findAllFreeTermExamination() {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Examination> allExamination = _examinationRepository.findAll();
+		List<PharmacyFreeTermDTO> list = new ArrayList<PharmacyFreeTermDTO>();
+	
+		for(Examination e : allExamination) {
+			if (e.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId() && e.getPatient() == null) {
+				StringBuilder dermatologistName = new StringBuilder();
+				dermatologistName.append(e.getDermatologist().getFirstName());
+				dermatologistName.append(" ");
+				dermatologistName.append(e.getDermatologist().getLastName());
+				PharmacyFreeTermDTO freeTermDTO = new PharmacyFreeTermDTO(e.getAppointmentId(), e.getDateAndTime().toString(), e.getDuration(), e.getPrice(), e.getDermatologist().getUserId(), dermatologistName.toString(), e.getDermatologist().getEmail(), e.getDermatologist().getPhoneNumber());
+				list.add(freeTermDTO);
+			
+			}
+		}
+		
+		return list;
 	}
 }

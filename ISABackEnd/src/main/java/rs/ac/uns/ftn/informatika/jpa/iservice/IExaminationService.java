@@ -6,6 +6,7 @@ import java.util.List;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
@@ -32,4 +33,5 @@ public interface IExaminationService {
 	List<Examination> getByDermatologist(Long id, TimeInterval timeInterval);
 	List<ExaminationDTO> findAllScheduledExaminationInPharmacyByDermatologist(Long dermatologistId);
 	ResponseFreeTermDTO createFreeTermExaminationForDermatologist(CreateFreeTermDTO createFreeTermDTO);
+	List<PharmacyFreeTermDTO> findAllFreeTermExamination();
 }

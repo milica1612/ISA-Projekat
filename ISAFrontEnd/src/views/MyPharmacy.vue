@@ -91,7 +91,7 @@
         </div>
       </v-card>
       <v-spacer></v-spacer>
-      <v-card id="dermatologistInPharmacyCard">
+      <v-card id="pharmacyEmployeeInPharmacyCard">
         <div>
           <v-data-table
             :headers="dermatologistHeaders"
@@ -111,7 +111,7 @@
         </div>
       </v-card>
       <v-spacer></v-spacer>
-      <v-card id="dermatologistInPharmacyCard">
+      <v-card id="pharmacyEmployeeInPharmacyCard">
         <div>
           <v-data-table
             :headers="pharmacistHeaders"
@@ -123,6 +123,27 @@
                 <v-spacer></v-spacer>
                 <v-toolbar-title class="text-center">
                   Pharmacists in {{ name }} pharmacy
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+      <v-spacer></v-spacer>
+      <v-card id="allfreeTermsInPharmacyCard">
+        <div>
+          <v-data-table
+            :headers="freeTermHeaders"
+            :items="freeTermsDermatologistInPharmacy"
+            :items-per-page="5"
+          >
+            <template v-slot:top>
+              <v-toolbar dense dark color="light-blue darken-2">
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="text-center">
+                  All Free term for examination with our dermatologists that the
+                  patient can schedule
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -150,6 +171,7 @@ export default {
     medicinesInPharmacy: [],
     dermatologistsInPharmacy: [],
     pharmacistsInPharmacy: [],
+    freeTermsDermatologistInPharmacy: [],
     medicinesHeaders: [
       {
         text: "Medicine code",
@@ -300,6 +322,56 @@ export default {
         sortable: true,
       },
     ],
+    freeTermHeaders: [
+      {
+        text: "Appointment ID",
+        value: "appointmentId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Date and time",
+        value: "dateAndTime",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Duration",
+        value: "duration",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Price",
+        value: "price",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Dermatologist ID",
+        value: "dermatologistId",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Dermatologist name",
+        value: "dermatologistName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Dermatologist e-mail",
+        value: "dermatologistEmail",
+        align: "center",
+        sortable: true,
+      },
+       {
+        text: "Dermatologist phone number",
+        value: "dermatologistPhone",
+        align: "center",
+        sortable: true,
+      },
+    ],
   }),
   mounted() {
     this.initialize();
@@ -363,6 +435,16 @@ export default {
         .then((response) => {
           this.pharmacistsInPharmacy = response.data;
         });
+
+      this.axios
+        .get("http://localhost:8091/examination/findAllFreeTerm", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.freeTermsDermatologistInPharmacy = response.data;
+        });
     },
   },
 };
@@ -387,7 +469,15 @@ export default {
   margin-top: 5%;
   opacity: 0.9;
 }
-#dermatologistInPharmacyCard {
+#pharmacyEmployeeInPharmacyCard {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+  margin-top: 5%;
+  opacity: 0.9;
+}
+
+#allfreeTermsInPharmacyCard {
   width: 60%;
   text-align: center;
   margin: auto;
