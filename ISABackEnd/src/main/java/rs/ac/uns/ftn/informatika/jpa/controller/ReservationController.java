@@ -89,7 +89,8 @@ public class ReservationController {
 		Boolean reservationInPharmacy = false;
 		Pharmacy pharmacy = new Pharmacy();
 		Reservation r =  _reservationService.findReservationByCode(resChecker.resCode);
-	
+		
+		if(r != null) {
 		
 		Calendar cal = Calendar.getInstance(); // creates calendar
 		cal.setTime(new Date());               // sets calendar time/date
@@ -117,7 +118,7 @@ public class ReservationController {
 			}
 			return new Reservation();
 		}
-		
+		}
 		return new Reservation();
 		
 	}

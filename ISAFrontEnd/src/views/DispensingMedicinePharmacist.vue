@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <br>
     <br>
     <v-simple-table>
@@ -32,9 +32,9 @@
                   <tbody v-if="resultTrue">
                     <tr><th colspan="3" class="text-center">MEDICINE IS ISSUED!</th></tr>
                     <tr>
-                      <td class="text-center">Code</td>
-                      <td class="text-center">Medicine</td>
-                      <td class="text-center">Patient email</td>
+                      <th class="text-center">Code</th>
+                      <th class="text-center">Medicine</th>
+                      <th class="text-center">Patient email</th>
                     </tr>
                     <tr>
                       <td class="text-center">{{resultReservation.reservationCode }}</td>
@@ -128,3 +128,22 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+</style>
