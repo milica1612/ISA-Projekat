@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistService;
 
@@ -60,6 +63,12 @@ public class DermatologistController {
 	@GetMapping(path = "/allDermatologistByPharmacyId/{pharmacyId}")
 	public Set<Dermatologist> getAllDermatologistByPharmacyId(@PathVariable Long pharmacyId){
 		return _dermatologistService.getAllDermatologistByPharmacyId(pharmacyId);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path = "/dermatologistsByPharmacy")
+	public ResponseEntity<List<PharmacyDermatologistDTO>> findDermatologistsByPharmacyId() {
+		return new ResponseEntity<List<PharmacyDermatologistDTO>>(_dermatologistService.findDermatologistsByPharmacy(), HttpStatus.OK);
 	}
 
 }

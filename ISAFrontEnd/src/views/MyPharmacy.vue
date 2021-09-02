@@ -77,13 +77,52 @@
           <v-data-table
             :headers="medicinesHeaders"
             :items="medicinesInPharmacy"
-            sort-by="quantity"
           >
             <template v-slot:top>
               <v-toolbar dense dark color="light-blue darken-2">
                 <v-spacer></v-spacer>
                 <v-toolbar-title class="text-center">
-                  All medicine items in {{name}} pharmacy
+                  All medicine items in {{ name }} pharmacy
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+      <v-spacer></v-spacer>
+      <v-card id="dermatologistInPharmacyCard">
+        <div>
+          <v-data-table
+            :headers="dermatologistHeaders"
+            :items="dermatologistsInPharmacy"
+            :items-per-page="5"
+          >
+            <template v-slot:top>
+              <v-toolbar dense dark color="light-blue darken-2">
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="text-center">
+                  Dermatologists in {{ name }} pharmacy
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+      <v-spacer></v-spacer>
+      <v-card id="dermatologistInPharmacyCard">
+        <div>
+          <v-data-table
+            :headers="pharmacistHeaders"
+            :items="pharmacistsInPharmacy"
+            :items-per-page="5"
+          >
+            <template v-slot:top>
+              <v-toolbar dense dark color="light-blue darken-2">
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="text-center">
+                  Pharmacists in {{ name }} pharmacy
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -109,6 +148,8 @@ export default {
     description: "",
     pharmacy: null,
     medicinesInPharmacy: [],
+    dermatologistsInPharmacy: [],
+    pharmacistsInPharmacy: [],
     medicinesHeaders: [
       {
         text: "Medicine code",
@@ -143,6 +184,118 @@ export default {
       {
         text: "Quantity",
         value: "quantity",
+        align: "center",
+        sortable: true,
+      },
+    ],
+    dermatologistHeaders: [
+      {
+        text: "First name",
+        value: "firstName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Last name",
+        value: "lastName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Phone number",
+        value: "phoneNumber",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "E-mail",
+        value: "email",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Street name",
+        value: "street",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Home number",
+        value: "homeNumber",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "City",
+        value: "city",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Rating of dermatologist",
+        value: "rating",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Work in pharmacies",
+        value: "pharmacyNames",
+        align: "center",
+        sortable: true,
+      },
+    ],
+    pharmacistHeaders: [
+      {
+        text: "First name",
+        value: "firstName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Last name",
+        value: "lastName",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Phone number",
+        value: "phoneNumber",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "E-mail",
+        value: "email",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Street name",
+        value: "street",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Home number",
+        value: "homeNumber",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "City",
+        value: "city",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Rating of pharmacist",
+        value: "rating",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Work in pharmacy",
+        value: "pharmacyName",
         align: "center",
         sortable: true,
       },
@@ -190,6 +343,26 @@ export default {
           console.log(response.data);
           this.medicinesInPharmacy = response.data;
         });
+
+      this.axios
+        .get("http://localhost:8091/dermatologists/dermatologistsByPharmacy", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.dermatologistsInPharmacy = response.data;
+        });
+
+      this.axios
+        .get("http://localhost:8091/pharmacists/pharmacistsByPharmacy", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.pharmacistsInPharmacy = response.data;
+        });
     },
   },
 };
@@ -208,6 +381,13 @@ export default {
   margin: auto;
 }
 #medicinesInPharmacyCard {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+  margin-top: 5%;
+  opacity: 0.9;
+}
+#dermatologistInPharmacyCard {
   width: 60%;
   text-align: center;
   margin: auto;
