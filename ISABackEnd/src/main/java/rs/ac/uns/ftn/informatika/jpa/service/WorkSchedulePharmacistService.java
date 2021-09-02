@@ -67,7 +67,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 				
 				Set<Consultation> consultations = workSchedule.getScheduledConsultations();
 				
-				if(validStart <= examStart && validEnd >= examStart) {
+				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Dobar period");
 					if(shiftStart <= startTime && shiftEnd >= endTime) {
 						System.out.println("Dobra smjena");
@@ -176,7 +176,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 				
 				Set<Consultation> consultations = workSchedule.getScheduledConsultations();
 			
-				if(validStart <= examStart && validEnd >= examStart) {
+				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Dobar period");
 					if(shiftStart <= startTime && shiftEnd >= endTime) {
 						System.out.println("Dobra smjena");
@@ -255,7 +255,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 					
 				System.out.println(shiftStart + " " + shiftEnd);
 				
-				if(validStart <= examStart && validEnd >= examStart) {
+				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Pronasao je period");
 				if(shiftStart <= startTime) {
 					System.out.println("Pronasao je smjenu ");
