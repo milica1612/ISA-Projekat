@@ -281,7 +281,8 @@ export default {
               headers: {
                Authorization: 'Bearer ' + localStorage.getItem("token")
               }})
-          .then(response => (this.patient = response.data,
+          .then(response => {this.patient = response.data
+              if(this.patient.allergy != null){
               this.axios
                   .put('http://localhost:8091/medicine/forAllergies', this.patient.allergy, {
                     headers: {
@@ -289,7 +290,8 @@ export default {
                     }
                    })
                   .then(response => (this.medicines = response.data)
-                  )))
+                  )
+              }})
     }  else {
       window.location.href = "http://localhost:8080/logIn";
     }

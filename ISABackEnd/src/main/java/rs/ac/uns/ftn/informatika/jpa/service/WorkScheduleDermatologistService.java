@@ -30,7 +30,6 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 
 		Calendar examS = Calendar.getInstance();
 		examS.setTime(examination.getDateAndTime());
-		examS.add(Calendar.HOUR, -1);
 		
 		Calendar endExam = Calendar.getInstance(); // creates calendar
 		endExam.setTime(examS.getTime());               // sets calendar time/date
@@ -39,6 +38,9 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 		Long examStart = examS.getTimeInMillis();
 		Long examEnd = endExam.getTimeInMillis(); 
 		System.out.println(examStart + " " + examEnd);
+		
+		int startTime = examination.getDateAndTime().getHours()*60 + examination.getDateAndTime().getMinutes();
+		int endTime = startTime + 30;
 			
 		for (WorkScheduleDermatologist workSchedule : all) {
 			if(workSchedule.getDermatologist().getUserId() == examination.getDermatologist().getUserId()) {
@@ -58,9 +60,9 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 				
 				if(validStart <= examStart && validEnd >= examEnd) {
 					System.out.println("Pronasao je period");
-				if(shiftStart <= examStart) {
+				if(shiftStart <= startTime) {
 					System.out.println("Pronasao je smjenu ");
-					if(shiftEnd > examEnd ) {
+					if(shiftEnd > endTime ) {
 						System.out.println("Nije");
 						return workSchedule;
 					}

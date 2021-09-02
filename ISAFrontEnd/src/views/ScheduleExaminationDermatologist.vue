@@ -134,7 +134,7 @@ export default {
       modal: false,
       menu2: false,
       dermatologistt: null,
-      existingTerms: null,
+      existingTerms: {},
       chooseExisting: false,
       exam: null,
       chooseNew: false,
@@ -199,9 +199,9 @@ export default {
     findNextTerm: function (){
 
       const dataForTerm={
-        pharmacyId: this.pharmacyId,
+        pharmacyId: localStorage.getItem("pharmacyId"),
         dermatologistId: localStorage.getItem("userId"),
-        patientId: this.patient.userId
+        patientId: localStorage.getItem("patientId")
       }
 
       this.axios
@@ -220,9 +220,9 @@ export default {
       examination.patient = this.patient
 
       const dataForTerm={
-        pharmacyId: this.pharmacyId,
+        pharmacyId: localStorage.getItem("pharmacyId"),
         dermatologistId: localStorage.getItem("userId"),
-        patientId: this.patient.userId
+        patientId: localStorage.getItem("patientId")
       }
 
       this.axios

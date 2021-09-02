@@ -85,6 +85,9 @@ public class ExaminationContoller {
 	@PutMapping(value = "/findValidNextTerm")
 	public ArrayList<ExaminationDTO> findValidNextTerm(@RequestBody DataForTerm dataForTerm){
 		
+		
+		System.out.println(dataForTerm.pharmacyId + dataForTerm.dermatologistId + dataForTerm.patientId + "00000");
+		
 		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
 		ArrayList<ExaminationDTO> byPharmacy = _examinationService.getByPharmacy(dataForTerm.pharmacyId);
 		ArrayList<ExaminationDTO> byDermatologist = _examinationService.getByDermatologist(dataForTerm.dermatologistId);
@@ -94,7 +97,7 @@ public class ExaminationContoller {
 			for(ExaminationDTO e2: byDermatologist) {
 				for(ExaminationDTO e3: byPatient) {
 					if(e1.getAppointmentId().equals(e2.getAppointmentId())
-							&& !e2.getAppointmentId().equals(e3.getAppointmentId())) {
+							&& !e2.getDateAndTime().equals(e3.getDateAndTime())) {
 						result.add(e1);
 					}
 				}
@@ -111,11 +114,9 @@ public class ExaminationContoller {
 		
 		Calendar examS = Calendar.getInstance();
 		examS.setTime(examination.getDateAndTime());
-		examS.add(Calendar.HOUR, -1);
 		
 		Calendar endExam = Calendar.getInstance(); // creates calendar
 		endExam.setTime(examS.getTime());               // sets calendar time/date
-		endExam.add(Calendar.MONTH, 1);
 		endExam.add(Calendar.MINUTE, 30);
 		boolean available = true;
 		
@@ -150,11 +151,11 @@ public class ExaminationContoller {
 			}
 		}
 		if(available) {
-			Examination e = this._examinationService.saveExamination(examination);
-			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(e)) {
+			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(examination)) {
 				return false;
 			}
-			this._emailService.sendExaminationConfirmation(e);
+			this._examinationService.saveExamination(examination);
+			this._emailService.sendExaminationConfirmation(examination);
 			return true;
 		}else {
 			return false;
@@ -171,7 +172,7 @@ public class ExaminationContoller {
 	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Examination e = _examinationService.startExamination(dfa.dateAndTime);
-		if(e.getDermatologist() != null && e.getPatient() != null && e.getAppointmentStatus().equals(AppointmentStatus.NONE)) {
+		if(e.getDermatologist() != null && e.getPatient() != null) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.dermId.equals(e.getDermatologist().getUserId())) {
 					return e;
