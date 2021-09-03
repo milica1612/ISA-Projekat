@@ -11,9 +11,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -25,10 +28,23 @@ import rs.ac.uns.ftn.informatika.jpa.service.DermatologistService;
 public class DermatologistController {
 	
 	private DermatologistService _dermatologistService;
+	
 	@Autowired
 	public DermatologistController(DermatologistService dermatologistService) {
 		this._dermatologistService = dermatologistService;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/createDermatologistByPharmacyAdmin")
+	public ResponseEntity<Dermatologist> createDermatologistByPharmacyAdmin(@RequestBody CreateDermatologistDTO createDermatologistDTO) {
+		try {
+			return new ResponseEntity<Dermatologist>(_dermatologistService.createDermatologistByPharmacyAdmin(createDermatologistDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Dermatologist>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	@GetMapping(path = "/all")
 	public List<DermatologistDTO> getAllDermatologist(){

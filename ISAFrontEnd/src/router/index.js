@@ -412,6 +412,30 @@ const routes = [{
         component: () =>
             import('../views/ChangePassword.vue')
     },
+    {
+        path: '/mapExample',
+        name: 'MapExample',
+        component: () =>
+            import('../views/MapExample.vue')
+    },
+    {
+        path: '/deleteMedicineItems',
+        name: 'DeleteMedicineItems',
+        component: () => 
+            import('../views/DeleteMedicineItems.vue')
+    }, 
+    {
+        path: '/createPharmacistByPharmacyAdmin',
+        name: 'CreatePharmacistByPharmacyAdmin',
+        component: () =>
+            import('../views/CreatePharmacistByPharmacyAdmin.vue')
+    },
+    {
+        path: '/createDermatologistByPharmacyAdmin',
+        name: 'CreateDermatologistByPharamcyAdmin',
+        component: () => 
+            import('../views/CreateDermatologistByPharmacyAdmin.vue')    
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

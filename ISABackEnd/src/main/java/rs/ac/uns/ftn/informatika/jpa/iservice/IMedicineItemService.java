@@ -29,4 +29,6 @@ public interface IMedicineItemService {
 	List<MedicineItemDTO> findMedicineItemsByOrderId(Long orderId);
 	
 	List<MedicineItemDTO> findMedicineItemsNotExistByOrderId(Long orderId);
+
+	Boolean deleteMedicineItem(Long deleteMedicineItemId);
 }

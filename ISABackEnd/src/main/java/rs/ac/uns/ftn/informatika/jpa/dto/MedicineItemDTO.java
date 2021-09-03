@@ -5,6 +5,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.PrescriptionType;
 
 public class MedicineItemDTO {
 	
+	private Long medicineItemId;
 	private String name;
 	private Long medicineId;
 	private String medicineCode;
@@ -29,6 +30,28 @@ public class MedicineItemDTO {
 		this.medicineForm = medicineForm;
 		this.prescriptionType = prescriptionType;
 		this.quantity = quantity;
+	}
+	
+	public MedicineItemDTO(Long medicineItemId, String name, Long medicineId, String medicineCode, String type, String manufacturer,
+			MedicineForm medicineForm, PrescriptionType prescriptionType, int quantity) {
+		super();
+		this.medicineItemId = medicineItemId;
+		this.name = name;
+		this.medicineId = medicineId;
+		this.medicineCode = medicineCode;
+		this.type = type;
+		this.manufacturer = manufacturer;
+		this.medicineForm = medicineForm;
+		this.prescriptionType = prescriptionType;
+		this.quantity = quantity;
+	}
+	
+	public Long getMedicineItemId() {
+		return medicineItemId;
+	}
+
+	public void setMedicineItemId(Long medicineItemId) {
+		this.medicineItemId = medicineItemId;
 	}
 
 	public String getName() {

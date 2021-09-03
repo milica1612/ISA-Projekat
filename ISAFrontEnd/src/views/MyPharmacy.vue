@@ -122,7 +122,7 @@
               <v-toolbar dense dark color="light-blue darken-2">
                 <v-spacer></v-spacer>
                 <v-toolbar-title class="text-center">
-                  All Free term for examination with our dermatologists that the
+                  All free term for examination with our dermatologists that the
                   patient can schedule
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
@@ -390,7 +390,7 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          this.myPharmacy = response.data;
+          this.pharmacy = response.data;
           this.name = response.data.name;
           this.addressStreet = response.data.street;
           this.streetNumber = response.data.streetNumber;

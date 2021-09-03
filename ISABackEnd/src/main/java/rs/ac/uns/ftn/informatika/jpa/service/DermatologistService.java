@@ -1,33 +1,48 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistService;
+import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
 @Service
 public class DermatologistService implements IDermatologistService {
 
 	private IDermatologistRepository _dermatologistRepository;
 	private IPharmacyRepository _pharmacyRepository;
+	private AuthorityService _authorityService;
+	private AddressService _addressService;
+	private IUserRepository _userRepository;
 
 	@Autowired
 	public DermatologistService(IDermatologistRepository iDermatologistRepository,
-			IPharmacyRepository iPharmacyRepository) {
+			IPharmacyRepository iPharmacyRepository, AuthorityService authorityService, AddressService addressService, IUserRepository userRepository) {
 		this._dermatologistRepository = iDermatologistRepository;
 		this._pharmacyRepository = iPharmacyRepository;
+		this._addressService = addressService;
+		this._userRepository = userRepository;
+		this._authorityService = authorityService;
 	}
 
 	@Override
@@ -226,5 +241,55 @@ public class DermatologistService implements IDermatologistService {
 
 		return dermatologistDTOs;
 	}
+	
+	@Override
+	public Dermatologist createDermatologistByPharmacyAdmin(CreateDermatologistDTO createDermatologistDTO) {
+		// Pharmacy pharmacy = _pharmacyRepository.getOne(createDermatologistDTO.getPharmacyId());
+		User findUser = _userRepository.findByEmail(createDermatologistDTO.getEmail()); 
+		if (findUser != null) {
+			return null;
+		}
+		Dermatologist newDermatologist = new Dermatologist();
+		Address pharmacistAddress = new Address();
+		pharmacistAddress = createDermatologistDTO.getAddress();
+		newDermatologist.setAddress(pharmacistAddress);
+		this._addressService.createAddress(pharmacistAddress);
+		newDermatologist.setEnabled(true);
+		newDermatologist.setFirstLogin(false);
+		newDermatologist.setFirstName(createDermatologistDTO.getFirstName());
+		newDermatologist.setLastName(createDermatologistDTO.getFirstName());
+		newDermatologist.setEmail(createDermatologistDTO.getEmail());
+		newDermatologist.setUserType(UserType.PHARMACIST);
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		newDermatologist.setSalt(encodedSalt);
+		String rawPassword = generatePasswordWithSalt(createDermatologistDTO.getPassword(), encodedSalt); 
+		String securePassword = hashPassword(rawPassword);
+		newDermatologist.setPassword(securePassword);
+		newDermatologist.setPhoneNumber(createDermatologistDTO.getPhoneNumber());
+		List<Authority> authorities = _authorityService.findByName("ROLE_DERMATOLOGIST");
+		newDermatologist.setAuthorities(authorities);
+		// set Pharmacy
+		return _dermatologistRepository.save(newDermatologist);
+	}
+	
+	private static byte[] generateSalt() {
+		SecureRandom random = new SecureRandom();
+		byte[] genSalt = new byte[16];
+		random.nextBytes(genSalt);
+		return genSalt;
+	}
+	
+	private String generatePasswordWithSalt(String userPassword, String salt) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(userPassword);
+		stringBuilder.append(salt);
+		return stringBuilder.toString();
+	}
+	
+	public String hashPassword(String password) {
+		return BCrypt.hashpw(password, BCrypt.gensalt(12));
+	}
+	
 
 }

@@ -21,13 +21,15 @@ INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
 	VALUES (default, 'Novi Sad','Srbija', 48, 44, 'Kisacka', 3);
 
+-- Benu APOTEKA
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (default, 'Novi Sad','Srbija', 48, 44, 'Maksima Gorkog', 11);
+	VALUES (default, 'Temerin','Srbija', 45.408292, 19.88796, 'Novosadska', 383);
 
+-- Jankovic APOTEKA
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (default, 'Novi Sad','Srbija', 48, 44, 'Sremska', 98);
+	VALUES (default, 'Sremski Karlovci','Srbija', 45.204627, 19.931912, 'Karadjordjeva', 18);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
@@ -36,10 +38,11 @@ INSERT INTO public.address(
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
 	VALUES (default, 'Backi Jarak','Srbija', 48, 44, 'Veljka Vlahovica', 7);
-	
+
+-- Higija APOTEKA
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
-	VALUES (default, 'Temerin','Srbija', 48, 44, ' Petefi Sandora', 32);
+	VALUES (default, 'Temerin','Srbija', 45.407919, 19.886008, ' Petefi Sandora', 32);
 
 INSERT INTO public.address(
 	address_id, city, country, latitude, longitude, street, street_number)
@@ -923,6 +926,15 @@ INSERT INTO public.reservation(
 INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-08-08 00:00:00', false, false, 'gNJHgyoej1', 15, 1, 1);
+
+-- TEST RESERVATION
+INSERT INTO public.medicine_item(
+	medicine_item_id, quantity, medicine_medicine_id)
+	VALUES (216, 3, 2);
+	
+INSERT INTO public.reservation(
+	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, false, '2021-09-30 00:00:00', false, false, 'ResQodX07', 216, 15, 2);
 
 INSERT INTO public.eprescription(
 	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
