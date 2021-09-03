@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="createPharmacistByPharmacyAdminCaption">
-      Create pharmacist by pharmacy admin
+      Create pharmacist for {{ pharmacyName }} pharmacy
     </h1>
     <div class="pt-1">
       <v-card id="pharmacistInfoCard" v-bind:style="{ opacity: opacity }">
@@ -101,7 +101,7 @@
             v-on:click="createPharmacist"
             >Create</v-btn
           >
-           <v-btn
+          <v-btn
             class="mx-auto mb-5; color:white"
             color="primary"
             elevation="6"
@@ -121,8 +121,14 @@ export default {
   name: "CreatePharmacistByPharmacyAdmin",
   data: () => ({
     opacity: 0.9,
-     countries: ['Srbija', 'Republika Srpska', 'Bosna i Hercegovina', 'Crna Gora', 'Hrvatska'],
-    errorMessages: '',
+    countries: [
+      "Srbija",
+      "Republika Srpska",
+      "Bosna i Hercegovina",
+      "Crna Gora",
+      "Hrvatska",
+    ],
+    errorMessages: "",
     showPassword: false,
     email: "",
     password: "",
@@ -134,24 +140,89 @@ export default {
     country: "",
     phoneNumber: "",
     repeatedPassword: "",
+    pharmacist: null,
+    pharmacy: null,
+    pharmacyName: "",
   }),
   computed: {
     passwordConfirmationRule() {
-      return () => (this.password === this.repeated_password) || 'Password must match.'
-    }
+      return () =>
+        this.password === this.repeatedPassword || "Password must match.";
+    },
   },
-  mounted() {    
+  mounted() {
     this.initialize();
   },
   methods: {
-    initialize() {},
+    initialize() {
+      this.axios
+        .get(
+          "http://localhost:8091/pharmacy/getPharmacyById/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.pharmacy = response.data;
+          this.pharmacyName = response.data.name;
+        })
+        .catch((err) => console.log(err));
+    },
     createPharmacist() {
-      
-      alert("Pharmacist is successfully created!");
+      console.log(this.email);
+      console.log(this.password);
+      console.log(this.firstName);
+      console.log(this.lastName);
+
+      console.log(this.phoneNumber);
+      console.log(this.streetName);
+      console.log(this.city);
+      console.log(this.country);
+      console.log(localStorage.getItem("pharmacyId"));
+
+      this.axios
+        .post(
+          "http://localhost:8091/pharmacists/createPharmacistByPharmacyAdmin",
+          {
+            pharmacyId: localStorage.getItem("pharmacyId"),
+            email: this.email,
+            password: this.password,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            phoneNumber: this.phoneNumber,
+            address: {
+              street: this.streetName,
+              streetNumber: this.streetNumber,
+              city: this.city,
+              country: this.country,
+            },
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.pharmacist = response.data;
+          if (this.pharmacist != null) {
+            alert("Pharmacist is successfully created!");
+            window.location.href = "http://localhost:8080/myPharmacy";
+          } else {
+            alert("Dear pharmacy admin, pharmacist cannot be created.");
+            window.location.href =
+              "http://localhost:8080/homePagePharmacyAdmin";
+          }
+        });
     },
     cancel() {
-        window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
-    }
+      window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
+    },
   },
 };
 </script>
@@ -168,7 +239,7 @@ export default {
   width: 40%;
   margin: auto;
 }
-.countryCombo{
+.countryCombo {
   width: 96%;
   margin-left: 5%;
   cursor: pointer;
