@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,6 +74,7 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("create")
+	@Transactional
 	public ResponseEntity<?> createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
 		if(!_userService.checkPenalties(dto.getUserId())) {
@@ -136,22 +138,25 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
+	@Transactional
 	public ResponseEntity<Boolean> cancelReservation(@RequestBody ReservationViewDTO reservation) {
 		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
 		Boolean cancelled = _reservationService.cancelReservation(reservation);
 		return new ResponseEntity<Boolean>(cancelled,HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PATIENT')")
-	@PutMapping(value = "/checkForPenalties/{patientId}")
-	public ResponseEntity<?> checkForPenalties(@PathVariable Long patientId) {
-		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
+	@Scheduled(cron = "0 0 0 * * *")
+	public void checkForPenalties() {
+		ArrayList<User> allPatients = (ArrayList<User>) _userService.getAllPatients();
+		for (User user : allPatients) {
+		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(user.getUserId());
 		for (Penalty penalty : penalties) {
 			Penalty p = _penaltyService.save(penalty);
-			_userService.increasePenalty(patientId, p);
+			_userService.increasePenalty(user.getUserId(), p);
 			
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
