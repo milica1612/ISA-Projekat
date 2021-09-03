@@ -32,7 +32,13 @@ public class MedicineItem {
     {
     	
     }
-	
+    
+	public Long getMedicineItemId() {
+		return medicineItemId;
+	}
+	public void setMedicineItemId(Long medicineItemId) {
+		this.medicineItemId = medicineItemId;
+	}
 	public int getQuantity() {
 		return quantity;
 	}

@@ -5,10 +5,7 @@
     </h1>
     <v-card id="medicinesInPharmacyCard" justify-center>
       <div>
-        <v-data-table
-          :headers="headers"
-          :items="medicinesInPharmacy"
-        >
+        <v-data-table :headers="headers" :items="medicinesInPharmacy">
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
@@ -16,38 +13,40 @@
                 All available medicine items
               </v-toolbar-title>
               <v-dialog v-model="dialogDeleteMedicineItem" max-width="60%">
-              <v-card>
-                <v-spacer></v-spacer>
-                <v-card-title class="text-h4 justify-center"
-                  >Are you sure you want to delete this medicine item
-                  ?</v-card-title
-                >
-                <v-card-actions>
+                <v-card>
                   <v-spacer></v-spacer>
-
-                  <v-btn color="red" text @click="deleteMedicine"
-                    >Delete</v-btn
+                  <v-card-title class="text-h4 justify-center"
+                    >Are you sure you want to delete this medicine item
+                    ?</v-card-title
                   >
-                  <v-spacer></v-spacer>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
 
-                  <v-btn color="primary" text @click="closeDeleteMedicineItem"
-                    >Cancel</v-btn
-                  >
+                    <v-btn color="red" text @click="deleteMedicine"
+                      >Delete</v-btn
+                    >
+                    <v-spacer></v-spacer>
 
-                  <v-spacer></v-spacer>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                    <v-btn color="primary" text @click="closeDeleteMedicineItem"
+                      >Cancel</v-btn
+                    >
+
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
               <v-spacer></v-spacer>
             </v-toolbar>
           </template>
           <template v-slot:[`item.action`]="{ item }">
-          <v-card-actions>
-           <v-spacer></v-spacer>
-            <v-btn color="red" text @click="deleteMedicineItem(item)">DELETE MEDICINE ITEM</v-btn>
-             <v-spacer></v-spacer>
-          </v-card-actions>
-        </template>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" text @click="deleteMedicineItem(item)"
+                >DELETE MEDICINE ITEM</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </template>
         </v-data-table>
       </div>
     </v-card>
@@ -62,10 +61,10 @@ export default {
     dialogDeleteMedicineItem: false,
     headers: [
       {
-          text: "Medicine ID",
-          value: "medicineId",
-          aling: "center",
-          sortable: true,
+        text: "Medicine item ID",
+        value: "medicineItemId",
+        aling: "center",
+        sortable: true,
       },
       {
         text: "Medicine code",
@@ -107,13 +106,13 @@ export default {
         value: "action",
         aling: "center",
         sortable: false,
-      }
+      },
     ],
     pharmacy: null,
     pharmacyName: "",
     editedIndex: null,
     editedMedicine: null,
-    deleteMedicineId: null,
+    deleteMedicineItemId: null,
   }),
   mounted() {
     this.initialize();
@@ -155,17 +154,14 @@ export default {
       this.editedIndex = this.medicinesInPharmacy.indexOf(item);
       this.editedMedicine = Object.assign({}, item);
       this.dialogDeleteMedicineItem = true;
-      this.deleteMedicineId = this.editedMedicine.medicineId;
+      this.deleteMedicineItemId = this.editedMedicine.medicineItemId;
     },
     deleteMedicine() {
-
-        // deleteMedicineId
-      /*
       this.axios
         .post(
-          "http://localhost:8091/pharmacistVacation/accept",
+          "http://localhost:8091/medicineItem/deleteMedicineItemByMedicineId/", 
           {
-            vacationId: this.vacatoionId,
+            deleteMedicineItemId: this.deleteMedicineItemId,
           },
           {
             headers: {
@@ -173,14 +169,19 @@ export default {
             },
           }
         )
-        .then(response => 
-        {
+        .then((response) => {
           console.log(response.data);
-          alert("The vacation request was successfully accepted!");
+          if (response.data) {
+            alert("Successfully deleted medicine item!");
+            // window.location.href = "http://localhost:8080/medicinesInPharmacy"
+          } else {
+            alert(
+              "The patient has reserved this medicine, it cannot be deleted from the pharmacy now"
+            );
+            // window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
+          }
         });
-        */
-       alert("Successfully deleted medicine item!");
-      // window.location.href = "http://localhost:8080/medicinesInPharmacy"
+
       this.closeDeleteMedicineItem();
     },
     closeDeleteMedicineItem() {
@@ -190,7 +191,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
   },
 };
 </script>

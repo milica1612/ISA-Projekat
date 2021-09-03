@@ -916,19 +916,13 @@ INSERT INTO public.reservation(
 -- TEST RESERVATION
 INSERT INTO public.medicine_item(
 	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (215, 4, 1);
-
-INSERT INTO public.reservation(
-	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, false, '2021-10-20 00:00:00', false, false, 'ResQode06', 215, 15, 2);
-
-INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
 	VALUES (216, 3, 2);
-
+	
 INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-09-30 00:00:00', false, false, 'ResQodX07', 216, 15, 2);
+
+
 
 INSERT INTO public.eprescription(
 	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
