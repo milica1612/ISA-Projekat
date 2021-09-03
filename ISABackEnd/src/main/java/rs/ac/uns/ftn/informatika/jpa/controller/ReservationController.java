@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -141,8 +142,7 @@ public class ReservationController {
 		return new ResponseEntity<Boolean>(cancelled,HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PATIENT')")
-	@PutMapping(value = "/checkForPenalties/{patientId}")
+	@Scheduled(cron = "0 0 0 * * *")
 	public ResponseEntity<?> checkForPenalties(@PathVariable Long patientId) {
 		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
 		for (Penalty penalty : penalties) {
