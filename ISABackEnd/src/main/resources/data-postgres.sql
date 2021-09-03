@@ -922,8 +922,6 @@ INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-09-30 00:00:00', false, false, 'ResQodX07', 216, 15, 2);
 
-
-
 INSERT INTO public.eprescription(
 	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, '2021-09-01', 'NEW', 1, 2);

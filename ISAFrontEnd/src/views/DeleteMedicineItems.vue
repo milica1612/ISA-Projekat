@@ -173,12 +173,12 @@ export default {
           console.log(response.data);
           if (response.data) {
             alert("Successfully deleted medicine item!");
-            // window.location.href = "http://localhost:8080/medicinesInPharmacy"
+            window.location.href = "http://localhost:8080/medicinesInPharmacy"
           } else {
             alert(
-              "The patient has reserved this medicine, it cannot be deleted from the pharmacy now"
+              "Dear pharmacy admin, the patient has reserved this medicine, it cannot be deleted from the pharmacy at the moment."
             );
-            // window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
+            window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
           }
         });
 

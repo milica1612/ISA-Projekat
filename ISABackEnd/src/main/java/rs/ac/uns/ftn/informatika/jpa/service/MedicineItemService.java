@@ -183,24 +183,33 @@ public class MedicineItemService implements IMedicineItemService{
 		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Reservation> allReservations = _reservationRepository.findAll();
 		MedicineItem medicineItem = _medicineItemRepository.getOne(deleteMedicineItemId);
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pAdmin.getPharmacy().getPharmacyId());
 		
 		Date date = new Date();
 		System.out.println("Date now " + date.toString());
 		
 		for (Reservation r : allReservations) {
-			// current data
 			Date deadline = r.getDeadline();
-			
-			System.out.println("Date now " + deadline.toString());
-			
+	
 			if (r.getRecieved() == false && r.getCancelled() == false
-					&& r.getPharmacy().getPharmacyId() == pAdmin.getPharmacy().getPharmacyId()
+					&& r.getPharmacy().getPharmacyId() == pharmacy.getPharmacyId()
 				&& deadline.after(date) && r.getMedicineItem().getMedicine().getMedicineId() == medicineItem.getMedicine().getMedicineId()) {
 				return false;
 				
 			}
 		}
 		
+		Set<MedicineItem> medicineItemsInPharmacy = pharmacy.getMedicineItem();
+		
+		for (MedicineItem m : medicineItemsInPharmacy) {
+			if (m.getMedicine().getMedicineId() == medicineItem.getMedicine().getMedicineId()) {
+				medicineItemsInPharmacy.remove(m);
+				break;
+			}
+		}
+		
+		pharmacy.setMedicineItem(medicineItemsInPharmacy);
+		_pharmacyRepository.save(pharmacy);
 		return true;
 	}
 
