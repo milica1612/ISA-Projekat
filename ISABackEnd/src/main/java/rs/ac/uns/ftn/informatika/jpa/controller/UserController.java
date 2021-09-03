@@ -93,8 +93,8 @@ public class UserController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @PutMapping(value = "/searchUser")
-    public List<PatientAppointmentDTO> searchUser(@RequestBody NameAndEmployee ne) {
-    	return _userService.getPatientsByName(ne.fullName, ne.employeeId);
+    public ResponseEntity<List<PatientAppointmentDTO>> searchUser(@RequestBody NameAndEmployee ne) {
+    	return new ResponseEntity<List<PatientAppointmentDTO>>(_userService.getPatientsByName(ne.fullName, ne.employeeId), HttpStatus.OK);
 	}
 	
 
@@ -108,18 +108,20 @@ public class UserController {
 	}
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/increasePenaltyExamination")
-	public void increasePenaltyExamination(@RequestBody Examination e) throws Exception {
+	public ResponseEntity<?> increasePenaltyExamination(@RequestBody Examination e) throws Exception {
 		Penalty p = new Penalty(e.getDateAndTime().toString(), PenaltyType.EXAMINATION_MISSED, e.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(e.getPatient().getUserId(),newPenalty);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/increasePenaltyConsultation")
-	public void increasePenaltyConsultation(@RequestBody Consultation c) throws Exception {
+	public ResponseEntity<?> increasePenaltyConsultation(@RequestBody Consultation c) throws Exception {
 		Penalty p = new Penalty(c.getDateAndTime().toString(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());
 		Penalty newPenalty = _penaltyService.save(p);
 		_userService.increasePenalty(c.getPatient().getUserId(), newPenalty);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/subscriptions/{patientId}")

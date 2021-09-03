@@ -103,7 +103,7 @@ public class ConsultationController {
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/createNewConsultation")
-	public Boolean createNewExamination(@RequestBody Consultation consultation) {
+	public ResponseEntity<Boolean> createNewExamination(@RequestBody Consultation consultation) {
 		
 		Calendar examS = Calendar.getInstance();
 		examS.setTime(consultation.getDateAndTime());
@@ -149,19 +149,20 @@ public class ConsultationController {
 			Consultation c = this._consultationService.saveConsultation(consultation);
 			ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
 			if(!this._workSchedulePharmacist.addConsToWorkSchedule(c, vacations)) {
-				return false;
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 			}
 			this._emailService.sendConsultationConfirmation(c);
-			return true;
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}else {
-			return false;
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/allForPharmacist/{id}")
-	public List<Consultation> getByPharmacist(@PathVariable Long id, @RequestBody TimeInterval timeInterval) {
-		return _consultationService.getByPharmacist(id, timeInterval);
+	public ResponseEntity<List<Consultation>> getByPharmacist(@PathVariable Long id, @RequestBody TimeInterval timeInterval) {
+		List<Consultation> c = _consultationService.getByPharmacist(id, timeInterval);
+		return new ResponseEntity<List<Consultation>>(c, HttpStatus.OK);
 	}
 	
 
@@ -173,19 +174,19 @@ public class ConsultationController {
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/findCurrentTerm")
-	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
+	public ResponseEntity<Consultation> findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Consultation e = _consultationService.startConsultation(dfa.dateAndTime);
 		if(e.getPharmacist() != null && e.getPatient() != null) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.pharmId.equals(e.getPharmacist().getUserId())) {
-					return e;
+					return new ResponseEntity<Consultation>(e, HttpStatus.OK);
 			}
 		else
-			return new Consultation();
+			return new ResponseEntity<Consultation>(new Consultation(), HttpStatus.OK);
 		}
 		
-		else return new Consultation();
+		else return new ResponseEntity<Consultation>(new Consultation(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")

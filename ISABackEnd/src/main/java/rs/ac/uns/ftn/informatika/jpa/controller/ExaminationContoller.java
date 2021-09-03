@@ -106,12 +106,9 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")	
 	@PutMapping(value = "/findValidNextTerm")
-	public ArrayList<ExaminationDTO> findValidNextTerm(@RequestBody DataForTerm dataForTerm){
-		
-		
-		System.out.println(dataForTerm.pharmacyId + dataForTerm.dermatologistId + dataForTerm.patientId + "00000");
+	public ResponseEntity<ArrayList<ExaminationDTO>> findValidNextTerm(@RequestBody DataForTerm dataForTerm){
+			
 		boolean available = true;
-		
 		ArrayList<ExaminationDTO> result = new ArrayList<ExaminationDTO>();
 		ArrayList<ExaminationDTO> byPharmacy = _examinationService.getByPharmacy(dataForTerm.pharmacyId);
 		ArrayList<ExaminationDTO> byDermatologist = _examinationService.getByDermatologist(dataForTerm.dermatologistId);
@@ -128,7 +125,6 @@ public class ExaminationContoller {
 							date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d2);
 							System.out.println(date2.toString());
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}  
 						
@@ -138,7 +134,6 @@ public class ExaminationContoller {
 							date3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(d3);
 							System.out.println(date3.toString());
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}  
 						
@@ -178,14 +173,13 @@ public class ExaminationContoller {
 				}
 			}
 		}
-		
-		return result;
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(result, HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/createNewExamination")
-	public Boolean createNewExamination(@RequestBody Examination examination) {
+	public ResponseEntity<Boolean> createNewExamination(@RequestBody Examination examination) {
 		
 		Calendar examS = Calendar.getInstance();
 		examS.setTime(examination.getDateAndTime());
@@ -233,12 +227,12 @@ public class ExaminationContoller {
 			examination.setDateAndTime(new Date(startExamination.getTime().getTime()));
 			ArrayList<DermatologistVacation> vacations = (ArrayList<DermatologistVacation>) _dermatologistVacationService.findAllAcceptedVacations();
 			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(examination, vacations)) {
-				return false;
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 			}
 			this._emailService.sendExaminationConfirmation(examination);
-			return true;
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}else {
-			return false;
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 	}
 	
@@ -250,19 +244,19 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/findCurrentTerm")
-	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
+	public ResponseEntity<Examination> findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
 		Examination e = _examinationService.startExamination(dfa.dateAndTime);
 		if(e.getDermatologist() != null && e.getPatient() != null) {
 			if(dfa.patientId.equals(e.getPatient().getUserId())
 					&& dfa.dermId.equals(e.getDermatologist().getUserId())) {
-					return e;
+					return new ResponseEntity<Examination>(e, HttpStatus.OK);
 			}
 		else
-			return new Examination();
+			return new ResponseEntity<Examination>(e, HttpStatus.OK);
 		}
 		
-		else return new Examination();
+		else return new ResponseEntity<Examination>(new Examination(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT')")
@@ -278,7 +272,7 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/allForDermatologist/{id}")
-	public List<Examination> getByDermatologist(@PathVariable Long id, @RequestBody DataForPharmacies dfp) {
+	public ResponseEntity<List<Examination>> getByDermatologist(@PathVariable Long id, @RequestBody DataForPharmacies dfp) {
 		 List<Examination> allExam = _examinationService.getByDermatologist(id, dfp.timeInterval);
 		 List<Examination> result = new ArrayList<Examination>();
 		 
@@ -288,7 +282,7 @@ public class ExaminationContoller {
 			 }
 		 }
 		 
-		 return result;
+		 return new ResponseEntity<List<Examination>>(result, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")

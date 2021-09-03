@@ -93,7 +93,7 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping("/findReservation")
-	public Reservation findReservationByCode(@RequestBody ResChecker resChecker) throws ParseException {
+	public ResponseEntity<Reservation> findReservationByCode(@RequestBody ResChecker resChecker) throws ParseException {
 		
 		Boolean reservationInPharmacy = false;
 		Pharmacy pharmacy = new Pharmacy();
@@ -123,12 +123,12 @@ public class ReservationController {
 			if(r.getRecieved() != true) {
 				
 				_emailService.sendRecievedMedicineEmail(r.getReservationCode(), pharmacy, r.getPatient());
-				return _reservationService.updateReservation(r);
+				return new ResponseEntity<Reservation>(_reservationService.updateReservation(r), HttpStatus.OK);
 			}
-			return new Reservation();
+			return new ResponseEntity<Reservation>(new Reservation(), HttpStatus.OK);
 		}
 		}
-		return new Reservation();
+		return new ResponseEntity<Reservation>(new Reservation(), HttpStatus.OK);
 		
 	}
 	

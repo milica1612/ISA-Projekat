@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +77,11 @@ public class PharmacistVacationController {
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/requestVacationPharmacist")
-	public Boolean requestForVacationPharmacist(@RequestBody PharmacistVacation pv) {
+	public ResponseEntity<Boolean> requestForVacationPharmacist(@RequestBody PharmacistVacation pv) {
 		if(_pharmacistVacationService.requestForVacationPharmacist(pv) != null)
-			return true;
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		else
-			return false;
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 }

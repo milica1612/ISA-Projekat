@@ -20,6 +20,7 @@ import rs.ac.uns.ftn.informatika.jpa.dto.RequestAcceptDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -70,11 +71,11 @@ public class DermatologistVacationController {
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/requestVacationDermatologist")
-	public Boolean requestForVacationDermatologist(@RequestBody DermatologistVacation dv) {
+	public ResponseEntity<Boolean> requestForVacationDermatologist(@RequestBody DermatologistVacation dv) {
 		if(_dermatologistVacationService.requestForVacationDermatologist(dv) != null)
-			return true;
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		else
-			return false;
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	

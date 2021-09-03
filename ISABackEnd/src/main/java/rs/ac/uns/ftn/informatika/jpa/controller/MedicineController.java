@@ -111,7 +111,7 @@ public class MedicineController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/checkAvailability")
-	public Boolean checkAvailability(@RequestBody CheckAvailability ca) {
+	public ResponseEntity<Boolean> checkAvailability(@RequestBody CheckAvailability ca) {
 		
 		Pharmacy pharmacy = _pharmacyService.findById(ca.pharmacyId);
 			
@@ -120,7 +120,7 @@ public class MedicineController {
 		for(MedicineItem m : medicineItems) {
 			if (m.getMedicine().getMedicineId() == ca.medicineAvailable.getMedicineId() && m.getQuantity() > 0) {
 				this._medicineItemService.saveQuantityMedicineItem(m);
-				return true;
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			}
 		}
 		
@@ -128,76 +128,76 @@ public class MedicineController {
 		n.setContent(ca.medicineAvailable.getName() + " is not available.");
 		n.setPharmacyId(pharmacy.getPharmacyId());
 		this._notificationService.saveNotification(n);
-		return false;
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/addReportDerm/{id}")
-	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+	public ResponseEntity<ReportDTO> addReportDerm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_examinationService.endExamination(id);
 		_reportDermService.saveReportDerm(reportDTO);
-		return reportDTO;
+		return new ResponseEntity<ReportDTO>(reportDTO, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/addReportPharm/{id}")
-	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+	public ResponseEntity<ReportDTO> addReportPharm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_consultationService.endConsultation(id);
 		_reportPharmService.saveReportPharm(reportDTO);
-		return reportDTO;
+		return  new ResponseEntity<ReportDTO>(reportDTO, HttpStatus.OK);
 	}
 	
 	//Sl dvije metode su ako je pregled u toku i zelimo da zakazemo novi, prethodno cuvamo report
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/addReportDermAndSchedule/{id}")
-	public Examination addReportDermAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+	public ResponseEntity<Examination> addReportDermAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_examinationService.endExamination(id);
 		_reportDermService.saveReportDerm(reportDTO);
 		
 		Examination e = _examinationService.findById(id);
 		if(e != null) {
-			return e;
+			return new ResponseEntity<Examination>(e, HttpStatus.OK);
 		}
 		else
-			return new Examination();
+			return new ResponseEntity<Examination>(new Examination(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/addReportPharmAndSchedule/{id}")
-	public Consultation addReportPharmAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+	public ResponseEntity<Consultation> addReportPharmAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_consultationService.endConsultation(id);
 		_reportPharmService.saveReportPharm(reportDTO);
 		
 		Consultation c = _consultationService.findById(id);
 		if(c != null) {
-			return c;
+			return new ResponseEntity<Consultation>(c, HttpStatus.OK);
 		}
-		return new Consultation();
+		return new ResponseEntity<Consultation>(new Consultation(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/endExam/{id}")
-	public Examination endExam( @PathVariable Long id) {
+	public ResponseEntity<Examination> endExam( @PathVariable Long id) {
 		Examination e = _examinationService.findById(id);
 		if(e != null) {
 			_examinationService.endExamination(id);
-			return e;
+			return new ResponseEntity<Examination>(e, HttpStatus.OK);
 		}
 		else
-			return new Examination();
+			return new ResponseEntity<Examination>(new Examination(), HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/endCons/{id}")
-	public Consultation endCons( @PathVariable Long id) {
+	public ResponseEntity<Consultation> endCons( @PathVariable Long id) {
 		Consultation c = _consultationService.findById(id);
 		if(c != null) {
 			_consultationService.endConsultation(id);
-			return c;
+			return new ResponseEntity<Consultation>(c, HttpStatus.OK);
 		}
 		else
-			return new Consultation();
+			return new ResponseEntity<Consultation>(new Consultation(), HttpStatus.OK);
 		
 	}
 	
@@ -208,7 +208,7 @@ public class MedicineController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/substituteMedicine")
-	public HashSet<Medicine> findAllSubstituteMedicine(@RequestBody SubstitutesWithoutAllergy swa){
+	public ResponseEntity<HashSet<Medicine>>findAllSubstituteMedicine(@RequestBody SubstitutesWithoutAllergy swa){
 		
 		HashSet<Medicine> substituteMedicines = new HashSet<Medicine>();
 		HashSet<Medicine> allSubstitutes = (HashSet<Medicine>) swa.oldMedicine.getReplacementMedicine();
@@ -228,7 +228,7 @@ public class MedicineController {
 			
 		}
 		
-		return substituteMedicines;
+		return new ResponseEntity<HashSet<Medicine>>(substituteMedicines, HttpStatus.OK);
 		
 	}
 	

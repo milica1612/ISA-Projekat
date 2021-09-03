@@ -199,7 +199,7 @@ public class AuthenticationController {
 		
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
-        return ResponseEntity.accepted().body(result);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 	
 	
@@ -236,6 +236,6 @@ public class AuthenticationController {
 	
 			Map<String, String> result = new HashMap<>();
 			result.put("result", "success");
-			return ResponseEntity.accepted().body(result);
+			return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
 	}
 }
