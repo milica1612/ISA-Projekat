@@ -2,21 +2,21 @@
   <div>
     <h1 id="pharmacyMapCaption">My pharmacy on the map</h1>
     <v-card id="pharmacyMapCard">
-    <yandex-map
-      zoom="7"
-      style="width: 100%; max-width: 100%; height: 98vh;"
-      :coords="coords"
-    >
-      <ymap-marker
-        v-for="(billboard, index) in surfaces"
-        marker-type="placemark"
-        :balloon-template="mapBalloon(billboard, index)"
-        :coords="billboard.coords.split(',')"
-        :marker-id="index"
-        :icon="{ content: billboard.id }"
-        :key="index"
-      ></ymap-marker>
-    </yandex-map>
+      <yandex-map
+        zoom="7"
+        style="width: 100%; max-width: 100%; height: 98vh"
+        :coords="coords"
+      >
+        <ymap-marker
+          v-for="(billboard, index) in surfaces"
+          marker-type="placemark"
+          :balloon-template="mapBalloon(billboard, index)"
+          :coords="billboard.coords.split(',')"
+          :marker-id="index"
+          :icon="{ content: billboard.id }"
+          :key="index"
+        ></ymap-marker>
+      </yandex-map>
     </v-card>
   </div>
 </template>
@@ -27,54 +27,92 @@ import { yandexMap, ymapMarker } from "vue-yandex-maps";
 export default {
   name: "MapExample",
   components: { yandexMap, ymapMarker },
-  data() {
+  data:() => ({
+    name: "",
+    addressStreet: "",
+    streetNumber: "",
+    city: "",
+    country: "",
+    rating: "",
+    description: "",
+    pharmacy: null, 
+    latitude: null,
+    longitude: null,
+  }),
+  data(){
+       
     return {
       coords: [44.787197, 20.457273],
       options: {
         layout: "default#image",
         imageSize: [40, 60],
-        contentOffset: [0, 0]
+        contentOffset: [0, 0],
       },
       selectedSurfaces: this.$selectedSurfaces,
-      layout:
-        "<div>{{ properties.balloonContentHeader }}</div><div>{{ properties.balloonContentBody }}</div><div>{{ properties.balloonContentFooter }}</div>",
       surfaces: [
         {
           id: "1",
           city: "Beograd",
-          type: "Mediawall",
-          address: 'ТРЦ "Океания", пр. Кутузовский, 57',
-          coords: "44.787197, 20.457273"
-        }
-      ]
-    };
+          type: "Serbia",
+          address: 'Bulevar Kneza Aleksandra Karadjordjevica',
+          coords: "44.787197, 20.457273",
+        },
+      ],
+    }
   },
   mounted() {
     console.log(this.$selectedSurfaces[0]);
+    this.init();
   },
   watch: {
     selectedSurfaces() {
       this.makeSurfaceSelected(
         this.selectedSurfaces[this.selectedSurfaces.length - 1].SURFACEID
       );
-    }
+    },
   },
   methods: {
+    init() {
+      this.axios
+        .get(
+          "http://localhost:8091/pharmacy/getPharmacyById/" +
+            localStorage.getItem("pharmacyId"),
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.myPharmacy = response.data;
+          this.name = response.data.name;
+          this.addressStreet = response.data.street;
+          this.streetNumber = response.data.streetNumber;
+          this.city = response.data.city;
+          this.country = response.data.country;
+          this.rating = response.data.rating;
+          this.description = response.data.description;
+          this.longitude = response.data.longitude;
+          this.latitude = response.data.latitude;
+        })
+        .catch((err) => console.log(err));
+    },
     selectedBillboard(billboard) {
       let data = {
         SURFACEID: billboard.surface_id,
-        NETWORKID: billboard.networkid
+        NETWORKID: billboard.networkid,
       };
       return data;
     },
-    makeSurfaceSelected: function(surface_id) {
-      this.surfaces.forEach(surface => {
+    makeSurfaceSelected: function (surface_id) {
+      this.surfaces.forEach((surface) => {
         if (surface.surface_id === surface_id) {
           surface.selected = true;
         }
       });
     },
-    mapBalloon: function(billboard, index) {
+    mapBalloon: function (billboard, index) {
       return `
       <div><h1>${billboard.id}</h1>
       <p><strong>City</strong>: ${billboard.city}</p>
@@ -83,8 +121,8 @@ export default {
       <p><strong>Address</strong>: ${billboard.address}</p>
       </div>
       `;
-    }
-  }
+    },
+  },
 };
 </script>
 

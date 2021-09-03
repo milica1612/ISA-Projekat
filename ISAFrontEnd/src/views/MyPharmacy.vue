@@ -390,7 +390,7 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          this.myPharmacy = response.data;
+          this.pharmacy = response.data;
           this.name = response.data.name;
           this.addressStreet = response.data.street;
           this.streetNumber = response.data.streetNumber;
