@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreatePharmacistDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.DeletePharmacistRequestDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyPharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
@@ -82,5 +83,11 @@ public class PharmacistController {
 	@GetMapping(path = "/pharmacistsByPharmacy")
 	public ResponseEntity<List<PharmacyPharmacistDTO>> findPharmacistsByPharmacy() {
 		return new ResponseEntity<List<PharmacyPharmacistDTO>>(_pharmacistSerivce.getPharmacistsByPharmacy(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/deletePharmacist")
+	public ResponseEntity<Boolean> deletePharmacist(@RequestBody DeletePharmacistRequestDTO deletePharmacistRequestDTO) {
+		return new ResponseEntity<Boolean>(_pharmacistSerivce.deletePharmacist(deletePharmacistRequestDTO.getDeletePharmacistId()), HttpStatus.OK);
 	}
 }

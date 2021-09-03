@@ -37,6 +37,7 @@ public class SystemAdminController {
 	
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/createSystemAdmin")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	public ResponseEntity<?> createSystemAdmin(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
 		try {
 
@@ -47,6 +48,7 @@ public class SystemAdminController {
 	}
 	
 	@PostMapping("/createDermatologist")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	public ResponseEntity<?> createDermatologist(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
 		try {
 				
@@ -57,6 +59,7 @@ public class SystemAdminController {
 	}
 	
 	@PostMapping("/createSupplier")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	public ResponseEntity<?> createSupplier(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
 		try {
 		
@@ -72,6 +75,7 @@ public class SystemAdminController {
 	}
 	
 	@PostMapping("/defineLoyaltyScale")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	public ResponseEntity<?> defineLoyaltyScale(@RequestBody LoyaltyScaleDTO loyaltyScale, UriComponentsBuilder ucBuilder) {
 		try {
 		

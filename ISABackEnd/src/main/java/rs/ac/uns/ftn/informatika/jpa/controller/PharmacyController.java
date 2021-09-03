@@ -63,9 +63,10 @@ public class PharmacyController {
 	}
 	
 
-	@GetMapping(value = "/getPharmacyForPatient/{user_id}")
-	public List<Pharmacy> getPharmacyForPatient(@PathVariable Long user_id){
-		return _pharmacyService.getSubscribedPharmacyForPatient(user_id);
+	@GetMapping(value = "/getSubscribedPharmacyForPatient/{patientId}")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public List<Pharmacy> getSubPharmacyForPatient(@PathVariable Long patientId){
+		return _pharmacyService.getSubscribedPharmacyForPatient(patientId);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
@@ -91,7 +92,6 @@ public class PharmacyController {
 
 	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
-
 	public ArrayList<Pharmacy> getPharmaciesForPatient(@PathVariable Long patientId){
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		_reservationService.getPharmaciesForPatient(patientId, result);

@@ -131,7 +131,9 @@ export default {
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
           {title: "Delete Medicine Items", path: "/deleteMedicineItems"},
           {title: "Create Pharmacist", path: "/createPharmacistByPharmacyAdmin"},
+          {title: "Delete Pharmacist", path: "/deletePharmacist"},
           {title: "Create Dermatologist", path: "/createDermatologistByPharmacyAdmin"},
+          {title: "Delete Dermatologist", path: "/deleteDermatologist"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Define Term With Dermatologist", path: "/defineFreeTermWithDermatologist"},
@@ -152,10 +154,8 @@ export default {
                 { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/createPharmacy' },
                 { title: 'Medicines', path: '/medicineRegistration' },
-                { title: "Pending Vacation Requests", path: '/requestsVacationDermatologists'},
-                { title: "All Vacation Requests", path: '/allVacationRequestsDermatologists'},
                 { title: 'Complaints', path: '/complaints' },
-                { title: 'Loyalty Program', path: '/' }];
+                { title: 'Loyalty Program', path: '/loyaltyScale' }];
       } else {
         // NOT YET REGISTERED
         this.items = [

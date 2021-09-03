@@ -26,4 +26,6 @@ public interface IPharmacistService {
 	List<PharmacyPharmacistDTO> getPharmacistsByPharmacy();
 	
 	Pharmacist createPharmacistByPharmacyAdmin(CreatePharmacistDTO createPharmacistDTO);
+
+	Boolean deletePharmacist(Long deletePharmacistId);
 }

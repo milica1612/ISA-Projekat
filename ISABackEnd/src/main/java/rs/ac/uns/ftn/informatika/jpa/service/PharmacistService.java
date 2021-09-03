@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,18 @@ import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyPharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
+import rs.ac.uns.ftn.informatika.jpa.repository.IConsultationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacistRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacistVacationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
@@ -34,14 +40,20 @@ public class PharmacistService implements IPharmacistService{
 	private AddressService _addressService;
 	private IPharmacyRepository _pharmacyRepository;
 	private IUserRepository _userRepository;
+	private IConsultationRepository _consultationRepository;
+	private IPharmacistVacationRepository _pharmacistVacationRepository;
 	
 	@Autowired
-	public PharmacistService(IPharmacistRepository pharmacistRepository, AuthorityService authorityService, AddressService addressService, IPharmacyRepository pharmacyRepository, IUserRepository userRepository) {
+	public PharmacistService(IPharmacistRepository pharmacistRepository, AuthorityService authorityService, AddressService addressService,
+			IPharmacyRepository pharmacyRepository, IUserRepository userRepository, IConsultationRepository consultationRepository
+			,IPharmacistVacationRepository pharmacistVacationRepository) {
 		this._pharmacistRepository = pharmacistRepository;
 		this._authorityService = authorityService;
 		this._addressService = addressService;
 		this._pharmacyRepository = pharmacyRepository;
 		this._userRepository = userRepository;
+		this._consultationRepository = consultationRepository;
+		this._pharmacistVacationRepository = pharmacistVacationRepository;
 	}
 
 	@Override
@@ -126,8 +138,46 @@ public class PharmacistService implements IPharmacistService{
 	}
 	
 	@Override
+	public Boolean deletePharmacist(Long deletePharmacistId) {
+		List<Consultation> allConsultations = _consultationRepository.findAll();
+		List<PharmacistVacation> allPharmacistVacations = _pharmacistVacationRepository.findAll();
+		Date date = new Date();
+		System.out.println("Date now " + date.toString());
+		
+		for (Consultation c : allConsultations) 	
+		{
+			if (c.getPharmacist().getUserId() == deletePharmacistId 
+					&& c.getAppointmentStatus() == AppointmentStatus.NONE
+					&& c.getCancelled() == false) {
+				return false;
+			}
+		}
+		
+		// on Vacation 
+		for (PharmacistVacation pVacation : allPharmacistVacations) {
+			if (pVacation.getPharmacist().getUserId() == deletePharmacistId
+					&& pVacation.getStatus() == Status.ACCEPTED && pVacation.getStartDate().before(date)
+						&& pVacation.getEndDate().after(date)) {
+				return false;
+			}
+		}
+		
+		// dodato ne moze se obrisati i ako je na godisnjem
+		// ne moze se vise prijaviti - pharmacist.setEnabled(false); 
+		
+		for (PharmacistVacation pVacation : allPharmacistVacations) {
+			if (pVacation.getPharmacist().getUserId() == deletePharmacistId
+					&& (pVacation.getStatus() == Status.WAITING || pVacation.getStatus() == Status.DECLINED)) {
+				_pharmacistVacationRepository.delete(pVacation);
+			}
+		}
+		_pharmacistRepository.deleteById(deletePharmacistId);
+		return true;
+	}
+	
+	@Override
 	public Pharmacist createPharmacistByPharmacyAdmin(CreatePharmacistDTO createPharmacistDTO) {
-		Pharmacy pharmacy = _pharmacyRepository.getOne(createPharmacistDTO.getPharmacyId());
+		// Pharmacy pharmacy = _pharmacyRepository.getOne(createPharmacistDTO.getPharmacyId());
 		User findUser = _userRepository.findByEmail(createPharmacistDTO.getEmail()); 
 		if (findUser != null) {
 			return null;
@@ -173,6 +223,5 @@ public class PharmacistService implements IPharmacistService{
 	public String hashPassword(String password) {
 		return BCrypt.hashpw(password, BCrypt.gensalt(12));
 	}
-	
 
 }
