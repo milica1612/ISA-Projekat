@@ -303,7 +303,7 @@ export default {
     patientDidntCome: function() {
       this.dateStart = new Date()
 
-      if(localStorage.getItem("patientId") != "") {
+      if(localStorage.getItem("patientId") != null) {
         const dfa = {
           dateAndTime: this.dateStart,
           pharmId: this.pharmacist.userId,
@@ -440,7 +440,7 @@ export default {
       this.mmm = smed
 
       const ca={
-        pharmacyId: this.phId,
+        pharmacyId: localStorage.getItem("pharmacyId"),
         medicineAvailable: this.mmm
       }
 

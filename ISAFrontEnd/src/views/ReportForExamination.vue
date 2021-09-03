@@ -303,7 +303,7 @@ export default {
     patientDidntCome: function() {
       this.dateStart = new Date()
 
-      if(localStorage.getItem("patientId") != "") {
+      if(localStorage.getItem("patientId") != null) {
         const dfa = {
           dateAndTime: this.dateStart,
           dermId: this.dermatologist.userId,

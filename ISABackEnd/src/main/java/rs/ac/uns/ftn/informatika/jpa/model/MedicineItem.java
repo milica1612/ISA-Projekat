@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 
 @Entity
@@ -16,6 +17,9 @@ public class MedicineItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medicineItemId;
+	
+	@Version
+	private Long version;
 	
 	@Column(name = "quantity", nullable = false)
     private int quantity;

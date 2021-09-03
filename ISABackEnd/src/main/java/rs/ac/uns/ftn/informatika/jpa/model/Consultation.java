@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Consultation{
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long appointmentId;
