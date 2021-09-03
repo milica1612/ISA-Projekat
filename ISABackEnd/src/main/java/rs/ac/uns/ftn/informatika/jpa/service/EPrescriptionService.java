@@ -23,6 +23,7 @@ import com.google.zxing.common.HybridBinarizer;
 import javassist.NotFoundException;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionBuyMedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyAvailabilityDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IEPrescriptionService;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
@@ -31,6 +32,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PriceTag;
 import rs.ac.uns.ftn.informatika.jpa.repository.IEPrescriptionRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
@@ -122,31 +124,25 @@ public class EPrescriptionService implements IEPrescriptionService {
 	}
 
 	@Override
-	public ArrayList<MedicineAvailableInPharmacyDTO> getPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs) {
-		ArrayList<MedicineAvailableInPharmacyDTO> availablePharmacies = new ArrayList<MedicineAvailableInPharmacyDTO>();
-		ArrayList<Pharmacy> pharmacies = (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
-		
-		return null;
-	}
-
-	@Override
 	public String getCodeForEPrescription(String decodedText) {
 	     String []code = decodedText.split("!");
 	     return code[0];
 	}
 
 	@Override
-	public ArrayList<MedicineAvailableInPharmacyDTO> checkAvailabilityMedicineInPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs) {
+	public ArrayList<PharmacyAvailabilityDTO> checkAvailabilityMedicineInPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs) {
 		ArrayList<Pharmacy> pharmacies = (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
-		ArrayList<MedicineAvailableInPharmacyDTO> result = new ArrayList<MedicineAvailableInPharmacyDTO>();
-		int sumPrice = 0;
+		ArrayList<PharmacyAvailabilityDTO> result = new ArrayList<PharmacyAvailabilityDTO>();
 		
 		for(Pharmacy p: pharmacies) {
+			double sumPrice = 0;
 			for(QRCodeDTO q: qrCodeDTOs) {
 				for(MedicineItem m: p.getMedicineItem()) {
 					if(q.getName().equals(m.getMedicine().getName()) && q.getCode().equals(m.getMedicine().getMedicineCode()) && q.getQuantity() < m.getQuantity()) {
 						if(_medicineService.getCurrentPriceForMedicine(p, q.getName())!=null) {
-						result.add(new MedicineAvailableInPharmacyDTO(p, _medicineService.getCurrentPriceForMedicine(p, q.getName())));
+							PriceTag price = _medicineService.getCurrentPriceForMedicine(p, q.getName());
+							sumPrice += q.getQuantity() * price.getPrice();
+							result.add(new PharmacyAvailabilityDTO(p, sumPrice));
 					}
 					}
 				}

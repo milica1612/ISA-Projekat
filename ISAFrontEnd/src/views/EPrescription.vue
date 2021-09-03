@@ -90,9 +90,9 @@ export default {
                              this.result = response.data,
                              
                              this.dto = {
-                               name: response.data.qrcodeDTO.name,
-                               code: response.data.qrcodeDTO.code,
-                               quantity: response.data.qrcodeDTO.quantity
+                               name: this.result.qrcodeDTO.name,
+                               code: this.result.qrcodeDTO.code,
+                               quantity: this.result.qrcodeDTO.quantity
                              },
 
                              this.EPrescriptionList.push(this.dto),
@@ -104,7 +104,7 @@ export default {
 
        this.EPrescriptionBuyMedicineDTO = {
             code: this.code,
-            qrCodeDTOs: EPrescriptionList,
+            qrCodeDTOs: this.EPrescriptionList,
             pharmacyId : a.pharmacy.pharmacyId
       }
 

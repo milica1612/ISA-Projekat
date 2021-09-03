@@ -27,6 +27,18 @@ public class OfferDTO {
     public OfferDTO() {}
 
 	public OfferDTO(Long id, Double price, String deliveryDeadline, Status status, Supplier supplier,
+			Order order, Boolean isApproved) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.deliveryDeadline = deliveryDeadline;
+		this.status = status;
+		this.supplier = supplier;
+		this.order = order;
+		this.isApproved = isApproved;
+	}
+
+	public OfferDTO(Long id, Double price, String deliveryDeadline, Status status, Supplier supplier,
 			Order order) {
 		super();
 		this.id = id;
@@ -36,8 +48,6 @@ public class OfferDTO {
 		this.supplier = supplier;
 		this.order = order;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -102,4 +112,6 @@ public class OfferDTO {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	
+	
 }

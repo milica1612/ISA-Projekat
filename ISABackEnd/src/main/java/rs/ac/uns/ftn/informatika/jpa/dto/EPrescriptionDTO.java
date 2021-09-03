@@ -6,14 +6,14 @@ public class EPrescriptionDTO {
 
 	private ArrayList<QRCodeDTO> qrcodeDTO;
 	private String code;
-	private ArrayList<MedicineAvailableInPharmacyDTO> medicineAvailableInPharmacyDTO;
+	private ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO;
 	
 	public EPrescriptionDTO(ArrayList<QRCodeDTO> qrcodeDTO, String code,
-			ArrayList<MedicineAvailableInPharmacyDTO> medicineAvailableInPharmacyDTO) {
+			ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
 		super();
 		this.qrcodeDTO = qrcodeDTO;
 		this.code = code;
-		this.medicineAvailableInPharmacyDTO = medicineAvailableInPharmacyDTO;
+		this.pharmacyAvailabilityDTO = pharmacyAvailabilityDTO;
 	}
 
 	public ArrayList<QRCodeDTO> getQrcodeDTO() {
@@ -32,12 +32,12 @@ public class EPrescriptionDTO {
 		this.code = code;
 	}
 
-	public ArrayList<MedicineAvailableInPharmacyDTO> getMedicineAvailableInPharmacyDTO() {
-		return medicineAvailableInPharmacyDTO;
+	public ArrayList<PharmacyAvailabilityDTO> getMedicineAvailableInPharmacyDTO() {
+		return pharmacyAvailabilityDTO;
 	}
 
 	public void setMedicineAvailableInPharmacyDTO(
-			ArrayList<MedicineAvailableInPharmacyDTO> medicineAvailableInPharmacyDTO) {
-		this.medicineAvailableInPharmacyDTO = medicineAvailableInPharmacyDTO;
+			ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
+		this.pharmacyAvailabilityDTO = pharmacyAvailabilityDTO;
 	}
 }

@@ -256,8 +256,16 @@ public class OfferService implements IOfferService {
 		
 		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);	
 
-		if(!checkMedicineAvailable(order, supplier)) {
+		if(offerDTO.getPrice() <= 0) {
+			throw new IllegalArgumentException("Price must be valid (positive)!");
+		}
+		
+		if(checkMedicineAvailable(order, supplier)==false) {
 			throw new IllegalArgumentException("There is no available medicine for order!");
+		}
+		
+		if(offerDTO.getIsApproved()) {
+			throw new IllegalArgumentException("You already send offer for this order!");
 		}
 		
 		String d = offerDTO.getDeliveryDeadline();
@@ -265,11 +273,10 @@ public class OfferService implements IOfferService {
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
 		} catch (ParseException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
-		if(order.getOfferDeadline().after(date)) {
+		if(order.getOfferDeadline().before(date) || offerDTO.getDeliveryDeadline().equals(null)) {
 			throw new IllegalArgumentException("Date is passed!");
 		}
 		

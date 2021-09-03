@@ -35,6 +35,7 @@ import javassist.NotFoundException;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionBuyMedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyAvailabilityDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
 import rs.ac.uns.ftn.informatika.jpa.exception.ResourceConflictException;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
@@ -92,7 +93,7 @@ public class EPrescriptionController {
                         throw new IllegalArgumentException("Please try later, there are no medicine!");
                     }
                     
-                    ArrayList<MedicineAvailableInPharmacyDTO> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.checkAvailabilityMedicineInPharmacies(qrCodeMed);
+                    ArrayList<PharmacyAvailabilityDTO> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.checkAvailabilityMedicineInPharmacies(qrCodeMed);
                     EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeMed,code,pharmacyDrugAvailabilityDTOs);
                     return pharmacyDrugAvailabilityDTOs == null ?
                             new ResponseEntity<>(HttpStatus.NOT_FOUND) :
