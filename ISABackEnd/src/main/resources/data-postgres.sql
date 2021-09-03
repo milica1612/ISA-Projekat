@@ -543,6 +543,26 @@ duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharma
 VALUES (default, 'NONE', false, '2021-09-02 14:10:00', 30, 5, 2100, 12, 15, 3);
 
 
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-06 08:30:00', 30, 5,2400, 18, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-04 09:30:00', 30, 5,2400, 18, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-10-10 10:30:00', 30, 5,2200, 18, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-07 17:00:00', 30, 5,1800, 13, null, 2);
+
+INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
+duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id)
+VALUES (default, 'NONE', false, '2021-09-09 09:40:00', 20, 5,1600, 7, null, 2);
+
 INSERT INTO public.medicine_replacement_medicine(
 	medicine_medicine_id, replacement_medicine_medicine_id)
 	VALUES (1, 6);
@@ -677,7 +697,7 @@ INSERT INTO public.work_schedule_pharmacist(
 	work_schedule_id, pharmacist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 11, 3, 3, 4);
 
--- Branko - - work in Jankovic Pharmacy Second Shift - 01.08.2021. - 30.11.2021.
+-- Branko - work in Jankovic Pharmacy Second Shift - 01.08.2021. - 30.11.2021.
 INSERT INTO public.work_schedule_dermatologist(
 	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 13, 2, 3, 4);
@@ -706,7 +726,6 @@ INSERT INTO public.work_schedule_dermatologist(
 INSERT INTO public.work_schedule_dermatologist(
 	work_schedule_id, dermatologist_user_id, pharmacy_pharmacy_id, shift_time_interval_id, valid_for_time_interval_id)
 	VALUES (default, 14, 3, 10, 9);
-	
 	
 -- Katarina - work in Jankovic First Shift Valid for time 30.08.2021. - 31.12.2021.
 INSERT INTO public.work_schedule_dermatologist(
