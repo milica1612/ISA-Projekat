@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 
 @Entity
@@ -19,6 +20,10 @@ public class ComplaintEmployee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compEmpId;
 
+	@Version
+	private Long version;
+	
+	
 	@Column(name = "textEmployee", nullable = false)
 	private String textEmp;
 	

@@ -81,7 +81,8 @@ public class EPrescriptionController {
 	public IEPrescriptionRepository _ePrescriptionRepository;
 	
 	@PostMapping("/file")
-    ResponseEntity<EPrescriptionQRCode> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
+    @PreAuthorize("hasRole('ROLE_PATIENT')")
+	ResponseEntity<EPrescriptionQRCode> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
 
         if (!file.isEmpty()) {
             try {

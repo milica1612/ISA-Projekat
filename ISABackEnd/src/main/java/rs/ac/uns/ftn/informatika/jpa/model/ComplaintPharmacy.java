@@ -9,14 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 
 @Entity
 public class ComplaintPharmacy {
-   
+	
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long compPhId;
+   
+	@Version
+	private Long version;
+   
    private String textPh;
    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public Patient patient;

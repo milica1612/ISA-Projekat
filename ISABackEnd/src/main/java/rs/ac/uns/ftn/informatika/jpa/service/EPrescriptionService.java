@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -187,6 +188,7 @@ public class EPrescriptionService implements IEPrescriptionService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public EPrescription saveEPrescription(EPrescriptionBuyMedicineDTO ePrescription, Pharmacy pharmacy, Patient patient) {
 		ArrayList<QRCodeDTO> qrCodeDTOs = ePrescription.getQrcodeDTO();
