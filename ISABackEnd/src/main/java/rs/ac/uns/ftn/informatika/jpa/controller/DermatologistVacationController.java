@@ -68,6 +68,7 @@ public class DermatologistVacationController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/requestVacationDermatologist")
 	public Boolean requestForVacationDermatologist(@RequestBody DermatologistVacation dv) {
 		if(_dermatologistVacationService.requestForVacationDermatologist(dv) != null)

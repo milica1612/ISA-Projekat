@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.iservice.IWorkScheduleDermatologistService;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
+import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.WorkScheduleDermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.WorkSchedulePharmacist;
 import rs.ac.uns.ftn.informatika.jpa.repository.IWorkScheduleDermatologistRepository;
 
 @Service
@@ -26,7 +29,7 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 		this._workScheduleRepository = workScheduleDermatologistRepository;
 	}
 
-	public  WorkScheduleDermatologist findWorkScheduleForDermatologistInPeriod(Examination examination) {
+	public  WorkScheduleDermatologist findWorkScheduleForDermatologistInPeriod(Examination examination, ArrayList<DermatologistVacation> vacations) {
 		ArrayList<WorkScheduleDermatologist> all = (ArrayList<WorkScheduleDermatologist>) _workScheduleRepository.findAll();
 
 		Calendar examS = Calendar.getInstance();
@@ -45,6 +48,9 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 			
 		for (WorkScheduleDermatologist workSchedule : all) {
 			if(workSchedule.getDermatologist().getUserId() == examination.getDermatologist().getUserId()) {
+				boolean notAvailable = checkVacation(examStart, examEnd, vacations, workSchedule);
+				if(notAvailable == false) {
+				
 				System.out.println("Pronasao je za dermatologa");
 				
 				Calendar validS = Calendar.getInstance();
@@ -68,17 +74,44 @@ public class WorkScheduleDermatologistService implements IWorkScheduleDermatolog
 						return workSchedule;
 					}
 				}
+				}
+				}
 			}
-			}
+			
 		}
 		return null;
 	}
 
+	@Override
+	public boolean checkVacation(Long startExamination, Long endExamination, ArrayList<DermatologistVacation> vacations, WorkScheduleDermatologist workSchedule) {
+		
+		for (DermatologistVacation v : vacations) {
+			Calendar vStart = Calendar.getInstance(); // creates calendar
+			vStart.setTime(v.getStartDate());
+	
+			Calendar vEnd = Calendar.getInstance(); // creates calendar
+			vEnd.setTime(v.getEndDate());
+			
+			Long vacationStart = vStart.getTimeInMillis();
+			Long vacationEnd = vEnd.getTimeInMillis(); 
+			if(v.getDermatologist().getUserId() == workSchedule.getDermatologist().getUserId()) {
+				System.out.println("farmaceut isti");
+				if(vacationStart <= startExamination && vacationEnd >= endExamination) {
+					System.out.println("pregled je u vacation");
+					return true;
+					
+				}
+			}
+		}
+		return false;
+		
+	}
+
 
 	@Override
-	public Boolean addNewExaminationToWorkSchedule(Examination e) {
+	public Boolean addNewExaminationToWorkSchedule(Examination e, ArrayList<DermatologistVacation> vacations) {
 		e.setAppointmentStatus(AppointmentStatus.NONE);
-		WorkScheduleDermatologist workSchedule = findWorkScheduleForDermatologistInPeriod(e);
+		WorkScheduleDermatologist workSchedule = findWorkScheduleForDermatologistInPeriod(e, vacations);
 		if(workSchedule == null) {
 			return false;
 		}

@@ -108,6 +108,7 @@ public class MedicineController {
 		public Medicine medicineAvailable;
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/checkAvailability")
 	public Boolean checkAvailability(@RequestBody CheckAvailability ca) {
 		
@@ -129,6 +130,7 @@ public class MedicineController {
 		return false;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/addReportDerm/{id}")
 	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_examinationService.endExamination(id);
@@ -136,6 +138,7 @@ public class MedicineController {
 		return reportDTO;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/addReportPharm/{id}")
 	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
 		_consultationService.endConsultation(id);
@@ -144,9 +147,10 @@ public class MedicineController {
 	}
 	
 	//Sl dvije metode su ako je pregled u toku i zelimo da zakazemo novi, prethodno cuvamo report
-	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/addReportDermAndSchedule/{id}")
 	public Examination addReportDermAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_examinationService.endExamination(id);
 		_reportDermService.saveReportDerm(reportDTO);
 		
 		Examination e = _examinationService.findById(id);
@@ -157,8 +161,10 @@ public class MedicineController {
 			return new Examination();
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/addReportPharmAndSchedule/{id}")
 	public Consultation addReportPharmAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_consultationService.endConsultation(id);
 		_reportPharmService.saveReportPharm(reportDTO);
 		
 		Consultation c = _consultationService.findById(id);
@@ -168,6 +174,7 @@ public class MedicineController {
 		return new Consultation();
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/endExam/{id}")
 	public Examination endExam( @PathVariable Long id) {
 		Examination e = _examinationService.findById(id);
@@ -180,6 +187,7 @@ public class MedicineController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/endCons/{id}")
 	public Consultation endCons( @PathVariable Long id) {
 		Consultation c = _consultationService.findById(id);
@@ -197,6 +205,7 @@ public class MedicineController {
 		public HashSet<Medicine> medicinesWithoutAllergy;
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/substituteMedicine")
 	public HashSet<Medicine> findAllSubstituteMedicine(@RequestBody SubstitutesWithoutAllergy swa){
 		

@@ -74,6 +74,7 @@ public class PharmacistVacationController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/requestVacationPharmacist")
 	public Boolean requestForVacationPharmacist(@RequestBody PharmacistVacation pv) {
 		if(_pharmacistVacationService.requestForVacationPharmacist(pv) != null)

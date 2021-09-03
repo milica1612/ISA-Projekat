@@ -25,10 +25,14 @@ import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
+import rs.ac.uns.ftn.informatika.jpa.service.DermatologistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
+import rs.ac.uns.ftn.informatika.jpa.service.PharmacistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 
@@ -42,6 +46,10 @@ public class ExaminationContoller {
 	
 	@Autowired
 	private EmailService _emailService;
+	
+
+	@Autowired
+	private DermatologistVacationService _dermatologistVacationService;
 	
 	@Autowired
 	private UserService _userService;
@@ -68,7 +76,7 @@ public class ExaminationContoller {
 		return _examinationService.getByPatient(patientId);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/schedule")
 	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
 		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
@@ -91,6 +99,7 @@ public class ExaminationContoller {
 		public Long patientId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")	
 	@PutMapping(value = "/findValidNextTerm")
 	public ArrayList<ExaminationDTO> findValidNextTerm(@RequestBody DataForTerm dataForTerm){
 		
@@ -169,7 +178,7 @@ public class ExaminationContoller {
 		
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/createNewExamination")
 	public Boolean createNewExamination(@RequestBody Examination examination) {
 		
@@ -217,7 +226,8 @@ public class ExaminationContoller {
 			startExamination.add(Calendar.HOUR, -1);
 			
 			examination.setDateAndTime(new Date(startExamination.getTime().getTime()));
-			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(examination)) {
+			ArrayList<DermatologistVacation> vacations = (ArrayList<DermatologistVacation>) _dermatologistVacationService.findAllAcceptedVacations();
+			if(!this._workScheduleDermatologist.addNewExaminationToWorkSchedule(examination, vacations)) {
 				return false;
 			}
 			this._emailService.sendExaminationConfirmation(examination);
@@ -233,6 +243,7 @@ public class ExaminationContoller {
 		public Long patientId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/findCurrentTerm")
 	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		
@@ -249,6 +260,7 @@ public class ExaminationContoller {
 		else return new Examination();
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
 	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
 		return _examinationService.getAllDermatologistByPatient(patientId);
@@ -259,6 +271,7 @@ public class ExaminationContoller {
 		public Long pharmacyId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/allForDermatologist/{id}")
 	public List<Examination> getByDermatologist(@PathVariable Long id, @RequestBody DataForPharmacies dfp) {
 		 List<Examination> allExam = _examinationService.getByDermatologist(id, dfp.timeInterval);

@@ -311,7 +311,7 @@ export default {
         }
 
         this.axios
-            .put('http://localhost:8091/examination/findCurrentTerm', dfa, {
+            .put('http://localhost:8091/consultation/findCurrentTerm', dfa, {
               headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
               }
@@ -388,6 +388,8 @@ export default {
               this.endedRep = response.data
               if(this.endedRep != null){
                     this.ended = false;
+                    localStorage.removeItem("appointmentId")
+                    localStorage.removeItem("patientId")
               }
             })
     },

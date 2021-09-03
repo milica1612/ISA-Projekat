@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,6 +89,8 @@ public class UserController {
 		public Long employeeId;
 	}
 	
+	
+	@PreAuthorize("hasAnyRole('ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
     @PutMapping(value = "/searchUser")
     public List<PatientAppointmentDTO> searchUser(@RequestBody NameAndEmployee ne) {
     	return _userService.getPatientsByName(ne.fullName, ne.employeeId);
@@ -102,7 +105,7 @@ public class UserController {
 		_userService.update(user);
 		
 	}
-	
+	@PreAuthorize("hasRole('ROLE_DERMATOLOGIST')")
 	@PostMapping(value = "/increasePenaltyExamination")
 	public void increasePenaltyExamination(@RequestBody Examination e) throws Exception {
 		Penalty p = new Penalty(e.getDateAndTime().toString(), PenaltyType.EXAMINATION_MISSED, e.getPharmacy());
@@ -110,6 +113,7 @@ public class UserController {
 		_userService.increasePenalty(e.getPatient().getUserId(),newPenalty);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PostMapping(value = "/increasePenaltyConsultation")
 	public void increasePenaltyConsultation(@RequestBody Consultation c) throws Exception {
 		Penalty p = new Penalty(c.getDateAndTime().toString(), PenaltyType.CONSULTATION_MISSED, c.getPharmacy());

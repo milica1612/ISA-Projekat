@@ -27,10 +27,12 @@ import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
+import rs.ac.uns.ftn.informatika.jpa.service.PharmacistVacationService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkSchedulePharmacistService;
 
@@ -42,6 +44,9 @@ public class ConsultationController {
 	@Autowired
 	private ConsultationService _consultationService;
 	
+
+	@Autowired
+	private PharmacistVacationService _pharmacistVacationService;
 
 	@Autowired
 	private UserService _userService;
@@ -66,7 +71,8 @@ public class ConsultationController {
 			return;
 		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
-		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
+		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
+		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c, vacations);
 		this._emailService.sendConsultationConfirmation(c);
 	}
 	
@@ -89,6 +95,7 @@ public class ConsultationController {
 		return _consultationService.cancelConsultation(consultation);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/createNewConsultation")
 	public Boolean createNewExamination(@RequestBody Consultation consultation) {
 		
@@ -134,7 +141,8 @@ public class ConsultationController {
 		}
 		if(available) {
 			Consultation c = this._consultationService.saveConsultation(consultation);
-			if(!this._workSchedulePharmacist.addConsToWorkSchedule(c)) {
+			ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
+			if(!this._workSchedulePharmacist.addConsToWorkSchedule(c, vacations)) {
 				return false;
 			}
 			this._emailService.sendConsultationConfirmation(c);
@@ -144,7 +152,7 @@ public class ConsultationController {
 		}
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/allForPharmacist/{id}")
 	public List<Consultation> getByPharmacist(@PathVariable Long id, @RequestBody TimeInterval timeInterval) {
 		return _consultationService.getByPharmacist(id, timeInterval);
@@ -157,6 +165,7 @@ public class ConsultationController {
 		public Long patientId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping(value = "/findCurrentTerm")
 	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
 		

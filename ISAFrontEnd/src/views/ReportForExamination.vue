@@ -389,6 +389,8 @@ export default {
                 this.endedRep = response.data
                 if(this.endedRep != null){
                   this.ended = false;
+                  localStorage.removeItem("appointmentId")
+                  localStorage.removeItem("patientId")
                 }
               })
     },

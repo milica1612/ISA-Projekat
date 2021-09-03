@@ -87,6 +87,7 @@ public class ReservationController {
 		return _reservationService.getByPatient(patientId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
 	@PutMapping("/findReservation")
 	public Reservation findReservationByCode(@RequestBody ResChecker resChecker) throws ParseException {
 		

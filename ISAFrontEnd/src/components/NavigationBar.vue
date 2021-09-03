@@ -106,7 +106,7 @@ export default {
             {title: "My Patients", path: "/usersList"},
             {title: "Start Examination", path: "/reportForExamination"},
             {title: "Work Calendar", path: "/workScheduleDermatologist"},
-            {title: "Schedule Vacation", path: "/scheduleVacation"},
+            {title: "Schedule Vacation", path: "/vacationDermatologist"},
             {title: "My profile", path: "/dermatologistProfile"},
             {title: "Schedule new Appointment", path: "/scheduleExaminationDermatologist"},
             {title: "Home Page", path: "/homePageDermatologist"}
@@ -117,7 +117,7 @@ export default {
           {title: "Start Counseling", path: "/reportForConsultation"},
           {title: "Work Calendar", path: "/workSchedulePharmacist"},
           {title: "Dispense Medicine", path: "/dispensingMedicinePharmacist"},
-          {title: "Schedule Vacation", path: "/scheduleVacation"},
+          {title: "Schedule Vacation", path: "/vacationPharmacist"},
           {title: "My profile", path: "/pharmacistProfile"},
           {title: "Schedule new Counseling", path: "/scheduleConsultationPharmacist"},
           {title: "Home Page", path: "/homePagePharmacist"}

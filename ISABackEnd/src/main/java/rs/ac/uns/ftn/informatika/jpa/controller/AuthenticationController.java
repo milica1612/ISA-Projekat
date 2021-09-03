@@ -171,9 +171,8 @@ public class AuthenticationController {
 		public String rewritePassword;
 	}
 
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
 	@RequestMapping(value = "/firstLogin", method = RequestMethod.POST)
-	// @PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR',
-	// 'SYS_ADMINISTRATOR', 'SUPPLIER')")
 	public ResponseEntity<?> firstLogin(@RequestBody PasswordChanger passwordChanger) {
 		User user = userService.findByEmail(passwordChanger.email);
 
@@ -205,8 +204,8 @@ public class AuthenticationController {
 	
 	
 	//**************OVA JE ISTA SAMO ZA OBICNO MIJENJANJE LOZINKE*****************
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
 	@RequestMapping(value = "/changeUserPassword", method = RequestMethod.POST)
-	//@PreAuthorize("hasRole('DERMATOLOGIST', 'PHARMACIST', 'PH_ADMINISTRATOR', 'SYS_ADMINISTRATOR', 'SUPPLIER')")
 	    public ResponseEntity<?> changeUserPassword(@RequestBody PasswordChanger passwordChanger) {
 			User user = userService.findByEmail(passwordChanger.email);
 		

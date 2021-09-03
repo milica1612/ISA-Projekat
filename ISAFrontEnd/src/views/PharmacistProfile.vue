@@ -54,7 +54,7 @@
           color="primary"
           elevation="3"
           medium>
-        <router-link to="/editDermatologistInfo" tag="button">Edit</router-link>
+        <router-link to="/editPharmacistInfo" tag="button">Edit</router-link>
       </v-btn>
     </v-row>
   </div>

@@ -219,7 +219,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		return pharmacists;
 	}
 	
-	public WorkSchedulePharmacist findWorkScheduleForPharmacistInPeriod(Consultation consultation) {
+	public WorkSchedulePharmacist findWorkScheduleForPharmacistInPeriod(Consultation consultation, ArrayList<PharmacistVacation> vacations) {
 		ArrayList<WorkSchedulePharmacist> all = (ArrayList<WorkSchedulePharmacist>) _workScheduleRepository.findAll();
 
 		Calendar examS = Calendar.getInstance();
@@ -237,8 +237,11 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		int endTime = startTime + 30;
 			
 		for (WorkSchedulePharmacist workSchedule : all) {
+			
 			if(workSchedule.getPharmacist().getUserId() == consultation.getPharmacist().getUserId()) {
 				System.out.println("Pronasao je za farmaceuta");
+				boolean notAvailable = checkVacation(examStart, examEnd, vacations, workSchedule);
+				if(notAvailable == false) {
 				
 				Calendar validS = Calendar.getInstance();
 				validS.setTime(workSchedule.getValidFor().getStartDate());
@@ -262,6 +265,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 						System.out.println("Nije");
 						return workSchedule;
 					}
+					}
 				}
 			}
 			}
@@ -270,8 +274,8 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 	}
 
 	@Override
-	public void addNewConsultationToWorkSchedule(Consultation c) {
-		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c);
+	public void addNewConsultationToWorkSchedule(Consultation c,  ArrayList<PharmacistVacation> vacations) {
+		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c, vacations);
 		if(workSchedule == null) {
 			return;
 		}
@@ -281,8 +285,8 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 	}
 	
 	@Override
-	public Boolean addConsToWorkSchedule(Consultation c) {
-		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c);
+	public Boolean addConsToWorkSchedule(Consultation c,  ArrayList<PharmacistVacation> vacations) {
+		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c, vacations);
 		if(workSchedule == null) {
 			return false;
 		}
