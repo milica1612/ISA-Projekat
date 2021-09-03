@@ -40,22 +40,22 @@ export default {
     longitude: null,
   }),
   data(){
-       
+
     return {
       coords: [44.787197, 20.457273],
       options: {
-        layout: "default#image",
         imageSize: [40, 60],
-        contentOffset: [0, 0],
+        contentOffset: [0, 5],
       },
       selectedSurfaces: this.$selectedSurfaces,
       surfaces: [
         {
           id: "1",
-          city: "Beograd",
-          type: "Serbia",
-          address: 'Bulevar Kneza Aleksandra Karadjordjevica',
-          coords: "44.787197, 20.457273",
+          city: "Sremski Karlovci",
+          type: "Jankovic Pharmacy",
+          side: "",
+          address: 'Karadjordjeva 18',
+          coords: "45.204627, 19.931912",
         },
       ],
     }
@@ -97,13 +97,6 @@ export default {
           this.latitude = response.data.latitude;
         })
         .catch((err) => console.log(err));
-    },
-    selectedBillboard(billboard) {
-      let data = {
-        SURFACEID: billboard.surface_id,
-        NETWORKID: billboard.networkid,
-      };
-      return data;
     },
     makeSurfaceSelected: function (surface_id) {
       this.surfaces.forEach((surface) => {
