@@ -467,6 +467,18 @@ const routes = [{
         component: () =>
             import ('../views/CreateDermatologistByPharmacyAdmin.vue')
     },
+    {
+        path: '/deletePharmacist',
+        name: 'DeletePharmacist',
+        component: () =>
+            import('../views/DeletePharmacist.vue')
+    },
+    {
+        path: '/deleteDermatologist',
+        name: 'DeleteDermatologist',
+        component: () =>
+            import('../views/DeleteDermatologist.vue')
+    }
 ]
 const router = new VueRouter({
     mode: 'history',
