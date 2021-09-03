@@ -1,6 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,16 +28,17 @@ public class RateMedicineController {
 	@Autowired 
 	private MedicineService _medicineService;
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/rate")
-	public void rateEmployeePharmacist(@RequestBody RateMedicine rate) {
+	public ResponseEntity<?> rateEmployeePharmacist(@RequestBody RateMedicine rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
-			return;
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		rate.setPatient((Patient) user);
 		Double newRating = _rateMedicineService.rateMedicine(rate);
 		_medicineService.updateRating(rate.getMedicine().getMedicineId(), newRating);
-		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

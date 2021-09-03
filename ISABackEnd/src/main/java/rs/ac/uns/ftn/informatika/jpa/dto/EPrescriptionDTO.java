@@ -1,43 +1,49 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
-import java.util.ArrayList;
+import java.util.Date;
+
+import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
+import rs.ac.uns.ftn.informatika.jpa.model.EPrescriptionStatus;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
 public class EPrescriptionDTO {
-
-	private ArrayList<QRCodeDTO> qrcodeDTO;
-	private String code;
-	private ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO;
+	private String date;
+	private Pharmacy pharmacy;
+	private EPrescriptionStatus status;
 	
-	public EPrescriptionDTO(ArrayList<QRCodeDTO> qrcodeDTO, String code,
-			ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
+	public EPrescriptionDTO(String date, Pharmacy pharmacy, EPrescriptionStatus status) {
 		super();
-		this.qrcodeDTO = qrcodeDTO;
-		this.code = code;
-		this.pharmacyAvailabilityDTO = pharmacyAvailabilityDTO;
+		this.date = date;
+		this.pharmacy = pharmacy;
+		this.status = status;
+	}
+	
+	public EPrescriptionDTO() {
+		
 	}
 
-	public ArrayList<QRCodeDTO> getQrcodeDTO() {
-		return qrcodeDTO;
+	public String getDate() {
+		return date;
 	}
 
-	public void setQrcodeDTO(ArrayList<QRCodeDTO> qrcodeDTO) {
-		this.qrcodeDTO = qrcodeDTO;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public String getCode() {
-		return code;
+	public Pharmacy getPharmacy() {
+		return pharmacy;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 
-	public ArrayList<PharmacyAvailabilityDTO> getMedicineAvailableInPharmacyDTO() {
-		return pharmacyAvailabilityDTO;
+	public EPrescriptionStatus getStatus() {
+		return status;
 	}
 
-	public void setMedicineAvailableInPharmacyDTO(
-			ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
-		this.pharmacyAvailabilityDTO = pharmacyAvailabilityDTO;
+	public void setStatus(EPrescriptionStatus status) {
+		this.status = status;
 	}
+
 }

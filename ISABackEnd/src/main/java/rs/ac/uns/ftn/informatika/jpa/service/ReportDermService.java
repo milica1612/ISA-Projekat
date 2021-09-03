@@ -37,7 +37,6 @@ public class ReportDermService implements IReportDermService{
 		for (Recommendation r : reportDerm.getRecommendation()) {
 			this._recommendationRepository.save(r);
 		}
-		
 		this._reportDermRepository.save(reportDerm);
 		
 		return reportDerm;

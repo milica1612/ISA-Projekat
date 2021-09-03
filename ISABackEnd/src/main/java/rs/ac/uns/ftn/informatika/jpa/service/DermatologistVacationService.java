@@ -2,6 +2,8 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RequestDeclineDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseVacationDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistVacationService;
+import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistVacationRepository;
@@ -96,6 +100,77 @@ public class DermatologistVacationService implements IDermatologistVacationServi
 			System.out.print(e);
 			return false;
 		}
+	}
+
+	@Override
+	public DermatologistVacation requestForVacationDermatologist(DermatologistVacation dv) {
+			
+		DermatologistVacation dermatologistVacation = new DermatologistVacation();
+		dermatologistVacation.setStartDate(dv.getStartDate());
+		dermatologistVacation.setEndDate(dv.getEndDate());
+		dermatologistVacation.setStatus(Status.WAITING);
+		dermatologistVacation.setDermatologist(dv.getDermatologist());
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(new Date());
+		
+		Calendar vacationS = Calendar.getInstance();
+		vacationS.setTime(dv.getStartDate());
+		
+		Calendar vacationE = Calendar.getInstance(); // creates calendar
+		vacationE.setTime(dv.getEndDate());               // sets calendar time/date
+		
+		Long startDate = start.getTimeInMillis(); 
+		Long vacationStart = vacationS.getTimeInMillis();
+		Long vacationEnd = vacationE.getTimeInMillis(); 
+		
+		if(vacationEnd <= vacationStart || startDate > vacationStart || startDate > vacationEnd) {
+			return null;
+		}
+		
+		return _dermatologistVacationRepository.save(dermatologistVacation);
+	}
+
+	@Override
+	public List<ResponseVacationDTO> isOnVacation(Long dermatologistId) {
+		List<DermatologistVacation> acceptedDermatologistVacations = _dermatologistVacationRepository.findAllByStatus(Status.ACCEPTED);
+		List<ResponseVacationDTO> responseVacationList = new ArrayList<ResponseVacationDTO>();
+		for (DermatologistVacation dVacation : acceptedDermatologistVacations) {
+			Dermatologist d = dVacation.getDermatologist();
+			if (d.getUserId() == dermatologistId) {
+				StringBuilder fullName = new StringBuilder();
+				fullName.append(d.getFirstName());
+				fullName.append(" ");
+				fullName.append(d.getLastName());
+				
+				StringBuilder description = new StringBuilder();
+				
+				String startOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getStartDate());
+			    String endOfVacation = new SimpleDateFormat("dd.MM.yyyy.").format(dVacation.getEndDate());
+				description.append("On the vacation is from ");
+				description.append(startOfVacation);
+				description.append(" to ");
+				description.append(endOfVacation);
+				ResponseVacationDTO responseVacationDTO = new ResponseVacationDTO(fullName.toString(), d.getEmail(), description.toString());
+				responseVacationList.add(responseVacationDTO);
+			}
+		}
+		
+		return responseVacationList;
+	
+	}
+	
+	@Override
+	public List<DermatologistVacation> findAllDermatologistVacationWithStatusWaitingByDermatologistId(Long dermatologistId) {
+		List<DermatologistVacation> allVacation = _dermatologistVacationRepository.findAll();
+		List<DermatologistVacation> list = new ArrayList<DermatologistVacation>();
+		
+		for (DermatologistVacation dVacation : allVacation) {
+			if(dVacation.getStatus() == Status.ACCEPTED && dVacation.getDermatologist().getUserId() == dermatologistId) {
+				list.add(dVacation);
+			}
+		}
+		return list;
 	}
 
 }

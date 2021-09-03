@@ -318,7 +318,7 @@
                         width="300"
                         color="primary"
                         small
-                        @click="submitPharmacy(p, dialog)"
+                        @click="submitPharmacy(ph, dialog)"
                     >Submit</v-btn>
                     <v-btn
                         width="300"
@@ -616,7 +616,7 @@ mounted() {
                   Authorization: 'Bearer ' + localStorage.getItem("token")
                 }})
           .then(
-              window.location.href = "http://localhost:8080/rateAndReport"
+                window.location.href = "http://localhost:8080/rateAndReport"
           );
     },
     submitMedicine: function(m, dialog){

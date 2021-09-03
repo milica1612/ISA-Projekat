@@ -2,21 +2,33 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateFreeTermDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyFreeTermDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.ResponseFreeTermDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
 import rs.ac.uns.ftn.informatika.jpa.model.Examination;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
+import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 import rs.ac.uns.ftn.informatika.jpa.service.WorkScheduleDermatologistService;
 
 @RestController
@@ -29,25 +41,48 @@ public class ExaminationContoller {
 	
 	@Autowired
 	private EmailService _emailService;
+	
+	@Autowired
+	private UserService _userService;
 
 	@Autowired
 	private WorkScheduleDermatologistService _workScheduleDermatologist;
 	
+	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST')")
 	@GetMapping(value = "/getByPharmacy/{pharmacyId}")
-	public ArrayList<ExaminationDTO> getByPharmacy(@PathVariable Long pharmacyId){
-		return _examinationService.getByPharmacy(pharmacyId);
+	public ResponseEntity<ArrayList<ExaminationDTO>> getByPharmacy(@PathVariable Long pharmacyId){
+		ArrayList<ExaminationDTO> e = _examinationService.getByPharmacy(pharmacyId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@GetMapping(value = "/getPreviousExaminations/{patientId}")
+	public ResponseEntity<ArrayList<ExaminationDTO>> getPreviousExaminations(@PathVariable Long patientId){
+		ArrayList<ExaminationDTO> e = _examinationService.getPreviousExaminations(patientId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
-	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
-		return _examinationService.getByPatient(patientId);
+	public ResponseEntity<ArrayList<ExaminationDTO>> getByPatient(@PathVariable Long patientId){
+		ArrayList<ExaminationDTO> e = _examinationService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/schedule")
-	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
-		_examinationService.scheduleExamination(examination);
+	public ResponseEntity<?> scheduleExamination(@RequestBody ExaminationDTO examination) {
+		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
+			System.out.println("Unable to schedule examination because of penalties");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		Examination e = _examinationService.scheduleExamination(examination);
+		_emailService.sendExaminationConfirmation(e);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
 	public boolean cancelExamination(@RequestBody ExaminationDTO examination) {
 		return _examinationService.cancelExamination(examination);
@@ -138,9 +173,72 @@ public class ExaminationContoller {
 		}
 	}
 	
+	static class DataForAppointment{
+		public Date dateAndTime;
+		public Long dermId;
+		public Long patientId;
+	}
+	
+	@PutMapping(value = "/findCurrentTerm")
+	public Examination findCurrentTerm(@RequestBody DataForAppointment dfa) {
+		
+		Examination e = _examinationService.startExamination(dfa.dateAndTime);
+		if(e.getDermatologist() != null && e.getPatient() != null && e.getAppointmentStatus().equals(AppointmentStatus.NONE)) {
+			if(dfa.patientId.equals(e.getPatient().getUserId())
+					&& dfa.dermId.equals(e.getDermatologist().getUserId())) {
+					return e;
+			}
+		else
+			return new Examination();
+		}
+		
+		else return new Examination();
+	}
+	
 	@GetMapping(value = "/getAllDermatologistByPatient/{patientId}")
 	public ArrayList<Dermatologist> getAllDermatologistByPatient(@PathVariable Long patientId){
 		return _examinationService.getAllDermatologistByPatient(patientId);
+	}
+	
+	static class DataForPharmacies{
+		public TimeInterval timeInterval;
+		public Long pharmacyId;
+	}
+	
+	@PutMapping(value = "/allForDermatologist/{id}")
+	public List<Examination> getByDermatologist(@PathVariable Long id, @RequestBody DataForPharmacies dfp) {
+		 List<Examination> allExam = _examinationService.getByDermatologist(id, dfp.timeInterval);
+		 List<Examination> result = new ArrayList<Examination>();
+		 
+		 for(Examination e: allExam) {
+			 if(dfp.pharmacyId.equals(e.getPharmacy().getPharmacyId())) {
+				 result.add(e);
+			 }
+		 }
+		 
+		 return result;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(value = "/findAllScheduledExaminationInPharmacyByDermatologist/{dermatologistId}")
+	public ResponseEntity<List<ExaminationDTO>> findAllScheduledExaminationInPharmacyByDermatologist(@PathVariable Long dermatologistId) {
+		return new ResponseEntity<List<ExaminationDTO>>(_examinationService.findAllScheduledExaminationInPharmacyByDermatologist(dermatologistId), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/createFreeTermExamination")
+	public ResponseEntity<ResponseFreeTermDTO> createFreeTermExaminationForDermatologist(@RequestBody CreateFreeTermDTO createFreeTermDTO) {
+		try {
+			return new ResponseEntity<ResponseFreeTermDTO>(_examinationService.createFreeTermExaminationForDermatologist(createFreeTermDTO), HttpStatus.CREATED);
+		} catch(Exception e) {
+			return new ResponseEntity<ResponseFreeTermDTO>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path = "/findAllFreeTerm")
+	public ResponseEntity<List<PharmacyFreeTermDTO>> findAllFreeTermExamination() {
+		return new ResponseEntity<List<PharmacyFreeTermDTO>>(_examinationService.findAllFreeTermExamination(), HttpStatus.OK);
 	}
 	
 }

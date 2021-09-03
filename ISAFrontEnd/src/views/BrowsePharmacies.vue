@@ -41,8 +41,8 @@
                 @click="sortBy('rating')">
               Rating
             </th>
-            <th :class="sortedClass('adress')"
-                @click="sortBy('adress')">
+            <th :class="sortedClass('address')"
+                @click="sortBy('address')">
               Address
             </th>
           </tr>
@@ -80,6 +80,8 @@ export default {
     return {
       logged: false,
       pharmacies: [],
+      searchResult: [],
+      filtrateResult: [],
       searchField: "",
       token: localStorage.getItem("token"),
       sort: {
@@ -92,7 +94,11 @@ mounted() {
   {
   this.axios
       .get('http://localhost:8091/pharmacy')
-      .then(r => (this.pharmacies = r.data))
+      .then(r => {
+        this.pharmacies = r.data
+        this.searchResult = this.pharmacies
+        this.filtrateResult = this.pharmacies
+      })
   }
 },
   methods: {
@@ -112,12 +118,15 @@ mounted() {
     searchPharmacies: function() {
       this.axios
           .get("http://localhost:8091/pharmacy/getByNameOrAddress/" + this.searchField)
-          .then(response => (this.pharmacies = response.data))
+          .then(response => {
+            this.searchResult = response.data
+            this.filtrateResult = this.searchResult
+          })
     },
     filtrate: function(rating){
       this.axios
-          .get("http://localhost:8091/pharmacy/filtrateByRating/" + rating)
-          .then(response => (this.pharmacies = response.data))
+          .put("http://localhost:8091/pharmacy/filtrateByRating/" + rating, {pharmacies: this.searchResult})
+          .then(response => (this.filtrateResult = response.data))
     }
   },
   computed:{
@@ -136,7 +145,7 @@ mounted() {
         return true
       }
     },sortedItems () {
-      const list = this.pharmacies.slice();  // ソート時でdataの順序を書き換えないため
+      const list = this.filtrateResult.slice();  // ソート時でdataの順序を書き換えないため
       if (this.sort.key !="") {
         list.sort((a, b) => {
           a = a[this.sort.key]

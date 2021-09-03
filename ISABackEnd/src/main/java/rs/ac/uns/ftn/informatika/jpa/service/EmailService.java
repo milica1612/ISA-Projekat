@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.AnswerOnComplaintDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.AnswerOnComplaintForPharmacyDTO;
-import rs.ac.uns.ftn.informatika.jpa.model.AnswerEmployee;
 import rs.ac.uns.ftn.informatika.jpa.model.ComplaintEmployee;
 import rs.ac.uns.ftn.informatika.jpa.model.ComplaintPharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
@@ -24,7 +23,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Promotion;
 import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
-import rs.ac.uns.ftn.informatika.jpa.model.SystemAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.repository.IComplaintEmployeeRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IComplaintPharmacyRepository;
 
@@ -172,7 +170,7 @@ public class EmailService {
 		
 		text.append("Dear " + examination.getPatient().getFirstName() + " "  + examination.getPatient().getLastName() + ",");
 		text.append("\n\n");
-		text.append("\nYou have successfully scheduled a consultation.");
+		text.append("\nYou have successfully scheduled a examination.");
 		text.append("\nConsultation information:");
 		text.append("\nPHARMACY: " + examination.getPharmacy().getName());
 		text.append("\nDATE AND TIME: " + date);

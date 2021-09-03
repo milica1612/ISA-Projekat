@@ -1,12 +1,15 @@
 package rs.ac.uns.ftn.informatika.jpa.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,6 +24,9 @@ public class Patient extends User {
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Allergy allergy;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Penalty> penalties = new HashSet<Penalty>();
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "patients")
@@ -44,6 +50,14 @@ public class Patient extends User {
 
 	public void setAllergy(Allergy allergy) {
 		this.allergy = allergy;
+	}
+
+	public Set<Penalty> getPenalties() {
+		return penalties;
+	}
+
+	public void setPenalties(Set<Penalty> penalties) {
+		this.penalties = penalties;
 	}
 
 	public List<Pharmacy> getPharmacies() {

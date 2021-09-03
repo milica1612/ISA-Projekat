@@ -19,6 +19,8 @@ public interface IOrderService {
 
 	Order save(Order order);
 	
+	Order deleteOrder(Long orderId);
+	
 	List<OrderDTO> findAllOrdersForPharmacy();
 	
 	List<OrderDTO> findAllOrdersWaitingOfferForPharmacy();
@@ -31,4 +33,8 @@ public interface IOrderService {
 			Long pharmacyId, Date offerDeadline);
 	
 	ArrayList<OrderDTO> findAllWaitingOfferOrders();
+	List<OrderDTO> findAllPossibleEditingOrdersByPharmacyAdmin();
+	
+	Order editOrder(List<MedicineData> medicineItemInOrderData, List<MedicineData> newMedicineItemData, Long orderId,
+			Date offerDeadline);
 }

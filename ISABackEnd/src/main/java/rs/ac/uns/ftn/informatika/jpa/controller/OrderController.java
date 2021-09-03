@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateOrderDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.EditOrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineData;
 import rs.ac.uns.ftn.informatika.jpa.dto.OrderDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Order;
@@ -92,6 +93,45 @@ public class OrderController {
 					createOrderDTO.getOfferDeadline());
 			
             return new ResponseEntity<>(true, HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value="/editOrder")
+	public ResponseEntity<Order> edit(@RequestBody EditOrderDTO editOrderDTO) {
+			try {
+			List<MedicineData> medicineItemData = new ArrayList<MedicineData>();
+			for (int i = 0; i < editOrderDTO.getKeys1().size(); i++) {
+				MedicineData mData1 = new MedicineData(editOrderDTO.getKeys1().get(i), editOrderDTO.getValues1().get(i)); 
+				medicineItemData.add(mData1);
+			}
+			
+			List<MedicineData> newMedicineItemData = new ArrayList<MedicineData>();
+			for (int i = 0; i < editOrderDTO.getKeys2().size(); i++) {
+				MedicineData mData2 = new MedicineData(editOrderDTO.getKeys2().get(i), editOrderDTO.getValues2().get(i)); 
+				newMedicineItemData.add(mData2);
+			}
+			Order o = _orderService.editOrder(medicineItemData, newMedicineItemData, editOrderDTO.getOrderId(), editOrderDTO.getOfferDeadline());
+            return new ResponseEntity<Order>(o, HttpStatus.OK);
+			}
+			catch (Exception e) {
+				System.out.println(e);
+				return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
+			}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/possibleEditingOrders")
+	public ResponseEntity<List<OrderDTO>> findAllPossibleEditingOrdersByPharmacyAdmin() {
+		List<OrderDTO> listOrderDTOs =  _orderService.findAllPossibleEditingOrdersByPharmacyAdmin();
+		return new ResponseEntity<List<OrderDTO>>(listOrderDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@GetMapping(path="/delete/{orderId}")
+	public ResponseEntity<Order> deleteOrder(@PathVariable Long orderId) {
+		Order order = _orderService.deleteOrder(orderId);
+		return new ResponseEntity<Order>(order, HttpStatus.OK);
 	}
 
 }

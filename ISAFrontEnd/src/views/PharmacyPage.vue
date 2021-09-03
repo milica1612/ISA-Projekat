@@ -29,8 +29,8 @@
         <th>
           Dermatologist
         </th>
-        <th :class="sortedClass('rating')"
-            @click="sortBy('rating')">
+        <th :class="sortedClass('dermatologist')"
+            @click="sortBy('dermatologist')">
           Dermatologist Rating
         </th>
         <th :class="sortedClass('price')"
@@ -140,6 +140,21 @@ mounted() {
           .catch(() => {
                   alert("You are already subscribed!")
           });
+      if(this.patient.penalty < 3) {
+        this.axios
+            .put('http://localhost:8091/examination/schedule', examination, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(
+                alert("Examination scheduled!"),
+                window.location.href = "http://localhost:8080/upcomingVisits"
+            );
+      }else{
+        alert("You can schedule an examination because you have 3 or more penalties. This option" +
+            " will be available next month")
+      }
     }
   },
   computed: {

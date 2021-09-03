@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ import com.google.zxing.common.HybridBinarizer;
 import javassist.NotFoundException;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionBuyMedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionQRCode;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyAvailabilityDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
@@ -47,6 +49,16 @@ import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
+import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
+import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -69,7 +81,7 @@ public class EPrescriptionController {
 	public IEPrescriptionRepository _ePrescriptionRepository;
 	
 	@PostMapping("/file")
-    ResponseEntity<EPrescriptionDTO> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
+    ResponseEntity<EPrescriptionQRCode> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
 
         if (!file.isEmpty()) {
             try {
@@ -94,7 +106,7 @@ public class EPrescriptionController {
                     }
                     
                     ArrayList<PharmacyAvailabilityDTO> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.checkAvailabilityMedicineInPharmacies(qrCodeMed);
-                    EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeMed,code,pharmacyDrugAvailabilityDTOs);
+                    EPrescriptionQRCode ePrescriptionDTO = new EPrescriptionQRCode(qrCodeMed,code,pharmacyDrugAvailabilityDTOs);
                     return pharmacyDrugAvailabilityDTOs == null ?
                             new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                             ResponseEntity.ok(ePrescriptionDTO);
@@ -135,6 +147,26 @@ public class EPrescriptionController {
     	
     	 return new ResponseEntity<>("You have successfully bought drugs in this pharmacy!", HttpStatus.CREATED);
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@GetMapping(value = "/getByPatient/{patientId}")
+	public ResponseEntity<?> getByPatiet(@PathVariable Long patientId){
+		ArrayList<EPrescriptionDTO> result = _ePrescriptionService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<EPrescriptionDTO>>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@GetMapping(value = "/filtrate/{patientId}/{status}")
+	public ResponseEntity<?> filtrate(@PathVariable Long patientId, @PathVariable String status){
+		ArrayList<EPrescriptionDTO> result = _ePrescriptionService.filtrate(status, patientId);
+		return new ResponseEntity<ArrayList<EPrescriptionDTO>>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@GetMapping(value = "/issuedMedicine/{patientId}")
+	public ResponseEntity<?> getIssuedMedicine(@PathVariable Long patientId){
+		ArrayList<Medicine> result = _ePrescriptionService.getIssuedMedicine(patientId);
+		return new ResponseEntity<ArrayList<Medicine>>(result, HttpStatus.OK);
+	}
 	
 }

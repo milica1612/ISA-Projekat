@@ -73,4 +73,13 @@ public class PharmacistVacationController {
 			return new ResponseEntity<PharmacistVacation>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping(value = "/requestVacationPharmacist")
+	public Boolean requestForVacationPharmacist(@RequestBody PharmacistVacation pv) {
+		if(_pharmacistVacationService.requestForVacationPharmacist(pv) != null)
+			return true;
+		else
+			return false;
+	}
+	
 }

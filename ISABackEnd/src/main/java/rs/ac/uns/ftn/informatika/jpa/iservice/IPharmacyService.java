@@ -19,9 +19,11 @@ public interface IPharmacyService {
 	
 	ArrayList<Pharmacy> getPharmacyByNameOrAddress(String parametar);
 
-    ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating);
-    
 	List<Pharmacy> getSubscribedPharmacyForPatient(Long patient_id);
 	
 	void updateRating(Long pharmacyId, Double newRating);
+
+	ArrayList<Pharmacy> getAllByDermatologist(Long id);
+	
+	ArrayList<Pharmacy> filtratePharmaciesByRating(Long rating, ArrayList<Pharmacy> phamacies);
 }

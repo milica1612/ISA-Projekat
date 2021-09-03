@@ -2,9 +2,14 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,14 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.controller.ExaminationContoller.DataForAppointment;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationViewDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ExaminationDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
+import rs.ac.uns.ftn.informatika.jpa.model.TimeInterval;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
@@ -49,21 +59,40 @@ public class ConsultationController {
 		public Long patientId;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("/create")
-	public void createNewConsultation(@RequestBody Request r) {
+	public ResponseEntity<?> createNewConsultation(@RequestBody Request r) {
 		User user = _userService.findById(r.patientId);
+		if(!_userService.checkPenalties(r.patientId)) {
+			System.out.println("Unable to schedule consultation because of penalties");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c);
 		this._emailService.sendConsultationConfirmation(c);
-	}
-	@GetMapping(value = "/getByPatientId/{patientId}")
-	public ArrayList<ConsultationViewDTO> getByPatient(@PathVariable Long patientId){
-		return _consultationService.getByPatient(patientId);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST')")
+	@GetMapping(value = "/getByPatientId/{patientId}")
+	public ResponseEntity<ArrayList<ConsultationViewDTO>> getByPatient(@PathVariable Long patientId){
+		ArrayList<ConsultationViewDTO> c = _consultationService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<ConsultationViewDTO>>(c, HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	@GetMapping(value = "/getPreviousConsultations/{patientId}")
+	public ResponseEntity<ArrayList<ConsultationViewDTO>> getPreviousConsultations(@PathVariable Long patientId){
+		ArrayList<ConsultationViewDTO> c = _consultationService.getPreviousConsultations(patientId);
+		return new ResponseEntity<ArrayList<ConsultationViewDTO>>(c, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
-	public boolean cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
-		return _consultationService.cancelConsultation(consultation);
+	public ResponseEntity<Boolean> cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
+		Boolean cancelled =  _consultationService.cancelConsultation(consultation);
+		return new ResponseEntity<Boolean>(cancelled, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/createNewConsultation")
@@ -121,9 +150,40 @@ public class ConsultationController {
 		}
 	}
 	
+	
+	@PutMapping(value = "/allForPharmacist/{id}")
+	public List<Consultation> getByPharmacist(@PathVariable Long id, @RequestBody TimeInterval timeInterval) {
+		return _consultationService.getByPharmacist(id, timeInterval);
+	}
+	
+
+	static class DataForAppointment{
+		public Date dateAndTime;
+		public Long pharmId;
+		public Long patientId;
+	}
+	
+	@PutMapping(value = "/findCurrentTerm")
+	public Consultation findCurrentTerm(@RequestBody DataForAppointment dfa) {
+		
+		Consultation e = _consultationService.startConsultation(dfa.dateAndTime);
+		if(e.getPharmacist() != null && e.getPatient() != null && e.appointmentStatus.equals(AppointmentStatus.NONE)) {
+			if(dfa.patientId.equals(e.getPatient().getUserId())
+					&& dfa.pharmId.equals(e.getPharmacist().getUserId())) {
+					return e;
+			}
+		else
+			return new Consultation();
+		}
+		
+		else return new Consultation();
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
-	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
-		return _consultationService.getAllPharmacistForPatient(patientId);
+	public ResponseEntity<ArrayList<Pharmacist>> getAllPharmacistByPatient(@PathVariable Long patientId){
+		ArrayList<Pharmacist> p =  _consultationService.getAllPharmacistForPatient(patientId);
+		return new ResponseEntity<ArrayList<Pharmacist>>(p, HttpStatus.OK);
 	}
 
 }

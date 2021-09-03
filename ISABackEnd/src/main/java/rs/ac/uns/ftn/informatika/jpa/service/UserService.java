@@ -1,9 +1,11 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.PatientAppointmentDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
 import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IUserService;
@@ -25,6 +28,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCard;
 import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyCategory;
 import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Penalty;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.ILoyaltyCardRepository;
@@ -207,39 +211,43 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<Patient> getPatientsByName(String name, Long employeeId){
+	public List<PatientAppointmentDTO> getPatientsByName(String name, Long employeeId){
 		if(name.trim().equals("")) {
 			return findPatientsByAppointment(employeeId);
 		}
-		List<Patient> patients = findPatientsByAppointment(employeeId);
-		List<Patient> result = new ArrayList<Patient>();
+		List<PatientAppointmentDTO> patients = findPatientsByAppointment(employeeId);
+		List<PatientAppointmentDTO> result = new ArrayList<PatientAppointmentDTO>();
 		
-		for(Patient p: patients) {
-			String fullName = p.getFirstName() + " " + p.getLastName();
+		for(PatientAppointmentDTO pa: patients) {
+			String fullName = pa.getFirstName() + " " + pa.getLastName();
 			if(fullName.toLowerCase().contains(name.toLowerCase().trim())) {
-				result.add(p);
+				result.add(pa);
 			}
 		}
 		return result;
 	}	
 	
 	@Override
-	public List<Patient> findPatientsByAppointment(Long employeeId){
+	public List<PatientAppointmentDTO> findPatientsByAppointment(Long employeeId){
 		
-		List<Patient> result = new ArrayList<Patient>();
-		User employee = findById(employeeId);
-		
+		List<PatientAppointmentDTO> result = new ArrayList<PatientAppointmentDTO>();
+		//User employee = findById(employeeId);
+	
 		for(Examination e : _examinationService.findAllExamination()) {
-			if(employee.equals(e.getDermatologist())) {
-				if(e.getPatient() != null && !result.contains(e.getPatient()))
-					result.add(e.getPatient());
+			if(employeeId.equals(e.getDermatologist().getUserId())) {
+				if(e.getPatient() != null) {
+					result.add(new PatientAppointmentDTO(e.getPatient().getUserId(), e.getPatient().getFirstName(), 
+							e.getPatient().getLastName(),e.getDateAndTime().toString()));
+				}
 			}
 		}
 		
 		for(Consultation c : _consultationService.findAllConsultation()) {
-			if(c.getPharmacist().equals(employee)) {
-				if(c.getPatient() != null && !result.contains(c.getPatient()))
-					result.add(c.getPatient());
+			if(employeeId.equals(c.getPharmacist().getUserId())) {
+				if(c.getPatient() != null) {
+					result.add(new PatientAppointmentDTO(c.getPatient().getUserId(), c.getPatient().getFirstName(),
+							c.getPatient().getLastName(), c.getDateAndTime().toString()));
+				}
 			}
 		}
 		
@@ -299,14 +307,40 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public void increasePenalty(Long id) {
+	public void increasePenalty(Long id, Penalty p) {
 		
 		User user = findById(id);
 		
 		int penalty = ((Patient) user).getPenalty() + 1;
 		
 		((Patient) user).setPenalty(penalty);
+		((Patient) user).getPenalties().add(p);
 		update(user);
 	}
 	
+	@Override
+	public boolean checkPenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			int penalty = ((Patient) existing).getPenalty();
+			if(penalty >= 3) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public void deletePenalties(Long id) {
+		User existing = _userRepository.findById(id).orElse(null);
+		if(existing != null) {
+			((Patient) existing).setPenalty(0);
+			for (Penalty p : ((Patient) existing).getPenalties()) {
+				p.setDeleted(true);
+			}
+			((Patient) existing).setPenalties(new HashSet<Penalty>());
+			_userRepository.save(existing);
+		}
+	}
+
 }

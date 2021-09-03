@@ -8,7 +8,7 @@
                 color="primary"
                 elevation="2"
                 medium
-                v-on:click= "modeChange"
+                v-on:click= "examinationStart"
                 :disabled="isActive"
             >Start Consultation</v-btn></td>
             <td align="center"><v-btn
@@ -21,7 +21,7 @@
           </tr>
         </template>
       </v-simple-table>
-      <div v-if="this.mode == 'BROWSE'">
+      <div v-if="this.mode == 'STARTED'">
         <br><br>
         <v-textarea
             background-color="white"
@@ -208,10 +208,20 @@
     <v-btn
         color="primary"
         elevation="2"
+        v-on:click="home"
+        large
+    >HomePage</v-btn></td>
+  <td align="center" width="650">
+    <v-btn
+        color="primary"
+        elevation="2"
         v-on:click="endConsultation"
         large
     >End Consultation</v-btn></td>
-  <td align="center"><v-btn color="primary" elevation="2" large>Schedule New Consultation</v-btn></td>
+  <td align="center"><v-btn color="primary" elevation="2" large
+   :disabled:="ended"
+    v-on:click="scheduleNew"
+  >Schedule New Consultation</v-btn></td>
 </tr>
 </table>
 </div>
@@ -224,14 +234,18 @@ export default {
   name: "ReportForConsultation",
   data: function () {
     return {
+      pharmacist: null,
+      dateStart: new Date().getDate(),
+      currentExamination: null,
+      endedRep: false,
+      ended: true,
       medicines: [],
       substituteMedicines: [],
       patient: null,
       notAvailable: false,
       mode: '',
       mmm: [],
-      phId: 1,
-      med: [],
+       med: [],
       isActive: false,
       isPatientCome: false,
       available: true,
@@ -256,6 +270,14 @@ export default {
   mounted() {
 
     if(localStorage.getItem("userType") == "PHARMACIST"){
+
+      this.axios
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then(response => (this.pharmacist = response.data))
+
       this.axios
           .get('http://localhost:8091/users/' + this.patient_id, {
             headers: {
@@ -279,34 +301,92 @@ export default {
     patientDidntCome: function() {
       this.isPatientCome = true
       this.isActive = true
-      this.axios
-          .post('http://localhost:8091/users/increasePenalty', this.patient, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-          .then(
-              window.location.href = "http://localhost:8080/homePagePharmacist"
-          )
+      if(localStorage.getItem("patientId") != "") {
+        const dfa = {
+          dateAndTime: this.dateStart,
+          dermId: this.dermatologist.userId,
+          patientId: localStorage.getItem("patientId")
+        }
+
+        this.axios
+            .put('http://localhost:8091/examination/findCurrentTerm', dfa, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => {
+              this.currentExamination = response.data
+              if (this.currentExamination.appointmentId != null) {
+              this.isPatientCome = true
+              this.isActive = true
+              this.axios
+                .post('http://localhost:8091/users/increasePenaltyConsultation', this.currentExamination, {
+                  headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                  }})
+                .then(
+                    window.location.href = "http://localhost:8080/homePagePharmacist"
+                )
+              }else{
+                alert("There is no scheduled appointment at this time!")
+              }
+            })
+      }
+      else {
+        alert("You did not choose patient for examination!")
+      }
     },
-    modeChange: function (){
-      this.mode = 'BROWSE'
-      this.isActive = true
+    examinationStart: function (){
+      this.ended = true
+      this.dateStart = new Date()
+      if(localStorage.getItem("patientId") != "") {
+
+        const dfa = {
+          dateAndTime: this.dateStart,
+          pharmId: this.pharmacist.userId,
+          patientId: localStorage.getItem("patientId")
+        }
+
+        this.axios
+            .put('http://localhost:8091/consultation/findCurrentTerm', dfa, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => {
+              this.currentExamination = response.data
+              if (this.currentExamination.appointmentId != null) {
+                this.mode = 'STARTED',
+                    this.isActive = true
+                localStorage.setItem("appointmentId", this.currentExamination.appointmentId)
+                localStorage.setItem("pharmacyId", this.currentExamination.pharmacy.pharmacyId)
+                localStorage.setItem("patientId", this.currentExamination.patient.userId)
+                console.log(this.currentExamination)
+              } else {
+                alert("There is no scheduled appointment at this time!")
+              }
+            })
+      } else{
+        alert("You did not choose patient for consultation!")
+      }
     },
     endConsultation: function(){
-
       this.reportDTO = {
         info: this.infoAppointment,
-        appointmentId : 1,
+        appointmentId : this.currentExamination.appointmentId,
         recommendations: this.recommendationsDTO
       }
       this.axios
-          .post('http://localhost:8091/medicine/addReportPharm', this.reportDTO, {
+          .post('http://localhost:8091/medicine/addReportPharm' + this.currentExamination.appointmentId, this.reportDTO, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
             }})
-          .then(
-              window.location.href = "http://localhost:8080/homePagePharmacist"
-          )
+          .then(response => {
+              this.endedRep = response.data
+              if(this.endedRep != null){
+                    this.ended = false;
+              }
+            })
     },
     findSubstituteMedicine: function (sm){
       this.med = sm
@@ -317,7 +397,7 @@ export default {
       }
 
       const ca={
-        pharmacyId: this.phId,
+        pharmacyId: this.currentExamination.pharmacy.pharmacyId,
         medicineAvailable: this.med
       }
 
@@ -373,6 +453,23 @@ export default {
       }
       this.notAvailable = false
       this.recommendationsDTO.push(this.recommendationDTO)
+    },
+    scheduleNew(){
+      this.axios
+          .post('http://localhost:8091/medicine/addReportPharmAndSchedule/' + this.currentExamination.appointmentId, this.reportDTO, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }})
+          .then( response => {
+            this.currentExamination = response.data
+            localStorage.setItem("appointmentId", this.currentExamination.appointmentId)
+            localStorage.setItem("patientId", this.currentExamination.patient.userId)
+            localStorage.setItem("pharmacyId", this.currentExamination.pharmacy.pharmacyId)
+            window.location.href = "http://localhost:8080/scheduleConsultationPharmacist";
+          })
+    },
+    home(){
+      window.location.href = "http://localhost:8080/homePagePharmacist";
     }
   }
 }

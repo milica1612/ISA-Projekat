@@ -10,16 +10,7 @@
         small
         v-on:click = "searchMedicines"
         v-if="notFilled"
-    >Search</v-btn> 
-          <template>
-                <input type="file" id="file" ref="file"  v-on:change="handleFileUpload()" />
-                 <v-btn
-                    color="secondary"
-                    elevation="3"
-                    small
-                    v-on:click = "submitFile()"
-                  >Check Availability</v-btn> 
-          </template>
+    >Search</v-btn>
     <br>
     <h3>Filtrate by rating higher than:</h3>
 
@@ -51,9 +42,6 @@
             </th>
             <th class="text-left">
               Rating
-            </th>
-            <th class="text-left">
-              Medicine Specification
             </th>
           </tr>
           </thead>
@@ -173,6 +161,7 @@
                       color="primary"
                       small
                       v-bind="attrs"
+                      v-if="isLogged"
                       v-on="on"
                   >Make a reservation</v-btn>
                 </template>
@@ -189,9 +178,16 @@
                     </template>
     <v-btn
         width="300"
-        text
+        small
+        color="primary"
         @click="makeReservation(a, dialog)"
     >Make a reservation</v-btn>
+    <v-btn
+        width="300"
+        color="primary"
+        small
+        @click="dialog.value=false"
+    >Cancel</v-btn>
     </v-card>
     </template>
     </v-dialog>
@@ -210,8 +206,10 @@ export default {
   data: function () {
     return {
       dialog: false,
+      dateValid:false,
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       medicines: [],
+      token: localStorage.getItem("token"),
       medicineSpecification: {
           dosage: "",
           contraindication: {
@@ -221,9 +219,9 @@ export default {
               name: ""
           },
       },
-      file: '',
       availableInPharmacies: [],
-      searchMedicine: ""
+      searchMedicine: "",
+      patient: {}
     }
   },
   mounted(){
@@ -233,6 +231,7 @@ export default {
   },
   methods: {
     searchMedicines: function() {
+      this.getUser()
       this.axios
           .get("http://localhost:8091/medicine/getMedicineByName/" + this.searchMedicine)
           .then(response => (this.medicines = response.data));
@@ -247,35 +246,49 @@ export default {
     },
     makeReservation: function(a, dialog){
       dialog.value = false
+      if(this.patient.penalty < 3) {
+        this.axios
+            .put('http://localhost:8091/reservation/checkDate',{date: this.picker}, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(r => {
+              this.dateValid = r.data
+              if(this.dateValid) {
+                this.axios
+                    .post("http://localhost:8091/reservation/create", {
+                      dto: a, date: this.picker,
+                      userId: localStorage.getItem("userId")
+                    }, {
+                      headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token")
+                      }
+                    })
+                    .then(window.location.href = "http://localhost:8080/medicineReservations");
+              }else{
+                alert("Please select a date in the future.")
+              }
+            });
+      }else{
+        alert("You can't schedule make a reservation because you have 3 or more penalties. This option" +
+            " will be available next month")
+      }
+    },
+    getUser: function (){
       this.axios
-          .post("http://localhost:8091/reservation/create",{dto:a, date:this.picker,
-                userId: localStorage.getItem("userId")}, {headers: {
+          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+            headers: {
               Authorization: 'Bearer ' + localStorage.getItem("token")
-            }})
-          .then(window.location.href = "http://localhost:8080/medicineReservations");
-    },
-    handleFileUpload(){
-      this.file = this.$refs.file.files[0];
-    },
-    submitFile(){
-      let formData = new FormData();
-
-      formData.append('file', this.file);
-           
-
-      this.axios.post( 'http://localhost:8091/ePrescription/file', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-          }
-        }).then(response => (this.availableInPharmacies = response.data));
-                  
-    },
+            }
+          })
+          .then(response => (this.patient = response.data));
+    }
   },
 
   computed:{
     isLogged: function (){
-      if (this.token == ""){
+      if (this.token == "" || localStorage.getItem("userType") != "PATIENT"){
         return false
       }else{
         return true
@@ -317,12 +330,6 @@ export default {
 }
 input[type=radio]{
   border-radius: 10px;
-  box-shadow: inset 0 1px 1px hsla(0,0%,100%,.8),
-  0 0 0 1px hsla(0,0%,0%,.6),
-  0 2px 3px hsla(0,0%,0%,.6),
-  0 4px 3px hsla(0,0%,0%,.4),
-  0 6px 6px hsla(0,0%,0%,.2),
-  0 10px 6px hsla(0,0%,0%,.2);
   cursor: pointer;
   display: inline-block;
   height: 15px;
@@ -330,26 +337,6 @@ input[type=radio]{
   position: relative;
   width: 15px;
   -webkit-appearance: none;
-}
-
-input[type="radio"]:after {
-  border-radius: 25px;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.4),
-  0 1px 1px hsla(0,0%,100%,.8);
-  content: '';
-  display: block;
-  height: 7px;
-  left: 4px;
-  position: relative;
-  top: 4px;
-  width: 7px;
-}
-input[type="radio"]:checked:after {
-  background-color: #444;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.4),
-  inset 0 2px 2px hsla(0,0%,100%,.4),
-  0 1px 1px hsla(0,0%,100%,.8),
-  0 0 2px 2px hsla(0,70%,70%,.4);
 }
 
 </style>

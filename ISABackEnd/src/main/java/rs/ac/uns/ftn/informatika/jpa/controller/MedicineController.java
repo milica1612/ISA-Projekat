@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +18,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineRegistrationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.NotificationDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.ReportDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
-import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
+import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.service.ConsultationService;
+import rs.ac.uns.ftn.informatika.jpa.service.ExaminationService;
 import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
@@ -60,6 +63,12 @@ public class MedicineController {
 	private ReportPharmService _reportPharmService;
 	
 	@Autowired
+	private ExaminationService _examinationService;
+	
+	@Autowired
+	private ConsultationService _consultationService;
+
+	@Autowired
 	private ReservationService _reservationService;
 	
 	@Autowired
@@ -70,14 +79,17 @@ public class MedicineController {
 		return _medicineService.findAllMedicine();
 	}
 	@CrossOrigin(origins = "http://localhost:8080")
+	
+	
 	@GetMapping(value = "/getMedicineByName/{name}")
 	public ArrayList<Medicine> findMedicineByName(@PathVariable String name){
 		return _medicineService.findMedicineByName(name);
 	}
-	
+	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST', 'ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/forAllergies")
-	public ArrayList<Medicine> findAllMedicineForAllergies(@RequestBody Allergy allergy){
-		return _medicineService.findAllMedicineForAllergies(allergy);
+	public ResponseEntity<ArrayList<Medicine>> findAllMedicineForAllergies(@RequestBody Allergy allergy){
+		ArrayList<Medicine> m = _medicineService.findAllMedicineForAllergies(allergy);
+		return new ResponseEntity<ArrayList<Medicine>>(m,HttpStatus.OK);
 	}
 
 	@PostMapping("/addMedicine")
@@ -118,16 +130,67 @@ public class MedicineController {
 		return false;
 	}
 	
-	@PostMapping(value = "/addReportDerm")
-	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO) {
+	@PostMapping(value = "/addReportDerm/{id}")
+	public ReportDTO addReportDerm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_examinationService.endExamination(id);
 		_reportDermService.saveReportDerm(reportDTO);
 		return reportDTO;
 	}
 	
-	@PostMapping(value = "/addReportPharm")
-	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO) {
+	@PostMapping(value = "/addReportPharm/{id}")
+	public ReportDTO addReportPharm(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_consultationService.endConsultation(id);
 		_reportPharmService.saveReportPharm(reportDTO);
 		return reportDTO;
+	}
+	
+	//Sl dvije metode su ako je pregled u toku i zelimo da zakazemo novi, prethodno cuvamo report
+	
+	@PostMapping(value = "/addReportDermAndSchedule/{id}")
+	public Examination addReportDermAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_reportDermService.saveReportDerm(reportDTO);
+		
+		Examination e = _examinationService.findById(id);
+		if(e != null) {
+			return e;
+		}
+		else
+			return new Examination();
+	}
+	
+	@PostMapping(value = "/addReportPharmAndSchedule/{id}")
+	public Consultation addReportPharmAndSchedule(@RequestBody ReportDTO reportDTO, @PathVariable Long id) {
+		_reportPharmService.saveReportPharm(reportDTO);
+		
+		Consultation c = _consultationService.findById(id);
+		if(c != null) {
+			return c;
+		}
+		return new Consultation();
+	}
+	
+	@PostMapping(value = "/endExam/{id}")
+	public Examination endExam( @PathVariable Long id) {
+		Examination e = _examinationService.findById(id);
+		if(e != null) {
+			_examinationService.endExamination(id);
+			return e;
+		}
+		else
+			return new Examination();
+		
+	}
+	
+	@PostMapping(value = "/endCons/{id}")
+	public Consultation endCons( @PathVariable Long id) {
+		Consultation c = _consultationService.findById(id);
+		if(c != null) {
+			_consultationService.endConsultation(id);
+			return c;
+		}
+		else
+			return new Consultation();
+		
 	}
 	
 	static class SubstitutesWithoutAllergy{
@@ -180,12 +243,13 @@ public class MedicineController {
 		return _medicineService.findPharmacyForMedicineItem(name); 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(path = "/getMedicineForRating/{patientId}")
-	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
+	public ResponseEntity<ArrayList<Medicine>> getMedicineForRating(@PathVariable Long patientId){	
 		ArrayList<Medicine> result = new ArrayList<Medicine>();
 		_reservationService.getMedicineForRating(patientId, result);
-		//_ePrescriptionService.getMedicineForRating(patientId, result);
-		return result;
+		_ePrescriptionService.getMedicineForRating(patientId, result);
+		return new ResponseEntity<ArrayList<Medicine>>(result, HttpStatus.OK);
 	}
 	
 }
