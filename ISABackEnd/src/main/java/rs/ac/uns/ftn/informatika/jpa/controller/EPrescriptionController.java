@@ -119,7 +119,7 @@ public class EPrescriptionController {
     }
 	
 	@PostMapping("/buyMedicineInPharmacy")
-   // @PreAuthorize("hasRole('ROLE_PATIENT')")
+    @PreAuthorize("hasRole('ROLE_PATIENT')")
 	public ResponseEntity<String> buyMedicineInPharmacy(@RequestBody EPrescriptionBuyMedicineDTO ePrescription) {
     	Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Patient patient = (Patient) currentUser.getPrincipal();

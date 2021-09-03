@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 
 @Entity
@@ -21,6 +22,9 @@ public class Examination{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long appointmentId;
+	
+	@Version
+	private Long version;
 	
 	@Column(name = "dateAndTime", nullable = false)
     private Date dateAndTime;
@@ -69,6 +73,7 @@ public class Examination{
 	this.pharmacy = pharmacy;
 	this.appointmentStatus = appointmentStatus;
 	this.dermatologist = dermatologist;
+	this.version = (long) 0;
 }
 
 	public Dermatologist getDermatologist() {

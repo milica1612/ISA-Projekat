@@ -33,12 +33,11 @@ public class EPrescriptionQRCode {
 		this.code = code;
 	}
 
-	public ArrayList<PharmacyAvailabilityDTO> getMedicineAvailableInPharmacyDTO() {
+	public ArrayList<PharmacyAvailabilityDTO> getPharmacyAvailabilityDTO() {
 		return pharmacyAvailabilityDTO;
 	}
 
-	public void setMedicineAvailableInPharmacyDTO(
-			ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
+	public void setPharmacyAvailabilityDTO(ArrayList<PharmacyAvailabilityDTO> pharmacyAvailabilityDTO) {
 		this.pharmacyAvailabilityDTO = pharmacyAvailabilityDTO;
 	}
 }

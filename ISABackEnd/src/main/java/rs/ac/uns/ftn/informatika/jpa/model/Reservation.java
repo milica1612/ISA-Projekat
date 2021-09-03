@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 
 @Entity
@@ -20,6 +21,9 @@ public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
+	
+	@Version
+	private Long version;
 	
 	@Column(name = "reservationCode", nullable = false)
     private String reservationCode;
@@ -57,6 +61,7 @@ public class Reservation {
 		this.pharmacy = pharmacy;
 		this.cancelled = cancelled;
 		this.penalty = false;
+		this.version = (long) 0;
 	}
     
     public Reservation() 

@@ -318,6 +318,9 @@ public class OfferService implements IOfferService {
 			offer.setPrice(offerDTO.getFinalPrice());
 			offer.setSupplier(supplier);
 			
+			System.out.println(offerDTO.getId());
+			
+			
 			String d = offerDTO.getDeliveryDeadline();
 			Date date = new Date();
 			try {

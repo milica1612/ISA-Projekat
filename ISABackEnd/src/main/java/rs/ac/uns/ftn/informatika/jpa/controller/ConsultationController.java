@@ -74,7 +74,7 @@ public class ConsultationController {
 		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
-		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c, vacations);
+		this._workSchedulePharmacist.addConsToWorkSchedule(c, vacations);
 		this._emailService.sendConsultationConfirmation(c);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

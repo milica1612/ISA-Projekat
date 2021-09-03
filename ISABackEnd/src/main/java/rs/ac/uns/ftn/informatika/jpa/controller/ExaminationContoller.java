@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +84,7 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/schedule")
+	@Transactional
 	public ResponseEntity<?> scheduleExamination(@RequestBody ExaminationDTO examination) {
 		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
 			System.out.println("Unable to schedule examination because of penalties");
