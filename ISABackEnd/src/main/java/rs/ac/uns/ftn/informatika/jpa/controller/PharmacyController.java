@@ -89,27 +89,9 @@ public class PharmacyController {
 		return _pharmacyService.findById(id);
 	}
 
-	@PostMapping(value = "/createPharmacy")
-	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
-	public ResponseEntity<Pharmacy> createPharmacy(@RequestBody Pharmacy pharmacy){
-		
-		if(pharmacy == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		Pharmacy _pharmacy = new Pharmacy();
-		
-		_pharmacy.setName(pharmacy.getName());
-		_pharmacy.setRating(pharmacy.getRating());
-		_pharmacy.setMedicineItem(pharmacy.getMedicineItem());
-	
-		_pharmacy = (Pharmacy) _pharmacyRepository.save(_pharmacy);	
-		return new ResponseEntity<>(HttpStatus.CREATED);
-		
-	}
-	
-	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+
 	public ArrayList<Pharmacy> getPharmaciesForPatient(@PathVariable Long patientId){
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();
 		_reservationService.getPharmaciesForPatient(patientId, result);
@@ -121,6 +103,7 @@ public class PharmacyController {
 	}
 
 	@PostMapping("/createPharmacy")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
 	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyRegisterDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
 		try {
 	

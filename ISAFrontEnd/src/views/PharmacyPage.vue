@@ -124,23 +124,7 @@ mounted() {
                   alert("Examination scheduled!"),
               window.location.href = "http://localhost:8080/upcomingVisits"
           );
-    },
-    subscribeToSalesAndPromotion(pharmacyId){
-      pharmacyId = localStorage.getItem("pharmacy")
-      this.axios
-        .post('http://localhost:8091/promotions/subscribeToPharmacy/' + pharmacyId, {}, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(r => {
-                  this.pharmacy = r.data
-                  alert("Successfully subscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
-          })
-          .catch(() => {
-                  alert("You are already subscribed!")
-          });
-      if(this.patient.penalty < 3) {
+       if(this.patient.penalty < 3) {
         this.axios
             .put('http://localhost:8091/examination/schedule', examination, {
               headers: {
@@ -155,7 +139,23 @@ mounted() {
         alert("You can schedule an examination because you have 3 or more penalties. This option" +
             " will be available next month")
       }
-    }
+    },
+     subscribeToSalesAndPromotion(pharmacyId){
+      pharmacyId = localStorage.getItem("pharmacy")
+      this.axios
+        .post('http://localhost:8091/promotions/subscribeToPharmacy/' + pharmacyId, {}, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(r => {
+                  this.pharmacy = r.data
+                  alert("Successfully subscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
+          })
+          .catch(() => {
+                  alert("You are already subscribed!")
+          });
+     }
   },
   computed: {
     sortedItems () {

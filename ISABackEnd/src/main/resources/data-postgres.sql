@@ -926,16 +926,16 @@ INSERT INTO public.reservation(
 	VALUES (default, false, '2021-09-30 00:00:00', false, false, 'ResQodX07', 216, 15, 2);
 
 INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-09-01', 'NEW', 1, 2);
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '22', '2021-09-01','PROCESSED', 1, 2);
+	
+INSERT INTO public.eprescription(
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '222', '2021-06-01', 'PROCESSED', 1, 2);
 
 INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-06-01', 'PROCESSED', 1, 2);
-
-INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-08-01', 'DECLINED', 1, 2);
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '123', '2021-08-01', 'DECLINED', 1, 2);
 
 INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
@@ -995,6 +995,7 @@ INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_it
 	VALUES (8, 104);
 INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
 	VALUES (8, 105);
+	
 INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
 	VALUES (2, 5);

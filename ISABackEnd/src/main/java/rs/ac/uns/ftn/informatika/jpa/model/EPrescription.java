@@ -28,12 +28,10 @@ public class EPrescription {
    
    @Column(name = "date", nullable = false)
    private Date date;
-   
-   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @Enumerated(EnumType.STRING)
    private EPrescriptionStatus status;
    
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public Set<Medicine> medicine;
    
    @ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
@@ -43,7 +41,8 @@ public class EPrescription {
    @OneToOne(fetch = FetchType.EAGER)
    private Patient patient;
    
-   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient, EPrescriptionStatus status) {
+   
+   public EPrescription(Long prescriptionId, String code, Date date, Pharmacy pharmacy, Patient patient, EPrescriptionStatus status) {
 	super();
 	this.prescriptionId = prescriptionId;
 	this.code = code;
