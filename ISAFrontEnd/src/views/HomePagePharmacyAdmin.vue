@@ -7,6 +7,7 @@
       <a class="a_style" href="/deleteMedicineItems">Delete medicine items</a>
       <a class="a_style" href="/searchDermatologist">Search and filter dermatologists</a>
       <a class="a_style" href="/defineFreeTermWithDermatologist">Define free term for examination with dermatologist</a>
+      <a class="a_style" href="/createPharmacistByPharmacyAdmin">Create pharmacist</a>
       <a class="a_style" href="/searchPharmacist">Search and filter pharmacists</a>
       <a class="a_style" href="/promotion">Define a promotion</a>
       <a class="a_style" href="/makeAnOrder">Make an order</a>

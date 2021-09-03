@@ -128,6 +128,7 @@ export default {
           {title: "Pharmacy On The Map", path:"/mapExample"},
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
           {title: "Delete Medicine Items", path: "/deleteMedicineItems"},
+          {title: "Create Pharmacist", path: "/createPharmacistByPharmacyAdmin"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Define Term With Dermatologist", path: "/defineFreeTermWithDermatologist"},

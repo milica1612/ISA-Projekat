@@ -423,6 +423,12 @@ const routes = [{
         name: 'DeleteMedicineItems',
         component: () => 
             import('../views/DeleteMedicineItems.vue')
+    }, 
+    {
+        path: '/createPharmacistByPharmacyAdmin',
+        name: 'CreatePharmacistByPharmacyAdmin',
+        component: () =>
+            import('../views/CreatePharmacistByPharmacyAdmin.vue')
     }
 ]
 const router = new VueRouter({
