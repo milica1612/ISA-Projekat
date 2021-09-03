@@ -417,6 +417,12 @@ const routes = [{
         name: 'MapExample',
         component: () =>
             import('../views/MapExample.vue')
+    },
+    {
+        path: '/deleteMedicineItems',
+        name: 'DeleteMedicineItems',
+        component: () => 
+            import('../views/DeleteMedicineItems.vue')
     }
 ]
 const router = new VueRouter({

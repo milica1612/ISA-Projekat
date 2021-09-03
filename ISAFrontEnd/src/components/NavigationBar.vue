@@ -127,15 +127,16 @@ export default {
           {title: "My Pharmacy", path: "/myPharmacy"},
           {title: "Pharmacy On The Map", path:"/mapExample"},
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
+          {title: "Delete Medicine Items", path: "/deleteMedicineItems"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Define Term With Dermatologist", path: "/defineFreeTermWithDermatologist"},
           {title: "Define Promotion", path: "/promotion"},
-          {title: "Make An Order", path: '/makeAnOrder'},
-          {title: "Edit My Orders", path: '/orderEditing'},
-          {title: "All Pharmacy Orders", path: '/pharmacyOrders'},
-          {title: "Pending Vacation Requests", path: '/requestsVacationPharmacists'},
-          {title: "All Vacation Requests", path: '/allVacationRequestsPharmacists'},
+          {title: "Make An Order", path: "/makeAnOrder"},
+          {title: "Edit My Orders", path: "/orderEditing"},
+          {title: "All Pharmacy Orders", path: "/pharmacyOrders"},
+          {title: "Pending Vacation Requests", path: "/requestsVacationPharmacists"},
+          {title: "All Vacation Requests", path: "/allVacationRequestsPharmacists"},
         ];
       } else if (this.userType === "SYS_ADMINISTRATOR") {
         //  USER-TYPE
