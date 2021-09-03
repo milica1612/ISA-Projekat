@@ -1,7 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
@@ -38,15 +41,18 @@ public class OfferService implements IOfferService {
 	private EmailService _emailService;
 	
 	private IPharmacyRepository _pharmacyRepository;
+	
+	private IMedicineItemRepository _medicineItemRepository;
 
 	// Example Of Constructor Dependency Injection in Spring
 	@Autowired
-	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository) {
+	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository, IMedicineItemRepository medicineItemRepository) {
 		this._offerRepository = offerRepository;
 		this._orderRepository = orderRepository;
 		this._userRepository = userRepository;
 		this._emailService = emailService;
 		this._pharmacyRepository = pharmacyRepository;
+		this._medicineItemRepository = medicineItemRepository;
 	}
 
 
@@ -175,18 +181,18 @@ public class OfferService implements IOfferService {
 
 
 	@Override
-	public List<Offer> findOffersBySupplier(Long id) {
+	public ArrayList<OfferDTO> findOffersBySupplier(Long id) {
 
-		List<Offer> offers = _offerRepository.findAll();
+		ArrayList<Offer> offers = (ArrayList<Offer>) _offerRepository.findAll();
 		Supplier supplier = new Supplier();
-
-		List<Offer> offersBySupplier = new ArrayList<Offer>();
-
+		ArrayList<OfferDTO> offersBySupplier = new ArrayList<OfferDTO>();
+		
+		
 		for (Offer o : offers) {
 			supplier.setUserId(o.getSupplier().getUserId());
 
 			if (supplier.getUserId() == id) {
-				offersBySupplier.add(o);
+				offersBySupplier.add(new OfferDTO(o.getOfferId(), o.getPrice(), o.getDeliveryDeadline().toString(), o.getStatus(), o.getSupplier(), o.getOrder()));
 			}
 		}
 		return offersBySupplier;
@@ -206,44 +212,65 @@ public class OfferService implements IOfferService {
 		Offer offer = new Offer();
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		
 		User user = (User) currentUser.getPrincipal();
 		Supplier supplier = (Supplier) _userRepository.findById(user.getUserId()).get();
 				
 		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);
+	
+		String d = offerDTO.getDeliveryDeadline();
+		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+		} catch (ParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
-		System.out.println(supplier.getEmail());
 		
 		if(checkOffer(offerDTO, supplier)) {
 			offer.setPrice(offerDTO.getFinalPrice());
-			offer.setDeliveryDeadline(offerDTO.getDeliveryDeadline());
+			offer.setDeliveryDeadline(date);
 			offer.setStatus(Status.WAITING);
 			offer.setSupplier(supplier);
 			offer.setOrder(order);
+		
 		}
 		_offerRepository.save(offer);
 	}
 
 	@Override
 	public Boolean checkMedicineAvailable(Order order, Supplier supplier) {
-		System.out.println("medicine available");
-		Set<MedicineItem> medicineItems = order.getMedicineItem();
 		
-		Set<MedicineItem> supplierMedItem = supplier.getMedicineItem();
+		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
+		Set<MedicineItem> supplierMedicineItem = supplier.getMedicineItem();
+		List<MedicineItem> result = new ArrayList<>();
 		
-		if(supplier.getMedicineItem().isEmpty()) {
-			System.out.println("empty");
-			throw new IllegalArgumentException("There is no available medicine for order!");
-		}
-		
-		List<MedicineItem> medicineForOrder = new ArrayList<>();
-		
-		for(MedicineItem m: medicineItems) {
-			if(medicineItems.equals(supplierMedItem)) {
-					medicineForOrder.add(m);
+		List<MedicineItem> medicineItems = _medicineItemRepository.findAll();
+		for(MedicineItem mi : medicineItems) {
+			for(MedicineItem om: orderMedicineItems) {
+				if(mi.getMedicine().getMedicineId() == om.getMedicine().getMedicineId()) {
+					result.add(mi);
+				}	
 			}
 		}
-		return true;
+		
+		//System.out.println(result);
+		
+		if(supplier.getMedicineItem().isEmpty()) {
+			throw new IllegalArgumentException("There is no available medicine for order List is empty!");
+		}
+		
+		//System.out.println(supplierMedicineItem);
+		//System.out.println(orderMedicineItems);
+		
+		for(MedicineItem m: orderMedicineItems) {
+			for(MedicineItem ms: supplierMedicineItem) {
+				if(ms.getMedicine().getMedicineId() == m.getMedicine().getMedicineId()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -251,15 +278,67 @@ public class OfferService implements IOfferService {
 		
 		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);	
 
-		if(!checkMedicineAvailable(order, supplier)) {
+		if(offerDTO.getPrice() <= 0) {
+			throw new IllegalArgumentException("Price must be valid (positive)!");
+		}
+		
+		if(checkMedicineAvailable(order, supplier) == false) {
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}
 		
-		if(order.getOfferDeadline().after(offerDTO.getDeliveryDeadline())) {
+		if(offerDTO.getIsApproved() == true) {
+			throw new IllegalArgumentException("You already send offer for this order!");
+		}
+		
+		String d = offerDTO.getDeliveryDeadline();
+		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if(order.getOfferDeadline().before(date) || offerDTO.getDeliveryDeadline().equals(null)) {
 			throw new IllegalArgumentException("Date is passed!");
 		}
 		
 		return true;
+	}
+
+
+	@Override
+	public Offer changeOffer(OfferDTO offerDTO) {
+		
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) currentUser.getPrincipal();
+		Supplier supplier = (Supplier) _userRepository.findById(user.getUserId()).get();
+			
+		try {
+			Offer offer = findById(offerDTO.getId());
+			offer.setPrice(offerDTO.getFinalPrice());
+			offer.setSupplier(supplier);
+			
+			String d = offerDTO.getDeliveryDeadline();
+			Date date = new Date();
+			try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+			} catch (ParseException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			offer.setDeliveryDeadline(date);
+			
+			if(checkOffer(offerDTO, supplier)) {
+				return _offerRepository.save(offer);
+			}else {
+				throw new IllegalArgumentException("Offer is not possible to edit!");
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 
 }

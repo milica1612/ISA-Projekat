@@ -12,20 +12,20 @@ public class MedicineSpecificationDTO {
 	
 	private Double dosage;
 	
-	public HashSet<Contraindication> contraindication;
+	public String ingridientName;
 
-	public HashSet<Ingridient> ingridient;
+	public String description;
 	
 	public MedicineSpecificationDTO() {}
-
-	public MedicineSpecificationDTO(Long id, Double dosage, HashSet<Contraindication> contraindication, HashSet<Ingridient> ingridient) {
+	
+	public MedicineSpecificationDTO(Long id, Double dosage, String ingridientName, String description) {
 		super();
 		this.id = id;
 		this.dosage = dosage;
-		this.contraindication = contraindication;
-		this.ingridient = ingridient;
+		this.ingridientName = ingridientName;
+		this.description = description;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -42,20 +42,20 @@ public class MedicineSpecificationDTO {
 		this.dosage = dosage;
 	}
 
-	public Set<Contraindication> getContraindication() {
-		return contraindication;
+	public String getIngridientName() {
+		return ingridientName;
 	}
 
-	public void setContraindication(HashSet<Contraindication> contraindication) {
-		this.contraindication = contraindication;
+	public void setIngridientName(String ingridientName) {
+		this.ingridientName = ingridientName;
 	}
 
-	public Set<Ingridient> getIngridient() {
-		return ingridient;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setIngridient(HashSet<Ingridient> ingridient) {
-		this.ingridient = ingridient;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
+
 }

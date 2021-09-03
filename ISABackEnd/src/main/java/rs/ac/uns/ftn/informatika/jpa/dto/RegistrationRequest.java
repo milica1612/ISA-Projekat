@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.dto;
 
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.Allergy;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 
 public class RegistrationRequest {
 
@@ -17,7 +19,13 @@ public class RegistrationRequest {
 	private Address address;
 	
 	private String phoneNumber;
-		
+	
+	private Pharmacy pharmacy;
+	
+	private Double rating;
+	
+	private Allergy allergy;
+	
 	public RegistrationRequest() {}
 	
 	public RegistrationRequest(Long id, String email, String password, String firstName, String lastName,
@@ -31,7 +39,7 @@ public class RegistrationRequest {
 		this.address = new Address(address.getCity(), address.getCountry(), address.getStreet(), address.getStreetNumber(), null, null);
 		this.phoneNumber = phoneNumber;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -86,6 +94,30 @@ public class RegistrationRequest {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+	public Allergy getAllergy() {
+		return allergy;
+	}
+
+	public void setAllergy(Allergy allergy) {
+		this.allergy = allergy;
 	}
 	
 	

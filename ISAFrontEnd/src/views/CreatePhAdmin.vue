@@ -3,6 +3,15 @@
     <v-card-title class="justify-center">
       <h1 class="display-1 mt-20">Add Pharmacy Administrator</h1>
     </v-card-title>
+  <v-card-actions>
+    <v-btn
+        class="mx-auto mb-5; color:white"
+        color="accent"
+        elevation="3"
+        x-small
+        raised
+        v-on:click="choosePharmacy">Choose Pharmacy</v-btn>
+ </v-card-actions>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20">
         <v-text-field
@@ -21,8 +30,8 @@
         />
          <v-text-field
           label="Street Name"
-          v-model="streetName"
-          :rules="[() => !!streetName || 'This field is required']"
+          v-model="street"
+          :rules="[() => !!street || 'This field is required']"
           :error-messages="errorMessages"
           prepend-icon="mdi-account-circle"
         />
@@ -98,79 +107,56 @@
     </v-card-actions>
   </v-card>
 </template>
-
 <script>
 export default {
   name: "CreatePhAdmin",
   data: () => ({
     countries: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua &amp; Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia &amp; Herzegovina', 'Botswana', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Congo', 'Cook Islands', 'Costa Rica', 'Cote D Ivoire', 'Croatia', 'Cruise Ship', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Falkland Islands', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Polynesia', 'French West Indies', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyz Republic', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Pierre &amp; Miquelon', 'Samoa', 'San Marino', 'Satellite', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St Kitts &amp; Nevis', 'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', `Timor L'Este`, 'Togo', 'Tonga', 'Trinidad &amp; Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks &amp; Caicos', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'],
-    errorMessages: '',
-    showPassword: false,
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    streetName: "",
-    streetNumber: "",
-    city: "",
-    country: "",
-    phoneNumber: "",
-    repeated_password: "",
-    users: [],
+    pharmacies: [],
   }),
   computed: {
-    user() {
-      return {  email: this.email, 
-                password: this.password,
-                firstName: this.firstName, 
-                lastName: this.lastName,
-                streetName: this.streetName, 
-                city: this.city,
-                country: this.country,
-                phoneNumber: this.phoneNumber,
-                repeated_password: this.repeated_password};
-    },
     passwordConfirmationRule() {
       return () => (this.password === this.repeated_password) || 'Password must match.'
     }
   },
+  mounted(){
+        this.axios
+          .get('http://localhost:8091/pharmacy', {
+            headers: {
+               Authorization: 'Bearer ' + localStorage.getItem("token") 
+            }})
+          .then(response => (this.pharmacies = response.data));
+  },
   methods: {
-    register() {
-        let token = localStorage.getItem("token");
-        
-
-
-      this.$http
-        .post("http://localhost:8091/systemAdmin/createPhAdmin",  {
-          email: this.email,
-          password: this.password,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          address: {
-            street: this.streetName,
-            streetNumber: this.streetNumber,
-            city: this.city,
-            country: this.country
-          },
-          phoneNumber: this.phoneNumber
-        , headers: {
-              Authorization: 'Bearer ' + token
+    choosePharmacy(){
+        window.location.href = "http://localhost:8080/choosePharmacy";     
+    },
+    register() {        
+      this.axios
+        .post("http://localhost:8091/pharmacyAdmin/createPhAdmin", 
+        {
+            email: this.email,
+            password: this.password,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            address: {
+              street: this.street,
+              streetNumber: this.streetNumber,
+              city: this.city,
+              country: this.country
+            },
+            phoneNumber: this.phoneNumber,
+            pharmacyId: localStorage.getItem("pharmacy"),
+        },
+        {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
         }})
         .then(() => {
-            alert("Pharmacy administrator is successfully registred!");
-
+            alert("Pharmacy administrator is successfully registered!");
         })
         .catch((er) => {
           alert("Username already exists!");
-          this.email = "";
-          this.password = "";
-          this.firstName = "";
-          this.lastName = "";
-          this.streetName = "";
-          this.streetNumber = "";
-          this.city = "";
-          this.country = "";
-          this.phoneNumber = "";
           console.log(er.response.data);
         });
     },

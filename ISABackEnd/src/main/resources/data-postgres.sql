@@ -171,8 +171,8 @@ INSERT INTO public.allergy_medicine(
 	
 -- password Milica123! 
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Patient', default, 'milica98@gmail.com', true, false, 'Milica', 'Lukic', '2020-11-11', '$2a$12$npxcTCqr.HeAJL6YaFDfruts5K9VCYusMwk3XFL0IwE0qGSiMe51G', 'ML896k0z0oWyHZC5i5v761==', '065/897-87-65', 'mimi', 'PATIENT', null, 0, 1, null, 1);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Patient', default, 'milica98@gmail.com', true, false, 'Milica', 'Lukic', '2020-11-11', '$2a$12$npxcTCqr.HeAJL6YaFDfruts5K9VCYusMwk3XFL0IwE0qGSiMe51G', 'ML896k0z0oWyHZC5i5v761==', '065/897-87-65', 'PATIENT', null, 0, 1, null, 1);
 	
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
@@ -182,73 +182,73 @@ INSERT INTO public.loyalty_card(
 -- My trial email address is lukait31@gmail.com, put a trial email at the supplier so you can receive messages from the pharmacy for 3.26 task
 -- At Pera, Mirko and Luna put your test email
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'ivanagavric@gmail.com', true, false, 'Pera', 'Peric', '2020-11-11', '$2a$12$oI9p3iPsjtJ3y.0DEGo2T.zWkB8RKdtHRrzMyvSDx2JN8q3jYekGS', 'AN777Ivx9owXayu67jL012==', '065/789-41-23', 'null', 'SUPPLIER', null, 0, 2, null, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Supplier', default, 'ivanagavric@gmail.com', true, false, 'Pera', 'Peric', '2020-11-11', '$2a$12$oI9p3iPsjtJ3y.0DEGo2T.zWkB8RKdtHRrzMyvSDx2JN8q3jYekGS', 'AN777Ivx9owXayu67jL012==', '065/789-41-23', 'SUPPLIER', null, 0, 2, null, null);
 
 -- password Dobavljac17! - isateam3921@gmail.com - TEST - lukait31@gmail.com
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'isateam3921@gmail.com', true, false, 'Mirko', 'Mirkovic', '2020-11-11', '$2a$12$pdxtJczjkp.hLRLosRub/eYxQ.VZE8D/BhhmHbcqw7BYePkUVqAO.', 'BV1010SsRNlpMB1021Og44==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 4, null, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Supplier', default, 'isateam3921@gmail.com', true, false, 'Mirko', 'Mirkovic', '2020-11-11', '$2a$12$pdxtJczjkp.hLRLosRub/eYxQ.VZE8D/BhhmHbcqw7BYePkUVqAO.', 'BV1010SsRNlpMB1021Og44==', '065/789-41-00', 'SUPPLIER', null, 0, 4, null, null);
 
 -- password Luna123! - luna21@gmail.com - TEST  - lukait31@gmail.com  
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'luna21@gmail.com', true, false, 'Luna', 'Lukovic', '2020-11-11', '$2a$12$6//4tJzqynBMvPO0CrIhwOiRucoj3wGMm49k9pX0eVgrO14Pls1di', 'Lxw2ena1sRNlpMB10oO456==', '065/789-41-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Supplier', default, 'luna21@gmail.com', true, false, 'Luna', 'Lukovic', '2020-11-11', '$2a$12$6//4tJzqynBMvPO0CrIhwOiRucoj3wGMm49k9pX0eVgrO14Pls1di', 'Lxw2ena1sRNlpMB10oO456==', '065/789-41-00', 'SUPPLIER', null, 0, 5, null, null);
 
 -- password Llukic123@
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Supplier', default, 'luka10@gmail.com', true, false, 'Luka', 'Lukovic', '2020-11-11', '$2a$12$OiJS32BGySotXVIb99d3cua6bJ2GdIVEnyMjzgM/RR3KwXObqdYG.', 'L10Labvsfsw2312fsf22a8==', '061/333-11-00', 'null', 'SUPPLIER', null, 0, 5, null, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Supplier', default, 'luka10@gmail.com', true, false, 'Luka', 'Lukovic', '2020-11-11', '$2a$12$OiJS32BGySotXVIb99d3cua6bJ2GdIVEnyMjzgM/RR3KwXObqdYG.', 'L10Labvsfsw2312fsf22a8==', '061/333-11-00', 'SUPPLIER', null, 0, 5, null, null);
 
 -- password Marko123!	
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', default, 'markovicm@gmail.com', true, false, 'Marko', 'Markovic', '2020-11-11', '$2a$12$bj4hnB7C50TPVVTZMjY0pOhL.3CImLOMztQXKxmqKaQDHvW9TmwRS', 'MaRa1324ZYw2012XxV22aR==', '065/789-41-23', 'null', 'PH_ADMINISTRATOR', null, 0, 2, 3, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number,  user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('PharmacyAdministrator', default, 'markovicm@gmail.com', true, false, 'Marko', 'Markovic', '2020-11-11', '$2a$12$bj4hnB7C50TPVVTZMjY0pOhL.3CImLOMztQXKxmqKaQDHvW9TmwRS', 'MaRa1324ZYw2012XxV22aR==', '065/789-41-23', 'PH_ADMINISTRATOR', null, 0, 2, 3, null);
 
 -- password Kaca1234!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'kaca39@gmail.com', true, false, 'Katarina', 'Majkic', '2020-11-11', '$2a$12$abB8v5qvozbo5eEegktY5e.lh0Xw3VeoA8XYPsc8rmbvWrEQ9gTte', 'KaA4cA100w2OpVr23HaxVa==', '060/588-15-85', 'katarina123', 'DERMATOLOGIST', 7.2, null, 9, null, null);	
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'kaca39@gmail.com', true, false, 'Katarina', 'Majkic', '2020-11-11', '$2a$12$abB8v5qvozbo5eEegktY5e.lh0Xw3VeoA8XYPsc8rmbvWrEQ9gTte', 'KaA4cA100w2OpVr23HaxVa==', '060/588-15-85',  'DERMATOLOGIST', 7.2, null, 9, null, null);	
 
 -- password Ivana123!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('SystemAdministrator', default, 'ivanagavric05@gmail.com', true, false, 'Ivana', 'Gavric', '2020-11-11', '$2a$12$8PpQEGJYFqTMAgdvoPi1Uu0ILjKVNMGaJeQ1G5CaS8sREwJTvkKJi', '650dg1MXBhE5yby/44jsRw==', '065/789-41-23', 'null', 'SYS_ADMINISTRATOR', null, 0, 2, null, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('SystemAdministrator', default, 'ivanagavric05@gmail.com', true, false, 'Ivana', 'Gavric', '2020-11-11', '$2a$12$8PpQEGJYFqTMAgdvoPi1Uu0ILjKVNMGaJeQ1G5CaS8sREwJTvkKJi', '650dg1MXBhE5yby/44jsRw==', '065/789-41-23', 'SYS_ADMINISTRATOR', null, 0, 2, null, null);
 
 -- password Nikola1234!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Pharmacist', default, 'nikola7@gmail.com', true, false, 'Nikola', 'Spasic', '2020-11-11', '$2a$12$0ZQ9aHaXtbFp0c03gRFHNOTMd6BQiNAcjlVK.KSAscOlotnSpXQM.', '62l3V017w2ISV4pJ9uHTIx==', '061/333-66-10', 'nikolaspasic7', 'PHARMACIST', 9.2, null, 6, 2, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Pharmacist', default, 'nikola7@gmail.com', true, false, 'Nikola', 'Spasic', '2020-11-11', '$2a$12$0ZQ9aHaXtbFp0c03gRFHNOTMd6BQiNAcjlVK.KSAscOlotnSpXQM.', '62l3V017w2ISV4pJ9uHTIx==', '061/333-66-10',  'PHARMACIST', 9.2, null, 6, 2, null);
 
 -- password Luka3456!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', default, 'lukait@gmail.com', true, false, 'Luka', 'Petrovic', '2020-11-19', '$2a$12$iFtunNf69vM1mAfDfp.zQ.3r9OVZNKvtCf8oUzUiyOyW6ee6Ipa8O', 'BolZV6e7PoImVOpZIxuHi7==', '064/225-34-49', 'lukait', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('PharmacyAdministrator', default, 'lukait@gmail.com', true, false, 'Luka', 'Petrovic', '2020-11-19', '$2a$12$iFtunNf69vM1mAfDfp.zQ.3r9OVZNKvtCf8oUzUiyOyW6ee6Ipa8O', 'BolZV6e7PoImVOpZIxuHi7==', '064/225-34-49',  'PH_ADMINISTRATOR', null, 0, 10, 2, null);
 
 -- password Maja366!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id) 
-	VALUES ('Pharmacist', default, 'maja36@gmail.com', true, false, 'Maja', 'Lakic', '2021-10-11', '$2a$12$GSlMPBf8Ow9ZvbD0ci4tYuranBxuldFavPiMpfb6LH2pozD8aX1Ly','MoJZ7YXSup34xO4ZIxuHi7==','061/585-10-10', 'maja36', 'PHARMACIST', 8.1, null, 12, 3, null);	
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id) 
+	VALUES ('Pharmacist', default, 'maja36@gmail.com', true, false, 'Maja', 'Lakic', '2021-10-11', '$2a$12$GSlMPBf8Ow9ZvbD0ci4tYuranBxuldFavPiMpfb6LH2pozD8aX1Ly','MoJZ7YXSup34xO4ZIxuHi7==','061/585-10-10', 'PHARMACIST', 8.1, null, 12, 3, null);	
 
 -- password Sara123!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'sara20@gmail.com', true, false, 'Sara', 'Jovanovic', '2020-11-11', '$2a$12$ZJyJxPRFZGgw6t5nKDDsqOboD/H2pfLmoKADcu7LbVozp6WZ3UCMS', 'aB5ScB102w2XpVr3SIzpOl==', '061/444-01-99', 'sara20', 'DERMATOLOGIST', 8.9, null, 9, null, null);		
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'sara20@gmail.com', true, false, 'Sara', 'Jovanovic', '2020-11-11', '$2a$12$ZJyJxPRFZGgw6t5nKDDsqOboD/H2pfLmoKADcu7LbVozp6WZ3UCMS', 'aB5ScB102w2XpVr3SIzpOl==', '061/444-01-99', 'DERMATOLOGIST', 8.9, null, 9, null, null);		
 
 -- password Branko12!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'branko12@gmail.com', true, false, 'Branko', 'Sudic', '2020-11-11', '$2a$12$QSz8Nyp6jzwWbR0Rxlp/bOyp/PAcCw200HIYp7nOz0NC1R823M42e', 'rB5acN122w2XOVr3sIDpx1==', '064/333-66-39', 'branko12', 'DERMATOLOGIST', 9.8, null, 13, null, null);		
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number,  user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'branko12@gmail.com', true, false, 'Branko', 'Sudic', '2020-11-11', '$2a$12$QSz8Nyp6jzwWbR0Rxlp/bOyp/PAcCw200HIYp7nOz0NC1R823M42e', 'rB5acN122w2XOVr3sIDpx1==', '064/333-66-39', 'DERMATOLOGIST', 9.8, null, 13, null, null);		
 
 -- password Milan123!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'milan81@gmail.com', true, false, 'Milan', 'Lakic', '2021-03-11', '$2a$12$syxpqo4ncnY0GpT99kfM3.TSo/kZL/1qbPO1Nl0SkT1sMHmmet.m2', '100cNAmjo2IODkesxlDpx1==', '061/000-16-19', 'milan81', 'DERMATOLOGIST', 9.8, null, 12, null, null);		
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'milan81@gmail.com', true, false, 'Milan', 'Lakic', '2021-03-11', '$2a$12$syxpqo4ncnY0GpT99kfM3.TSo/kZL/1qbPO1Nl0SkT1sMHmmet.m2', '100cNAmjo2IODkesxlDpx1==', '061/000-16-19', 'DERMATOLOGIST', 9.8, null, 12, null, null);		
 
 -- password Luka22! 
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'lukatomic', 'PATIENT', null, 0, 14, null, null);	
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number,  user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Patient', default, 'lukait31@gmail.com', true, false, 'Luka', 'Tomic', '2021-05-11', '$2a$12$XDR3iRfQvVtFMBGBcVv9u.kSDM6I3da97eXy7Jeedsl9dGbZWp0hu', 't89kMz0s2c51dssd3oW761==', '064/292-21-10', 'PATIENT', null, 0, 14, null, null);	
 
 INSERT INTO public.loyalty_card(
 	card_id, loyalty_category, points, patient_user_id) 
@@ -256,23 +256,23 @@ INSERT INTO public.loyalty_card(
 
 -- password Luka678!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Lolic', '2020-11-11', '$2a$12$PMWEMnAEXIKiojFMHl2Lj.e/hh1a9Mcp4JkG6Up0vEBFSKBTk9KiK', '10l3i01XCw2ISV4Ju1D31x==', '064/336-23-77', '', 'PHARMACIST', 8.6, null, 15, 2, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Lolic', '2020-11-11', '$2a$12$PMWEMnAEXIKiojFMHl2Lj.e/hh1a9Mcp4JkG6Up0vEBFSKBTk9KiK', '10l3i01XCw2ISV4Ju1D31x==', '064/336-23-77' , 'PHARMACIST', 8.6, null, 15, 2, null);
 
 -- password Luka123!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Pavkov', '2020-11-11', '$2a$12$pxBaiz4IN6MjRcVAblBJA.8cfpv0pU7G6TGqNnqLIjyvkotAu3.JS', '0QWE1XACxxWsSV4Ju1D31x==', '061/300-23-77', '', 'PHARMACIST', 7.6, null, 16, 2, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Pharmacist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Pavkov', '2020-11-11', '$2a$12$pxBaiz4IN6MjRcVAblBJA.8cfpv0pU7G6TGqNnqLIjyvkotAu3.JS', '0QWE1XACxxWsSV4Ju1D31x==', '061/300-23-77',  'PHARMACIST', 7.6, null, 16, 2, null);
 
 -- password Luka333! - Test dermatolog with email lukait31@gmail.com - for vacation 
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'lukait', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('Dermatologist', default, 'lukait31@gmail.com', true, false, 'Luka', 'Sudic', '2020-11-11', '$2a$12$wVIYc9fi1qcZujO18Jg1J.p9N3XtmisC/1g27FZjrdSv9TX.It8e.', 'CCSac2wewe2XOEEEsIDp22==', '063/111-22-39', 'DERMATOLOGIST', 6.8, null, 13, null, null);		
 
 -- password Sara3456!
 INSERT INTO public.user(
-	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, username, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
-	VALUES ('PharmacyAdministrator', default, 'admin7@gmail.com', true, false, 'Sara', 'Petrovic', '2020-11-11', '$2a$12$MIVjrgnhb9.m.ctkLly5oOA995IsCazjk6JWYUVUUVoMOR4YyRnOm', 'S342a3rar20PoIm12pZIi7==', '061/333-23-71', '', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
+	dtype, user_id, email, enabled, first_login, first_name, last_name, last_reset_pass_date, password, salt, phone_number, user_type, rating, penalty, address_id, pharmacy_pharmacy_id, allergy_allergy_id)
+	VALUES ('PharmacyAdministrator', default, 'admin7@gmail.com', true, false, 'Sara', 'Petrovic', '2020-11-11', '$2a$12$MIVjrgnhb9.m.ctkLly5oOA995IsCazjk6JWYUVUUVoMOR4YyRnOm', 'S342a3rar20PoIm12pZIi7==', '061/333-23-71', 'PH_ADMINISTRATOR', null, 0, 10, 2, null);
 	
 INSERT INTO public.authority(name) VALUES ('ROLE_PATIENT');	
 INSERT INTO public.authority(name) VALUES ('ROLE_SYS_ADMIN');	
@@ -472,6 +472,9 @@ INSERT INTO public.offer(
 
 -- PROMOTION - TEST DATA - my mail lukait31@gmail.com for Patient Luka Tomic 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (15, 2);
+INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 2);
+INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 1);
+
 
 INSERT INTO promotion_notification (patient_id, pharmacy_id) VALUES (1, 2);
 
@@ -937,16 +940,16 @@ INSERT INTO public.reservation(
 	VALUES (default, false, '2021-09-30 00:00:00', false, false, 'ResQodX07', 216, 15, 2);
 
 INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-09-01', 'NEW', 1, 2);
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '22', '2021-09-01','PROCESSED', 1, 2);
+	
+INSERT INTO public.eprescription(
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '222', '2021-06-01', 'PROCESSED', 1, 2);
 
 INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-06-01', 'PROCESSED', 1, 2);
-
-INSERT INTO public.eprescription(
-	prescription_id, date, status, patient_user_id, pharmacy_pharmacy_id)
-	VALUES (default, '2021-08-01', 'DECLINED', 1, 2);
+	prescription_id, code, date, status, patient_user_id, pharmacy_pharmacy_id)
+	VALUES (default, '123', '2021-08-01', 'DECLINED', 1, 2);
 
 INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
@@ -955,6 +958,58 @@ INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
 	VALUES (1, 3);
 
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/10/28', 'WAITING_OFFER', 2, 10);
+
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/11/28', 'WAITING_OFFER', 2, 10);
+
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/12/28', 'WAITING_OFFER', 2, 10);
+	
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 105);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 105);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 105);
+	
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 105);
+	
 INSERT INTO public.eprescription_medicine(
 	eprescription_prescription_id, medicine_medicine_id)
 	VALUES (2, 5);

@@ -6,7 +6,11 @@
       <a href="/previousConsultations" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Previous Consultations</a>
       <a href="/upcomingVisits" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Upcoming Visits</a>
       <a href="/myEPrescription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My ePrescription</a>
-      <a href="/medicineReservations" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Medicine Reservations</a>
+      <a href="/medicineReservations" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Medicine Reservations</a>      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Penalties</a>
+      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Issued Medicine</a>
+      <a href="/pharmacySubscription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Pharmacy Subscriptions</a>
+      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Write Complaints</a>
+      <a href="/scheduleCounseling" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Get Medicine</a>
       <a href="/myPenalties" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Penalties</a>
       <a href="/issuedMedicine" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Issued Medicine</a>
       <a href="/mySubscriptions" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Pharmacy Subscriptions</a>
@@ -15,6 +19,8 @@
       <a href="/scheduleConsultation" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Consultation</a>
       <a href="/browsePharmacies" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">Schedule Examination</a>
       <a href="/patient" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">My Profile</a>
+      <a href="/ePrescription" style = "float: left; color: #333; text-align:center; padding: 14px 32px; text-decoration:none; font-size: 17px;">EPrescription</a>
+  
     </div>
   </div>
 </template>

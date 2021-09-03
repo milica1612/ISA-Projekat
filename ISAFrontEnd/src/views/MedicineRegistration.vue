@@ -27,6 +27,14 @@
             required
         >
         </v-select>
+        <v-select
+            class = "countryCombo"
+            v-model = "prescriptionType"
+            :items="['NO_PRESCRIPTION', 'PRESCRIPTION']"
+            label="Prescription Type"
+            required
+        >
+        </v-select>
         <v-text-field
           label="Medicine Type"
           v-model="type"
@@ -112,26 +120,47 @@
                     <v-row>
                     <v-col cols="12">
                         <v-text-field
-                        label="Dosage*"
+                        label="Dosage"
                         v-model= "dosage"
                         required
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12">
+                    </v-row>
+                    <v-row>
+                    <v-col>
                         <v-text-field
-                        label="Ingridients*"
-                        v-model = "ingridient"
+                        label="Ingridients"
+                        v-model = "ingridientName"
                         required
                         ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field
-                        label="Contraindication*"
-                        v-model = "contraindication"
-                        required
-                        ></v-text-field>
+                        <v-btn
+                          color="primary"
+                          class = "buttonSpec"
+                          dark
+                          v-bind="attrs"
+                          v-on:click="addIngridient(i)"
+                          v-on="on"
+                        >Add Ingridient</v-btn>
                     </v-col>
                     </v-row>
+                    <v-row>
+                    <v-col cols="12">
+                        <v-text-field
+                        label="Contraindication"
+                        v-model = "description"
+                        required
+                        ></v-text-field>
+                        <v-btn
+                          class = "buttonSpec"
+                          color="primary"
+                          dark
+                          v-bind="attrs"
+                          v-on:click="addContraindication(c)"
+                          v-on="on"
+                        >Add Contraindication</v-btn>
+                    </v-col>
+                    </v-row>
+                    
                 </v-container>
                 <small>*indicates required field</small>
                 </v-card-text>
@@ -174,22 +203,10 @@
 export default {
   name: "MedicineRegistration",
   data: () => ({
-    errorMessages: '',
     dialog: false,
-    name: "",
-    code: "",
-    loyaltyPoints: "",
-    replacementMedicine: "",
-    dosage: "",
-    contraindication: "",
-    ingridient: "",
-    type: "",
-    medicineForm: "",
-    precautions: "",
-    manufacturer: "",
-    medicine: null,
     contraindications: [],
-    ingridients: [],
+    ingridients:[],
+    medicine: null,
     replacementMed: [],
   }),
   mounted() {
@@ -201,25 +218,19 @@ export default {
         })
         .then(r => (this.medicine = r.data));
   },
-  computed: {
-    user() {
-      return { 
-                name: this.name,
-                code: this.medicineCode, 
-                loyaltyPoints: this.loyaltyPoints,
-                type: this.type,
-                medicineForm: this.medicineForm,
-                dosage: this.dosage,
-                ingridient: this.ingridient,
-                precautions: this.precautions,
-                manufacturer: this.manufacturer,
-                contraindication: this.contraindication};
-    }
-  },
+  computed: {},
   methods: {
     addReplacementMedicine: function(med){
           this.replacementMed.push(med)
           console.log(this.replacementMed);
+    },
+    addContraindication: function(c){
+          this.contraindications.push(c)
+          console.log(this.contraindications);
+    },
+    addIngridient: function(i){
+          this.ingridients.push(i)
+          console.log(this.ingridients);
     },
     register() {
     let token = localStorage.getItem("token");
@@ -229,14 +240,15 @@ export default {
           code: this.code,
           medicineForm: this.medicineForm,
           type: this.type,
+          prescriptionType: this.prescriptionType,
           loyaltyPoints: this.loyaltyPoints,
           replacementMedicine: this.replacementMed,
           precautions: this.precautions,
           manufacturer: this.manufacturer,
           medicineSpecification: {
                 dosage: this.dosage,
-                contraindication: this.contraindications,
-                ingridient: this.ingridients,
+                description: this.description,
+                ingridientName: this.ingridientName,
         },
           headers: {
               Authorization: 'Bearer ' + token}
@@ -257,6 +269,10 @@ export default {
 .countryCombo{
   width: 96%;
   margin-left: 4%;
+  cursor: pointer;
+}
+.buttonSpec{
+  width: 100%;
   cursor: pointer;
 }
 </style>

@@ -26,4 +26,6 @@ public class LoyaltyCardService implements ILoyaltyCardService{
 		return null;
 	}
 	
+	
+	
 }

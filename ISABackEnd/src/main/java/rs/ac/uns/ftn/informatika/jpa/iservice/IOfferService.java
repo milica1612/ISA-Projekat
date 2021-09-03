@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.informatika.jpa.iservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public interface IOfferService {
 	
 	Offer save(Offer offer);
 
-	List<Offer> findOffersBySupplier(Long id);
+	ArrayList<OfferDTO> findOffersBySupplier(Long id);
 	
 	Offer findById(Long id);
 	
@@ -30,5 +31,7 @@ public interface IOfferService {
 	Boolean checkOffer(OfferDTO offerDTO, Supplier supplier);
 	
 	void createOffer(Long order_id, OfferDTO offerDTO);
+	
+	Offer changeOffer(OfferDTO offerDTO);
 	
 }

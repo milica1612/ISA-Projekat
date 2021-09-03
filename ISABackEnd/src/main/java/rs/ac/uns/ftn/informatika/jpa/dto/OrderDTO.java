@@ -8,6 +8,7 @@ public class OrderDTO {
 	private String offerDeadline;
 	private Long adminId;
 	private String adminName;
+	private String name;
 	private OrderStatus orderStatus;
 	
 	public OrderDTO() {
@@ -23,6 +24,16 @@ public class OrderDTO {
 		this.orderStatus = orderStatus;
 	}
 
+	public OrderDTO(Long orderId, String offerDeadline,String name, Long adminId, String adminName, OrderStatus orderStatus) {
+		super();
+		this.orderId = orderId;
+		this.offerDeadline = offerDeadline;
+		this.adminId = adminId;
+		this.adminName = adminName;
+		this.name = name;
+		this.orderStatus = orderStatus;
+	}
+	
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -61,6 +72,14 @@ public class OrderDTO {
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
