@@ -27,4 +27,6 @@ public interface IDermatologistService {
 	List<PharmacyDermatologistDTO> findDermatologistsByPharmacy();
 
 	Dermatologist createDermatologistByPharmacyAdmin(CreateDermatologistDTO createDermatologistDTO);
+
+	Boolean deleteDermatologist(Long deleteDermatologistId);
 }

@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.service;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -16,13 +17,19 @@ import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IDermatologistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
+import rs.ac.uns.ftn.informatika.jpa.model.AppointmentStatus;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
+import rs.ac.uns.ftn.informatika.jpa.model.DermatologistVacation;
+import rs.ac.uns.ftn.informatika.jpa.model.Examination;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.model.UserType;
 import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IDermatologistVacationRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IExaminationRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IUserRepository;
 
@@ -34,15 +41,22 @@ public class DermatologistService implements IDermatologistService {
 	private AuthorityService _authorityService;
 	private AddressService _addressService;
 	private IUserRepository _userRepository;
+	private IExaminationRepository _examinationRepository;
+	private IDermatologistVacationRepository _dermatologistVacationRepository;
 
 	@Autowired
 	public DermatologistService(IDermatologistRepository iDermatologistRepository,
-			IPharmacyRepository iPharmacyRepository, AuthorityService authorityService, AddressService addressService, IUserRepository userRepository) {
+			IPharmacyRepository iPharmacyRepository, AuthorityService authorityService, 
+			AddressService addressService, IUserRepository userRepository,
+			IExaminationRepository examinationRepository, 
+			IDermatologistVacationRepository dermatologistVacationRepository) {
 		this._dermatologistRepository = iDermatologistRepository;
 		this._pharmacyRepository = iPharmacyRepository;
 		this._addressService = addressService;
 		this._userRepository = userRepository;
 		this._authorityService = authorityService;
+		this._examinationRepository = examinationRepository;
+		this._dermatologistVacationRepository = dermatologistVacationRepository;
 	}
 
 	@Override
@@ -289,6 +303,53 @@ public class DermatologistService implements IDermatologistService {
 	
 	public String hashPassword(String password) {
 		return BCrypt.hashpw(password, BCrypt.gensalt(12));
+	}
+	
+	@Override
+	public Boolean deleteDermatologist(Long deleteDermatologistId) {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pAdmin.getPharmacy().getPharmacyId());
+		Dermatologist dermatologist = _dermatologistRepository.getOne(deleteDermatologistId);
+		List<Examination> allExaminations = _examinationRepository.findAll();
+		List<DermatologistVacation> allDermatologistVacations = _dermatologistVacationRepository.findAll();
+		Date currentDate = new Date();
+		System.out.println("Date now " + currentDate.toString());
+		for (Examination e : allExaminations) {
+			if (e.getDermatologist().getUserId() == dermatologist.getUserId()
+					&& e.getPharmacy().getPharmacyId() == pharmacy.getPharmacyId()
+					&& e.getCancelled() == false && e.getAppointmentStatus() == AppointmentStatus.NONE) {
+				return false;
+			}
+		}
+		
+		// Dermatologist on vacation
+		for (DermatologistVacation dVacation : allDermatologistVacations) {
+			if (dVacation.getDermatologist().getUserId() == deleteDermatologistId
+					&& dVacation.getStatus() == Status.ACCEPTED
+					&& dVacation.getStartDate().before(currentDate) 
+					&& dVacation.getEndDate().after(currentDate)) {
+				return false;
+			}
+		}
+		
+		for (DermatologistVacation dVacation : allDermatologistVacations) {
+			if (dVacation.getDermatologist().getUserId() == deleteDermatologistId
+					&& (dVacation.getStatus() == Status.WAITING || dVacation.getStatus() == Status.DECLINED)) {
+				_dermatologistVacationRepository.delete(dVacation);
+			}
+		}
+		
+		// Brisanje dermatologa bas iz te apoteke u kojoj radi administrator
+		for (Dermatologist d : pharmacy.getDermatologist()) {
+			if (d.getUserId() == deleteDermatologistId) {
+				pharmacy.getDermatologist().remove(d);
+				_pharmacyRepository.save(pharmacy);
+			}
+		}
+		
+		_dermatologistRepository.deleteById(deleteDermatologistId);
+		return true;
 	}
 	
 

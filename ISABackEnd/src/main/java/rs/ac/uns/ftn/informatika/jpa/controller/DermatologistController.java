@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.CreateDermatologistDTO;
+import rs.ac.uns.ftn.informatika.jpa.dto.DeleteDermatologistRequestDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -86,6 +87,11 @@ public class DermatologistController {
 	public ResponseEntity<List<PharmacyDermatologistDTO>> findDermatologistsByPharmacyId() {
 		return new ResponseEntity<List<PharmacyDermatologistDTO>>(_dermatologistService.findDermatologistsByPharmacy(), HttpStatus.OK);
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/deleteDermatologist")
+	public ResponseEntity<Boolean> deleteDermatologist(@RequestBody DeleteDermatologistRequestDTO deleteDermatologistRequestDTO) {
+		return new ResponseEntity<Boolean>(_dermatologistService.deleteDermatologist(deleteDermatologistRequestDTO.getDeleteDermatologistId()), HttpStatus.OK);
+	}
 }
 
