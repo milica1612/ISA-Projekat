@@ -10,12 +10,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreatePharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
-import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyPharmacistDTO;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.service.PharmacistService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -26,10 +29,23 @@ public class PharmacistController {
 	@Autowired
 	private PharmacistService _pharmacistSerivce ;
 	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path = "/all")
 	public List<PharmacistDTO> getAllPharmacist() {
 		 return _pharmacistSerivce.getAllPharmacist();
 	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/createPharmacistByPharmacyAdmin")
+	public ResponseEntity<Pharmacist> createPharmacistByPharmacyAdmin(@RequestBody CreatePharmacistDTO createPharmacistDTO) {
+		try {
+			return new ResponseEntity<Pharmacist>(_pharmacistSerivce.createPharmacistByPharmacyAdmin(createPharmacistDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Pharmacist>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@GetMapping(path = "/searchPharmacistsByFirstName/{firstName}")

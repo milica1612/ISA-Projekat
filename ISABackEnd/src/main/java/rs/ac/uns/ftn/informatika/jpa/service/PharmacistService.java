@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreatePharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyPharmacistDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IPharmacistService;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
-import rs.ac.uns.ftn.informatika.jpa.model.User;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacistRepository;
 
 @Service
@@ -101,6 +101,12 @@ public class PharmacistService implements IPharmacistService{
 				pharmacistDTOs.add(new PharmacyPharmacistDTO(p.getUserId(), p.getFirstName(), p.getLastName(), p.getPhoneNumber(), p.getEmail(), p.getAddress().getStreet(), p.getAddress().getStreetNumber(), p.getAddress().getCity(), p.getRating(), p.getPharmacy().getName()));
 		
 		return pharmacistDTOs;
+	}
+	
+	@Override
+	public Pharmacist createPharmacistByPharmacyAdmin(CreatePharmacistDTO createPharmacistDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
