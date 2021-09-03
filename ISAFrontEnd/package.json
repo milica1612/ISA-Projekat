@@ -22,6 +22,7 @@
     "vue-fullcalendar": "^1.0.9",
     "vue-material-year-calendar": "^1.2.6",
     "vue-router": "^3.2.0",
+    "vue-yandex-maps": "^0.10.12",
     "vuetify": "^2.4.0",
     "vuetify-datetime-picker": "^2.1.1",
     "webpack-dev-server": "^3.11.2"

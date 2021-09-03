@@ -2,6 +2,7 @@
     <div id="pharmacyAdminMenu">
       <a class="a_style" href="/pharmacyAdmin">My Profile</a>
       <a class="a_style" href="/myPharmacy">My Pharmacy</a>
+      <a class="a_style" href="/mapExample">Pharmacy on the map</a>
       <a class="a_style" href="/medicinesInPharmacy">Medicines in pharmacy</a>
       <a class="a_style" href="/searchDermatologist">Search and filter dermatologists</a>
       <a class="a_style" href="/defineFreeTermWithDermatologist">Define free term for examination with dermatologist</a>
