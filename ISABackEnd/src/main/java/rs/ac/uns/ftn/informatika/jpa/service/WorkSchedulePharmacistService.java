@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.LockModeType;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.ConsultationDTO;
@@ -284,6 +288,7 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 		
 	}
 	
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Override
 	public Boolean addConsToWorkSchedule(Consultation c,  ArrayList<PharmacistVacation> vacations) {
 		WorkSchedulePharmacist workSchedule = findWorkScheduleForPharmacistInPeriod(c, vacations);
