@@ -152,10 +152,8 @@ export default {
                 { title: 'Add Supplier', path: '/createSupplier' },
                 { title: 'Add Pharmacy', path: '/createPharmacy' },
                 { title: 'Medicines', path: '/medicineRegistration' },
-                { title: "Pending Vacation Requests", path: '/requestsVacationDermatologists'},
-                { title: "All Vacation Requests", path: '/allVacationRequestsDermatologists'},
                 { title: 'Complaints', path: '/complaints' },
-                { title: 'Loyalty Program', path: '/' }];
+                { title: 'Loyalty Program', path: '/loyaltyScale' }];
       } else {
         // NOT YET REGISTERED
         this.items = [

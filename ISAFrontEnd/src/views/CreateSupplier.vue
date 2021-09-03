@@ -153,7 +153,7 @@ export default {
             country: this.country
           },
           phoneNumber: this.phoneNumber
-        , headers: {
+        },{headers: {
               Authorization: 'Bearer ' + token
         }})
         .then(() => {

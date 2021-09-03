@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class ComplaintController {
 	
 	
 	@PostMapping("/createComplaint")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	public ResponseEntity<?> createComplaint(@RequestBody ComplaintEmployeeDTO complaintEmployeeDTO, UriComponentsBuilder ucBuilder) {
 		try {
 			return new ResponseEntity<>(this._complaintService.createComplaint(complaintEmployeeDTO), HttpStatus.CREATED);
@@ -45,6 +47,7 @@ public class ComplaintController {
 	}
 	
 	@PostMapping("/createComplaintForPharmacy")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	public ResponseEntity<?> createComplaintForPharmacy(@RequestBody ComplaintPharmacyDTO complaintPharmacyDTO, UriComponentsBuilder ucBuilder) {
 		try {
 			return new ResponseEntity<>(this._complaintService.createComplaintForPharmacy(complaintPharmacyDTO), HttpStatus.CREATED);
@@ -54,16 +57,19 @@ public class ComplaintController {
 	}
 	
 	@GetMapping(value = "/getComplaintsEmployee")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_PATIENT')")
 	public ArrayList<ComplaintEmployee> getComplaintsEmployee(){
 		return _complaintService.getComplaintsEmployee();
 	}
 	
 	@GetMapping(value = "/getComplaintsPharmacy")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_PATIENT')")
 	public ArrayList<ComplaintPharmacy> getComplaintsPharmacy(){
 		return _complaintService.getComplaintsPharmacy();
 	}
 	
 	@PostMapping("/answerOnComplaintForEmployee")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN)')")
 	public ResponseEntity<?> answerOnComplaintForEmployee(@RequestBody AnswerOnComplaintDTO answerOnComplaintDTO, UriComponentsBuilder ucBuilder) {
 		try {
 			_emailService.sendAnswerOnComplaintEmailAsync(answerOnComplaintDTO);
@@ -74,6 +80,7 @@ public class ComplaintController {
 	}
 	
 	@PostMapping("/answerOnComplaintForPharmacy")
+	@PreAuthorize("hasRole('ROLE_SYS_ADMIN)')")
 	public ResponseEntity<?> answerOnComplaintForPharmacy(@RequestBody AnswerOnComplaintForPharmacyDTO answerOnComplaintDTO, UriComponentsBuilder ucBuilder) {
 		try {
 			_emailService.sendAnswerOnComplaintPharmacyEmailAsync(answerOnComplaintDTO);
