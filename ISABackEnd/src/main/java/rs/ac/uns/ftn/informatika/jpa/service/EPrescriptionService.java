@@ -189,7 +189,7 @@ public class EPrescriptionService implements IEPrescriptionService {
 
 	@Override
 	public EPrescription saveEPrescription(EPrescriptionBuyMedicineDTO ePrescription, Pharmacy pharmacy, Patient patient) {
-		ArrayList<QRCodeDTO> qrCodeDTOs = ePrescription.getQrCodeDTOs();
+		ArrayList<QRCodeDTO> qrCodeDTOs = ePrescription.getQrcodeDTO();
 		EPrescription ep = new EPrescription();
 		ArrayList<MedicineItem> medicineItems = (ArrayList<MedicineItem>) pharmacy.getMedicineItem();
 		

@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class EPrescriptionBuyMedicineDTO {
 	
 	private String code;
-	private ArrayList<QRCodeDTO> qrCodeDTOs;
+	private ArrayList<QRCodeDTO> qrcodeDTO;
 	private Long pharmacyId;
 	
 	public EPrescriptionBuyMedicineDTO() {}
 	
-	public EPrescriptionBuyMedicineDTO(String code, ArrayList<QRCodeDTO> qrCodeDTOs, Long pharmacyId) {
+	public EPrescriptionBuyMedicineDTO(String code, ArrayList<QRCodeDTO> qrcodeDTO, Long pharmacyId) {
 		super();
 		this.code = code;
-		this.qrCodeDTOs = qrCodeDTOs;
+		this.qrcodeDTO = qrcodeDTO;
 		this.pharmacyId = pharmacyId;
 	}
 
@@ -23,12 +23,15 @@ public class EPrescriptionBuyMedicineDTO {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public ArrayList<QRCodeDTO> getQrCodeDTOs() {
-		return qrCodeDTOs;
+
+	public ArrayList<QRCodeDTO> getQrcodeDTO() {
+		return qrcodeDTO;
 	}
-	public void setQrCodeDTOs(ArrayList<QRCodeDTO> qrCodeDTOs) {
-		this.qrCodeDTOs = qrCodeDTOs;
+
+	public void setQrcodeDTO(ArrayList<QRCodeDTO> qrcodeDTO) {
+		this.qrcodeDTO = qrcodeDTO;
 	}
+
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}

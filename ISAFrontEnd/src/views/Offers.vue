@@ -79,13 +79,13 @@
                             
                           <v-text-field
                             label="Price"
-                            v-model="price"
+                            v-model="offer.price"
                             :rules="[() => !!price || 'This field is required']"
                             prepend-icon="mdi-account-circle"
                           />                  
                             <template>
                               <v-row justify="center">
-                                <v-date-picker v-model="deliveryDeadline"></v-date-picker>
+                                <v-date-picker v-model="offer.deliveryDeadline"></v-date-picker>
                               </v-row>
                             </template>
             <v-btn
@@ -195,6 +195,7 @@ export default {
         menu2: false,
         logged: false,
         offers: [],
+        offer: null,
         orders: [],
         singleSelect: false,
         selected: [],
@@ -280,16 +281,12 @@ export default {
               alert("Date is passed!");
               console.log(er.response.data);
             });
-          }
-    },
+          },
     
       changeOffer: function(offer, dialog){
         dialog.value = false
         this.axios
-          .post("http://localhost:8091/offers/changeOffer/", {
-              id: offer.id,
-              price: this.price,
-              deliveryDeadline: this.deliveryDeadline},{
+          .post("http://localhost:8091/offers/changeOffer", offer,{
               headers: {
                   Authorization: 'Bearer ' + localStorage.getItem("token")}
             })
@@ -302,6 +299,7 @@ export default {
               console.log(er.response.data);
             });
           }
+    },
   }
 </script>
 

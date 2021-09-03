@@ -32,10 +32,9 @@
           </thead>
           <tbody>
           <tr
-              v-for="a in result.medicineAvailableInPharmacyDTO" :key="a"
+              v-for="a in result.pharmacyAvailabilityDTO" :key="a"
           >
             <td>{{ a.pharmacy.name }}</td>
-            <td>{{ a.priceTag.medicine.name}}</td>
             <td>{{ a.sumPrice}}</td>
             <td> <v-btn
                     color="secondary"
@@ -85,7 +84,8 @@ export default {
               'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
-        }).then(response => (this.medicineAvailableInPharmacyDTO = response.data.medicineAvailableInPharmacyDTO,
+        }).then(response => (this.pharmacyAvailabilityDTO = response.data.pharmacyAvailabilityDTO,
+                            this.qrcodeDTO = response.data.qrcodeDTO,
                              this.code = response.data.code,
                              this.result = response.data,
                              
@@ -104,7 +104,7 @@ export default {
 
        this.EPrescriptionBuyMedicineDTO = {
             code: this.code,
-            qrCodeDTOs: this.EPrescriptionList,
+            qrcodeDTO: this.EPrescriptionList,
             pharmacyId : a.pharmacy.pharmacyId
       }
 
@@ -113,7 +113,9 @@ export default {
           headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
-        }).then(response => ( this.result2 = response.data));
+        }).then(response => (
+          console.log("Successfully bought medicine"),
+          this.result2 = response.data));
     }
   },
 
