@@ -7,5 +7,5 @@ import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 
 @Repository
 public interface IMedicineRepository extends JpaRepository<Medicine, Long>{
-
+	
 }

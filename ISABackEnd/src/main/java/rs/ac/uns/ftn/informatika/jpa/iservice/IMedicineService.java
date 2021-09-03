@@ -24,5 +24,4 @@ public interface IMedicineService {
 	PriceTag getCurrentPriceForMedicine(Pharmacy p, String med);
 	void updateRating(Long medicineId, Double newRating);
 	public MedicineSpecification addMedicineSpecification(MedicineSpecificationDTO medicineSpecificationDTO);
-
 }

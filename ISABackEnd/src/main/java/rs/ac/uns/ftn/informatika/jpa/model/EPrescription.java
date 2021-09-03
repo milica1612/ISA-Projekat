@@ -27,7 +27,7 @@ public class EPrescription {
    @Column(name = "date", nullable = false)
    private Date date;
    
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public Set<Medicine> medicine;
    
    @ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)

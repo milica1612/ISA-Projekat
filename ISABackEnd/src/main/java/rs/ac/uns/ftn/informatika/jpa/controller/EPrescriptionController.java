@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -12,8 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +32,20 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 import javassist.NotFoundException;
+import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionBuyMedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
+import rs.ac.uns.ftn.informatika.jpa.exception.ResourceConflictException;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
+import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.repository.IEPrescriptionRepository;
 import rs.ac.uns.ftn.informatika.jpa.service.EPrescriptionService;
+import rs.ac.uns.ftn.informatika.jpa.service.EmailService;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineService;
+import rs.ac.uns.ftn.informatika.jpa.service.PharmacyService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -45,6 +57,15 @@ public class EPrescriptionController {
 	
 	@Autowired
 	public MedicineService _medicineService;
+	
+	@Autowired
+	public PharmacyService _pharmacyService;
+
+	@Autowired
+	public EmailService _emailService;
+	
+	@Autowired
+	public IEPrescriptionRepository _ePrescriptionRepository;
 	
 	@PostMapping("/file")
     ResponseEntity<EPrescriptionDTO> searchDrugsBasedOnQRCode(@RequestParam("file") MultipartFile file) throws IOException, NotFoundException {
@@ -68,7 +89,7 @@ public class EPrescriptionController {
                     
                     ArrayList<QRCodeDTO> qrCodeMed = _ePrescriptionService.getQRCodeMedicine(decodedText);
                     if(qrCodeMed==null) {
-                        throw new IllegalArgumentException("Please try later, there are no drugs!");
+                        throw new IllegalArgumentException("Please try later, there are no medicine!");
                     }
                     
                     ArrayList<MedicineAvailableInPharmacyDTO> pharmacyDrugAvailabilityDTOs = _ePrescriptionService.checkAvailabilityMedicineInPharmacies(qrCodeMed);
@@ -83,5 +104,36 @@ public class EPrescriptionController {
         }
         throw new IllegalArgumentException("Please upload valid QR code!");
     }
+	
+	@PostMapping("/buyMedicineInPharmacy")
+   // @PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<String> buyMedicineInPharmacy(@RequestBody EPrescriptionBuyMedicineDTO ePrescription) {
+    	Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Patient patient = (Patient) currentUser.getPrincipal();
+		System.out.println(patient.getEmail());
+		try {
+			Pharmacy pharmacy = _pharmacyService.findById(ePrescription.getPharmacyId());
+			try {
+				List<EPrescription> eprescriptionList = _ePrescriptionRepository.findAll();
+				for(EPrescription e: eprescriptionList) {
+					if(e.getCode().equals(ePrescription.getCode())) {
+						throw new ResourceConflictException(null, "EPrescription with that code already exists");
+					}
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			System.out.println(pharmacy.getPharmacyId());
+			_ePrescriptionService.saveEPrescription(ePrescription, pharmacy, patient);
+			this._emailService.sendNotificaitionAsync(patient.getEmail(), "EPrescription INFO", ""
+					+ "EPrescription was successfull and you have successfully bought drugs in this pharmacy" + ".");
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+    	
+    	 return new ResponseEntity<>("You have successfully bought drugs in this pharmacy!", HttpStatus.CREATED);
+	}
+
 	
 }

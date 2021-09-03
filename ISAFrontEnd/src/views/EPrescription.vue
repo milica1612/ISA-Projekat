@@ -37,6 +37,12 @@
             <td>{{ a.pharmacy.name }}</td>
             <td>{{ a.priceTag.medicine.name}}</td>
             <td>{{ a.priceTag.price}}</td>
+            <td> <v-btn
+                    color="secondary"
+                    elevation="3"
+                    small
+                    v-on:click = "buyMedicine(a)"
+                  >Buy Medicine</v-btn> </td>
           </tr>
           </tbody>
         </template>
@@ -53,7 +59,14 @@ export default {
       file: '',
       pharmacies: [],
       availableInPharmacies: [],
-      result: {}
+      result: {},
+      result2: {},
+      EPrescriptionList:[],
+      EPrescriptionBuyMedicineDTO: [{
+            code: '',
+            qrCodeDTOs : [],
+            pharmacyId : null
+      }]
     }
   },
   mounted(){},
@@ -73,11 +86,35 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
         }).then(response => (this.medicineAvailableInPharmacyDTO = response.data.medicineAvailableInPharmacyDTO,
-                             this.qrCodeDTOs = response.data.qrCodeDTOs,
                              this.code = response.data.code,
-                             this.result = response.data));
+                             this.result = response.data,
+                             
+                             this.dto = {
+                               name: response.data.qrcodeDTO.name,
+                               code: response.data.qrcodeDTO.code,
+                               quantity: response.data.qrcodeDTO.quantity
+                             },
+
+                             this.EPrescriptionList.push(this.dto),
+                             console.log(response.data.qrcodeDTO.name)
+                             ));
                   
     },
+    buyMedicine: function(a){
+
+       this.EPrescriptionBuyMedicineDTO = {
+            code: this.code,
+            qrCodeDTOs: EPrescriptionList,
+            pharmacyId : a.pharmacy.pharmacyId
+      }
+
+      this.axios.post( 'http://localhost:8091/ePrescription/buyMedicineInPharmacy', 
+         this.EPrescriptionBuyMedicineDTO, {
+          headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        }).then(response => ( this.result2 = response.data));
+    }
   },
 
   computed:{

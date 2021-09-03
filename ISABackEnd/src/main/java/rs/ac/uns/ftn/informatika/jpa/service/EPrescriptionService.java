@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 import javassist.NotFoundException;
+import rs.ac.uns.ftn.informatika.jpa.dto.EPrescriptionBuyMedicineDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.QRCodeDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.IEPrescriptionService;
@@ -27,6 +29,7 @@ import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineService;
 import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
+import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.repository.IEPrescriptionRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
@@ -47,6 +50,9 @@ public class EPrescriptionService implements IEPrescriptionService {
 	
 	@Autowired
 	private IMedicineService _medicineService;
+	
+	@Autowired
+	private IMedicineRepository _medicineRepository;
 	
 	@Override
 	public void getPharmaciesForPatient(Long patientId, ArrayList<Pharmacy> result) {
@@ -133,7 +139,8 @@ public class EPrescriptionService implements IEPrescriptionService {
 	public ArrayList<MedicineAvailableInPharmacyDTO> checkAvailabilityMedicineInPharmacies(ArrayList<QRCodeDTO> qrCodeDTOs) {
 		ArrayList<Pharmacy> pharmacies = (ArrayList<Pharmacy>) _pharmacyRepository.findAll();
 		ArrayList<MedicineAvailableInPharmacyDTO> result = new ArrayList<MedicineAvailableInPharmacyDTO>();
-
+		int sumPrice = 0;
+		
 		for(Pharmacy p: pharmacies) {
 			for(QRCodeDTO q: qrCodeDTOs) {
 				for(MedicineItem m: p.getMedicineItem()) {
@@ -147,5 +154,39 @@ public class EPrescriptionService implements IEPrescriptionService {
 		}
 		return result;
 	}
+
+	@Override
+	public EPrescription saveEPrescription(EPrescriptionBuyMedicineDTO ePrescription, Pharmacy pharmacy, Patient patient) {
+		ArrayList<QRCodeDTO> qrCodeDTOs = ePrescription.getQrCodeDTOs();
+		EPrescription ep = new EPrescription();
+		ArrayList<MedicineItem> medicineItems = (ArrayList<MedicineItem>) pharmacy.getMedicineItem();
+		
+		ArrayList<Medicine> medicineEPrescription = new ArrayList<Medicine>();
+		
+		for(QRCodeDTO q: qrCodeDTOs) {
+			for(MedicineItem m: medicineItems) {
+				if(q.getCode().equals(m.getMedicine().getMedicineCode())) {
+					int quantity = m.getQuantity() - q.getQuantity();
+					m.setQuantity(quantity);
+					
+					ArrayList<Medicine> medicines = (ArrayList<Medicine>) _medicineRepository.findAll();
+					for(Medicine med: medicines) {
+						if(med.getMedicineCode().equals(q.getCode())) {
+							medicineEPrescription.add(med);
+						}
+					}
+					ep.setPatient(patient);
+					ep.setCode(ePrescription.getCode());
+					ep.setDate(new Date());
+					ep.setPharmacy(pharmacy);
+					ep.setMedicine(medicineEPrescription);
+				}
+			}
+		}
+		
+		return _ePrescriptionRepository.save(ep);
+	}
+	
+	
 		
 }

@@ -192,4 +192,5 @@ public class MedicineService implements IMedicineService{
 		
 		return _medicineSpecificationRepository.save(med_spec);
 	}
+
 }

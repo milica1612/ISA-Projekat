@@ -92,7 +92,7 @@
               :key="order"
           >
             <td>{{ order.offerDeadline.substr(0,10)}}</td>
-            <td>{{order.orderStatus }}</td>
+            <td>{{ order.orderStatus }}</td>
             <td>{{ order.name }}</td>
             <td>
 
