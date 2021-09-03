@@ -143,14 +143,17 @@ public class ReservationController {
 	}
 	
 	@Scheduled(cron = "0 0 0 * * *")
-	public ResponseEntity<?> checkForPenalties(@PathVariable Long patientId) {
-		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
+	public void checkForPenalties() {
+		ArrayList<User> allPatients = (ArrayList<User>) _userService.getAllPatients();
+		for (User user : allPatients) {
+		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(user.getUserId());
 		for (Penalty penalty : penalties) {
 			Penalty p = _penaltyService.save(penalty);
-			_userService.increasePenalty(patientId, p);
+			_userService.increasePenalty(user.getUserId(), p);
 			
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
