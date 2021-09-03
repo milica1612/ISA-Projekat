@@ -70,7 +70,7 @@ public class MedicineItemService implements IMedicineItemService{
 	public void findMedicineItmeAndChangeQuantity(MedicineAvailableInPharmacyDTO dto) {
 		Set<MedicineItem> all = dto.getPharmacy().getMedicineItem();
 		for (MedicineItem m : all) {
-			if(m.getMedicine().getName().equals(dto.getPriceTag().getMedicine().getName())) {
+			if(m.getMedicine().getName().equals(dto.getPriceTag().getMedicine().getName()) && m.getQuantity() > 0) {
 				saveQuantityMedicineItem(m);
 				break;
 			}

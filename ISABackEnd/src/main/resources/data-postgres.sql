@@ -301,14 +301,14 @@ INSERT INTO public.user_authorities(user_user_id, authorities_id) VALUES (19, 4)
 -- ORDER - OFFER TEST DATA
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (101, 10, 1);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (101, 10, 1, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (102, 5, 4);
+	medicine_item_id, quantity, medicine_medicine_id,  version)
+	VALUES (102, 5, 4, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (103, 5, 10);
+	medicine_item_id, quantity, medicine_medicine_id,  version)
+	VALUES (103, 5, 10, 0);
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
 	VALUES (default,'2021/09/02', 'WAITING_OFFER', 2, 10);
@@ -349,14 +349,14 @@ INSERT INTO public.user_medicine_item(
 	values (2, 103);
 	
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (104, 10, 2);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (104, 10, 2, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (105, 5, 3);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (105, 5, 3, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (106, 3, 4);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (106, 3, 4, 0);
 	
 
 INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
@@ -568,56 +568,56 @@ INSERT INTO public.medicine_replacement_medicine(
 	VALUES (11, 12);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 10, 1);
+	medicine_item_id, quantity, medicine_medicine_id,  version)
+	VALUES (default, 10, 1, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 20, 2);
+	medicine_item_id, quantity, medicine_medicine_id,  version)
+	VALUES (default, 20, 2, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 3, 3);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 3, 3, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 10, 4);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 10, 4, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 20, 5);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 20, 5, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 3, 6);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 3, 6, 0);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 3, 6);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 3, 6, 0);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 3, 8);  
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 3, 8, 0);  
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 10, 1);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 10, 1, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 20, 2);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 20, 2, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 20, 2);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 20, 2, 0);
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 1, 3);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 1, 3, 0);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 1, 4);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 1, 4, 0);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 1, 5);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 1, 5, 0);
 
 INSERT INTO public.medicine_item(
-	medicine_item_id, quantity, medicine_medicine_id)
-	VALUES (default, 1, 4);
+	medicine_item_id, quantity, medicine_medicine_id, version)
+	VALUES (default, 1, 4, 0);
     
 INSERT INTO public.time_interval(
 	time_interval_id, start_date, end_date)

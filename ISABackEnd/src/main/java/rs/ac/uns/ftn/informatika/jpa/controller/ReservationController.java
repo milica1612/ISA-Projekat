@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,7 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("create")
+	@Transactional
 	public ResponseEntity<?> createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
 		if(!_userService.checkPenalties(dto.getUserId())) {
