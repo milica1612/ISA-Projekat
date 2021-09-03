@@ -189,6 +189,10 @@ public class ExaminationContoller {
 		endExam.add(Calendar.MINUTE, 30);
 		boolean available = true;
 		
+		Calendar start = Calendar.getInstance();
+		start.setTime(new Date());
+		Long startDate = start.getTimeInMillis(); 
+		
 		System.out.println(examS.getTime().toString());
 		
 		Long examStart = examS.getTimeInMillis();
@@ -211,7 +215,7 @@ public class ExaminationContoller {
 			System.out.println(pEn.getTime().toString());
 			System.out.println(examStart + " " +  examEnd + " " + pStart + " " + pEnd);
 			
-			if(examStart <= pStart && examEnd >= pStart) {
+			if(examStart <= pStart && examEnd >= pStart || startDate > examStart) {
 				available = false;
 				break;
 			} else if (examStart <= pEnd && examEnd >= pEnd) {

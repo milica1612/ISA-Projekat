@@ -113,9 +113,10 @@ public class ConsultationController {
 		endExam.setTime(examS.getTime());               // sets calendar time/date
 		endExam.add(Calendar.MINUTE, 30);
 		boolean available = true;
-		
-		System.out.println(examS.getTime().toString());
-		System.out.println(endExam.getTime().toString());
+	
+		Calendar start = Calendar.getInstance();
+		start.setTime(new Date());
+		Long startDate = start.getTimeInMillis(); 
 		
 		Long examStart = examS.getTimeInMillis();
 		Long examEnd = endExam.getTimeInMillis(); 
@@ -132,15 +133,11 @@ public class ConsultationController {
 			
 			Long pStart = pS.getTimeInMillis();
 			Long pEnd = pEn.getTimeInMillis();
-			
-			System.out.println(pS.getTime().toString());
-			System.out.println(pEn.getTime().toString());
-			System.out.println(examStart + " " +  examEnd + " " + pStart + " " + pEnd);
-			
+				
 			if(examStart <= pStart && examEnd >= pStart) {
 				available = false;
 				break;
-			} else if (examStart <= pEnd && examEnd >= pEnd) {
+			} else if (examStart <= pEnd && examEnd >= pEnd || startDate > examStart) {
 				available = false;
 				break;
 			}

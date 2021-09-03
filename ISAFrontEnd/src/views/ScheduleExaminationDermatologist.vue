@@ -150,34 +150,34 @@ export default {
     if(localStorage.getItem("userType") == "DERMATOLOGIST") {
 
       this.appId = localStorage.getItem("appointmentId")
-      this.axios
-          .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(response => (this.dermatologistt = response.data));
+        this.axios
+            .get('http://localhost:8091/users/' + localStorage.getItem("userId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => (this.dermatologistt = response.data));
 
-      this.axios
-          .get('http://localhost:8091/users/' + localStorage.getItem("patientId"), {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(response => (this.patient = response.data));
-
-      this.axios
-          .get('http://localhost:8091/pharmacy/' + this.pharmacy_id, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(response => (this.pharmacyy = response.data));
-
-      if (localStorage.getItem("appointmentId") == null) {
+      if(localStorage.getItem("appointmentId") != null) {
         alert("None appointment is started!")
         window.location.href = "http://localhost:8080/homePageDermatologist";
       } else {
+        this.axios
+            .get('http://localhost:8091/users/' + localStorage.getItem("patientId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => (this.patient = response.data));
+
+        this.axios
+            .get('http://localhost:8091/pharmacy/' + localStorage.getItem("pharmacyId"), {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
+            })
+            .then(response => (this.pharmacyy = response.data));
+
         this.axios
             .post('http://localhost:8091/medicine/endExam/' + this.currentExamination.appointmentId, {}, {
               headers: {
@@ -198,23 +198,28 @@ export default {
   methods: {
     findNextTerm: function (){
 
-      const dataForTerm={
-        pharmacyId: localStorage.getItem("pharmacyId"),
-        dermatologistId: localStorage.getItem("userId"),
-        patientId: localStorage.getItem("patientId")
-      }
+      if(localStorage.getItem("appointmentId") == null){
+        alert("None appointment is started!")
+        window.location.href = "http://localhost:8080/homePagePharmacist";
+      } else {
 
-      this.axios
-          .put('http://localhost:8091/examination/findValidNextTerm', dataForTerm, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("token")
-            }
-          })
-          .then(response => {
-            this.existingTerms = response.data
-            this.chooseExisting = true
+        const dataForTerm = {
+          pharmacyId: localStorage.getItem("pharmacyId"),
+          dermatologistId: localStorage.getItem("userId"),
+          patientId: localStorage.getItem("patientId")
+        }
+
+        this.axios
+            .put('http://localhost:8091/examination/findValidNextTerm', dataForTerm, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+              }
             })
-
+            .then(response => {
+              this.existingTerms = response.data
+              this.chooseExisting = true
+            })
+      }
     },
     scheduleExamination(examination){
       examination.patient = this.patient

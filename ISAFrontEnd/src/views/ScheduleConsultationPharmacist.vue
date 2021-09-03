@@ -135,7 +135,7 @@ export default {
           .then(response => (this.pharmacyy = response.data));
       if (this.appId == null) {
         alert("None appointment is started!")
-        window.location.href = "http://localhost:8080/homePageDermatologist";
+        window.location.href = "http://localhost:8080/homePagePharmacist";
       } else {
         this.axios
             .post('http://localhost:8091/medicine/endExam/' + this.currentExamination.appointmentId, {}, {
