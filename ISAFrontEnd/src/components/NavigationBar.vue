@@ -129,6 +129,7 @@ export default {
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
           {title: "Delete Medicine Items", path: "/deleteMedicineItems"},
           {title: "Create Pharmacist", path: "/createPharmacistByPharmacyAdmin"},
+          {title: "Delete Pharmacist", path: "/deletePharmacist"},
           {title: "Create Dermatologist", path: "/createDermatologistByPharmacyAdmin"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
