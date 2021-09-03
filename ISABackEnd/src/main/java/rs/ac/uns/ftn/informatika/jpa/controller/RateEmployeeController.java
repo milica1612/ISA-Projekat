@@ -1,7 +1,9 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,27 +35,28 @@ public class RateEmployeeController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/ratePharmacist")
-	public void rateEmployeePharmacist(@RequestBody RateEmployee rate) {
+	public ResponseEntity<?> rateEmployeePharmacist(@RequestBody RateEmployee rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
-			return;
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		rate.setPatient((Patient) user);
 		Double newRating = _rateEmployeeService.rateEmployee(rate);
 		_pharmacistService.updateRating(rate.getPharmacyEmployee().getUserId(), newRating);
+		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/rateDermatologist")
-	public void rateEmployeeDermatologist(@RequestBody RateEmployee rate) {
+	public  ResponseEntity<?> rateEmployeeDermatologist(@RequestBody RateEmployee rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
-			return;
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		rate.setPatient((Patient) user);
 		Double newRating = _rateEmployeeService.rateEmployee(rate);
 		_dermatologistService.updateRating(rate.getPharmacyEmployee().getUserId(), newRating);
-		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -3,6 +3,8 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +26,9 @@ public class AllergyController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping("/{id}/add")
-	public Set<Medicine> addMedicineToAllergy(@PathVariable Long id,@RequestBody Medicine medicine) {
-		return _allergyService.addMedicineToAllergy(medicine, id);
-		
+	public ResponseEntity<Set<Medicine>> addMedicineToAllergy(@PathVariable Long id,@RequestBody Medicine medicine) {
+		Set<Medicine> m = _allergyService.addMedicineToAllergy(medicine, id);
+		return new ResponseEntity<Set<Medicine>>(m, HttpStatus.OK);
 	}
 
 }
