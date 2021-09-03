@@ -49,15 +49,16 @@ public class UserController {
 	private PenaltyService _penaltyService;
 	
 	@GetMapping(value = "/{id}")
-	public User findUser(@PathVariable Long id) {
-		return (User) _userService.findById(id);
+	public ResponseEntity<User> findUser(@PathVariable Long id) {
+		User user =(User) _userService.findById(id);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/currentUser")
-	public User getCurrentLoggedUser() {
+	public ResponseEntity<User> getCurrentLoggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		return user;
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
  
