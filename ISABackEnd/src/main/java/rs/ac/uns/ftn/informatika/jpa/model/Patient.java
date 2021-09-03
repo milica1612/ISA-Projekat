@@ -68,6 +68,4 @@ public class Patient extends User {
 		this.pharmacies = pharmacies;
 	}
 
-	
-
 }

@@ -89,7 +89,9 @@ export default {
             window.location.href = "http://localhost:8080/homePagePharmacist";
           } else if (localStorage.getItem("userType") == "PH_ADMINISTRATOR") {
             window.location.href = "http://localhost:8080/homePagePharmacyAdmin";
-          } else
+          } else if (localStorage.getItem("userType") == "SYS_ADMINISTRATOR") {
+            window.location.href = "http://localhost:8080/homePageSystemAdmin";
+          }else
             window.location.href = "http://localhost:8080/NavigationBar";
         });
     }

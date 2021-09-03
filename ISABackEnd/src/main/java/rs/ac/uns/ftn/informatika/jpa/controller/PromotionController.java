@@ -59,7 +59,6 @@ public class PromotionController {
 		}
 		
 	}
-	/*
 	///subscribeToPharmacy - Role : patient
 	@PostMapping(path = "/subscribeToPharmacy/{pharmacyId}")
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -70,7 +69,7 @@ public class PromotionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-	*/
+	
 	//unsubscribeToPharmacy - Role : patient
 	@PostMapping(path = "/unsubscribeToPharmacy/{pharmacyId}")
 	@PreAuthorize("hasRole('ROLE_PATIENT')")

@@ -10,7 +10,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.repository.IAddressRepository;
 
 @Service
-@Transactional(readOnly = true)
 public class AddressService implements IAddressService{
 
 	
@@ -24,7 +23,6 @@ public class AddressService implements IAddressService{
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public Address createAddress(Address address) {
 		return _addressRepository.save(address);
 	}

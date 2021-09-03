@@ -1,25 +1,20 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
-import rs.ac.uns.ftn.informatika.jpa.dto.UserDTO;
 import rs.ac.uns.ftn.informatika.jpa.iservice.ISystemAdminService;
 import rs.ac.uns.ftn.informatika.jpa.model.Address;
 import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
-import rs.ac.uns.ftn.informatika.jpa.model.Patient;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
@@ -114,55 +109,6 @@ public class SystemAdminService implements ISystemAdminService {
 	@Override
 	public User findByEmail(String email) {
 		return _systemAdminRepository.findByEmail(email);
-	}
-
-	@Override
-	public Pharmacy createPharmacy(PharmacyRegisterDTO pharmacyDTO) {
-		Pharmacy pharmacy = new Pharmacy();
-		
-		pharmacy.setName(pharmacyDTO.getName());
-		pharmacy.setDescription(pharmacyDTO.getDescription());
-		
-		Address a = new Address();
-		a = pharmacyDTO.getAddress();
-		pharmacy.setAddress(a);
-		this._addressService.createAddress(pharmacyDTO.getAddress());
-		return _pharmacyRepository.save(pharmacy);
-	}
-
-	@Override
-	public User savePharmacyAdmin(RegistrationRequest request) {
-		Address a = new Address();
-		
-		PharmacyAdministrator ph_admin = new PharmacyAdministrator();
-		
-		ph_admin.setEmail(request.getEmail());
-
-		byte[] salt = generateSalt();
-		String encodedSalt = Base64.getEncoder().encodeToString(salt);
-		ph_admin.setSalt(encodedSalt);
-		String rawPassword = generatePasswordWithSalt(request.getPassword(), encodedSalt); 
-		String securePassword = hashPassword(rawPassword);
-		ph_admin.setPassword(securePassword);
-		
-		ph_admin.setFirstName(request.getFirstName());
-		ph_admin.setLastName(request.getLastName());
-
-		ph_admin.setPhoneNumber(request.getPhoneNumber());
-
-		a = request.getAddress();
-		ph_admin.setAddress(a);
-		this._addressService.createAddress(request.getAddress());
-		ph_admin.setUserType(UserType.PH_ADMINISTRATOR);
-		
-		ph_admin.setEnabled(true);
-		ph_admin.setFirstLogin(false);
-		
-		List<Authority> auth = _authorityService.findByName("ROLE_PH_ADMIN");
-		ph_admin.setAuthorities(auth);
-		
-		this._systemAdminRepository.save(ph_admin);
-		return ph_admin;	
 	}
 
 	@Override

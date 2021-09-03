@@ -217,6 +217,21 @@ public class OrderService implements IOrderService{
 		order.setPharmacyAdministrator(_pharmacyAdminRepository.findByUserId(pharmacyAdminId));
 		return _orderRepository.save(order);
 	}
+
+	@Override
+	public ArrayList<OrderDTO> findAllWaitingOfferOrders() {
+		
+		ArrayList<OrderDTO> result = new ArrayList<>();
+		ArrayList<Order> allOrders =  (ArrayList<Order>) _orderRepository.findAll();
+		
+		for(Order o: allOrders) {
+			if(o.getOrderStatus().equals(OrderStatus.WAITING_OFFER)) {
+				result.add(new OrderDTO(o.getOrderId(), o.getOfferDeadline().toString(), o.getPharmacy().getName(), o.getPharmacyAdministrator().getUserId(), o.getPharmacyAdministrator().getFirstName(), o.getOrderStatus()));
+			}
+		}
+		
+		return result;
+	}
 	
 	@Override
 	public Order deleteOrder(Long orderId) {

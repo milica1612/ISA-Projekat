@@ -24,7 +24,8 @@ const routes = [{
     {
         path: '/confirmRegistration/:id',
         name: 'ConfirmRegistration',
-        component: () => import('../views/ConfirmRegistration.vue')
+        component: () =>
+            import ('../views/ConfirmRegistration.vue')
     },
     {
         path: '/browsePharmacies',
@@ -66,13 +67,13 @@ const routes = [{
         path: '/homePagePharmacyAdmin',
         name: 'HomePagePharmacyAdmin',
         component: () =>
-            import('../views/HomePagePharmacyAdmin.vue')
+            import ('../views/HomePagePharmacyAdmin.vue')
     },
     {
         path: '/pharmacyAdmin',
         name: 'PharmacyAdmin',
         component: () =>
-            import('../views/PharmacyAdmin.vue')
+            import ('../views/PharmacyAdmin.vue')
     },
     {
         path: '/upcomingVisits',
@@ -128,11 +129,11 @@ const routes = [{
         component: () =>
             import ('../views/EditPharmacistInfo.vue')
     },
-    { 
+    {
         path: '/editPharmacyAdminInfo',
         name: 'EditPharmacyAdminInfo',
         component: () =>
-            import('../views/EditPharmacyAdminInfo.vue')
+            import ('../views/EditPharmacyAdminInfo.vue')
     },
     {
         path: '/supplier',
@@ -200,7 +201,7 @@ const routes = [{
         component: () =>
             import ('../views/CreatePharmacy.vue')
     },
-    {        
+    {
         path: '/changePasswordFirstLogin',
         name: 'ChangePasswordFirstLogin',
         component: () =>
@@ -209,7 +210,7 @@ const routes = [{
     {
         path: '/searchDermatologist',
         name: 'SearchDermatologist',
-        component: () => 
+        component: () =>
             import ('../views/SearchDermatologist.vue')
     },
     {
@@ -236,7 +237,7 @@ const routes = [{
         component: () =>
             import ('../views/DermatologistPatientProfile.vue')
     },
-    {        
+    {
         path: '/medicineRegistration',
         name: 'MedicineRegistration',
         component: () =>
@@ -252,165 +253,219 @@ const routes = [{
         path: '/myPharmacy',
         name: 'MyPharmacy',
         component: () =>
-            import('../views/MyPharmacy.vue')   
+            import ('../views/MyPharmacy.vue')
     },
     {
         path: '/promotion',
         name: 'Promotion',
         component: () =>
-            import('../views/Promotion.vue')
+            import ('../views/Promotion.vue')
     },
     {
 
         path: '/dispensingMedicinePharmacist',
         name: 'DispensingMedicinePharmacist',
         component: () =>
-            import('../views/DispensingMedicinePharmacist.vue')
+            import ('../views/DispensingMedicinePharmacist.vue')
     },
     {
         path: '/scheduleExaminationDermatologist',
         name: 'ScheduleExaminationDermatologist',
         component: () =>
-            import('../views/ScheduleExaminationDermatologist.vue')
+            import ('../views/ScheduleExaminationDermatologist.vue')
     },
     {
         path: '/scheduleConsultationPharmacist',
         name: 'ScheduleConsultationPharmacist',
         component: () =>
-            import('../views/ScheduleConsultationPharmacist.vue')
+            import ('../views/ScheduleConsultationPharmacist.vue')
     },
     {
         path: '/requestsVacationPharmacists',
         name: 'RequestsVacationPharmacists',
         component: () =>
-            import('../views/RequestsVacationPharmacists.vue')
+            import ('../views/RequestsVacationPharmacists.vue')
     },
     {
         path: '/allVacationRequestsPharmacists',
         name: 'AllVacationRequestsPharmacists',
         component: () =>
-            import('../views/AllVacationRequestsPharmacists.vue')
+            import ('../views/AllVacationRequestsPharmacists.vue')
     },
     {
         path: '/requestsVacationDermatologists',
         name: 'RequestsVacationDermatologists',
         component: () =>
-            import('../views/RequestsVacationDermatologists.vue')
+            import ('../views/RequestsVacationDermatologists.vue')
     },
     {
         path: '/allVacationRequestsDermatologists',
         name: 'AllVacationRequestsDermatologists',
         component: () =>
-            import('../views/AllVacationRequestsDermatologists.vue')
+            import ('../views/AllVacationRequestsDermatologists.vue')
     },
     {
         path: '/pharmacyOrders',
         name: 'PharmacyOrders',
         component: () =>
-            import('../views/PharmacyOrders.vue')
+            import ('../views/PharmacyOrders.vue')
+    },
+    {
+        path: '/pharmacySubscription',
+        name: 'PharmacySubscription',
+        component: () =>
+            import ('../views/PharmacySubscription.vue')
     },
     {
         path: '/workSchedulePharmacist',
         name: 'WorkSchedulePharmacist',
         component: () =>
-            import('../views/WorkSchedulePharmacist.vue')
+            import ('../views/WorkSchedulePharmacist.vue')
     },
     {
         path: '/workScheduleDermatologist',
         name: 'WorkScheduleDermatologist',
         component: () =>
-            import('../views/WorkScheduleDermatologist.vue')
+            import ('../views/WorkScheduleDermatologist.vue')
     },
     {
         path: '/vacationPharmacist',
         name: 'VacationPharmacist',
         component: () =>
-            import('../views/VacationPharmacist.vue')
+            import ('../views/VacationPharmacist.vue')
     },
     {
         path: '/vacationDermatologist',
         name: 'VacationDermatologist',
         component: () =>
-            import('../views/VacationDermatologist.vue')
-    }, 
+            import ('../views/VacationDermatologist.vue')
+    },
     {
         path: '/medicinesInPharmacy',
         name: 'MedicinesInPharmacy',
         component: () =>
-            import('../views/MedicinesInPharmacy.vue')
+            import ('../views/MedicinesInPharmacy.vue')
     },
     {
         path: '/makeAnOrder',
         name: 'MakeAnOrder',
         component: () =>
-            import('../views/MakeAnOrder.vue')
+            import ('../views/MakeAnOrder.vue')
     },
     {
         path: '/rateAndReport',
         name: 'RateAndReport',
         component: () =>
-            import('../views/RateAndReport.vue')
+            import ('../views/RateAndReport.vue')
     },
     {
         path: '/complaints',
         name: 'Complaints',
         component: () =>
-            import('../views/Complaints.vue')
+            import ('../views/Complaints.vue')
+    },
+    {
+        path: '/choosePharmacy',
+        name: 'ChoosePharmacy',
+        component: () =>
+            import ('../views/ChoosePharmacy.vue')
+    },
+    {
+        path: '/homePageSystemAdmin',
+        name: 'HomePageSystemAdmin',
+        component: () =>
+            import ('../views/HomePageSystemAdmin.vue')
+    },
+    {
+        path: '/loyaltyScale',
+        name: 'LoyaltyScale',
+        component: () =>
+            import ('../views/LoyaltyScale.vue')
+    },
+    {
+        path: '/ePrescription',
+        name: 'EPrescription',
+        component: () =>
+            import ('../views/EPrescription.vue')
     },
     {
         path: '/orderEditing',
         name: 'OrderEditing',
         component: () =>
-            import('../views/OrderEditing.vue')
+            import ('../views/OrderEditing.vue')
     },
     {
         path: '/previousExaminations',
         name: 'PreviousExaminations',
         component: () =>
-            import('../views/PreviousExaminations.vue')
+            import ('../views/PreviousExaminations.vue')
     },
     {
         path: '/previousConsultations',
         name: 'PreviousConsultations',
         component: () =>
-            import('../views/PreviousConsultations.vue')
+            import ('../views/PreviousConsultations.vue')
     },
     {
         path: '/myPenalties',
         name: 'MyPenalties',
         component: () =>
-            import('../views/MyPenalties.vue')
-    }, 
+            import ('../views/MyPenalties.vue')
+    },
     {
         path: '/defineFreeTermWithDermatologist',
         name: 'DefineFreeTermWithDermatologist',
         component: () =>
-            import('../views/DefineFreeTermWithDermatologist.vue')
+            import ('../views/DefineFreeTermWithDermatologist.vue')
     },
 
     {
         path: '/myEPrescription',
         name: 'MyEPrescription',
         component: () =>
-            import('../views/MyEPrescription.vue')
+            import ('../views/MyEPrescription.vue')
     },
     {
         path: '/issuedMedicine',
         name: 'IssuedMedicine',
         component: () =>
-            import('../views/IssuedMedicine.vue')
+            import ('../views/IssuedMedicine.vue')
     },
     {
         path: '/mySubscriptions',
         name: 'MySubscriptions',
         component: () =>
-            import('../views/MySubscriptions.vue')
+            import ('../views/MySubscriptions.vue')
     },
     {
         path: '/changePassword',
         name: 'ChangePassword',
         component: () =>
-            import('../views/ChangePassword.vue')
+            import ('../views/ChangePassword.vue')
+    },
+    {
+        path: '/mapExample',
+        name: 'MapExample',
+        component: () =>
+            import ('../views/MapExample.vue')
+    },
+    {
+        path: '/deleteMedicineItems',
+        name: 'DeleteMedicineItems',
+        component: () =>
+            import ('../views/DeleteMedicineItems.vue')
+    },
+    {
+        path: '/createPharmacistByPharmacyAdmin',
+        name: 'CreatePharmacistByPharmacyAdmin',
+        component: () =>
+            import ('../views/CreatePharmacistByPharmacyAdmin.vue')
+    },
+    {
+        path: '/createDermatologistByPharmacyAdmin',
+        name: 'CreateDermatologistByPharamcyAdmin',
+        component: () =>
+            import ('../views/CreateDermatologistByPharmacyAdmin.vue')
     },
 ]
 const router = new VueRouter({

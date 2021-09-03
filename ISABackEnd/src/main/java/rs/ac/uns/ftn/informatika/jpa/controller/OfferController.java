@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,20 +42,22 @@ public class OfferController {
 	}
 	
 	@GetMapping(path = "/seeOffers/{id}")
-	public List<Offer> findOffers(@PathVariable Long id) {		
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ArrayList<OfferDTO> findOffers(@PathVariable Long id) {		
 		return  _offerService.findOffersBySupplier(id);
 	}
 
 	@GetMapping(path = "/filtrate/{status}/{id}")
-	public List<Offer> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ArrayList<OfferDTO> filtrateOffers(@PathVariable Status status, @PathVariable Long id){
 		
-		List<Offer> offers = findOffers(id);
+		ArrayList<OfferDTO> offers = findOffers(id);
 		User user = _userService.findById(id);
 		
-		List<Offer> filtrateOffers = new ArrayList<>();
+		ArrayList<OfferDTO> filtrateOffers = new ArrayList<>();
 
 		if(user.getUserId() == id) {
-			for(Offer o : offers) {
+			for(OfferDTO o : offers) {
 				if(o.getStatus().equals(status)) {
 					filtrateOffers.add(o);
 				}
@@ -62,13 +66,14 @@ public class OfferController {
 		return filtrateOffers; 
 	}
 	
-	@PostMapping(value = "/createOffer/{order_id}")
+	@PostMapping(value = "/createOffer/{order_id}/add")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<?> createOffer(@PathVariable Long order_id, @RequestBody OfferDTO offerDTO){
 		try {
 			_offerService.createOffer(order_id, offerDTO);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>("ovde je propalo " + e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -88,6 +93,16 @@ public class OfferController {
 			return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	@PostMapping(value="/changeOffer")
+	public ResponseEntity<?> changeOffer(@RequestBody OfferDTO offerDTO) {
+		try {
+			_offerService.changeOffer(offerDTO);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

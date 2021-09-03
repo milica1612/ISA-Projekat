@@ -23,13 +23,15 @@ public class EPrescription {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long prescriptionId;
    
+   @Column(name = "code", nullable = false)
+   private String code;
+   
    @Column(name = "date", nullable = false)
    private Date date;
-   
    @Enumerated(EnumType.STRING)
    private EPrescriptionStatus status;
    
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public Set<Medicine> medicine;
    
    @ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.DETACH)
@@ -39,9 +41,11 @@ public class EPrescription {
    @OneToOne(fetch = FetchType.EAGER)
    private Patient patient;
    
-   public EPrescription(Long prescriptionId, Date date, Pharmacy pharmacy, Patient patient, EPrescriptionStatus status) {
+   
+   public EPrescription(Long prescriptionId, String code, Date date, Pharmacy pharmacy, Patient patient, EPrescriptionStatus status) {
 	super();
 	this.prescriptionId = prescriptionId;
+	this.code = code;
 	this.date = date;
 	this.medicine = new HashSet<Medicine>();
 	this.pharmacy = pharmacy;
@@ -61,6 +65,12 @@ public class EPrescription {
 		this.prescriptionId = prescriptionId;
 	}
 	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public Date getDate() {
 		return date;
 	}

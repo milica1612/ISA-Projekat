@@ -10,9 +10,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.DeleteMedicineItemRequestDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineItemDTO;
 import rs.ac.uns.ftn.informatika.jpa.service.MedicineItemService;
 
@@ -54,6 +57,12 @@ public class MedicineItemController {
 	public ResponseEntity<List<MedicineItemDTO>> findMedicineItemsNotExistByOrderId(@PathVariable Long orderId) {
 		List<MedicineItemDTO> medicineItemDTOs = _medicineItemService.findMedicineItemsNotExistByOrderId(orderId);
 		return new ResponseEntity<List<MedicineItemDTO>>(medicineItemDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
+	@PostMapping(value = "/deleteMedicineItemByMedicineId")
+	public ResponseEntity<Boolean> deleteMedicineItem(@RequestBody DeleteMedicineItemRequestDTO deleteMedicineItemRequestDTO) {
+		return new ResponseEntity<Boolean>(_medicineItemService.deleteMedicineItem(deleteMedicineItemRequestDTO.getDeleteMedicineItemId()), HttpStatus.OK);
 	}
 	
 }

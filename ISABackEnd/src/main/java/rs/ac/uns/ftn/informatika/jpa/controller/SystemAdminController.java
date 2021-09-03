@@ -6,14 +6,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.LoyaltyScaleDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyRegisterDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.RegistrationRequest;
+import rs.ac.uns.ftn.informatika.jpa.model.LoyaltyScale;
+import rs.ac.uns.ftn.informatika.jpa.service.LoyaltyScaleService;
 import rs.ac.uns.ftn.informatika.jpa.service.SystemAdminService;
 import rs.ac.uns.ftn.informatika.jpa.service.UserService;
 
@@ -27,6 +31,9 @@ public class SystemAdminController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private LoyaltyScaleService loyaltyScaleService;
 	
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/createSystemAdmin")
@@ -45,7 +52,7 @@ public class SystemAdminController {
 				
 		  return new ResponseEntity<>(this.systemAdminService.saveDermatologist(userRequest), HttpStatus.CREATED);
 		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -55,28 +62,25 @@ public class SystemAdminController {
 		
 		  return new ResponseEntity<>(this.systemAdminService.saveSupplier(userRequest), HttpStatus.CREATED);
 		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@PostMapping("/createPhAdmin")
-	public ResponseEntity<?> createPhAdmin(@RequestBody RegistrationRequest userRequest, UriComponentsBuilder ucBuilder) {
+	@GetMapping("/calculateLoyaltyScale")
+	public void calculateLoyaltyScale() {
+		  loyaltyScaleService.calculateLoyaltyCategoryForPatients();
+	}
+	
+	@PostMapping("/defineLoyaltyScale")
+	public ResponseEntity<?> defineLoyaltyScale(@RequestBody LoyaltyScaleDTO loyaltyScale, UriComponentsBuilder ucBuilder) {
 		try {
-		  return new ResponseEntity<>(this.systemAdminService.savePharmacyAdmin(userRequest), HttpStatus.CREATED);
+		
+		  return new ResponseEntity<>(this.loyaltyScaleService.createLoyaltyScale(loyaltyScale), HttpStatus.CREATED);
 		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@PostMapping("/createPharmacy")
-	public ResponseEntity<?> createPharmacy(@RequestBody PharmacyRegisterDTO pharmacyRequest, UriComponentsBuilder ucBuilder) {
-		try {
-	
-		  return new ResponseEntity<>(this.systemAdminService.createPharmacy(pharmacyRequest), HttpStatus.CREATED);
-		} catch (Exception e) { 
-			return new ResponseEntity<>(e.getMessage() + " ovde je propalo", HttpStatus.BAD_REQUEST);
-		}
-	}	
 }
 	
 

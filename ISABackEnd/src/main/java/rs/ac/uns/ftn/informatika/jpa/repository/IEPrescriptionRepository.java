@@ -8,4 +8,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.EPrescription;
 @Repository
 public interface IEPrescriptionRepository extends JpaRepository<EPrescription, Long>{
 
+	EPrescription findByCode(String code);
+	
 }

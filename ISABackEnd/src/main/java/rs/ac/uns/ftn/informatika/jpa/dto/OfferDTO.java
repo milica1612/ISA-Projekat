@@ -14,8 +14,7 @@ public class OfferDTO {
 	
 	private Double price;
 	
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date deliveryDeadline;
+    private String deliveryDeadline;
 	    
     private Boolean isApproved;
     
@@ -27,19 +26,28 @@ public class OfferDTO {
     
     public OfferDTO() {}
 
-	public OfferDTO(Long id, Double price, Date deliveryDeadline, Boolean isApproved, Status status, Supplier supplier,
+	public OfferDTO(Long id, Double price, String deliveryDeadline, Status status, Supplier supplier,
+			Order order, Boolean isApproved) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.deliveryDeadline = deliveryDeadline;
+		this.status = status;
+		this.supplier = supplier;
+		this.order = order;
+		this.isApproved = isApproved;
+	}
+
+	public OfferDTO(Long id, Double price, String deliveryDeadline, Status status, Supplier supplier,
 			Order order) {
 		super();
 		this.id = id;
 		this.price = price;
 		this.deliveryDeadline = deliveryDeadline;
-		this.isApproved = isApproved;
 		this.status = status;
 		this.supplier = supplier;
 		this.order = order;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -57,11 +65,11 @@ public class OfferDTO {
 		this.price = finalPrice;
 	}
 
-	public Date getDeliveryDeadline() {
+	public String getDeliveryDeadline() {
 		return deliveryDeadline;
 	}
 
-	public void setDeliveryDeadline(Date deliveryDeadline) {
+	public void setDeliveryDeadline(String deliveryDeadline) {
 		this.deliveryDeadline = deliveryDeadline;
 	}
 
@@ -104,4 +112,6 @@ public class OfferDTO {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	
+	
 }

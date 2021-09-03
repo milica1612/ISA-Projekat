@@ -1,12 +1,14 @@
 package rs.ac.uns.ftn.informatika.jpa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.informatika.jpa.dto.MedicineAvailableInPharmacyDTO;
@@ -16,10 +18,13 @@ import rs.ac.uns.ftn.informatika.jpa.iservice.IMedicineItemService;
 import rs.ac.uns.ftn.informatika.jpa.model.Medicine;
 import rs.ac.uns.ftn.informatika.jpa.model.MedicineItem;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
+import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
+import rs.ac.uns.ftn.informatika.jpa.model.Reservation;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
+import rs.ac.uns.ftn.informatika.jpa.repository.IReservationRepository;
 
 @Service
 public class MedicineItemService implements IMedicineItemService{
@@ -32,12 +37,15 @@ public class MedicineItemService implements IMedicineItemService{
 	
 	private IOrderRepository _orderRepository;
 	
+	private IReservationRepository _reservationRepository;
+	
 	@Autowired
-	public MedicineItemService(IMedicineItemRepository medicineItemRepository, IPharmacyRepository pharmacyRepository, IMedicineRepository medicineRepository, IOrderRepository orderRepository) {
+	public MedicineItemService(IMedicineItemRepository medicineItemRepository, IPharmacyRepository pharmacyRepository, IMedicineRepository medicineRepository, IOrderRepository orderRepository, IReservationRepository reservationRepository) {
 		this._medicineItemRepository = medicineItemRepository;
 		this._pharmacyRepository = pharmacyRepository;
 		this._medicineRepository = medicineRepository;
 		this._orderRepository = orderRepository;
+		this._reservationRepository = reservationRepository;
 	}
 	
 	@Override
@@ -98,7 +106,7 @@ public class MedicineItemService implements IMedicineItemService{
 		// manual convert Set to List
 		for (MedicineItem medicineItem : pharmacy.getMedicineItem()) {
 			Medicine m = medicineItem.getMedicine();
-			MedicineItemDTO medicineDTO = new MedicineItemDTO(m.getName(), m.getMedicineId(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), medicineItem.getQuantity());
+			MedicineItemDTO medicineDTO = new MedicineItemDTO(medicineItem.getMedicineItemId(), m.getName(), m.getMedicineId(), m.getMedicineCode(), m.getType(), m.getManufacturer(), m.getMedicineForm(), m.getPrescriptionType(), medicineItem.getQuantity());
 			medicineItems.add(medicineDTO);			
 		}
 		
@@ -168,6 +176,41 @@ public class MedicineItemService implements IMedicineItemService{
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public Boolean deleteMedicineItem(Long deleteMedicineItemId) {
+		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Reservation> allReservations = _reservationRepository.findAll();
+		MedicineItem medicineItem = _medicineItemRepository.getOne(deleteMedicineItemId);
+		Pharmacy pharmacy = _pharmacyRepository.getOne(pAdmin.getPharmacy().getPharmacyId());
+		
+		Date date = new Date();
+		System.out.println("Date now " + date.toString());
+		
+		for (Reservation r : allReservations) {
+			Date deadline = r.getDeadline();
+	
+			if (r.getRecieved() == false && r.getCancelled() == false
+					&& r.getPharmacy().getPharmacyId() == pharmacy.getPharmacyId()
+				&& deadline.after(date) && r.getMedicineItem().getMedicine().getMedicineId() == medicineItem.getMedicine().getMedicineId()) {
+				return false;
+				
+			}
+		}
+		
+		Set<MedicineItem> medicineItemsInPharmacy = pharmacy.getMedicineItem();
+		
+		for (MedicineItem m : medicineItemsInPharmacy) {
+			if (m.getMedicine().getMedicineId() == medicineItem.getMedicine().getMedicineId()) {
+				medicineItemsInPharmacy.remove(m);
+				break;
+			}
+		}
+		
+		pharmacy.setMedicineItem(medicineItemsInPharmacy);
+		_pharmacyRepository.save(pharmacy);
+		return true;
 	}
 
 }

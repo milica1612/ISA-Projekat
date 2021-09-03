@@ -45,7 +45,5 @@ public class EPrescriptionDTO {
 	public void setStatus(EPrescriptionStatus status) {
 		this.status = status;
 	}
-	 
-	 
-	
+
 }

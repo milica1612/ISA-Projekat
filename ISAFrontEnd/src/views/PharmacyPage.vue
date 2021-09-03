@@ -1,8 +1,21 @@
 <template>
 <div id = "homePage">
   <div class = "container">
-  <h3>{{this.pharmacyName}}</h3>
-  <br>
+  <div text-align= "center">
+    <h3>{{this.pharmacyName}}
+      <v-btn
+        class="ma-2"
+        :loading="loading"
+        :disabled="loading"
+        color="secondary"
+        @click="loader = 'loading'"
+        v-on:click="subscribeToSalesAndPromotion(pharmacyId)"
+      >
+        Subscribe
+      </v-btn>
+      </h3>
+  </div>
+    <br>
   <v-simple-table>
     <template v-slot:default>
       <thead>
@@ -61,6 +74,7 @@ export default {
       pharmacyName : localStorage.getItem("pharmacyName"),
       examinations : [],
       patient: null,
+      pharmacies: null,
       sort: {
         key: '',
         isAsc: false
@@ -100,7 +114,17 @@ mounted() {
     },
     scheduleExamination(examination){
       examination.patient = this.patient
-      if(this.patient.penalty < 3) {
+      this.axios
+          .put('http://localhost:8091/examination/schedule', examination, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(
+                  alert("Examination scheduled!"),
+              window.location.href = "http://localhost:8080/upcomingVisits"
+          );
+       if(this.patient.penalty < 3) {
         this.axios
             .put('http://localhost:8091/examination/schedule', examination, {
               headers: {
@@ -115,8 +139,23 @@ mounted() {
         alert("You can schedule an examination because you have 3 or more penalties. This option" +
             " will be available next month")
       }
-    }
-
+    },
+     subscribeToSalesAndPromotion(pharmacyId){
+      pharmacyId = localStorage.getItem("pharmacy")
+      this.axios
+        .post('http://localhost:8091/promotions/subscribeToPharmacy/' + pharmacyId, {}, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+          })
+          .then(r => {
+                  this.pharmacy = r.data
+                  alert("Successfully subscribed to " + localStorage.getItem("pharmacyName") + " pharmacy!")
+          })
+          .catch(() => {
+                  alert("You are already subscribed!")
+          });
+     }
   },
   computed: {
     sortedItems () {
