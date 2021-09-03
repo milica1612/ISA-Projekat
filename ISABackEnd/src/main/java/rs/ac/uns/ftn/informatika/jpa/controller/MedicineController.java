@@ -87,8 +87,9 @@ public class MedicineController {
 	}
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST', 'ROLE_DERMATOLOGIST')")
 	@PutMapping(value = "/forAllergies")
-	public ArrayList<Medicine> findAllMedicineForAllergies(@RequestBody Allergy allergy){
-		return _medicineService.findAllMedicineForAllergies(allergy);
+	public ResponseEntity<ArrayList<Medicine>> findAllMedicineForAllergies(@RequestBody Allergy allergy){
+		ArrayList<Medicine> m = _medicineService.findAllMedicineForAllergies(allergy);
+		return new ResponseEntity<ArrayList<Medicine>>(m,HttpStatus.OK);
 	}
 
 	@PostMapping("/addMedicine")
@@ -253,11 +254,11 @@ public class MedicineController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(path = "/getMedicineForRating/{patientId}")
-	public ArrayList<Medicine> getMedicineForRating(@PathVariable Long patientId){	
+	public ResponseEntity<ArrayList<Medicine>> getMedicineForRating(@PathVariable Long patientId){	
 		ArrayList<Medicine> result = new ArrayList<Medicine>();
 		_reservationService.getMedicineForRating(patientId, result);
 		_ePrescriptionService.getMedicineForRating(patientId, result);
-		return result;
+		return new ResponseEntity<ArrayList<Medicine>>(result, HttpStatus.OK);
 	}
 	
 }

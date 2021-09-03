@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.informatika.jpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,14 +31,15 @@ public class RatePharmacyController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping(value = "/rate")
-	public void rateEmployeePharmacist(@RequestBody RatePharmacy rate) {
+	public ResponseEntity<?> rateEmployeePharmacist(@RequestBody RatePharmacy rate) {
 		if(rate.getRating()<6 || rate.getRating()>10) {
-			return;
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		rate.setPatient((Patient) user);
 		Double newRating = _ratePharmacyService.ratePharmacy(rate);
 		_pharmacyService.updateRating(rate.getPharmacy().getPharmacyId(), newRating);
+		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
 	

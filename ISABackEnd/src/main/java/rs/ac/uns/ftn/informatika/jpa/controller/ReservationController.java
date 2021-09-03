@@ -9,7 +9,9 @@ import java.util.Date;
 import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,21 +72,23 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("create")
-	public void createReservation(@RequestBody ReservationDTO dto) {
+	public ResponseEntity<?> createReservation(@RequestBody ReservationDTO dto) {
 		User user = _userService.findById(dto.getUserId());
 		if(!_userService.checkPenalties(dto.getUserId())) {
 			System.out.println("Unable to make a reservation because of penalties");
-			return;
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		Reservation reservation = _reservationService.createReservation(dto,(Patient) user);
 		_medicineItemService.findMedicineItmeAndChangeQuantity(dto.getDto());
 		_emailService.sendReservationMadeEmail(reservation);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
-	public ArrayList<ReservationViewDTO> getByPatient(@PathVariable Long patientId){
-		return _reservationService.getByPatient(patientId);
+	public ResponseEntity<ArrayList<ReservationViewDTO>> getByPatient(@PathVariable Long patientId){
+		ArrayList<ReservationViewDTO> r = _reservationService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<ReservationViewDTO>>(r, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
@@ -130,25 +134,27 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
-	public boolean cancelReservation(@RequestBody ReservationViewDTO reservation) {
+	public ResponseEntity<Boolean> cancelReservation(@RequestBody ReservationViewDTO reservation) {
 		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
-		return _reservationService.cancelReservation(reservation);
+		Boolean cancelled = _reservationService.cancelReservation(reservation);
+		return new ResponseEntity<Boolean>(cancelled,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/checkForPenalties/{patientId}")
-	public void checkForPenalties(@PathVariable Long patientId) {
+	public ResponseEntity<?> checkForPenalties(@PathVariable Long patientId) {
 		ArrayList<Penalty> penalties = _reservationService.checkForPenatlies(patientId);
 		for (Penalty penalty : penalties) {
 			Penalty p = _penaltyService.save(penalty);
 			_userService.increasePenalty(patientId, p);
 			
 		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value="/checkDate")
-	public boolean checkDate(@RequestBody ReservationDTO dto) throws ParseException {
+	public ResponseEntity<Boolean> checkDate(@RequestBody ReservationDTO dto) throws ParseException {
 		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getDate());
 		Calendar now = Calendar.getInstance(); // creates calendar
 		now.setTime(new Date()); 
@@ -156,9 +162,9 @@ public class ReservationController {
 		d.setTime(date);
 		
 			if(d.before(now)) {
-				return false;
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 			}else {
-				return true;
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			}  
 	}
 

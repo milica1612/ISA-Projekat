@@ -61,31 +61,35 @@ public class ExaminationContoller {
 	
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST')")
 	@GetMapping(value = "/getByPharmacy/{pharmacyId}")
-	public ArrayList<ExaminationDTO> getByPharmacy(@PathVariable Long pharmacyId){
-		return _examinationService.getByPharmacy(pharmacyId);
+	public ResponseEntity<ArrayList<ExaminationDTO>> getByPharmacy(@PathVariable Long pharmacyId){
+		ArrayList<ExaminationDTO> e = _examinationService.getByPharmacy(pharmacyId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPreviousExaminations/{patientId}")
-	public ArrayList<ExaminationDTO> getPreviousExaminations(@PathVariable Long patientId){
-		return _examinationService.getPreviousExaminations(patientId);
+	public ResponseEntity<ArrayList<ExaminationDTO>> getPreviousExaminations(@PathVariable Long patientId){
+		ArrayList<ExaminationDTO> e = _examinationService.getPreviousExaminations(patientId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
-	public ArrayList<ExaminationDTO> getByPatient(@PathVariable Long patientId){
-		return _examinationService.getByPatient(patientId);
+	public ResponseEntity<ArrayList<ExaminationDTO>> getByPatient(@PathVariable Long patientId){
+		ArrayList<ExaminationDTO> e = _examinationService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<ExaminationDTO>>(e, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_DERMATOLOGIST', 'ROLE_PHARMACIST')")
 	@PutMapping(value = "/schedule")
-	public void scheduleExamination(@RequestBody ExaminationDTO examination) {
+	public ResponseEntity<?> scheduleExamination(@RequestBody ExaminationDTO examination) {
 		if(!_userService.checkPenalties(examination.getPatient().getUserId())) {
 			System.out.println("Unable to schedule examination because of penalties");
-			return;
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		Examination e = _examinationService.scheduleExamination(examination);
 		_emailService.sendExaminationConfirmation(e);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")

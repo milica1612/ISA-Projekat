@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,35 +66,39 @@ public class ConsultationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PostMapping("/create")
-	public void createNewConsultation(@RequestBody Request r) {
+	public ResponseEntity<?> createNewConsultation(@RequestBody Request r) {
 		User user = _userService.findById(r.patientId);
 		if(!_userService.checkPenalties(r.patientId)) {
 			System.out.println("Unable to schedule consultation because of penalties");
-			return;
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		Consultation c = this._consultationService.save(r.dto, (Patient) user);
 		ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
 		this._workSchedulePharmacist.addNewConsultationToWorkSchedule(c, vacations);
 		this._emailService.sendConsultationConfirmation(c);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_PATIENT', 'ROLE_PHARMACIST')")
 	@GetMapping(value = "/getByPatientId/{patientId}")
-	public ArrayList<ConsultationViewDTO> getByPatient(@PathVariable Long patientId){
-		return _consultationService.getByPatient(patientId);
+	public ResponseEntity<ArrayList<ConsultationViewDTO>> getByPatient(@PathVariable Long patientId){
+		ArrayList<ConsultationViewDTO> c = _consultationService.getByPatient(patientId);
+		return new ResponseEntity<ArrayList<ConsultationViewDTO>>(c, HttpStatus.OK);
 	}
 	
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPreviousConsultations/{patientId}")
-	public ArrayList<ConsultationViewDTO> getPreviousConsultations(@PathVariable Long patientId){
-		return _consultationService.getPreviousConsultations(patientId);
+	public ResponseEntity<ArrayList<ConsultationViewDTO>> getPreviousConsultations(@PathVariable Long patientId){
+		ArrayList<ConsultationViewDTO> c = _consultationService.getPreviousConsultations(patientId);
+		return new ResponseEntity<ArrayList<ConsultationViewDTO>>(c, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
-	public boolean cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
-		return _consultationService.cancelConsultation(consultation);
+	public ResponseEntity<Boolean> cancelConsultation(@RequestBody ConsultationViewDTO consultation) {
+		Boolean cancelled =  _consultationService.cancelConsultation(consultation);
+		return new ResponseEntity<Boolean>(cancelled, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_PHARMACIST')")
@@ -184,8 +190,9 @@ public class ConsultationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getAllPharmacistsByPatient/{patientId}")
-	public ArrayList<Pharmacist> getAllPharmacistByPatient(@PathVariable Long patientId){
-		return _consultationService.getAllPharmacistForPatient(patientId);
+	public ResponseEntity<ArrayList<Pharmacist>> getAllPharmacistByPatient(@PathVariable Long patientId){
+		ArrayList<Pharmacist> p =  _consultationService.getAllPharmacistForPatient(patientId);
+		return new ResponseEntity<ArrayList<Pharmacist>>(p, HttpStatus.OK);
 	}
 
 }
