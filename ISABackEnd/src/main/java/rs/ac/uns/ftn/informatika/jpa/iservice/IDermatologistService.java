@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.iservice;
 import java.util.List;
 import java.util.Set;
 
+import rs.ac.uns.ftn.informatika.jpa.dto.CreateDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.DermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.dto.PharmacyDermatologistDTO;
 import rs.ac.uns.ftn.informatika.jpa.model.Dermatologist;
@@ -24,4 +25,6 @@ public interface IDermatologistService {
 	void updateRating(Long userId, Double newRating);
 
 	List<PharmacyDermatologistDTO> findDermatologistsByPharmacy();
+
+	Dermatologist createDermatologistByPharmacyAdmin(CreateDermatologistDTO createDermatologistDTO);
 }

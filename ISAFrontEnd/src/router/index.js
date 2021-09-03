@@ -429,7 +429,13 @@ const routes = [{
         name: 'CreatePharmacistByPharmacyAdmin',
         component: () =>
             import('../views/CreatePharmacistByPharmacyAdmin.vue')
-    }
+    },
+    {
+        path: '/createDermatologistByPharmacyAdmin',
+        name: 'CreateDermatologistByPharamcyAdmin',
+        component: () => 
+            import('../views/CreateDermatologistByPharmacyAdmin.vue')    
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

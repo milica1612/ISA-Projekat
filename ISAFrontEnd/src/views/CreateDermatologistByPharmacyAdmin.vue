@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 id="createPharmacistByPharmacyAdminCaption">
-      Create pharmacist for {{ pharmacyName }} pharmacy
+    <h1 id="createDermatologistByPharmacyAdminCaption">
+      Create dermatologist for {{ pharmacyName }} pharmacy
     </h1>
     <div class="pt-1">
-      <v-card id="pharmacistInfoCard" v-bind:style="{ opacity: opacity }">
+      <v-card id="dermatologistInfoCard" v-bind:style="{ opacity: opacity }">
         <v-card-text>
           <v-form class="mx-auto mt-5 mb-5 mr-10 ml-10">
             <v-text-field
@@ -98,7 +98,7 @@
             elevation="6"
             x-large
             raised
-            v-on:click="createPharmacist"
+            v-on:click="createDermatologist"
             >Create</v-btn
           >
           <v-btn
@@ -118,7 +118,7 @@
 
 <script>
 export default {
-  name: "CreatePharmacistByPharmacyAdmin",
+  name: "CreateDermatologistByPharmacyAdmin",
   data: () => ({
     opacity: 0.9,
     countries: [
@@ -140,7 +140,7 @@ export default {
     country: "",
     phoneNumber: "",
     repeatedPassword: "",
-    pharmacist: null,
+    dermatologist: null,
     pharmacy: null,
     pharmacyName: "",
   }),
@@ -172,21 +172,10 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    createPharmacist() {
-      console.log(this.email);
-      console.log(this.password);
-      console.log(this.firstName);
-      console.log(this.lastName);
-
-      console.log(this.phoneNumber);
-      console.log(this.streetName);
-      console.log(this.city);
-      console.log(this.country);
-      console.log(localStorage.getItem("pharmacyId"));
-
+    createDermatologist() {
       this.axios
         .post(
-          "http://localhost:8091/pharmacists/createPharmacistByPharmacyAdmin",
+          "http://localhost:8091/dermatologists/createDermatologistByPharmacyAdmin",
           {
             pharmacyId: localStorage.getItem("pharmacyId"),
             email: this.email,
@@ -209,12 +198,12 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          this.pharmacist = response.data;
-          if (this.pharmacist != null) {
-            alert("Pharmacist is successfully created!");
+          this.dermatologist = response.data;
+          if (this.dermatologist != null) {
+            alert("Dermatologist is successfully created!");
             window.location.href = "http://localhost:8080/myPharmacy";
           } else {
-            alert("Dear pharmacy admin, pharmacist can't be created.");
+            alert("Dear pharmacy admin, dermatologist can't be created.");
             window.location.href =
               "http://localhost:8080/homePagePharmacyAdmin";
           }
@@ -228,14 +217,14 @@ export default {
 </script>
 
 <style scoped>
-#createPharmacistByPharmacyAdminCaption {
+#createDermatologistByPharmacyAdminCaption {
   margin-top: 2%;
   margin-bottom: 2%;
   color: rgb(2, 2, 117);
   text-align: center;
   font-weight: bold;
 }
-#pharmacistInfoCard {
+#dermatologistInfoCard {
   width: 40%;
   margin: auto;
 }
