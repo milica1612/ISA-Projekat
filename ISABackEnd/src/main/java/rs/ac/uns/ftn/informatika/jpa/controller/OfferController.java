@@ -3,6 +3,8 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -81,6 +83,7 @@ public class OfferController {
 	
 	@PreAuthorize("hasRole('ROLE_PH_ADMIN')")
 	@PostMapping(value="/acceptOffer")
+	@Transactional
 	public ResponseEntity<Boolean> accept(@RequestBody OfferAcceptDTO offerAcceptDTO) {
 		try {
 			return new ResponseEntity<Boolean>(_offerService.accept(offerAcceptDTO.getOfferId()), HttpStatus.OK);

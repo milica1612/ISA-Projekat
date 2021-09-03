@@ -134,6 +134,7 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping(value = "/cancel")
+	@Transactional
 	public ResponseEntity<Boolean> cancelReservation(@RequestBody ReservationViewDTO reservation) {
 		_medicineItemService.findMedicineItemAndIncreaseQuantity(reservation);
 		Boolean cancelled = _reservationService.cancelReservation(reservation);
