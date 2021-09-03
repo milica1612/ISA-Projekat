@@ -5,7 +5,10 @@
     </h1>
     <v-card id="deletePharmacistInPharmacyCard" justify-center>
       <div>
-        <v-data-table :headers="pharmacistHeaders" :items="pharmacistsInPharmacy">
+        <v-data-table
+          :headers="pharmacistHeaders"
+          :items="pharmacistsInPharmacy"
+        >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
@@ -27,7 +30,10 @@
                     >
                     <v-spacer></v-spacer>
 
-                    <v-btn color="primary" text @click="closeDeleteSelectedPharmacist"
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="closeDeleteSelectedPharmacist"
                       >Cancel</v-btn
                     >
 
@@ -156,17 +162,41 @@ export default {
         .then((response) => {
           this.pharmacistsInPharmacy = response.data;
         });
-
     },
     deleteSelectedPharmacist(item) {
       this.editedIndex = this.pharmacistsInPharmacy.indexOf(item);
       this.editedPharmacist = Object.assign({}, item);
       this.dialogDeletePharmacist = true;
-      this.deletePharmacistId = this.editedPharmacist.medicineItemId;
+      this.deletePharmacistId = this.editedPharmacist.pharmacistId;
     },
     deletePharmacist() {
-      alert("Successfully deleted pharmacist!");
-      window.location.href = "http://localhost:8080/myPharmacy"
+      this.axios
+        .post(
+          "http://localhost:8091/pharmacists/deletePharmacist",
+          {
+            deletePharmacistId: this.deletePharmacistId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+            alert("Successfully deleted pharmacist!");
+            window.location.href = "http://localhost:8080/myPharmacy";
+          } else {
+            alert(
+              "Dear pharmacy admin, the pharmacist has scheduled consultation or pharmacist is on vacation, and cannot be deleted from the pharmacy."
+            );
+            window.location.href =
+              "http://localhost:8080/homePagePharmacyAdmin";
+          }
+        });
+    
+      
       this.closeDeleteSelectedPharmacist();
     },
     closeDeleteSelectedPharmacist() {
