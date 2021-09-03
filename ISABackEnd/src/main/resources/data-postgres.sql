@@ -854,12 +854,21 @@ INSERT INTO public.price_tag(
 
 INSERT INTO public.price_tag(
 	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
-	VALUES (default, 350, 1, 8);
+	VALUES (default, 580, 2, 8);
+    
+    INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 500, 3, 7);
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 500, 4, 7);
+INSERT INTO public.price_tag(
+	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
+	VALUES (default, 500, 8, 7);
 
 INSERT INTO public.price_tag(
 	price_tag_id, price, medicine_medicine_id, time_interval_time_interval_id)
-	VALUES (default, 580, 2, 8);
-
+	VALUES (default, 350, 1, 8);
 INSERT INTO public.pharmacy_price_tags(
 	pharmacy_pharmacy_id, price_tags_price_tag_id)
 	VALUES (1, 1);
@@ -875,6 +884,16 @@ INSERT INTO public.pharmacy_price_tags(
 INSERT INTO public.pharmacy_price_tags(
 	pharmacy_pharmacy_id, price_tags_price_tag_id)
 	VALUES (2, 4);
+    
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 5);
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 6);
+INSERT INTO public.pharmacy_price_tags(
+	pharmacy_pharmacy_id, price_tags_price_tag_id)
+	VALUES (2, 7);
 	
 INSERT INTO public.examination(appointment_id, appointment_status, cancelled, date_and_time,
 duration, points, price, dermatologist_user_id, patient_user_id, pharmacy_pharmacy_id, version)

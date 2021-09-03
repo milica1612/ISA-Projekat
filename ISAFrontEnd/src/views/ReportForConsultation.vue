@@ -440,7 +440,7 @@ export default {
       this.mmm = smed
 
       const ca={
-        pharmacyId: this.phId,
+        pharmacyId: localStorage.getItem("pharmacyId"),
         medicineAvailable: this.mmm
       }
 
