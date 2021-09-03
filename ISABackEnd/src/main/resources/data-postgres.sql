@@ -758,4 +758,54 @@ INSERT INTO public.reservation(
 	reservation_id, cancelled, deadline, penalty, recieved, reservation_code, medicine_item_medicine_item_id, patient_user_id, pharmacy_pharmacy_id)
 	VALUES (default, false, '2021-11-11 00:00:00', false, true, 'ghgy32uu1', 12, 1, 1);
 
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/10/28', 'WAITING_OFFER', 2, 10);
+
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/11/28', 'WAITING_OFFER', 2, 10);
+
+INSERT INTO public.order(order_id, offer_deadline, order_status, pharmacy_pharmacy_id, pharmacy_administrator_user_id)
+	VALUES (default,'2021/12/28', 'WAITING_OFFER', 2, 10);
 	
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (5, 105);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (6, 105);
+
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (7, 105);
+	
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 101);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 102);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 103);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 104);
+INSERT INTO public.order_medicine_item(order_order_id, medicine_item_medicine_item_id)
+	VALUES (8, 105);

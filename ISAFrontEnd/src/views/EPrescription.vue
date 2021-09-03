@@ -36,7 +36,7 @@
           >
             <td>{{ a.pharmacy.name }}</td>
             <td>{{ a.priceTag.medicine.name}}</td>
-            <td>{{ a.priceTag.price}}</td>
+            <td>{{ a.sumPrice}}</td>
             <td> <v-btn
                     color="secondary"
                     elevation="3"

@@ -57,6 +57,47 @@
             <td>{{ offer.order.orderStatus}}</td>
             <td>{{ offer.price }}</td>
             <td>{{ offer.order.pharmacy.name }}</td>
+            <td>
+          <v-dialog
+                transition="dialog-top-transition"
+                max-width="600"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              color="primary"
+                              small
+                              v-bind="attrs"
+                              v-on="on"
+                          >Change Offer</v-btn>
+                        </template>
+                        <template v-slot:default="dialog">
+                          <v-card>
+                            <v-toolbar
+                                color="primary"
+                                dark
+                            >Offer:</v-toolbar>
+                            
+                          <v-text-field
+                            label="Price"
+                            v-model="price"
+                            :rules="[() => !!price || 'This field is required']"
+                            prepend-icon="mdi-account-circle"
+                          />                  
+                            <template>
+                              <v-row justify="center">
+                                <v-date-picker v-model="deliveryDeadline"></v-date-picker>
+                              </v-row>
+                            </template>
+            <v-btn
+                width="300"
+                text
+                @click="changeOffer(offer, dialog)"
+            >Send</v-btn>
+            </v-card>
+            </template>
+            </v-dialog>
+
+            </td>
           </tr>
           </tbody>
         </template>
@@ -156,7 +197,8 @@ export default {
         offers: [],
         orders: [],
         singleSelect: false,
-        selected: []
+        selected: [],
+        isApproved: false
      }
     },
     mounted() { 
@@ -224,20 +266,42 @@ export default {
           .post("http://localhost:8091/offers/createOffer/" + order.orderId + "/add", {
               id: order.orderId,
               price: this.price,
+              deliveryDeadline: this.deliveryDeadline,
+              isApproved: this.isApproved
+              },{
+              headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem("token")}
+            })
+            .then(() => {
+                this.isApproved = true
+                console.log('Successfully sent offer.');
+            })
+            .catch((er) => {
+              alert("Date is passed!");
+              console.log(er.response.data);
+            });
+          }
+    },
+    
+      changeOffer: function(offer, dialog){
+        dialog.value = false
+        this.axios
+          .post("http://localhost:8091/offers/changeOffer/", {
+              id: offer.id,
+              price: this.price,
               deliveryDeadline: this.deliveryDeadline},{
               headers: {
                   Authorization: 'Bearer ' + localStorage.getItem("token")}
             })
             .then(() => {
-                console.log('Successfully sent offer.');
+
+                console.log('Successfully changed offer.');
             })
             .catch((er) => {
               alert("Error!");
               console.log(er.response.data);
             });
           }
-    }
-
   }
 </script>
 

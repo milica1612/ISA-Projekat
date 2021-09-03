@@ -32,4 +32,6 @@ public interface IOfferService {
 	
 	void createOffer(Long order_id, OfferDTO offerDTO);
 	
+	Offer changeOffer(OfferDTO offerDTO);
+	
 }

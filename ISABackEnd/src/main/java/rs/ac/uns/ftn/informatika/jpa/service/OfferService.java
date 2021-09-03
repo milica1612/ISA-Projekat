@@ -23,6 +23,7 @@ import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.Supplier;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
+import rs.ac.uns.ftn.informatika.jpa.repository.IMedicineItemRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOfferRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IOrderRepository;
 import rs.ac.uns.ftn.informatika.jpa.repository.IPharmacyRepository;
@@ -40,15 +41,18 @@ public class OfferService implements IOfferService {
 	private EmailService _emailService;
 	
 	private IPharmacyRepository _pharmacyRepository;
+	
+	private IMedicineItemRepository _medicineItemRepository;
 
 	// Example Of Constructor Dependency Injection in Spring
 	@Autowired
-	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository) {
+	public OfferService(IOfferRepository offerRepository, EmailService emailService, IOrderRepository orderRepository, IUserRepository userRepository, IPharmacyRepository pharmacyRepository, IMedicineItemRepository medicineItemRepository) {
 		this._offerRepository = offerRepository;
 		this._orderRepository = orderRepository;
 		this._userRepository = userRepository;
 		this._emailService = emailService;
 		this._pharmacyRepository = pharmacyRepository;
+		this._medicineItemRepository = medicineItemRepository;
 	}
 
 
@@ -212,7 +216,7 @@ public class OfferService implements IOfferService {
 		Supplier supplier = (Supplier) _userRepository.findById(user.getUserId()).get();
 				
 		Order order = _orderRepository.findById(offerDTO.getId()).orElse(null);
-		
+	
 		String d = offerDTO.getDeliveryDeadline();
 		Date date = new Date();
 		try {
@@ -229,6 +233,7 @@ public class OfferService implements IOfferService {
 			offer.setStatus(Status.WAITING);
 			offer.setSupplier(supplier);
 			offer.setOrder(order);
+		
 		}
 		_offerRepository.save(offer);
 	}
@@ -238,14 +243,31 @@ public class OfferService implements IOfferService {
 		
 		Set<MedicineItem> orderMedicineItems = order.getMedicineItem();
 		Set<MedicineItem> supplierMedicineItem = supplier.getMedicineItem();
+		List<MedicineItem> result = new ArrayList<>();
 		
-		if(supplier.getMedicineItem().isEmpty()) {
-			throw new IllegalArgumentException("There is no available medicine for order!");
+		List<MedicineItem> medicineItems = _medicineItemRepository.findAll();
+		for(MedicineItem mi : medicineItems) {
+			for(MedicineItem om: orderMedicineItems) {
+				if(mi.getMedicine().getMedicineId() == om.getMedicine().getMedicineId()) {
+					result.add(mi);
+				}	
+			}
 		}
 		
+		//System.out.println(result);
+		
+		if(supplier.getMedicineItem().isEmpty()) {
+			throw new IllegalArgumentException("There is no available medicine for order List is empty!");
+		}
+		
+		//System.out.println(supplierMedicineItem);
+		//System.out.println(orderMedicineItems);
+		
 		for(MedicineItem m: orderMedicineItems) {
-			if(supplierMedicineItem.contains(m)) {
-				return true;
+			for(MedicineItem ms: supplierMedicineItem) {
+				if(ms.getMedicine().getMedicineId() == m.getMedicine().getMedicineId()) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -260,11 +282,11 @@ public class OfferService implements IOfferService {
 			throw new IllegalArgumentException("Price must be valid (positive)!");
 		}
 		
-		if(checkMedicineAvailable(order, supplier)==false) {
+		if(checkMedicineAvailable(order, supplier) == false) {
 			throw new IllegalArgumentException("There is no available medicine for order!");
 		}
 		
-		if(offerDTO.getIsApproved()) {
+		if(offerDTO.getIsApproved() == true) {
 			throw new IllegalArgumentException("You already send offer for this order!");
 		}
 		
@@ -281,6 +303,42 @@ public class OfferService implements IOfferService {
 		}
 		
 		return true;
+	}
+
+
+	@Override
+	public Offer changeOffer(OfferDTO offerDTO) {
+		
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) currentUser.getPrincipal();
+		Supplier supplier = (Supplier) _userRepository.findById(user.getUserId()).get();
+			
+		try {
+			Offer offer = findById(offerDTO.getId());
+			offer.setPrice(offerDTO.getFinalPrice());
+			offer.setSupplier(supplier);
+			
+			String d = offerDTO.getDeliveryDeadline();
+			Date date = new Date();
+			try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+			} catch (ParseException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			offer.setDeliveryDeadline(date);
+			
+			if(checkOffer(offerDTO, supplier)) {
+				return _offerRepository.save(offer);
+			}else {
+				throw new IllegalArgumentException("Offer is not possible to edit!");
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 
 }
