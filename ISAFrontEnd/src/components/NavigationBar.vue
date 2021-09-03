@@ -125,6 +125,7 @@ export default {
           {title: "Home", path: "/homePagePharmacyAdmin"},
           {title: "My Profile", path: "/pharmacyAdmin"},
           {title: "My Pharmacy", path: "/myPharmacy"},
+          {title: "Pharmacy On The Map", path:"/mapExample"},
           {title: "Medicines In Pharmacy", path: '/medicinesInPharmacy'},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
