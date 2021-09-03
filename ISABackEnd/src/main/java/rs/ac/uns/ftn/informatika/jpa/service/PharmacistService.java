@@ -22,7 +22,6 @@ import rs.ac.uns.ftn.informatika.jpa.model.Authority;
 import rs.ac.uns.ftn.informatika.jpa.model.Consultation;
 import rs.ac.uns.ftn.informatika.jpa.model.Pharmacist;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacistVacation;
-import rs.ac.uns.ftn.informatika.jpa.model.Pharmacy;
 import rs.ac.uns.ftn.informatika.jpa.model.PharmacyAdministrator;
 import rs.ac.uns.ftn.informatika.jpa.model.Status;
 import rs.ac.uns.ftn.informatika.jpa.model.User;
@@ -140,10 +139,6 @@ public class PharmacistService implements IPharmacistService{
 	
 	@Override
 	public Boolean deletePharmacist(Long deletePharmacistId) {
-		PharmacyAdministrator pAdmin = (PharmacyAdministrator) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
-		Pharmacy p = _pharmacyRepository.getOne(pAdmin.getPharmacy().getPharmacyId());
-		Pharmacist pharmacist = _pharmacistRepository.getOne(deletePharmacistId);
 		List<Consultation> allConsultations = _consultationRepository.findAll();
 		List<PharmacistVacation> allPharmacistVacations = _pharmacistVacationRepository.findAll();
 		Date date = new Date();
