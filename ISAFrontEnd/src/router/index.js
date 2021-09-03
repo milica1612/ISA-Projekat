@@ -412,6 +412,12 @@ const routes = [{
         component: () =>
             import('../views/ChangePassword.vue')
     },
+    {
+        path: '/mapExample',
+        name: 'MapExample',
+        component: () =>
+            import('../views/MapExample.vue')
+    }
 ]
 const router = new VueRouter({
     mode: 'history',
