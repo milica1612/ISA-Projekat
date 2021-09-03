@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.informatika.jpa.controller;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +22,7 @@ public class AllergyController {
 	@Autowired
 	private AllergyService _allergyService ;
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@PutMapping("/{id}/add")
 	public Set<Medicine> addMedicineToAllergy(@PathVariable Long id,@RequestBody Medicine medicine) {
 		return _allergyService.addMedicineToAllergy(medicine, id);

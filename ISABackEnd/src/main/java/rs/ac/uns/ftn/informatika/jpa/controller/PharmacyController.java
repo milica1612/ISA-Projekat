@@ -101,6 +101,7 @@ public class PharmacyController {
 		return new Pharmacy(name, rating);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
 	@GetMapping(value = "/getPharmaciesForPatient/{patientId}")
 	public ArrayList<Pharmacy> getPharmaciesForPatient(@PathVariable Long patientId){
 		ArrayList<Pharmacy> result = new ArrayList<Pharmacy>();

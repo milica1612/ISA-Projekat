@@ -224,7 +224,6 @@ public class WorkSchedulePharmacistService implements IWorkSchedulePharmacistSer
 
 		Calendar examS = Calendar.getInstance();
 		examS.setTime(consultation.getDateAndTime());
-		examS.add(Calendar.HOUR, -1);
 		
 		Calendar endExam = Calendar.getInstance(); // creates calendar
 		endExam.setTime(examS.getTime());               // sets calendar time/date
