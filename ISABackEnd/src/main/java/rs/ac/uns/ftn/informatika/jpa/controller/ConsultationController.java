@@ -143,6 +143,12 @@ public class ConsultationController {
 			}
 		}
 		if(available) {
+			Calendar startConsultation = Calendar.getInstance(); // creates calendar
+			startConsultation.setTime(consultation.getDateAndTime());               // sets calendar time/date
+			startConsultation.add(Calendar.HOUR, -1);
+			
+			consultation.setDateAndTime(new Date(startConsultation.getTime().getTime()));
+			
 			Consultation c = this._consultationService.saveConsultation(consultation);
 			ArrayList<PharmacistVacation> vacations = (ArrayList<PharmacistVacation>) _pharmacistVacationService.findAllAcceptedVacations();
 			if(!this._workSchedulePharmacist.addConsToWorkSchedule(c, vacations)) {

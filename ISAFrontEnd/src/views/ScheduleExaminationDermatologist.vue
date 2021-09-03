@@ -158,7 +158,7 @@ export default {
             })
             .then(response => (this.dermatologistt = response.data));
 
-      if(localStorage.getItem("appointmentId") != null) {
+      if(localStorage.getItem("appointmentId") == null) {
         alert("None appointment is started!")
         window.location.href = "http://localhost:8080/homePageDermatologist";
       } else {

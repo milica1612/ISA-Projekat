@@ -32,7 +32,6 @@ public class NotificationService implements INotificationService{
 		Pharmacy pharmacy = _pharmacyRepository.findById((notificationDTO.getPharmacyId())).orElse(null);
 		
 		for(PharmacyAdministrator pharmacyAdmin: pharmacy.getPhAdministrators()) {
-			
 			notification.setPharmacyAdmin(pharmacyAdmin);
 			break;
 		}
