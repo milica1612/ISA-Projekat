@@ -162,11 +162,34 @@ export default {
       this.editedIndex = this.dermatologistInPharmacy.indexOf(item);
       this.editedDermatologist = Object.assign({}, item);
       this.dialogDeleteDermatologist = true;
-      this.deleteDermatologistId = this.editedDermatologist.medicineItemId;
+      this.deleteDermatologistId = this.editedDermatologist.dermatologistId;
     },
     deleteDermatologist() {
-      alert("Successfully deleted dermatologist!");
-      window.location.href = "http://localhost:8080/myPharmacy"
+       this.axios
+        .post(
+          "http://localhost:8091/dermatologists/deleteDermatologist",
+          {
+            deleteDermatologistId: this.deleteDermatologistId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+              alert("Successfully deleted dermatologist!");
+              window.location.href = "http://localhost:8080/myPharmacy";
+          } else {
+            alert(
+              "Dear pharmacy admin, a dermatologist has an appointment or dermatologist is on vacation, and cannot be deleted from the pharmacy."
+            );
+            window.location.href =
+              "http://localhost:8080/homePagePharmacyAdmin";
+          }
+        });
       this.closeDeleteSelectedDermatologist();
     },
     closeDeleteSelectedDermatologist() {
