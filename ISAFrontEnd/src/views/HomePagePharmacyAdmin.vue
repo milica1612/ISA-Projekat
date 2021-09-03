@@ -10,6 +10,7 @@
       <a class="a_style" href="/createPharmacistByPharmacyAdmin">Create pharmacist</a>
       <a class="a_style" href="/deletePharmacist">Delete pharmacist</a>
       <a class="a_style" href="/createDermatologistByPharmacyAdmin">Create dermatologist</a>
+       <a class="a_style" href="/deleteDermatologist">Delete dermatologist</a>
       <a class="a_style" href="/searchPharmacist">Search and filter pharmacists</a>
       <a class="a_style" href="/promotion">Define a promotion</a>
       <a class="a_style" href="/makeAnOrder">Make an order</a>

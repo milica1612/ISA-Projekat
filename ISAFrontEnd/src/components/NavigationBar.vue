@@ -131,6 +131,7 @@ export default {
           {title: "Create Pharmacist", path: "/createPharmacistByPharmacyAdmin"},
           {title: "Delete Pharmacist", path: "/deletePharmacist"},
           {title: "Create Dermatologist", path: "/createDermatologistByPharmacyAdmin"},
+          {title: "Delete Dermatologist", path: "/deleteDermatologist"},
           {title: "Search Pharmacist", path: "/searchPharmacist"},
           {title: "Search Dermatologist", path: "/searchDermatologist"},
           {title: "Define Term With Dermatologist", path: "/defineFreeTermWithDermatologist"},
